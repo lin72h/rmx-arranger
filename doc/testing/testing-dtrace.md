@@ -48,10 +48,18 @@ counterproductive:
 
 DTrace needs kernel support in the **rmxOS guest**:
 - `options KDTRACE_HOOKS` (+ `KDTRACE_FRAME` for `fbt` stack walks) compiled into the test
-  kernel; `kldload dtraceall` succeeds; userland `pid`/USDT also need the framework loaded.
+  kernel; the dtrace provider modules built + staged; userland `pid`/USDT also need the
+  framework loaded.
 - The custom Mach kernel may not be built with DTrace hooks — **check on the guest before
   mandating a DTrace-based op**. If absent: enable it in the test kernel, or fall back to
   USDT-only / a single targeted print for that one case.
+
+### Guest state — see the enablement doc
+
+Verified guest state (hooks present; modules built/staged once; `dtraceall` fails on unbuilt
+`kinst`/`systrace_freebsd32` → load providers individually), the build/stage recipe, the
+on-guest proof (op-094), and the standing continue/enforce decision live in the companion
+[testing-dtrace-enablement.md](testing-dtrace-enablement.md).
 
 ## Legitimate exceptions (when a print is still right)
 

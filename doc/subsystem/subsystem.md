@@ -27,6 +27,7 @@ A subsystem doc answers "what do we build *on*"; a backlog item answers "what do
 |---|---|---|---|---|
 | **Mach IPC** ⚠ | NextBSD Mach IPC on **FreeBSD-15** (`lin72h/rmxOS` stable/15) | **ACCEPTED base — RESTRICTED** (per-line explicit approval) | [subsystem-mach-ipc.md](subsystem-mach-ipc.md) | **The foundation — every line change needs explicit Coordinator approval** (unpredictable cross-kernel interaction). N2 narrowed-accepted (N2C-2b deferred); Phase 0.85 handoff active. |
 | **libdispatch** | NextBSD **classic-Apple-Mach** libdispatch (`lib/libdispatch`) | **ACCEPTED** (Coordinator, 2026-06-22) | [subsystem-libdispatch.md](subsystem-libdispatch.md) | Reject swift-corelibs (Linux-inward) + apple-oss (forces parked kernel track). Localized gaps → op-093, bl-001/bl-003. |
+| **CoRT** (`os_object`) | Apple `os_object` runtime, **co-located in `lib/libdispatch`** (not a separate lib) | **ACCEPTED base + C/Zig-first** (Coordinator, 2026-06-22) | [subsystem-cort.md](subsystem-cort.md) | Common Object Runtime (Hubbard's NextBSD term). C runtime is base, ObjC is overlay → core default `OS_OBJECT_USE_OBJC=0`. Shared base under libdispatch + libxpc; keep co-located, do not factor out. |
 | **libxpc** | NextBSD `libxpc` (nvlist-backed, Mach-native transport) | **CLASSIFICATION-ONLY** (pre-1.0) | [subsystem-libxpc.md](subsystem-libxpc.md) | Serialization fork: nvlist (NextBSD) vs MessagePack (ravynos). No ObjC NSXPCConnection; Swift layer later. |
 
 ## How a subsystem decision relates to the upstream-precedence rule

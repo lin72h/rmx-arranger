@@ -27,6 +27,7 @@ per-subsystem base docs ([../subsystem/subsystem.md](../subsystem/subsystem.md))
 | id | title | tier | scope (roles) | state | doc |
 |---|---|---|---|---|---|
 | testing-dtrace | DTrace-first observability — observe, don't perturb | **shared baseline** | all roles | **ACTIVE** | [testing-dtrace.md](testing-dtrace.md) |
+| testing-dtrace-enablement | DTrace proven on-guest + standing continue/enforce decision (op-094/op-096) | **shared baseline** | all roles | **ACTIVE** | [testing-dtrace-enablement.md](testing-dtrace-enablement.md) |
 | testing-gatekeeper | Gatekeeper parity/regression tracker | role-specific | Gatekeeper | **PLANNED** | _(to author)_ |
 
 ## Conventions
