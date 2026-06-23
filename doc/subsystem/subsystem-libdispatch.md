@@ -96,11 +96,18 @@ localized port defects in the base we have is the least-intrusive path (consiste
   `mach.ko`'s real `filt_machport` (op-098 T1 — runtime DTrace traced the kernel filter
   end-to-end); primitive surface async/sync/apply/once/barrier (block + `_f`) + NORMAL-QoS timer
   all GREEN at 129ee3c (op-098 T2 serial: `op098_t2_fails=0`). The `_f` variants (Zig/CoRT
-  Tier-1 binding surface) are at parity with the block variants. Caveat (honest scope): basic
-  parity is **exit-code-proven** on top of independently DTrace-traced machinery (kqueue/
-  EVFILT_TIMER/EVFILT_MACHPORT/TWQ), not per-primitive USDT (libdispatch built
-  `-DDISPATCH_USE_DTRACE=0`). Residual non-blockers: bl-004 (non-NORMAL-QoS timer fflags, latent),
-  bl-005 (semaphore 1ms poll, hardening).
+  Tier-1 binding surface) are at parity with the block variants. Evidence depth (updated
+  2026-06-23): primitive surface is exit-code-proven on top of independently DTrace-traced
+  machinery (kqueue/EVFILT_TIMER/EVFILT_MACHPORT/TWQ); **timer USDT is now live (op-101,
+  RETIRED)** — the build flips to `-DDISPATCH_USE_DTRACE=1` with
+  `-DDISPATCH_USE_DTRACE_INTROSPECTION=0` (the broken introspection callout stays compiled out
+  under `DISPATCH_DEBUG=1`), `provider.d` wired into SRCS so `bsd.lib.mk` auto-generates DOF;
+  `dtrace -l` lists the probes and 4 fired on a timer run. The product-repo Makefile commit is
+  **landed** (op-106: `9d78ed42` on `alpha`, ahead of origin/alpha by 1; push held for the
+  Coordinator). **Continuous-soak infra to assert these probes over an hours-scale
+  run is proven (op-104 RETIRED 2026-06-23, bl-007)**; the actual 2h soak + port-balance
+  iteration-delta is op-105 (in-flight). Residual non-blockers: bl-004 (non-NORMAL-QoS timer
+  fflags, latent), bl-005 (semaphore 1ms poll, hardening).
 - **Future kernel track:** `bl-001` (kevent64) is the remaining substrate that unlocks
   `kevent_qos`/workloops later. (bl-003 `filt_machport` is no longer part of this track — the
   filter already exists via `mach.ko`.) Coordinator-held strategy gates (A-vs-B) before promotion.

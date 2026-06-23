@@ -41,6 +41,47 @@ backlog); notifyd/asl/libxpc harnesses (this is the template they copy, fetched 
   mismatch is laddered to a backlog item);
 - the invariant oracles hold over an hours-scale soak — zero violations, no leak/hang.
 
+## Conformance DONE for the 9-case core (op-102 RETIRED, 2026-06-23)
+
+**op-102 RETIRED (Arbiter-gated, first-hand verified).** The rmxOS-vs-Darwin diff is in:
+`findings/.../20260623-op102-conformance-diff-result.md` (explorer commit `b0af223`) records
+**MATCH 9/9, zero semantic mismatch** — rx-x64z (serial `a1b4e7c0…`) vs op-103 mx truth `6d02846`,
+both `op102_matrix_fails=0`, nothing laddered. Both op-103 findings closed: (F1) `once_f` type
+defect **fixed** — `cb_once(void*)` split from 2-arg `cb_add`, no `-Wno-error` paper (commit
+`afb7fc3`); (F2) `data`/`io` **cataloged** as not-yet-covered (absent both sides), truth scoped
+to the 9-case core — a pass-2 op adds data/io. Single-shot MACH_RECV green here (the bl-009 UAF is
+the *sustained-churn* race; op-108 is its proof, not this). Branch divergence resolved — `30f102c`
+merged origin/main (op-103) with the op-105 line cleanly, now fast-forward-able (push held for
+Coordinator).
+
+**Truly-green status: 2 of 3 legs done.** (1) functional matrix green+traced — DONE (op-102);
+(2) conformance diff no-mismatch vs current macOS — DONE for the 9-case core (op-102);
+(3) invariant oracles hold over an hours-scale soak — **pending op-108** (in-flight). bl-006
+retires when op-108 lands green.
+
+## Conformance progress (op-103 RETIRED, 2026-06-23)
+
+The macOS-as-truth side is in hand. op-103 ran the op-102 `harness.c` **unmodified** on mx-a64z
+(macOS 27.0 / Apple M4 / clang 17), emitting a schema-valid `macos-oracle.v1` truth record
+(`findings/nx-r64z/dtrace/dispatch-conformance/macos-truth-op102-matrix.json`, commit `6d02846`).
+Matrix **9/9 PASS** (`op102_matrix_fails=0`) — behavioral parity with rx-x64z ALL GREEN. The diff
+itself is op-102's to run + adjudicate (rmxOS-vs-Darwin); the truth artifact it consumes exists.
+
+Two findings op-103 raised, **both op-102's call** (logged so they aren't lost):
+1. **`once_f` harness type defect (fix, don't paper).** `dispatch_once_f` is passed `cb_add`
+   (`void(*)(void*,size_t)`) where `dispatch_function_t` = `void(*)(void*)` is required. macOS
+   clang 17 **rejects** it (`-Werror=incompatible-function-pointer-types`); rmxOS clang only
+   warned. op-103 built with `-Wno-error=...` (flag only, source unmodified) and `once_f` still
+   PASSed — but that pass is incidental (the calling convention ignores the extra register arg);
+   the code is type-incorrect / UB. Steer: **fix the harness** (split `cb_add` into a 1-arg
+   `cb_once`), not paper it with `-Wno-error` — a truly-green conformance harness must not carry
+   a type error. macOS clang is correct here; this is a harness bug, not rmxOS strictness.
+2. **`data`/`io` not exercised (matrix-breadth gap).** The op-102 core harness covers 9 cases
+   (async/sync/apply/once/barrier/group/semaphore block+`_f`, source-timer NORMAL,
+   source-MACH_RECV) — `dispatch_data`/`dispatch_io` (listed In-scope above) are **absent on both
+   sides**. So the conformance truth is bounded to the **9-case core**; `data`/`io` must be
+   cataloged as not-yet-covered, not implied green. op-102's truly-green claim scopes accordingly.
+
 ## Open decisions (Coordinator-held, at fetch)
 
 - soak duration / pass bar (what "hours-scale, zero violations" means in numbers);
