@@ -23,6 +23,26 @@ NextBSD subsystem. It is coverage-bounded: we certify the surface we exercise + 
 the consumer we defined. "Usable" answers "can someone do the thing?", never "what fraction of
 all code is correct?" (There is no global bug-rate metric and we do not claim one.)
 
+### 1.0-preview — the near-term target (ship ASAP; conformance-after) (2026-06-23)
+
+The **1.0-preview (developer-preview)** is a deliberately-narrower milestone we ship **ASAP**,
+ahead of the full service-usable 1.0. Its floor is exactly the developer-usable row: *build + run
+Darwin-style programs against **Mach / dispatch / notify**, on a bootable image.* That is a
+**narrower critical path** than full 1.0:
+
+- **In the preview floor:** Mach IPC (substrate — proven, bl-009/op-108), libdispatch (9-case core
+  — bl-006), libnotify/notifyd (bring-up — bl-010), a bootable USB/ISO (bl-012 Tier 0).
+- **Deferred past the preview to full 1.0:** asl (bl-011), **libxpc** (the long pole + its
+  nvlist-vs-mpack design fork — NOT on the preview path: a preview runs against Mach/dispatch/notify,
+  not XPC), and launchd-driving-real-services (Gate C).
+
+**Tempo + scope stance:** speed comes from **cutting scope, not quality**. macOS semantic
+conformance is a **long-term arc, not a preview gate** — a divergence is *cataloged as a known gap*
+(Gate E, "doesn't block use-case X") in preference to closing it with a complex/risky
+implementation. The evidence bar is unchanged: whatever the preview ships is truly-green /
+overclaim-strict, and the Mach foundation stays solid. A cataloged gap is honestly labeled, never
+paper-greened. The "can afford to be slow" quality arc continues *after* the preview.
+
 ## The gate ladder (A–F)
 
 Each gate carries: whether it is a **runtime** test, its **truly-green** criterion (so

@@ -1,9 +1,13 @@
 # bl-006 — libdispatch runtime conformance + soak harness (the truly-green template)
 
 - id: bl-006
-- state: READY (fetchable now) — preconditions met: primitive surface proven (op-098), timer
-  USDT enabled (op-101), mach-ipc fbt probe library exists (op-099). Awaiting Coordinator
-  fetch (issue into op).
+- state: **RETIRED 2026-06-23 — all 3 truly-green legs done for the 9-case core.** (1) functional
+  matrix green+traced — op-102; (2) conformance diff no-mismatch vs current macOS — op-102 (MATCH
+  9/9); (3) invariant oracles hold over an hours-scale soak — **op-108** (the bl-009 proving soak,
+  inherited: dispatch-conformance harness driving MACH_RECV churn under `soak-oracle-2h.d`, 27293
+  iters / 2h / 0 violations, msg+queue+port balance flat — Arbiter-verified first-hand). `data`/`io`
+  remain cataloged as not-yet-covered (consistent across all 3 legs) → pass-2 op, not a bl-006 gap.
+  This file is now the **template** the bl-010/bl-011 (notifyd/asl) harnesses copy.
 - raised: 2026-06-23
 - roadmap parent: [roadmap.md](../roadmap.md) — exercises **Gate A** (invariants) + **Gate B**
   (libdispatch conformance) and **seeds Gate D** (soak). It is the first place we *define*

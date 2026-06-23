@@ -158,6 +158,29 @@ Direction of detail: roadmap = why/what-order · backlog = what (pending) · op 
 → "retire". Frozen/committed records keep `block-NNN` (historical); live work uses `op-NNN`.
 In-flight renames: block-081→op-081, block-082→op-082, block-080a-R-fix→op-080a-R-fix.
 
+## 8. Test/evidence vocabulary — soak-testing & chaos-testing (2026-06-23)
+
+Two members of the testing strategy. One is the established, proven term; the other is a named
+**future** addition. They are **distinct test types, not a rename** — both judged by **invariant
+oracles** (DTrace assertions on kernel-internal balances), "the probe *is* the test", and both
+overclaim-strict (a pass means "ran it, invariants held," never "looks correct").
+
+| term | what it does | status | carries |
+|---|---|---|---|
+| **soak-testing** (the current term — use it) | sustained high-rate workload over an hours-scale run; manufactures adversarial *timing* as a side effect of churn (e.g. MACH_RECV create/destroy racing the receive walk); DTrace oracles assert msg/kmsg/queue/port balance + flat slope (no leak) + no panic. | **PROVEN** (op-104 infra → op-105 2h oracle → **op-108** retired bl-009 on it) | bl-006 / bl-007 (the rig) |
+| **chaos-testing** (future addition to the strategy) | *actively injects* faults — port frees mid-receive, scheduler perturbation, memory pressure, randomized syscall delay/failure, controlled interleavings — to go from "survives natural churn" to "survives injected adversity." Industry "chaos engineering" (Chaos Monkey lineage) = this fault-injection sense. | **NOT BUILT — future** | **bl-013** |
+
+**Relationship:** soak-testing stresses with *load* and catches what sustained churn happens to
+expose (it found bl-009 because the natural timing eventually collided). chaos-testing stresses
+with *injected faults* and forces the rare condition deterministically instead of waiting for luck.
+Complementary, not hierarchical — soak is the endurance floor we have; chaos is the adversarial
+addition we add later. Do **not** retroactively relabel soak as chaos.
+
+**Native hooks for chaos-testing when we build it (first-hand, in-tree):** FreeBSD `KFAIL_POINT`
+(`sys/sys/fail.h` + `sys/kern/kern_fail.c`) is present but **placed nowhere yet** (0 usages in
+`sys/`) — ready for injection points in the mach-ipc paths; DTrace destructive actions
+(`chill`/`raise`/`stop`, via fasttrap) give timing perturbation consistent with DTrace-first.
+
 ## 7. Other standing terms (pointers, defined elsewhere)
 - **Lane A / Lane B** — risk-tiered Swift sequencing (does it ride the unproven core?).
   See `swift-rmxos-integration-plan.md`.

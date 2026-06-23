@@ -1,13 +1,17 @@
 # bl-009 — kernel use-after-free: `ipc_mqueue_pset_receive` via `filt_machport` (compat/mach IPC)
 
 - id: bl-009
-- state: **FETCHED → op-107 (fix committed; correctness PROVEN, under-load proof pending op-108).**
+- state: **RETIRED — fix `e101f9c` PROVEN both halves (correctness op-109 + under-load op-108).**
   op-107 landed commit `e101f9c1872e` on `alpha` (+2 with op-106, push held) — Arbiter-verified
-  sound first-hand (see §Fix landed). **op-109 (Validator review) RETIRED: GLM 9/10 PASS + DS4P
-  9/10 PASS, both first-hand, no conflict** — ref-balance sound across all 7 exit/restart paths,
-  ABA blocked by the temp ref, `ip_active` sufficient, restart O(N²)-bounded not livelock.
-  Remaining gate = **op-108's 2h Gatekeeper soak** (the empirical under-load proof, the one point
-  both validators reserved). bl-009 retires when op-108 passes; op-105 retires on the same pass.
+  sound first-hand (see §Fix landed). **op-109 (Validator review) RETIRED: GLM 9/10 + DS4P 9/10
+  PASS** — ref-balance sound across all 7 exit/restart paths, ABA blocked by the temp ref,
+  `ip_active` sufficient, restart O(N²)-bounded not livelock. **op-108 (Gatekeeper 2h proving
+  soak) ACCEPTED 2026-06-23** (Arbiter-verified first-hand): fresh symbol-verified `e101f9c`
+  kernel (`mach.ko` 7c8a710d; objdump-differential 1 `ip_reference` + 3 `ip_release` in
+  `ipc_mqueue_pset_receive` vs 0/0 pre-fix — confirmed against product source), 27293 iters / 0
+  fails / 0 panic / exit 0 over 2h under the *identical* config that GPF'd op-105 on iter 1; port
+  delta=2 FLAT across 120 checkpoints (no leak). Disposition `80dd4d4` (gatekeeper repo, +2 ff,
+  push held). **op-105 RETIRED on this pass.** UAF window closed; nothing open.
 - raised: 2026-06-23 (op-105 2h soak, first-iteration kernel panic)
 
 ## Fix landed — op-107 (`e101f9c1872e`, Arbiter-verified 2026-06-23, sound-on-inspection)
