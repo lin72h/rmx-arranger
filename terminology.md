@@ -133,6 +133,19 @@ pipeline IS a superscalar out-of-order machine.
 order.** The Arranger = the issue unit + retirement tracking (the reorder buffer); on a
 Validator conflict or sub-threshold confidence it also acts as Arbiter.
 
+**Work hierarchy (abstraction tiers): `roadmap → backlog → op-NNN`.** Three nested levels,
+most-abstract to most-concrete:
+
+| Tier | Artifact | Meaning | OoO analogy |
+|---|---|---|---|
+| **roadmap** | [roadmap.md](roadmap.md) | most abstract — *what usable 1.0 means and in what order* (the gate ladder A–F, the arcs). Durable; rarely changes. | the program's purpose / spec, before it is lowered to instructions |
+| **backlog** | `bl-NNN` ([backlogs/bl-000.md](backlogs/bl-000.md)) | **pending** — identified but **not yet fetched**. Concrete enough to fetch. | instructions sitting in memory, not yet fetched |
+| **op** | `op-NNN` (§6 above) | **in-flight** — fetched → decoded → issued; owned by a pipeline. | a uop in the IDQ/ROB |
+
+**Promotion chain:** a roadmap **gate** spawns one or more **backlog** items; a backlog item is
+**fetched** into one or more **op-NNN**. Promotion = fetch (the same word the backlog uses).
+Direction of detail: roadmap = why/what-order · backlog = what (pending) · op = how (now).
+
 **Pipelines (which agent runs what):**
 - **Explorer** pipeline — discovery (macOS-parity).
 - **Implementer** pipeline — execution / implementation.

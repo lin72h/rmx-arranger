@@ -44,6 +44,55 @@ counterproductive:
    arming with kernel submission + fire in **one script** to settle boundary questions
    definitively — e.g. op-093's open (a) *never-submitted* vs (b) *submitted-but-not-processed*.
 
+## The fuller toolbox — USDT is one provider of many
+
+The 3-tier order above is the *common* path, not the limit. **USDT is only one DTrace
+provider, and the least important for our goals.** A subsystem with no built-in instrumentation
+is still fully observable — verified 2026-06-22: libdispatch ships Apple's USDT provider, but
+**libnotify / libasl / libxpc / notifyd / asl have none** (no `.d`, no `DTRACE_PROBE`, no
+signpost/firehose — the modern Apple firehose mechanism belongs to the apple-oss lineage we
+rejected). That lack barely costs us, because the strong techniques don't need the target
+pre-instrumented:
+
+**Recover/extend visibility (no source edit, no rebuild):**
+- **`pid`** — entry/return/args/return-values on *any* userland function; recovers most of what
+  a hand-authored USDT provider would give. The default lens for an uninstrumented consumer.
+- **`syscall`** — every kernel boundary the consumer crosses (Mach traps, kqueue, `_umtx_op`).
+- **`sched` (off-cpu)** — `sched:::off-cpu` + blocking stack tells you *why* a thread blocked and
+  for how long: deadlocks, a Mach receive that never wakes, priority inversion. Gold for the IPC path.
+- **`profile`** — timer-sampled stacks (`profile-997`) for "where is it spending time / hung".
+- **`proc`** — process/thread/signal lifecycle (crashes, unexpected signals, spawn races).
+- **`lockstat`/`plockstat`** — lock contention; `libthr` already ships `plockstat.d`, so pthread
+  contention in consumers is observable today (useful for the concurrency-hardening rungs).
+
+**Higher-value techniques (provider-agnostic — stronger than USDT-watching):**
+- **DTrace as a *test oracle*, not just a tracer.** Express invariants as predicates and let a
+  test *fail* on violation: `mach_msg_send` vs `_receive` balanced (no leaked messages),
+  `ipc_port` alloc vs dealloc balanced (no port-right leak), every `queue-push` matched by a
+  `callout-entry` (no stuck work). The probe *becomes the assertion* — a far stronger bar than
+  exit-code 0.
+- **Cross-layer correlation in one script** — `pid` (consumer) + libdispatch USDT + kernel `fbt`
+  (mach-ipc) + `syscall`, shared aggregations, one trace → end-to-end causality without any
+  subsystem needing its own USDT (the op-094/op-098 pattern).
+- **Aggregations as quantitative parity metrics** — `@quantize(latency)`, `@count` turn a soak
+  run into hard numbers (mach_msg round-trip p50/p99 rmxOS vs macOS), feeding the macOS-as-truth
+  parity loop with *measurements*, not pass/fail.
+- **Fault injection** — `chill()`/`stop()` at a probe to inject delay and *provoke* IPC races
+  (teardown, dead-name) instead of waiting for them. **Destructive — test-guest only.**
+
+## When suitable (and when not)
+
+"Make good use of DTrace **when suitable**" — it is not a universal hammer:
+- It **complements** functional tests, it does not replace them — observation/perturbation, not
+  a correctness oracle by itself (except the explicit invariant-oracle pattern above).
+- **Confirm provider availability first-hand on the guest** — `KDTRACE_HOOKS`/`fbt`/`pid` are
+  proven, but `sched`/`profile`/`lockstat` availability is *verified, not assumed* (load
+  providers individually; see enablement doc).
+- **Destructive actions** (`chill`/`stop`/`raise`/`copyout`) are **test-guest only**, never near
+  shared state.
+- Reach for the lightest tool that answers the question: `pid`/USDT before `fbt`, a targeted
+  probe before a fault-injection campaign. Don't instrument what a one-line predicate settles.
+
 ## Precondition — verify, don't assume
 
 DTrace needs kernel support in the **rmxOS guest**:
