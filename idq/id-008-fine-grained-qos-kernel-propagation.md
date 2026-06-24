@@ -1,7 +1,7 @@
-# bl-008 — fine-grained QoS: kernel-propagated QoS (kevent_qos / workloops / voucher-carried QoS)
+# id-008 — fine-grained QoS: kernel-propagated QoS (kevent_qos / workloops / voucher-carried QoS)
 
-- id: bl-008
-- state: **WAITING (pending)** — the big-ticket half depends on the kernel substrate (bl-001
+- id: id-008
+- state: **WAITING (pending)** — the big-ticket half depends on the kernel substrate (id-001
   kevent64 + a QoS policy engine), which is behind a Coordinator A-vs-B strategy gate. A
   cheaper userland-only sub-item (per-QoS `rtprio_thread` ordering, see Scope) is fetchable
   independently.
@@ -12,8 +12,8 @@
 - raised: 2026-06-23 (from the QoS first-hand audit + swift-corelibs Linux comparison)
 - roadmap parent: [roadmap.md](../roadmap.md) — Layer-3 QoS fidelity; relates to Gate B
   (Darwin parity) and the "explicitly NOT 1.0 / future kernel track" arc.
-- relations: **bl-001** (kevent64 — the unlock for `kevent_qos`/workloops), **bl-002**
-  (QoS-attr `UNSPECIFIED` Darwin parity, userland), **bl-004** (non-NORMAL-QoS timer fflags).
+- relations: **id-001** (kevent64 — the unlock for `kevent_qos`/workloops), **id-002**
+  (QoS-attr `UNSPECIFIED` Darwin parity, userland), **id-004** (non-NORMAL-QoS timer fflags).
 
 ## The three QoS layers on our base (first-hand, 2026-06-23)
 
@@ -50,7 +50,7 @@ pre-refactor monolithic `source.c`).
 | enforcement mechanism | **admission/concurrency per QoS lane** (`kern_thrworkq.c`); no per-thread sched-priority on active path | `setpriority(PRIO_PROCESS, 0, nice)` per thread (`queue.c:7947`) |
 | worker pool | kernel thr-workqueue (`HAVE_PTHREAD_WORKQUEUES=1`) | userland monitored thread pool (`event/workqueue.c`, `_dispatch_workq_monitors[NBUCKETS]`) |
 | QoS-over-IPC (vouchers) | Mach voucher machinery PRESENT (not kernel-enforced) | ABSENT — no Mach; firehose activity-ids only |
-| `kevent_qos`/kqworkloops | no (bl-001) | no (epoll; N/A) |
+| `kevent_qos`/kqworkloops | no (id-001) | no (epoll; N/A) |
 | fine-grained kernel QoS policy engine | no | no — **Linux has none** (explicit comment, `queue.c:7929`) |
 
 **The key, slightly counterintuitive, finding:**
@@ -144,13 +144,13 @@ both Linux (nice-only) and our-today (concurrency-only). Spec:
   to rescue it. Mitigate (avoid strict IDLE for lock-holding classes) or accept as a known-gap
   until the big-ticket inheritance path lands.
 
-**Big-ticket (needs the kernel track) — gated on bl-001 + Coordinator A-vs-B:**
+**Big-ticket (needs the kernel track) — gated on id-001 + Coordinator A-vs-B:**
 - Kernel `kevent_qos`/workloops; voucher-carried QoS propagation over Mach IPC with scheduler
   enforcement; the XNU QoS-override path. This is the genuine Darwin-fidelity QoS and is the
   5-year-adjacent kernel work, not 1.0.
 
 ## Open decisions (Coordinator-held)
 - fetch the cheap userland `rtprio_thread` QoS-ordering sub-item now (concurrency + ordering,
-  strictly-richer-than-Linux Layer-2 win), or hold the whole item behind bl-001?
+  strictly-richer-than-Linux Layer-2 win), or hold the whole item behind id-001?
 - is QoS scheduling fidelity even a 1.0 requirement for the service-usable target, or a
   post-1.0 hardening arc? (Current roadmap puts fine-grained QoS in "explicitly NOT 1.0".)

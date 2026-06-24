@@ -1,6 +1,6 @@
-# bl-004 — non-NORMAL QoS dispatch timers: XNU `NOTE_CRITICAL`/`NOTE_BACKGROUND` fflags
+# id-004 — non-NORMAL QoS dispatch timers: XNU `NOTE_CRITICAL`/`NOTE_BACKGROUND` fflags
 
-- id: bl-004
+- id: id-004
 - state: WAITING (not fetched) — latent parity-hardening item, not a blocker. Cataloged for
   overclaim-strict honesty, not yet scheduled.
 - raised: 2026-06-22 (surfaced while closing `dispatch_after`, op-093/op-094/op-096)
@@ -33,7 +33,7 @@ or normalize/strip them userland-side in libdispatch before the kevent (least-in
 `donor > XNU-ref > local`). Explorer macOS reference vector for the CRITICAL/BACKGROUND timer
 behavior.
 
-**Out:** NORMAL-QoS timers (done); the MACH_RECV / `filt_machport` kernel gap (that's bl-003).
+**Out:** NORMAL-QoS timers (done); the MACH_RECV / `filt_machport` kernel gap (that's id-003).
 
 ## Open decision (Coordinator-held)
 

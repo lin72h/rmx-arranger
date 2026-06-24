@@ -1,9 +1,9 @@
-# bl-001 — Revive kernel `kevent64` (NextBSD #370), retire the userland shim
+# id-001 — Revive kernel `kevent64` (NextBSD #370), retire the userland shim
 
-- id: bl-001
+- id: id-001
 - state: WAITING (not fetched into the IDQ/ROB; pre-issue) — waits on the two
   Coordinator decisions below (strategy gate A-vs-B; placement). Recommended fetch
-  *after* op-091 closes. See index: `bl-000.md`.
+  *after* op-091 closes. See index: `id-000.md`.
 - raised: 2026-06-22 (Coordinator: "it's part of NextBSD, we will revive that")
 - lane (when promoted): evidence-lane, kernel-side (`freebsd-src` rmx worktree)
 - relation to in-flight work: independent of the *pthread-attr* QoS thread (op-090V → op-091
@@ -14,7 +14,7 @@
   `EVFILT_MACHPORT = { &null_filtops }`** (`sys/kern/kern_event.c:391`; no `filt_machport`
   anywhere in `sys/`). libdispatch already uses `struct kevent64_s` internally throughout
   `source.c`, so the kevent64 substrate + a real Mach-port filter underneath it is what the
-  dispatch layer is waiting on. See bl-003 (the EVFILT_MACHPORT filter — distinct finding,
+  dispatch layer is waiting on. See id-003 (the EVFILT_MACHPORT filter — distinct finding,
   candidate to fold here).
 
 ## Why this exists (the finding)

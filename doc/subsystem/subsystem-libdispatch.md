@@ -44,8 +44,8 @@ The architecturally hard choice — a Mach-native dispatch riding our own Mach I
 
 - It **hard-depends on XNU-only kernel features**: `kevent_qos`/`kevent_id` workloops,
   `pthread_workqueue` kqworkq/kqworkloop, `_dispatch_kevent_workqueue`, `__OS_EXPOSE_INTERNALS__`.
-- Those are exactly the kernel pieces parked as future — `bl-001` (kevent64/kevent_qos) and
-  `bl-003` (kernel `filt_machport`). Adopting it *forces* the deferred kernel track up front —
+- Those are exactly the kernel pieces parked as future — `id-001` (kevent64/kevent_qos) and
+  `id-003` (kernel `filt_machport`). Adopting it *forces* the deferred kernel track up front —
   **more** intrusive (kernel-side), not less.
 
 ## The sweet spot (why the current base is right)
@@ -67,8 +67,8 @@ localized port defects in the base we have is the least-intrusive path (consiste
   `EVFILT_TIMER` kevent is submitted, accepted, fired, and delivered. op-093's manager poll
   fallback (premise "FreeBSD may not report `EVFILT_TIMER`") was therefore redundant and was
   removed in op-096. Follow-up (non-blocking): `semaphore.c` uses 1ms polling — a
-  production-hardening item (`sem_clockwait`/absolute deadline), cataloged in the backlog.
-- **`dispatch_source` MACH_RECV** — **WORKS (op-098, bl-003 DROPPED 2026-06-22).** The earlier
+  production-hardening item (`sem_clockwait`/absolute deadline), cataloged in the IDQ.
+- **`dispatch_source` MACH_RECV** — **WORKS (op-098, id-003 DROPPED 2026-06-22).** The earlier
   "kernel gap" framing was a scoping error: `kern_event.c:391`'s `null_filtops` is only the
   static default; **`mach.ko` registers a real `filt_machport`** at module load
   (`sys/compat/mach/ipc/ipc_pset.c:504` + `sys/compat/mach/mach_module.c:270`
@@ -77,15 +77,15 @@ localized port defects in the base we have is the least-intrusive path (consiste
   filt_machportdetach`). libdispatch registers the kevent over `kevent64_s` correctly and the
   kernel filter services it. (op-091's "no `filt_machport` in `sys/`" came from a `sys/kern/`-only
   grep that missed `sys/compat/mach/`.)
-- **kevent64 substrate** (`bl-001`): libdispatch's internal kqueue struct is already
+- **kevent64 substrate** (`id-001`): libdispatch's internal kqueue struct is already
   `kevent64_s`; the userland `freebsd_kevent64.c` shim is deliberately lossy
   (`flags != 0 → ENOTSUP`). Real kernel kevent64 is the future substrate.
-- **QoS `UNSPECIFIED` round-trip** (`bl-002`): pthread-attr-side accept-and-normalize vs Darwin
+- **QoS `UNSPECIFIED` round-trip** (`id-002`): pthread-attr-side accept-and-normalize vs Darwin
   EINVAL — a parity-hardening catalog item.
-- **Latent (non-NORMAL QoS timers)** (`bl-004`): CRITICAL/BACKGROUND timers carry XNU
+- **Latent (non-NORMAL QoS timers)** (`id-004`): CRITICAL/BACKGROUND timers carry XNU
   `NOTE_CRITICAL`/`NOTE_BACKGROUND` fflags the kernel `filt_timervalidate` would reject;
   NORMAL-QoS `dispatch_after` is unaffected.
-- **Semaphore timedwait polling** (`bl-005`): the `dispatch_after` fix's
+- **Semaphore timedwait polling** (`id-005`): the `dispatch_after` fix's
   `_dispatch_posix_sem_timedwait` (semaphore.c) uses a 1ms poll loop — correct but a
   production-hardening item (move to `sem_clockwait`/absolute deadline).
 
@@ -105,11 +105,11 @@ localized port defects in the base we have is the least-intrusive path (consiste
   `dtrace -l` lists the probes and 4 fired on a timer run. The product-repo Makefile commit is
   **landed** (op-106: `9d78ed42` on `alpha`, ahead of origin/alpha by 1; push held for the
   Coordinator). **Continuous-soak infra to assert these probes over an hours-scale
-  run is proven (op-104 RETIRED 2026-06-23, bl-007)**; the actual 2h soak + port-balance
-  iteration-delta is op-105 (in-flight). Residual non-blockers: bl-004 (non-NORMAL-QoS timer
-  fflags, latent), bl-005 (semaphore 1ms poll, hardening).
-- **Future kernel track:** `bl-001` (kevent64) is the remaining substrate that unlocks
-  `kevent_qos`/workloops later. (bl-003 `filt_machport` is no longer part of this track — the
+  run is proven (op-104 RETIRED 2026-06-23, id-007)**; the actual 2h soak + port-balance
+  iteration-delta is op-105 (in-flight). Residual non-blockers: id-004 (non-NORMAL-QoS timer
+  fflags, latent), id-005 (semaphore 1ms poll, hardening).
+- **Future kernel track:** `id-001` (kevent64) is the remaining substrate that unlocks
+  `kevent_qos`/workloops later. (id-003 `filt_machport` is no longer part of this track — the
   filter already exists via `mach.ko`.) Coordinator-held strategy gates (A-vs-B) before promotion.
 - libdispatch is the consumer that integration-tests Mach IPC + kqueue and the layer
   libxpc/notifyd/launchd/Swift-concurrency bind to — its C/ABI surface must stay STABLE.
@@ -120,4 +120,4 @@ Treat the NextBSD classic-Apple-Mach libdispatch as the **owned base** — harde
 Upstreams are a non-fit in both directions and are not revisited absent a new reason. Fix
 localized port defects against op-092-style layer-exoneration discipline (exonerate each layer
 first-hand before touching code), keep fixes surgical, and route kernel-substrate gaps to the
-backlog, not into libdispatch edits.
+IDQ, not into libdispatch edits.

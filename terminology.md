@@ -131,20 +131,25 @@ pipeline IS a superscalar out-of-order machine.
 
 **Out-of-order:** issued ops execute on different pipelines and may **retire out of issue
 order.** The Arranger = the issue unit + retirement tracking (the reorder buffer); on a
-Validator conflict or sub-threshold confidence it also acts as Arbiter.
+Validator conflict or sub-threshold confidence it also acts as Arbiter. The Arranger surfaces
+the live in-flight set as a **ROB** list at the end of each op reply — see
+[rob-mini-format.md](rob-mini-format.md).
 
-**Work hierarchy (abstraction tiers): `roadmap → backlog → op-NNN`.** Three nested levels,
-most-abstract to most-concrete:
+**Work hierarchy (abstraction tiers): `L1i → IDQ → ROB`** — the CPU instruction path,
+most-abstract to most-concrete. Each tier has an architectural name (primary) and a friendly
+alias (in parens); ids in backticks. (Renamed 2026-06-24: roadmap→**L1i**/`li-NNN`,
+backlog→**IDQ**/`id-NNN`; op→**ROB**/`op-NNN` unchanged.)
 
-| Tier | Artifact | Meaning | OoO analogy |
+| Tier (alias) | Artifact | Meaning | OoO analogy |
 |---|---|---|---|
-| **roadmap** | [roadmap.md](roadmap.md) | most abstract — *what usable 1.0 means and in what order* (the gate ladder A–F, the arcs). Durable; rarely changes. | the program's purpose / spec, before it is lowered to instructions |
-| **backlog** | `bl-NNN` ([backlogs/bl-000.md](backlogs/bl-000.md)) | **pending** — identified but **not yet fetched**. Concrete enough to fetch. | instructions sitting in memory, not yet fetched |
-| **op** | `op-NNN` (§6 above) | **in-flight** — fetched → decoded → issued; owned by a pipeline. | a uop in the IDQ/ROB |
+| **L1i** (roadmap) | `li-NNN` ([roadmap.md](roadmap.md)) | most abstract — *what usable 1.0 means and in what order* (the gate ladder A–F = `li-001`…`li-006`, the arcs). Durable; rarely changes. | the program resident in the L1 instruction cache, before fetch |
+| **IDQ** (backlog) | `id-NNN` ([idq/id-000.md](idq/id-000.md)) | **pending** — decoded from an L1i gate, queued; identified but **not yet fetched** into flight. Concrete enough to fetch. | decoded uops in the instruction-decode queue, awaiting fetch/issue |
+| **ROB** (op) | `op-NNN` (§6 above) | **in-flight** — fetched → issued; owned by a pipeline; executes → retires. | a uop in the reorder buffer |
 
-**Promotion chain:** a roadmap **gate** spawns one or more **backlog** items; a backlog item is
-**fetched** into one or more **op-NNN**. Promotion = fetch (the same word the backlog uses).
-Direction of detail: roadmap = why/what-order · backlog = what (pending) · op = how (now).
+**Promotion chain:** an **L1i** gate (`li-NNN`) is **decoded** into one or more **IDQ** items
+(`id-NNN`); an IDQ item is **fetched** into one or more **ROB** entries (`op-NNN`). Promotion =
+fetch (the same word the IDQ uses; state `FETCHED → op-NNN`). Direction of detail: L1i =
+why/what-order · IDQ = what (pending) · ROB = how (now).
 
 **Pipelines (which agent runs what):**
 - **Explorer** pipeline — discovery (macOS-parity).
@@ -167,11 +172,11 @@ overclaim-strict (a pass means "ran it, invariants held," never "looks correct")
 
 | term | what it does | status | carries |
 |---|---|---|---|
-| **soak-testing** (the current term — use it) | sustained high-rate workload over an hours-scale run; manufactures adversarial *timing* as a side effect of churn (e.g. MACH_RECV create/destroy racing the receive walk); DTrace oracles assert msg/kmsg/queue/port balance + flat slope (no leak) + no panic. | **PROVEN** (op-104 infra → op-105 2h oracle → **op-108** retired bl-009 on it) | bl-006 / bl-007 (the rig) |
-| **chaos-testing** (future addition to the strategy) | *actively injects* faults — port frees mid-receive, scheduler perturbation, memory pressure, randomized syscall delay/failure, controlled interleavings — to go from "survives natural churn" to "survives injected adversity." Industry "chaos engineering" (Chaos Monkey lineage) = this fault-injection sense. | **NOT BUILT — future** | **bl-013** |
+| **soak-testing** (the current term — use it) | sustained high-rate workload over an hours-scale run; manufactures adversarial *timing* as a side effect of churn (e.g. MACH_RECV create/destroy racing the receive walk); DTrace oracles assert msg/kmsg/queue/port balance + flat slope (no leak) + no panic. | **PROVEN** (op-104 infra → op-105 2h oracle → **op-108** retired id-009 on it) | id-006 / id-007 (the rig) |
+| **chaos-testing** (future addition to the strategy) | *actively injects* faults — port frees mid-receive, scheduler perturbation, memory pressure, randomized syscall delay/failure, controlled interleavings — to go from "survives natural churn" to "survives injected adversity." Industry "chaos engineering" (Chaos Monkey lineage) = this fault-injection sense. | **NOT BUILT — future** | **id-013** |
 
 **Relationship:** soak-testing stresses with *load* and catches what sustained churn happens to
-expose (it found bl-009 because the natural timing eventually collided). chaos-testing stresses
+expose (it found id-009 because the natural timing eventually collided). chaos-testing stresses
 with *injected faults* and forces the rare condition deterministically instead of waiting for luck.
 Complementary, not hierarchical — soak is the endurance floor we have; chaos is the adversarial
 addition we add later. Do **not** retroactively relabel soak as chaos.

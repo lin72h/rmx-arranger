@@ -89,5 +89,5 @@ API regardless of the serialization beneath it.
 - Connection lifecycle depth in `xpc_connection.c` (467 lines is modest): reply, error events,
   cancellation, activation — not yet verified depth-first.
 - ravynos vs NextBSD connection-semantics + transports comparison.
-- The MACH_RECV path libxpc rides is the same one parked in `bl-003` (kernel
+- The MACH_RECV path libxpc rides is the same one parked in `id-003` (kernel
   `filt_machport`) — XPC's Mach-receive depends on that kernel gap eventually closing.

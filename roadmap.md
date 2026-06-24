@@ -1,10 +1,11 @@
 # roadmap — rmxOS (NextBSD revive) to a usable 1.0
 
-- tier: **most abstract** in the work hierarchy `roadmap → backlog → op-NNN` (see
-  [terminology.md](terminology.md) §6). The roadmap names *what usable 1.0 means and in what
-  order we get there*; the backlog ([backlogs/bl-000.md](backlogs/bl-000.md)) holds pending
-  items; an `op-NNN` is an in-flight work unit. **Promotion chain:** a roadmap gate spawns
-  backlog items; a backlog item is *fetched* into op(s).
+- tier: **L1i** — the **most abstract** tier in the work hierarchy `L1i → IDQ → ROB` (see
+  [terminology.md](terminology.md) §6). The roadmap is the L1 i-cache: each gate is an instruction
+  (`li-NNN`) naming *what usable 1.0 means and in what order we get there*. The **IDQ**
+  ([idq/id-000.md](idq/id-000.md), `id-NNN`) holds decoded items queued for fetch; a **ROB** entry
+  (`op-NNN`) is an in-flight work unit. **Promotion chain:** an L1i gate (`li-NNN`) is *decoded*
+  into IDQ item(s) (`id-NNN`); an IDQ item is *fetched* into ROB entr(ies) (`op-NNN`).
 - status: living (Arranger-held; Coordinator owns the milestone/usability target).
 - discipline: **truly-green, not paper-green.** A gate is passed only on first-hand evidence,
   never on an agent's say-so (overclaim-strict).
@@ -30,11 +31,19 @@ ahead of the full service-usable 1.0. Its floor is exactly the developer-usable 
 Darwin-style programs against **Mach / dispatch / notify**, on a bootable image.* That is a
 **narrower critical path** than full 1.0:
 
-- **In the preview floor:** Mach IPC (substrate — proven, bl-009/op-108), libdispatch (9-case core
-  — bl-006), libnotify/notifyd (bring-up — bl-010), a bootable USB/ISO (bl-012 Tier 0).
-- **Deferred past the preview to full 1.0:** asl (bl-011), **libxpc** (the long pole + its
+- **In the preview floor:** Mach IPC (substrate — proven, id-009/op-108), libdispatch (9-case core
+  — id-006), libnotify/notifyd (bring-up — id-010), a bootable image.
+- **Preview image provenance (Arranger decision 2026-06-23, op-111-driven, Coordinator-overridable):**
+  the preview ships on the **proven base+overlay+pre-staged-kernel staging model** (op-104 boots a
+  launchd-managed guest), NOT the release pipeline. op-111 found the `buildworld→installworld→
+  make-memstick` path has *never* completed for rmxOS (id-014 + likely deeper breakage), so holding
+  the preview to a "real" reproducible build would drop an unexercised multi-fix path onto the
+  critical path for no preview-level benefit. The reproducible release pipeline (**id-012 Tier 0/1**,
+  gated on id-014) is **Gate-F hardening run in parallel, post-preview** — not a preview gate. Cutting
+  scope, not quality: the staging-model image is a real booting artifact, verified first-hand.
+- **Deferred past the preview to full 1.0:** asl (id-011), **libxpc** (the long pole + its
   nvlist-vs-mpack design fork — NOT on the preview path: a preview runs against Mach/dispatch/notify,
-  not XPC), and launchd-driving-real-services (Gate C).
+  not XPC), launchd-driving-real-services (Gate C), and the reproducible release-image pipeline (id-012).
 
 **Tempo + scope stance:** speed comes from **cutting scope, not quality**. macOS semantic
 conformance is a **long-term arc, not a preview gate** — a divergence is *cataloged as a known gap*
@@ -43,19 +52,20 @@ implementation. The evidence bar is unchanged: whatever the preview ships is tru
 overclaim-strict, and the Mach foundation stays solid. A cataloged gap is honestly labeled, never
 paper-greened. The "can afford to be slow" quality arc continues *after* the preview.
 
-## The gate ladder (A–F)
+## The gate ladder (A–F = li-001…li-006)
 
-Each gate carries: whether it is a **runtime** test, its **truly-green** criterion (so
-"finished" can't mean paper-green), and the backlog/op that carries it.
+The six gates are the L1i instructions `li-001`…`li-006` (A–F kept as readable labels). Each gate
+carries: whether it is a **runtime** test, its **truly-green** criterion (so "finished" can't mean
+paper-green), and the IDQ item / ROB entry that carries it.
 
-### Gate A — mach-ipc invariants green under load  *(runtime)*
+### li-001 / Gate A — mach-ipc invariants green under load  *(runtime)*
 Promote the op-099 fbt probe library from *tracers* to *assertions*: `mach_msg` send/receive
 balanced, `ipc_port` alloc/dealloc balanced, no stuck enqueue, dead-name/no-senders delivered.
 - truly-green: invariants hold over a sustained soak, asserted by DTrace predicates (the probe
   *is* the test), not exit-code 0.
-- carries: op-099 (RETIRED — library exists) → invariant-oracle op (pending, see backlog).
+- carries: op-099 (RETIRED — library exists) → invariant-oracle op (pending, see IDQ).
 
-### Gate B — each layer working AND conformance-matched to macOS  *(runtime + one design sub-gate)*
+### li-002 / Gate B — each layer working AND conformance-matched to macOS  *(runtime + one design sub-gate)*
 Per layer: primitive/functional surface works *and* the same harness run on the macOS explorer
 (truth) and the rmxOS explorer is semantics-diffed.
 - libdispatch: primitive surface DONE (op-098); timer USDT enabled (op-101). Next: breadth +
@@ -68,24 +78,32 @@ Per layer: primitive/functional surface works *and* the same harness run on the 
 - truly-green: conformance diff vs a *current* macOS run, not exit-code-green standing in for
   behavior-matched.
 
-### Gate C — launchd lifecycle driving real services  *(runtime)*
+### li-003 / Gate C — launchd lifecycle driving real services  *(runtime)*
 The load→start→observe→restart→remove→reload spine (closed at D23 on fixtures) driving *actual*
 daemons (notifyd/asl + own), not test fixtures.
 - truly-green: real services transition through the full lifecycle and survive restart/reload.
 
-### Gate D — integration soak  *(runtime — the most runtime of all)*
+### li-004 / Gate D — integration soak  *(runtime — the most runtime of all)*
 All layers together under sustained load (launchd → libxpc → libdispatch → mach-ipc) with the
 Gate A invariants watching for leaks/hangs/races over hours.
 - truly-green: hours-long soak, zero invariant violations, no leak/hang — not a 5-minute run.
 
-### Gate E — known gaps cataloged, not hidden  *(NOT runtime — adjudication/bookkeeping)*
-1.0 ships *with* a backlog (bl-001 kevent64, bl-002 QoS-attr, bl-004 non-NORMAL-QoS timers,
-bl-005 semaphore poll, …), each scoped "doesn't block use-case X."
-- truly-green: every known gap has a backlog id + a non-blocking justification.
+### li-005 / Gate E — known gaps cataloged, not hidden  *(NOT runtime — adjudication/bookkeeping)*
+1.0 ships *with* an IDQ (id-001 kevent64, id-002 QoS-attr, id-004 non-NORMAL-QoS timers,
+id-005 semaphore poll, …), each scoped "doesn't block use-case X."
+- truly-green: every known gap has an IDQ id + a non-blocking justification.
 
-### Gate F — reproducible build / stage / boot  *(infrastructure — boot is runtime-ish)*
+### li-006 / Gate F — reproducible build / stage / boot  *(infrastructure — boot is runtime-ish)*
 The donor-import → build → stage → guest-boot path is a button, not a ritual.
 - truly-green: a clean checkout builds + boots the guest reproducibly by someone other than us.
+- **status (2026-06-23, op-111): UNSUBSTANTIATED — further from done than the spine implied.** No
+  clean `buildworld`+`buildkernel` has ever completed for rmxOS; the overlay has only been built
+  piecemeal (modules + targeted userland via `stage-userland.sh`). The **test guests boot via a
+  distinct model** — base FreeBSD image + overlay + a *pre-staged* kernel (`loader.conf
+  kernel="MACHDEBUG"`), NOT the `buildworld→installworld→make-memstick` release path. So the
+  release pipeline (id-012) is unexercised end-to-end; id-014/op-113 is its first blocker, with
+  likely more breakage behind it. **This sits on the 1.0-preview critical path** (the preview floor
+  includes a bootable image) — flagged to the Coordinator as a newly-surfaced risk.
 
 ## Runtime vs not — at a glance
 
@@ -112,13 +130,13 @@ Stand up the **libdispatch runtime conformance + soak harness**: functional matr
 (async/sync/apply/once/barrier/group/semaphore/source-timer/source-MACH_RECV/data/io, block +
 `_f`), run on both explorers and diffed vs macOS-as-truth, with op-099/op-101 probes promoted to
 invariant oracles. This single piece exercises Gate A + Gate B + seeds Gate D, and **defines
-truly-green concretely** before we spend that pattern on the harder layers. Tracked as a backlog
-item (see [backlogs/bl-000.md](backlogs/bl-000.md)).
+truly-green concretely** before we spend that pattern on the harder layers. Tracked as an IDQ
+item (see [idq/id-000.md](idq/id-000.md)).
 
 ## Explicitly NOT 1.0
 
-- kernel kevent64 substrate (bl-001) — userland shim is deliberately lossy; real
+- kernel kevent64 substrate (id-001) — userland shim is deliberately lossy; real
   `kevent_qos`/workloops are the future substrate (Coordinator A-vs-B strategy gate).
 - memory_object / GPU integration — the 5-year center.
-- non-NORMAL-QoS timers (bl-004), full QoS-attr Darwin parity (bl-002), semaphore absolute-
-  deadline (bl-005) — hardening items.
+- non-NORMAL-QoS timers (id-004), full QoS-attr Darwin parity (id-002), semaphore absolute-
+  deadline (id-005) — hardening items.

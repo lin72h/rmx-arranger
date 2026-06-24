@@ -1,6 +1,6 @@
-# bl-002 — QoS-attr Darwin-parity: reject `QOS_CLASS_UNSPECIFIED` on set
+# id-002 — QoS-attr Darwin-parity: reject `QOS_CLASS_UNSPECIFIED` on set
 
-- id: bl-002
+- id: id-002
 - state: WAITING (not fetched) — low priority; a parity-hardening item, not a blocker.
   Cataloged for overclaim-strict honesty, not yet scheduled.
 - raised: 2026-06-21 (surfaced during op-090V Validator review of the libthr QoS-attr export)
@@ -45,7 +45,7 @@ remaps it.
 make the round-trip idempotent if a deliberate non-Darwin choice is preferred — Coordinator
 decides which). Explorer macOS reference vector for the UNSPECIFIED-on-set EINVAL behavior.
 
-**Out:** the broader kqueue/kevent QoS surface (that's bl-001's downstream).
+**Out:** the broader kqueue/kevent QoS surface (that's id-001's downstream).
 
 ## Open decision (Coordinator-held)
 

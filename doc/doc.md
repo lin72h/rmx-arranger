@@ -35,8 +35,8 @@ Single-file references that live directly under `doc/`.
 
 ## Related indices (other trees)
 
-- [backlogs/bl-000.md](../backlogs/bl-000.md) — backlog (`bl-NNN`): identified work not yet
-  fetched into the IDQ/ROB. "What we build *next*."
+- [idq/id-000.md](../idq/id-000.md) — IDQ (`id-NNN`): decoded work queued, not yet
+  fetched into the ROB. "What we build *next*."
 
 ## Maintenance
 

@@ -1,6 +1,6 @@
-# bl-003 — Kernel `EVFILT_MACHPORT` filter (`filt_machport`): wire the Mach-port kqueue filter
+# id-003 — Kernel `EVFILT_MACHPORT` filter (`filt_machport`): wire the Mach-port kqueue filter
 
-- id: bl-003
+- id: id-003
 - state: **DROPPED (premise false) 2026-06-22 — superseded by op-098.** Never needed promotion:
   the "no kernel `filt_machport`" premise was a scoping error. Kept for history; see below.
 - raised: 2026-06-22 (first-hand, during op-091 adjudication of the op-082 field-level sweep)
@@ -57,17 +57,17 @@ second finding) is libdispatch/shim-level, **not** this kernel gap. Keep the two
 
 op-097's probe shows `dispatch_mach_recv_source` GREEN while the kernel filter is provably
 `null_filtops`. Both cannot be load-bearing at once, so one of two things is true — op-098
-must disambiguate first-hand before bl-003 can be re-scoped or closed:
+must disambiguate first-hand before id-003 can be re-scoped or closed:
 
 - **(a) non-kqueue delivery path.** The message is serviced by the classic manager thread
   draining the port/portset directly via `mach_msg` (`_dispatch_mgr_thread` machport drain),
   so the EVFILT_MACHPORT kevent registration is effectively dead weight and the probe never
-  depends on `filt_machport`. → bl-003 narrows to "the kernel filter is unused, not missing":
+  depends on `filt_machport`. → id-003 narrows to "the kernel filter is unused, not missing":
   decide between removing/conditioning the dead registration vs implementing the real filter
   for strict Darwin parity.
 - **(b) shallow probe.** The probe constructs/cancels the source (and maybe a notifyd/TWQ
   bypass leg) without round-tripping a real Mach message *through the kqueue filter*, so it
-  passes without exercising the gap at all. → bl-003 is unchanged in substance; the probe
+  passes without exercising the gap at all. → id-003 is unchanged in substance; the probe
   needs hardening before any MACH_RECV parity claim stands.
 
 Disambiguation method (op-098): DTrace-first — correlate `fbt::filt_machport*` (expected:
@@ -84,18 +84,18 @@ path the message actually traverses settles (a) vs (b).
 - macOS implements `filt_machport` (kqueue Mach-port filter) as the substrate for
   GCD's MACH_RECV sources. Darwin-parity requires the real filter, not the stub.
 
-## Relation to bl-001 (the kevent64 revival)
+## Relation to id-001 (the kevent64 revival)
 
 Same kernel-kqueue-Mach territory, and entangled:
 - libdispatch's internal kqueue struct is already `kevent64_s` (verified in `source.c`), so the
   MACH_RECV path and the kevent64 width question share a substrate.
 - **But distinct**: `filt_machport` is the *filter behavior* (deliver on Mach-message arrival);
   kevent64 is the *struct/ABI width*. A real `filt_machport` is needed regardless of which
-  bl-001 strategy (A donor-faithful vs B additive) is chosen.
-- **Open placement decision (Coordinator-held)**: keep bl-003 standalone (filter first, ABI
-  later) or fold into bl-001 as one kernel-kqueue-Mach foundation op-chain. The donor
+  id-001 strategy (A donor-faithful vs B additive) is chosen.
+- **Open placement decision (Coordinator-held)**: keep id-003 standalone (filter first, ABI
+  later) or fold into id-001 as one kernel-kqueue-Mach foundation op-chain. The donor
   (`nx/NextBSD`) likely carries a `filt_machport` alongside its kevent64 work — an Explorer
-  donor-vs-FreeBSD-15 probe (the same one bl-001 proposes) should quantify both together.
+  donor-vs-FreeBSD-15 probe (the same one id-001 proposes) should quantify both together.
 
 ## Scope (when promoted)
 
@@ -104,10 +104,10 @@ Mach port or portset), register it in the kqueue filter table at `~EVFILT_MACHPO
 macOS-parity vector + donor reference; re-run op-091's `dispatch_mach_recv_source` to a pass.
 
 **Out:** the dispatch_after timer gap (libdispatch/shim-level — separate op, EVFILT_TIMER
-already real); `kevent_qos`/`kevent_id` (bl-001's explicit out).
+already real); `kevent_qos`/`kevent_id` (id-001's explicit out).
 
 ## Proposed pipeline (when promoted)
 
-Explorer probe (donor `filt_machport` vs FreeBSD-15 kqueue; quantify with bl-001's A-vs-B
+Explorer probe (donor `filt_machport` vs FreeBSD-15 kqueue; quantify with id-001's A-vs-B
 probe if folded) → Implementer kernel filter → Validators (correctness) → re-run op-091 rx
 vector → Gatekeeper (macOS-parity, closes op-082 field-level loop).

@@ -55,8 +55,8 @@ not a wrong foundation.
 - It **hard-depends on XNU-only kernel features**: `kevent_qos` / `kevent_id`
   workloops, `pthread_workqueue` kqworkq/kqworkloop, `_dispatch_kevent_workqueue`,
   `__OS_EXPOSE_INTERNALS__`.
-- Those are exactly the kernel pieces we **parked as future** — `bl-001`
-  (kevent64 / kevent_qos) and `bl-003` (kernel `filt_machport`). Adopting it
+- Those are exactly the kernel pieces we **parked as future** — `id-001`
+  (kevent64 / kevent_qos) and `id-003` (kernel `filt_machport`). Adopting it
   *forces* the deferred kernel track up front. It is therefore **more** intrusive
   (kernel-side), not less.
 
@@ -76,14 +76,14 @@ the least-intrusive path (consistent with `donor > XNU-ref > local`).
   `timer_filtops` confirmed working in-guest). Root cause (a): the
   `_dispatch_source_set_timer2` → `_dispatch_barrier_async_detached_f(&_dispatch_mgr_q,…)`
   handoff during manager bootstrap. Surgical fix in progress.
-- **`dispatch_source` MACH_RECV non-firing** (op-091, parked → `bl-003`): kernel
+- **`dispatch_source` MACH_RECV non-firing** (op-091, parked → `id-003`): kernel
   `EVFILT_MACHPORT = { &null_filtops }` (`sys/kern/kern_event.c:391`; no
   `filt_machport` in `sys/`). A *kernel* foundation gap, not a libdispatch defect —
   libdispatch already registers the kevent over `kevent64_s` correctly.
-- **kevent64 substrate** (`bl-001`): libdispatch's internal kqueue struct is
+- **kevent64 substrate** (`id-001`): libdispatch's internal kqueue struct is
   already `kevent64_s`; the userland `freebsd_kevent64.c` shim is deliberately
   lossy (`flags != 0 → ENOTSUP`). Real kernel kevent64 is the future substrate.
-- **QoS `UNSPECIFIED` round-trip** (`bl-002`): pthread-attr-side, accept-and-
+- **QoS `UNSPECIFIED` round-trip** (`id-002`): pthread-attr-side, accept-and-
   normalize vs Darwin EINVAL — a parity-hardening catalog item.
 - **Latent (non-NORMAL QoS timers):** CRITICAL/BACKGROUND timers carry XNU
   `NOTE_CRITICAL`/`NOTE_BACKGROUND` fflags the kernel `filt_timervalidate` would
@@ -94,7 +94,7 @@ the least-intrusive path (consistent with `donor > XNU-ref > local`).
 - **Now (basic-working-first):** keep the base; close `dispatch_after` (op-093),
   reach `dispatch_primitives` full parity. The MACH_RECV leg waits on the parked
   kernel track.
-- **Future kernel track:** `bl-001` (kevent64) + `bl-003` (`filt_machport`) are the
+- **Future kernel track:** `id-001` (kevent64) + `id-003` (`filt_machport`) are the
   substrate that closes `dispatch_source` MACH_RECV parity and unlocks
   `kevent_qos`/workloops later. Coordinator-held strategy gates (A-vs-B, placement)
   before promotion.
@@ -115,5 +115,5 @@ edits.
 
 - op-093 fix verification: confirm root-cause (a) first-hand from the trace before
   Validators; strip the `OP093_T` dprintf diagnostics before the final commit.
-- Whether to catalog the non-NORMAL-QoS timer fflag gap as `bl-004` (Coordinator).
-- bl-001/bl-003 placement + A-vs-B strategy gate (kernel track promotion).
+- Whether to catalog the non-NORMAL-QoS timer fflag gap as `id-004` (Coordinator).
+- id-001/id-003 placement + A-vs-B strategy gate (kernel track promotion).

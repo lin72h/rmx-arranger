@@ -1,6 +1,6 @@
-# bl-007 — continuous-soak harness infra (long-bhyve + continuous DTrace)
+# id-007 — continuous-soak harness infra (long-bhyve + continuous DTrace)
 
-- id: bl-007
+- id: id-007
 - state: **RETIRED** (op-104 proof passed 2026-06-23, serial sha a8228218…). The capability gap
   surfaced when op-102 deliverable 3 could not run the 2h soak (bounded ~180s run pattern only).
   op-104 built + proved it. op-105 (the actual 2h soak + port-balance iteration-delta) wakes.
@@ -11,7 +11,7 @@
 ## The gap
 
 The standard run harness is a bounded one-shot (~180s). Gate D (integration soak) and the
-op-102/bl-006 libdispatch soak need a guest that **boots and loops the harness for hours** with
+op-102/id-006 libdispatch soak need a guest that **boots and loops the harness for hours** with
 the invariant-oracle DTrace scripts **attached continuously** (aggregations surviving to END,
 exit code captured).
 
@@ -33,19 +33,19 @@ op-104 first pass: infra authored (commit f9ada96) but proof run failed on a cor
 image AND first-hand review found a latent `printf`/arithmetic-on-aggregations bug in the END
 block (masked by the corruption). op-104 returned to the Explorer corrected.
 
-**op-105 BLOCKED (2026-06-23) → bl-009.** The 2h soak panicked on its *first* iteration — a real
+**op-105 BLOCKED (2026-06-23) → id-009.** The 2h soak panicked on its *first* iteration — a real
 kernel use-after-free (`ipc_mqueue_pset_receive` via `filt_machport`, DEADC0DE GPF). This is the
 soak doing its job: a kernel crash under sustained dispatch load that op-104's 120s/451-iter proof
-couldn't surface. op-105 cannot retire (`soak_fails=0` unmet) until bl-009's kernel fix lands;
-the existing oracle+driver are its regression harness. See bl-009.
+couldn't surface. op-105 cannot retire (`soak_fails=0` unmet) until id-009's kernel fix lands;
+the existing oracle+driver are its regression harness. See id-009.
 
 **Role split on the proving soak (corrected 2026-06-23).** The op-105 discovery soak was rightly
 the **Explorer's** (it captured a behavior vector → the panic). But the *regression* soak that
-proves the bl-009 fix is the **Gatekeeper's**, not the Implementer's and not the Explorer's: the
+proves the id-009 fix is the **Gatekeeper's**, not the Implementer's and not the Explorer's: the
 oracle + bar are fixed, so the run is a disposition (admit/block op-105's retirement), which is
 the Gatekeeper's defining function — not discovery. The Implementer (op-107) closes at fix +
 bounded smoke-test and hands off; the 2h proving soak is a separate Gatekeeper op on
-`rmx-gatekeeper-rx-x64z`. See bl-009 §Scope.
+`rmx-gatekeeper-rx-x64z`. See id-009 §Scope.
 
 **op-104 RETIRED (2026-06-23).** Proof: soak_iterations=451, soak_fails=0, soak_duration=120,
 terminal status=0; tick-120s fired and printed all 4 invariant deltas (msg 1327/885, kmsg

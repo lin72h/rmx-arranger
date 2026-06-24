@@ -1,6 +1,6 @@
-# bl-005 — `_dispatch_posix_sem_timedwait` polling → proper absolute-deadline primitive
+# id-005 — `_dispatch_posix_sem_timedwait` polling → proper absolute-deadline primitive
 
-- id: bl-005
+- id: id-005
 - state: WAITING (not fetched) — production-hardening item, not a blocker. Cataloged from the
   op-095V Validator reserve point, not yet scheduled.
 - raised: 2026-06-22 (op-095V Validator review of the `dispatch_after` fix, commit `129ee3c`)

@@ -65,7 +65,7 @@ strategy is conservatism + approval, not velocity.
 
 A Mach IPC change can perturb, often non-locally:
 - **kqueue/kevent** — MACH_RECV sources, `EVFILT_MACHPORT` (kernel filter is currently
-  `null_filtops`; bl-003), port-set wakeups.
+  `null_filtops`; id-003), port-set wakeups.
 - **ports & rights** — send/receive-right accounting, no-senders notifications, dead-name,
   port-set membership; a leaked/over-released right corrupts unrelated services.
 - **scheduler / threads** — TWQ worker servicing, QoS/priority tokens, blocking `mach_msg`
@@ -95,6 +95,6 @@ exists precisely to force a whole-system review before any IPC-core line moves.
 
 Own the NextBSD-on-FreeBSD-15 Mach IPC base; harden it with maximum conservatism. Default to
 "do not touch the IPC core" — push fixes outward into the consuming subsystem or downward into
-the kernel filter/substrate (cataloged as backlog) whenever the defect can be correctly fixed
+the kernel filter/substrate (cataloged in the IDQ) whenever the defect can be correctly fixed
 there instead. When the IPC core genuinely must change, go line-by-line through the approval
 gate above.

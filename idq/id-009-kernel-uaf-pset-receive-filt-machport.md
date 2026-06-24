@@ -1,6 +1,6 @@
-# bl-009 — kernel use-after-free: `ipc_mqueue_pset_receive` via `filt_machport` (compat/mach IPC)
+# id-009 — kernel use-after-free: `ipc_mqueue_pset_receive` via `filt_machport` (compat/mach IPC)
 
-- id: bl-009
+- id: id-009
 - state: **RETIRED — fix `e101f9c` PROVEN both halves (correctness op-109 + under-load op-108).**
   op-107 landed commit `e101f9c1872e` on `alpha` (+2 with op-106, push held) — Arbiter-verified
   sound first-hand (see §Fix landed). **op-109 (Validator review) RETIRED: GLM 9/10 + DS4P 9/10
@@ -34,11 +34,11 @@ image (120s ran clean, matching op-104) — so the 120s smoke cannot confirm the
 2h soak (the config that hit it on iter 1) can. Unfixed-image serial: `87c86c0a…`; fixed mach.ko
 sha256 `7c8a710d…`.
 - roadmap parent: [roadmap.md](../roadmap.md) — **Gate A (mach-ipc invariants) blocker** and a
-  hard blocker on the libdispatch Gate-D soak (bl-006/bl-007). A kernel UAF under sustained
+  hard blocker on the libdispatch Gate-D soak (id-006/id-007). A kernel UAF under sustained
   dispatch load is exactly the class of defect "service-usable 1.0" cannot ship with.
 - relations: **op-098** (proved the `filt_machport` kqueue path for a *single* MACH_RECV
   round-trip — the bug is under *concurrent create/destroy churn*, not the basic path);
-  **bl-006/op-105** (the soak that surfaced it); **op-104** (120s/451-iter proof did NOT hit it —
+  **id-006/op-105** (the soak that surfaced it); **op-104** (120s/451-iter proof did NOT hit it —
   intermittent race).
 
 ## The crash (explorer evidence, op-105)
@@ -106,7 +106,7 @@ wrong role). The proving soak is a **fixed-bar regression gate** → Gatekeeper,
 
 **(2) Explorer — commit the op-105 panic vector** into the evidence/mismatch record (serial
 sha `a60387a5…`, the GPF/DEADC0DE capture). This is already an Explorer capture; just land it
-(merge origin/main before push, never force-push — bl-007 branch divergence).
+(merge origin/main before push, never force-push — id-007 branch divergence).
 
 > One-time exception (Coordinator, 2026-06-23): op-107's in-flight soak is allowed to finish
 > this once. The go-forward rule stands — from the next fix on, the long proving soak is

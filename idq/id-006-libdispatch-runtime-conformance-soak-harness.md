@@ -1,13 +1,13 @@
-# bl-006 — libdispatch runtime conformance + soak harness (the truly-green template)
+# id-006 — libdispatch runtime conformance + soak harness (the truly-green template)
 
-- id: bl-006
+- id: id-006
 - state: **RETIRED 2026-06-23 — all 3 truly-green legs done for the 9-case core.** (1) functional
   matrix green+traced — op-102; (2) conformance diff no-mismatch vs current macOS — op-102 (MATCH
-  9/9); (3) invariant oracles hold over an hours-scale soak — **op-108** (the bl-009 proving soak,
+  9/9); (3) invariant oracles hold over an hours-scale soak — **op-108** (the id-009 proving soak,
   inherited: dispatch-conformance harness driving MACH_RECV churn under `soak-oracle-2h.d`, 27293
   iters / 2h / 0 violations, msg+queue+port balance flat — Arbiter-verified first-hand). `data`/`io`
-  remain cataloged as not-yet-covered (consistent across all 3 legs) → pass-2 op, not a bl-006 gap.
-  This file is now the **template** the bl-010/bl-011 (notifyd/asl) harnesses copy.
+  remain cataloged as not-yet-covered (consistent across all 3 legs) → pass-2 op, not a id-006 gap.
+  This file is now the **template** the id-010/id-011 (notifyd/asl) harnesses copy.
 - raised: 2026-06-23
 - roadmap parent: [roadmap.md](../roadmap.md) — exercises **Gate A** (invariants) + **Gate B**
   (libdispatch conformance) and **seeds Gate D** (soak). It is the first place we *define*
@@ -36,13 +36,13 @@ exit-code-proven on a primitive surface (op-098 `op098_t2_fails=0`; op-101 `disp
    no stuck enqueue, no leak. The probe *is* the test.
 
 **Out:** product source edits (observation-only); the SDT typed-arg probes (separate RESTRICTED
-backlog); notifyd/asl/libxpc harnesses (this is the template they copy, fetched separately).
+IDQ item); notifyd/asl/libxpc harnesses (this is the template they copy, fetched separately).
 
 ## Truly-green criterion (what "Gate B/libdispatch passed" must mean)
 
 - functional matrix runs green on the rmxOS guest (not exit-code-only — traced);
 - conformance diff vs a *current* macOS run shows no semantic mismatch on the matrix (or each
-  mismatch is laddered to a backlog item);
+  mismatch is laddered to an IDQ item);
 - the invariant oracles hold over an hours-scale soak — zero violations, no leak/hang.
 
 ## Conformance DONE for the 9-case core (op-102 RETIRED, 2026-06-23)
@@ -53,14 +53,14 @@ backlog); notifyd/asl/libxpc harnesses (this is the template they copy, fetched 
 both `op102_matrix_fails=0`, nothing laddered. Both op-103 findings closed: (F1) `once_f` type
 defect **fixed** — `cb_once(void*)` split from 2-arg `cb_add`, no `-Wno-error` paper (commit
 `afb7fc3`); (F2) `data`/`io` **cataloged** as not-yet-covered (absent both sides), truth scoped
-to the 9-case core — a pass-2 op adds data/io. Single-shot MACH_RECV green here (the bl-009 UAF is
+to the 9-case core — a pass-2 op adds data/io. Single-shot MACH_RECV green here (the id-009 UAF is
 the *sustained-churn* race; op-108 is its proof, not this). Branch divergence resolved — `30f102c`
 merged origin/main (op-103) with the op-105 line cleanly, now fast-forward-able (push held for
 Coordinator).
 
 **Truly-green status: 2 of 3 legs done.** (1) functional matrix green+traced — DONE (op-102);
 (2) conformance diff no-mismatch vs current macOS — DONE for the 9-case core (op-102);
-(3) invariant oracles hold over an hours-scale soak — **pending op-108** (in-flight). bl-006
+(3) invariant oracles hold over an hours-scale soak — **pending op-108** (in-flight). id-006
 retires when op-108 lands green.
 
 ## Conformance progress (op-103 RETIRED, 2026-06-23)
