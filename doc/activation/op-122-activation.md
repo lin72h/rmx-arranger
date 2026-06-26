@@ -119,3 +119,30 @@ Forced by the mx-a64z hold note (its Task #54 plans to author a macOS echo servi
 **`_XPC_TYPE_ERROR` copy-relocation (rmxOS LLD):** real surface gap → **li-1008** (already noted above). Client work-around (avoid referencing the type-identity constant directly) is correct and stays in the byte-identical blob, so it is benign on macOS too.
 
 Net: one client, one contract, two responders that cannot diverge by construction. mx's responder authoring decouples from the blob; only the run + truth-capture waits on rx's landing.
+
+---
+
+## FIX-BACK DISPATCH BRIEF — rx-x64z (normal-form, 2026-06-26, Arranger seat, model Opus 4)
+
+role: **Explorer (FREE — rx1/rmx-explorer)** | state: READY dispatch (authorized) | parent id-021 (libxpc / li-1005) | supersedes the REJECTED rmxOS-side run above
+why: the prior run pointed a lone client at `com.apple.system.logger` (ASL daemon, not an XPC echo endpoint) with no responder → op-160's live plane was never exercised; the EINVAL was a harness-target error miscast as a divergence. This re-authors to the LOCKED RESPONDER CONTRACT above so the run actually crosses op-160's plane.
+
+DELIVER (rx-x64z owns BOTH halves on the rmxOS side):
+1. **rmxOS responder** — re-point op-160's `op160-xpc-service.c` to register `com.rmxos.op122.echo` via `MachServices`; extend its handler to reply `{reply:pong}` with the request `XPC_SEQID` echoed and every typed field (string/int64/uint64/bool/array) echoed verbatim. launchd-job plist, macOS-faithful FORMAT. NOT shell-launch (id-016).
+2. **byte-identical CLIENT** — fix the existing `xpc-harness-plane.c`: change the Plane Case 1 target from `com.apple.system.logger` to `com.rmxos.op122.echo`; keep the substrate cases unchanged; ASSERT reply=="pong" + seqid-echo + each typed value; RECORD-don't-assert the cancel→error (printf description+code, NO strcmp-assert of any error constant). Keep the `_XPC_TYPE_ERROR` copy-reloc work-around (benign on macOS too).
+3. **run** both as launchd-jobs over op-160's live plane; confirm the client reaches the responder via its launchd-provided bootstrap (id-016). Capture serial.
+4. **REPORT** — the rmxOS run + the client `.c` SHA (this becomes the canonical blob mx pulls). Do NOT self-diff against macOS (mx holds the oracle); RECORD the rmxOS cancel error string, don't classify it.
+
+GATES: client byte-identical-ready (mx will run the SAME `.c` unmodified — no rmxOS-only `#ifdef` in the client that mx can't compile; if a symbol is rmxOS-absent, that absence is the divergence → catalog li-1008, do NOT branch the client). Responder behavior to the locked contract, source-glue may differ. Substrate cases must still PASS (no regression).
+
+MARKERS (re-run):
+```
+OP122_RESPONDER_RMXOS status=0     # rmxOS echo service registers com.rmxos.op122.echo; replies pong+seqid+typed echo
+OP122_HARNESS_RETARGETED status=0  # client Plane Case 1 -> com.rmxos.op122.echo; substrate unchanged; compiles
+OP122_RMXOS_PLANE_RUN status=0     # client reaches responder over op-160 plane via launchd-job bootstrap (id-016)
+OP122_CLIENT_SHA recorded          # canonical byte-identical client .c SHA (mx pulls this exact blob)
+OP122_RMXOS_CANCEL_RECORDED        # cancel error description+code printed (recorded, NOT asserted)
+OP122_TERMINAL status=0
+```
+
+PUSH: rx branch (responder .c + plist + retargeted client + serial). Report → Arranger-seat first-hand verify the client actually hit the responder (serial shows pong+seqid, not EINVAL) + the client `.c` is mx-compilable (no rmxOS-only client branch) → release the CLIENT_SHA to mx-a64z #54b for macOS-truth capture. Do NOT merge. The apples-to-apples diff happens after mx captures truth on this exact SHA.
