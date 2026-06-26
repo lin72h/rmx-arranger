@@ -21,10 +21,13 @@ spend the expensive ones deliberately.
 | **Validator-GLM** | **0 — free** | the GLM model |
 | **Validator-DS4P** | **4** | falsification / forward-instinct validator |
 | **Implementer** | **30** | the executor (product-source changes) |
-| **Arranger** (Fable) | **50** | issue + retire + Arbiter; the costliest cycle on the board |
+| **Arranger** (Fable) | **50** | issue + retire + Arbiter; the costliest *Executor* cycle |
+| **Coordinator** (human) | **70** | the human owner's time/attention — **the single most expensive resource on the board** |
 
-Costs are **model-dependent and current-as-of-2026-06-23** — "free" reflects the GLM model being
-free for the Coordinator today; if the model backing a role changes, update this row.
+Costs are **model-dependent and current-as-of-2026-06-26** — "free" reflects the GLM model being
+free for the Coordinator today; if the model backing a role changes, update this row. The
+**Coordinator (70)** is the only human cost: their calendar time and attention outweigh every
+Executor cycle — wall-clock days of Coordinator involvement are the costliest spend of all.
 
 ## How the Arranger applies it
 
@@ -36,9 +39,16 @@ free for the Coordinator today; if the model backing a role changes, update this
 - **Implementer (30) is the expensive executor** — issue deliberately, batch, and **never
   duplicate**. A duplicate/churned Implementer dispatch is ~30/100 of pure waste (cf. the op-108
   number collision). Issue-hygiene matters most here.
-- **Arranger (50) is the costliest cycle** — be decisive (fewer round-trips); **offload
+- **Arranger (50) is the costliest Executor cycle** — be decisive (fewer round-trips); **offload
   discovery/exploration to the free Explorer rather than doing it on Arranger cycles**; reserve
   Arranger spend for what only it can do: adjudication, routing, retirement tracking.
+- **Coordinator (70) is the most expensive resource, period** — the human owner's time. **Never
+  burn Coordinator wall-clock/calendar days to conserve a cheaper Executor cycle** — e.g. running a
+  chain of free-role attempts across days to dodge one Implementer-30 dive is a NET LOSS, because the
+  days of Coordinator involvement cost more than the dive. The cost map orders *roles for
+  delegation*; it never licenses spending the costliest resource (Coordinator time) to save a cheaper
+  one. (Lesson banked 2026-06-26: id-025 op-150→155 burned ~2 days of Coordinator time holding the
+  cost-30 op-142 behind a capture that a parallel code-reasoned dive never needed.)
 
 ## Hard caveat — cost never overrides correctness
 
