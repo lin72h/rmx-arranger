@@ -48,3 +48,29 @@ OP160_TERMINAL status=0
 PUSH: Implementer branch; commit the calibration report, the plane diff (launchd + libxpc), the launchd-job e2e demo + log, build evidence. Report SHA + artifact paths → Arranger-seat first-hand verify → then op-122 dual-explorer conformance (un-hold) + li-1007 integration soak (Gatekeeper) gate truly-green. Do NOT merge to mainline pre-verification. PUSH to origin.
 
 CHAIN (preview long poles): op-160 (this — service plane live, launchd+libxpc joint) → op-122 dual-explorer lockstep conformance (un-held) ∥ Gatekeeper soak → li-1005 + li-1006 truly-green → with li-1003/notify (post id-025) + li-1004/asl → li-1007 integration soak → li-1000 1.0-preview.
+
+---
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — op-160 PASS: service plane LIVE e2e over nvlist (launchd-job), honestly scoped → [Done] (NOT merged, NOT conformance-certified)
+
+Verified first-hand against branch `op-160-xpc-domain-plane` @ af0dc2d (parent 15a6acc — correct) + the run artifacts. NOT relayed from the Implementer's report.
+
+**PLANE IS LIVE — e2e proven (serial SHA 99d7821…, hashed by me):** launchd (pid 968) hosts the service via MachServices → listener (pid 974) → **launchd-JOB client (pid 983, launchctl-loaded NOT shell-launched)** connects → `OP160_XPC_SENDREPLY reply=pong sequence=160` (service: op=ping→SERVICE_REPLY, seqid correlated over nvlist) → `OP160_CLIENT_EVENT description="Connection invalid"` (cancel→error delivered). id-016 launchd-job model honored.
+
+**Code is real impl, not paper-stubs (git show af0dc2d, 4 product files +489/-31):** `xpc_connection_cancel` (was empty `{ }`) now builds+delivers an `_XPC_TYPE_ERROR` via new `xpc_connection_error()` — the Class-C error-delivery the brief named absent; `xpc_dictionary_create_reply` now propagates `XPC_SEQID` (reply correlation, the load-bearing fix); `xpc_pack` fixes a memcpy-into-uninitialized-buf bug + nvlist leak; `xpc_unpack` adds recursive `_XPC_FROM_WIRE` marking; `xpc_dictionary_copy_mach_send` un-`#if-0`'d; nv2xpc UUID missing `break` fixed; retain/release across async send (UAF fix).
+
+**CALIBRATION (Deliverable-1) = PARTIAL, first broken seam named:** plane was live through bootstrap+receive, stubbed at `xpc_dictionary_create_reply()` returning NULL because the unpacked request wasn't marked `_XPC_FROM_WIRE`. PLUS the architectural finding: the **literal launchd `xpc_domain` MIG subsystem is dormant** (`sbin/launchd/runtime.c` under `#ifdef notyet`, no generated MIG); the reachable plane is **MachServices-hosted `xpc_connection`/nvlist**, NOT a MIG xpc_domain. Consistent with the id-021 two-plane finding.
+
+**MARKER DISPOSITION (Implementer disclaimed authority — these are mine):**
+- OP160_PLANE_CALIBRATED → PASS (partial; seam = create_reply/`_XPC_FROM_WIRE`, file-cited)
+- OP160_LAUNCHD_DOMAIN_HOSTS → PASS **with nuance** — MachService-hosted service plane, NOT literal xpc_domain MIG. li-1006 truly-green must be framed "service plane live via MachServices+nvlist," NOT "xpc_domain MIG live."
+- OP160_XPC_SENDREPLY → PASS (pong/seq=160, real nvlist round-trip)
+- OP160_XPC_CANCEL_ERROR → PASS (Connection-invalid error delivered)
+- OP160_E2E_LAUNCHD_JOB → PASS (launchd-job client, id-016 honored)
+- OP160_BUILD_CLEAN → **PASS-COMPONENT ONLY** — `make -C lib/libxpc` + `make -C sbin/launchd` clean (logs tailed + libxpc.so.5 SHA a4e6bf91… hashed by me). **NO full buildworld/image** — explicitly disclaimed (op-156 BUILD_CLEAN-over-claim lesson applied correctly). The op-156 trio walls still block a clean preview image; the smoke ran components dropped into an existing image.
+- OP160_DEFERRALS_CATALOGED → PASS (li-1008 written; matches op-161's confirmed deferral line)
+- OP160_TERMINAL → PASS
+
+**DO-NOT-CONFLATE (readiness discipline):** plane-LIVE ≠ li-1005/li-1006 truly-green ≠ preview-ready. op-160 makes the plane EXIST + WORK e2e; it does NOT self-certify parity. Residual to truly-green: (1) op-122 dual-explorer lockstep conformance (UN-HOLD now) — pinned blob rx-x64z vs mx-a64z over the live plane; (2) li-1007 integration soak (Gatekeeper); (3) a clean full-buildworld preview image (op-156 walls). 
+
+**op-160 → [Done]** (Implementer deliverable complete + honest). Branch stays on origin, **NOT merged** pre-conformance. Standing diagnostic surfaced: `ipc_entry_lookup failed on 0` (ipc_kmsg.c:1318) ×16 in the boot — pre-existing mach-compat noise (also in op-153), non-fatal, candidate for a low-priority catalog id, not gating.
