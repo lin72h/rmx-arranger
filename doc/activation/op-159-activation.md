@@ -49,3 +49,33 @@ Gatekeeper reports op-159 v2 running (bg `bydaqoa2d`): a raw-offset `.d` bypassi
 2. **thr_acts from the candidate dump** — use v2's offset dump to land condition 3 in a **v3** = the real deterministic detector. v3 (3-condition) is what can set `OP159_PRECONDITION_FIRED`; v2 narrows + de-risks v3 but does not self-certify the gate.
 
 Net: v2 is a legitimate CTF work-around and good signal (especially the fire+same-port-hang path), but it does NOT carry the deterministic-reachability claim on a bare fire. Let it run; verdict on the actual record, against this bar.
+
+---
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — NECESSARY-condition reachability PROVEN; full A.4 precondition NOT yet, but closable from data ALREADY IN HAND
+
+Verified first-hand against `rmx-gatekeeper @ dfb3b04` — `findings/op159-reachability-proven.txt` + `op159-precondition-watchpoint.d`, read directly (not the relayed report). id-011/overclaim history + my own pre-set bar required it.
+
+**CREDITED (genuinely shown):**
+- 2 fires on `ipc_pset_move`'s no-set→set branch, port `0xfffff80003447340`, `curproc=notifyd pid=968`, real syscall stack `mach_port_move_member+0x13b ← sys__kernelrpc_mach_port_move_member_trap ← amd64_syscall`. The bug's **necessary condition is reachable on the live notifyd register/post/check/cancel workload**.
+- `ip_pset@0x80` provenance credible — mach.ko disassembly (`movq 0x80(%rax)` compared against `nset` in `ipc_pset_move`), not a guess. Predicate `arg2!=0 && *(uint64_t*)(arg1+0x80)==0` = conditions 1+2.
+- Methodological win: ~5900 churn iters vs op-150's ~400 → **op-150's ~6-8min fast-onset was a C-probe confound, NOT real id-025 acceleration** → confirms the ~60-100min stochastic window + corroborates the op-155 wall-clock-under-run caveat. precondition-detection-during-healthy-churn works (fires BEFORE freeze), unlike op-148's freeze-catcher that starves at the wedge.
+
+**LABEL HELD (the overclaim):** "REACHABILITY PROVEN" unqualified overclaims. The `.d`'s OWN comment is honest — "reachability of the bug's **NECESSARY** condition is PROVEN (weaker than the full three-condition precondition)"; the report title dropped the qualifier. Per the pre-set bar: this is necessary-condition reachable, NOT the full A.4 precondition. `OP159_PRECONDITION_FIRED` = PASS **for the necessary condition ONLY**; `cause_evidenced=0`; `HANG_CORRELATED n/a`. The A.4-SPECIFIC part (a direct receiver parked AT the transition = condition 3) is what makes the freeze A.4 vs some other deadlock — and that is not yet confirmed.
+
+**CLOSABLE NOW, NO RE-SOAK — the captured port-struct dumps already hold the answer:**
+- fire=1: `off98 = fffff80003c9f200` (**non-NULL**)
+- fire=2: `off98 = 0` (NULL)
+- `off98` is the gatekeeper's `thr_acts` (parked-receiver, `rcd_thread_pool.thr_acts`) CANDIDATE. **If `off98` is confirmed = `thr_acts`, then fire=1 captured a parked receiver at a no-set→set transition = the FULL 3-condition A.4 precondition, from data ALREADY IN HAND.** This needs only an OFFSET-IDENTIFICATION (same disassembly method that nailed `ip_pset@0x80`, applied to the receive / `thread_pool_put_act` enqueue path, ipc_mqueue.c:813) + a semantics check (non-NULL `thr_acts` head = a parked act). NO new soak.
+
+**RESIDUAL (minor):** the base/pre-fix-kernel claim rests on the `OP159_BASE_KERNEL_SOAK` marker + serial sha `5aa7b2d8…`, NOT on the fire data — branch-ENTRY is pre/post-fix agnostic (op-156 changes post-branch routing, not whether the branch is entered). Cross-check the serial/boot record if the merge leans on it.
+
+**MERGE DISPOSITION — Coordinator's call, two framings:**
+- (A) **merge-now**: necessary-condition reachable (this) + the leg-4 freeze independently observed historically (the deadlock is why id-025 exists) + fix sound/covered/falsified (op-156/157/158) + op-156 is a low-risk defensive fix → sufficient; accept fire=1's non-NULL `off98` as strong-but-uncertified corroboration.
+- (B) **close cond-3 first (CHEAP, recommended)**: confirm `off98 = thr_acts` from disassembly → fire=1 retroactively becomes the FULL A.4 precondition from existing data → airtight, overclaim risk eliminated → then merge. Falls back to (A) if the offset can't be landed quickly.
+
+Recommend **(B)** — it converts a strong suggestion to proof at the cost of an offset-ID on data already captured, not a new run.
+
+**MARKER DISPOSITION (mine):** WATCHPOINT_AUTHORED PASS · BASE_KERNEL_SOAK PASS(marker/serial-attested) · PRECONDITION_FIRED **PASS-NECESSARY-ONLY** (not full A.4) · HANG_CORRELATED n/a · VERDICT **NECESSARY-CONDITION REACHABILITY PROVEN; full precondition pending `thr_acts` offset (off98 candidate, fire=1 data in hand)** · TERMINAL PASS.
+
+**op-159 → stays [In-flight]** for the cheap cond-3 close (identify `thr_acts` offset, re-interpret fire=1) — NOT [Done]. id-025 stays OPEN; op-156 merge pends the Coordinator's (A)-vs-(B) decision. Do NOT merge off the unqualified "PROVEN" label.
