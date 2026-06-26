@@ -43,3 +43,17 @@ OP122_TERMINAL status=0
 PUSH: dual-explorer branches (the extended harness + macOS-truth blob + rmxOS run + diff). Report → **Arranger-seat first-hand verify** the apples-to-apples diff (both SHAs, empty harness diff) + any DIVERGENCE checked against the macOS header/source before it drives a catalog or fix-back (id-011/id-021 explorer-claim history) → if MATCH, libxpc conformance leg closes; if divergence on the error case, fold the description/code fix into op-160. Do NOT merge. MATCH artifact only — the soak (li-1007) gates truly-green separately.
 
 CHAIN (li-1005 libxpc → preview): op-160 (plane live) → **op-122 (this — conformance MATCH, dual-explorer)** ∥ li-1007 integration soak (Gatekeeper) → li-1005 + li-1006 truly-green → with li-1003/notify (post id-025) + li-1004/asl (post leg-4) → li-1000 1.0-preview.
+
+---
+
+## AUTHORSHIP CLARIFICATION (2026-06-26, Arranger seat, model Opus 4) — resolves "who authors the byte-identical blob?"
+
+Decision: **rx-x64z AUTHORS the plane extension; mx-a64z captures macOS-truth on the byte-identical blob** (option 1 + a mandatory record-don't-assert refinement). Rationale: the blob must LINK on both sides; the binding constraint is the smaller/less-certain surface = rmxOS post-op-160. Author from the side that cannot guess the other's surface (macOS is a superset → anything rx links, mm4 links). Matches the op-116-cont precedent. Authoring from the superset (assuming `XPC_ERROR_CONNECTION_INVALID` links on rmxOS) is the rework trap — rejected.
+
+MANDATORY harness rule (folds in the smart half of the mx "draft" option, avoids a double round-trip):
+- **ASSERT** only on the safe, expected-MATCH cases: send→reply payload, `XPC_SEQID` correlation, typed round-trip VALUES (string/int64/uint64/bool/array).
+- **RECORD (do not assert a form)** on the cancel/error case and any case where divergence is expected: emit the observed value, e.g. `printf("cancel_error_description: %s\n", desc)` — NOT `R("error_is_connection_invalid", strcmp(...)==0)`. The rmxOS `"Connection invalid"` vs macOS `XPC_ERROR_CONNECTION_INVALID` delta is computed by DIFFING the two captured truth blobs, not baked into a harness pass/fail. This keeps the blob byte-identical AND divergence-safe in one pass (no "mx drafts → rx adjusts → mx re-captures" loop).
+- rx authors to the rmxOS-LINKABLE INTERSECTION. If a case needs a symbol rmxOS lacks, that absence IS a divergence → catalog to li-1008, do NOT include the symbol (it would break the link / force a non-identical blob).
+- macOS hosting = a user **LaunchAgent** echo service (`launchctl bootout` after); the plist stays macOS-faithful per the standing launchd-plist-fidelity directive.
+
+Net: rx guarantees the link (option 1) + the error case is divergence-safe (option 2's good idea) with no extra round-trip. Apples-to-apples unchanged: both SHAs recorded, `git diff` of the harness EMPTY.
