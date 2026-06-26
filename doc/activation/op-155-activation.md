@@ -76,3 +76,14 @@ op-153 (rig proven, "not id-025" refuted — saw only idle vCPUs) → op-154 ([D
 = detection artifact, rig PROVEN, id-025 still uncaptured) → **op-155** (this: fix the detector + capture the
 REAL iter≈400 freeze with per-thread backtraces) → op-142 [Hold] (releases on a real mach-IPC blocked stack;
 else re-scope) → notify leg-4 / id-010 disposition.
+
+---
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — op-155 = CLEAN NEGATIVE, rig proven, [Done]
+Verified first-hand from rmx-explorer commit 9061288 (markers, not the subject line):
+- OP155_HB_ON_CONSOLE=1 (HB routing fixed) · OP155_REAL_FREEZE_CAUGHT=0 · OP155_BLOCKED_BT_CAPTURED=0 · OP155_THREAD_IN_MACH_IPC=0 · OP155_IDENTITY_VERDICT id025=0 different_wedge=0. `blocked_now=0` every heartbeat through iter 700.
+- **No capture.** The stochastic path did NOT corroborate reachability. Rig is proven/ready for a future hit.
+- **TWO methodological caveats (Arranger first-hand, weaken this as a refutation):**
+  1. **Wall-clock under-run:** iter 700 reached in 12:32; op-123 leg-4 onset was ~63 min. The iter≥380 gate assumed iteration-keyed onset; op-123 suggests wall-clock/aging-keyed. 12 min cannot refute a 63-min onset.
+  2. **Workload fidelity:** drove the SYNTHETIC op-150 C churn, NOT the real notifyd leg-4 register/post/check/cancel. If the synthetic churn never creates a direct port receiver that is then moved into a set, blocked_now=0 is expected — precondition simply never exercised.
+- **CONSEQUENCE:** reachability NOT closed; op-159 is now the PRIMARY reachability test (real leg-4 workload + full overnight window addresses both caveats). op-156 stays gated; id-025 stays OPEN. op-155 → [Done] (negative + rig).
