@@ -1,6 +1,6 @@
 # op-159 — Gatekeeper: deterministic reachability watchpoint for id-025 (precondition-fires detector on the real notifyd soak)
 
-op-159 | role: **Gatekeeper** (FREE) | state: QUEUED (overnight batch — long soak; NOT interactive) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)
+op-159 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** (soak host — base/pre-fix kernel boot) | state: IN-FLIGHT (necessary-condition fired; cond-3 close pending — see verdict) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)
 purpose: close the SOLE remaining bar on the op-156 merge gate — reachability. The inspection legs (op-156 fix sound, op-157 coverage, op-158 falsification) are all verified. What inspection CANNOT prove: that notifyd's register/post/check/cancel churn actually hits the bug's precondition. This op proves it on the real workload, deterministically — complementary to op-155 (which catches the hung stack stochastically). EITHER closes reachability; together they are airtight.
 
 THE PRECONDITION TO DETECT (the exact, verified bug setup):
