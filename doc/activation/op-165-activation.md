@@ -1,6 +1,6 @@
 # op-165 — Gatekeeper: notify LEG-4 hours-scale soak (the last notify truly-green leg) on the op-156-patched kernel — id-025 regression confirmation + cond-3 `thr_acts@0x20` rider (non-blocking)
 
-op-165 | role: **Gatekeeper** | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Queued]** (behind op-163 asl leg-4 — single soak host; sequencing = Coordinator's call) | parent id: id-010 (notify leg-4) + id-025 (regression confirmation) | authored 2026-06-27 (Arranger seat, model Opus 4)
+op-165 | role: **Gatekeeper** | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Queued]** — BLOCKED on its image dependency: needs the op-156-patched leg-4 soak image being staged by **op-166** (Implementer, build host, parallel to op-163). Flips to [Awaiting] once op-166's patched `mach.ko` image is Arranger-verified. ALSO behind op-163 (asl leg-4) for the single soak host → next-batch at earliest | parent id: id-010 (notify leg-4) + id-025 (regression confirmation) | authored 2026-06-27 (Arranger seat, model Opus 4)
 
 NOTE on numbering: this is the **id-010 leg-4 regression soak** (which must run anyway to close notify truly-green) — NOT the "dedicated cond-3 re-soak" the op-156 merge decision declined. The cond-3 `thr_acts@0x20` watchpoint is folded in as a NON-BLOCKING rider, consistent with that decision (cond-3 observation is a bonus, never a gate).
 
