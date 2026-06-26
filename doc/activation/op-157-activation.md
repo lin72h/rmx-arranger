@@ -27,3 +27,19 @@ OP157_TERMINAL status=0
 PUSH: report the enumeration + per-item verdicts → Fable first-hand check → if PASS joins DS4P (op-158) pass → fix eligible for merge AFTER op-155 corroborates reachability. Do NOT merge. Inspection product only.
 
 CHAIN (id-025): op-156 (fix, Fable-verified sound) → **op-157 (GLM exhaustive)** ∥ op-158 (DS4P falsify) ∥ op-155 (capture, reachability) → all green → merge → notify leg-4 / id-010.
+
+---
+
+## FABLE FIRST-HAND VERDICT (2026-06-26) — op-157 PASS confirmed
+
+Verified GLM's enumeration against the base tree (freebsd-src-official-stable-15; my line numbers, GLM's are the alpha-tree offset — counts identical):
+- **Item 1 PASS** — `grep thread_pool_put_act sys/compat/mach/` = exactly ONE call site outside the definition: `ipc_mqueue.c:813` (GLM's :832). The fix's `thread_pool_get_act(port,0)` drains precisely that pool. Complete.
+- **Item 3 PASS** — real `ip_pset =` writes are 4: `ipc_pset_add` (:266, the sole no-set→set), `ipc_pset_remove` (:289, set→null), `ipc_pset_destroy` (:442, set→null), port init (ipc_port.c:664). The rest are `==` asserts (incl. mach_port.c:964) — GLM correctly excluded them. Only set-entry write is `ipc_pset_add`.
+- **`ipc_pset_add` callers** = exactly 2: ipc_pset.c:340 (branch 2, FIXED) + :371 (branch 4, proven-safe). No external caller.
+- **Items 2 & 4 PASS** — branch-4 cannot hold direct port-pool waiters (port already pset-routed); lock discipline (ip_lock(port)+ips_lock(nset) held) + clean PORT_CHANGED drain (no double-pop) match my op-156 dive.
+
+**op-157 → [Done]** (Fable-verified PASS). Coverage leg of the op-156 gate closed.
+
+## op-156 MERGE GATE STATUS (post op-157/op-158)
+Inspection side CLOSED — all three legs Fable-verified: op-156 (fix sound) + op-157 (coverage PASS) + op-158 (falsification PASS).
+**Residual: op-155 reachability corroboration is the SOLE remaining bar.** Fix does NOT merge and id-025 stays OPEN until op-155 lands a captured thread blocked in ipc_mqueue_receive on a port whose ip_pset != NULL (or reachability is otherwise demonstrated). "A real bug ≠ THE bug."
