@@ -169,3 +169,31 @@ Verified against the committed blob + serial @ `a41c8ce` on `origin/op-122-xpc-p
 - Capture macOS-truth serial; expected: client round-trip COMPLETES (pong + seqid echo + typed echo asserted) where rmxOS BLOCKED. Diff per-case → the li-1008 reply-correlation gap is the headline divergence.
 
 **DISPOSITION:** op-122 → **[Done]** (rx side: plane-live + canonical client SHA + rmxOS reply-correlation truth, Arranger-verified). mx-a64z macOS-truth capture + the final apples-to-apples diff remain the pending downstream consumption → op-122 [Retired] after that diff. mx capture is the same op-122 (authoring split), not a new op.
+
+---
+
+## MACOS-TRUTH DISPATCH BRIEF — mx-a64z (#54b, normal-form, 2026-06-27, Arranger seat, model Opus 4)
+
+role: **Explorer (FREE — mx-a64z / macOS-truth, mm4)** | state: READY dispatch (authorized — CLIENT_SHA released) | parent id-021 (libxpc / li-007) | the macOS-truth half of op-122; runs on mm4, INDEPENDENT of the rmxOS soak host (parallel-OK)
+why: rx side [Done] @ `a41c8ce` found the op-160 plane LIVE but `xpc_dictionary_create_reply` returns NULL on rmxOS → request-reply correlation broken → client `_with_reply_sync` BLOCKED (id-029). macOS-truth on the SAME byte-identical client pins the divergence: macOS is expected to COMPLETE the round-trip. The diff is the conformance finding.
+
+**IGNORE the stale finding markdown** `findings/nx-r64z/20260626-op122-xpc-plane-conformance-rmxos.md` — it documents the OLD rejected run (`com.apple.system.logger`, wrong sha `c54e526`). Use ONLY this brief.
+
+DELIVER:
+1. **pull the canonical client** — `git fetch origin && git checkout a41c8ce` (branch `op-122-xpc-plane`); the client is `findings/nx-r64z/dtrace/xpc-conformance/xpc-harness-plane.c`, sha256 MUST equal `34a9cac9c0f8eba3484defcec5683c619774d873f308349e478d3b3f783e4edd` (verify before building; a mismatch = wrong blob, STOP).
+2. **author the macOS responder LaunchAgent** — registers `com.rmxos.op122.echo` via `MachServices`, replies to the LOCKED CONTRACT using the **`xpc_dictionary_create_reply` contract path** (NOT the rmxOS fresh-dict fallback): `{reply:pong}` + echo `XPC_SEQID` + echo every typed field (string/int64/uint64/bool/array). `launchctl bootout` after.
+3. **build + run the client UNMODIFIED** on macOS (`cc -fblocks -o xpc-harness-plane xpc-harness-plane.c`; macOS has headers at standard paths). Capture stdout → `op122-macos-serial.log`.
+4. **REPORT** the macOS serial + the macOS responder source. Do NOT self-classify the divergence (Arranger diffs); RECORD-don't-assert the cancel→error case.
+
+GATES (apples-to-apples): client byte-identical — run the EXACT `34a9cac9` blob, NO macOS-only edits; if a symbol is rmxOS-absent that absence is the divergence (already cataloged), do NOT branch the client. Responder uses the contract `create_reply` path so the captured truth is "macOS correlated-reply WORKS" (the clean counterpart to rmxOS NULL). Expected macOS result: round-trip COMPLETES — `reply=="pong"` + seqid echo + typed echo all assert PASS where rmxOS BLOCKED.
+
+MARKERS:
+```
+OP122_MACOS_CLIENT_SHA status=0   # built blob sha256 == 34a9cac9… (verified pre-build)
+OP122_MACOS_RESPONDER status=0    # LaunchAgent registers com.rmxos.op122.echo, contract create_reply path
+OP122_MACOS_ROUNDTRIP status=0    # client _with_reply_sync RETURNS: pong + seqid echo + typed echo asserted
+OP122_MACOS_CANCEL_RECORDED       # cancel→error description+code printed (recorded, NOT asserted)
+OP122_TERMINAL status=0
+```
+
+PUSH: same branch `op-122-xpc-plane` (macOS responder + `op122-macos-serial.log`; commit author lin). Report → Arranger-seat first-hand verify the macOS blob sha matches + the round-trip COMPLETED on macOS → Arranger computes the per-case rx-vs-mx diff = the id-029 reply-correlation divergence, quantified → op-122 → [Retired]; id-029 gets its macOS-faithful target behavior.
