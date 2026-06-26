@@ -143,3 +143,25 @@ OP156_TERMINAL      status=0
 ```
 
 PUSH: implementer branch (triage log + merge). Report → Arranger first-hand verify (per-wall base-repro, merge SHA) → id-025 closes (cond-3 residual + leg-4 soak rider documented) → notify leg-4 / id-010 unblocks. The notify leg-4 soak op (when authored) MUST carry the `thr_acts@0x20` precondition rider `.d` (standing directive).
+
+---
+
+## ARRANGER-SEAT VERIFY + TERMINAL RESOLUTION (2026-06-27, model Opus 4) — implementer report VERIFIED FIRST-HAND; op-156 [Done]→[Retired]; id-025 CLOSED
+
+Verified against the source tree + the triage logs — NOT relayed.
+
+**Fix (180d30bdb8c1) — SOUND, present in alpha.** `ipc_pset.c` no-set→set branch now calls `ipc_pset_port_changed(port, MACH_RCV_PORT_CHANGED)` after `ipc_pset_add(nset,port)`; the helper drains the port's own thread pool (`thread_pool_get_act((ipc_object_t)port,0)` = the `thr_acts@0x20` head op-164 identified), sets `ith_state=MACH_RCV_PORT_CHANGED`, `thread_go`. This is exactly the A.4 direct-waiter wake on the no-set→set transition. Merge `3c2dd7f2bb7c` = clean (base `15a6acc` + branch `ae203c5`); fix is an ancestor of `origin/alpha` and present in the alpha tip (grep-confirmed lines 167/345/418).
+
+**Build-wall provenance — VERIFIED pre-existing (per-wall, first-hand from the logs):**
+- LIBC `__iconv_bool`: `buildworld-base-fresh.log:55766` on clean base `15a6acc` (rc=2). PRE-EXISTING.
+- DTRACE `systrace_freebsd32`: `buildkernel-base-fresh:17082` → `freebsd32_systrace_args.c:3658 error: no member named 'rcv_msg' in 'struct mach_msg_overwrite_trap_args'` → `*** [systrace.o] Error code 1` on clean base. PRE-EXISTING. The op-156 buildkernel halts at the IDENTICAL wall (`buildkernel-op156:16870`/`:16927`) — NOT a new wall.
+- KPILITE `thread_lite`: ABSENT from both base and op-156 logs → not reproduced, stale-prefix/tool artifact, NOT op-156-induced.
+- **No error in the mach module / ipc_pset in the op-156 buildkernel** → the touched code builds clean; the build stops only at the pre-existing (separate id-017/018/020 buildworld-track) walls. The mach.ko fix ships as a module (commit note: `sys/modules/mach` builds clean against the alpha object prefix) → a leg-4 soak image can load the patched mach.ko WITHOUT a full buildkernel. The DTRACE wall does NOT block the soak.
+
+**MARKER DISPOSITION (mine):** WALL_LIBC PASS(pre-existing) · WALL_KPILITE PASS(not-induced) · WALL_DTRACE PASS(pre-existing, op-156 halts at same wall) · BUILDKERNEL PASS(walls cited pre-existing, mach module clean) · MERGE_SHA PASS(`3c2dd7f`, fix in alpha tip) · TERMINAL PASS.
+
+**op-156 → [Done] → [Retired].** Deliverable produced + merged + Arranger-verified first-hand.
+
+**id-025 → CLOSED.** Basis: fix sound/covered(op-157)/falsified(op-158) + reachability PROVEN at the necessary condition on live notifyd (op-159) + the fix directly drains the `thr_acts@0x20` head op-164 named. Documented residual: cond-3 (parked receiver AT the transition) is reasoned-sound but NOT yet observed → recovered NON-BLOCKING as the `thr_acts@0x20` rider `.d` on the notify leg-4 soak.
+
+**UNBLOCKS:** notify leg-4 / id-010. The notify leg-4 soak op (next free op-NNN, when authored) MUST: (1) boot an image with the patched mach.ko; (2) carry the `thr_acts@0x20` 3-condition precondition rider `.d` (a clean soak validates the fix = regression confirmation; a 3-condition fire observes cond-3 as a bonus; a freeze recurrence RE-OPENS id-025).
