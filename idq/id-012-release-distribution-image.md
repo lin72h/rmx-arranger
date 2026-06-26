@@ -1,33 +1,46 @@
-# id-012 — release / distribution image: bootable rmxOS USB + ISO (Gate F logistics)
+# id-012 — release / distribution image: bootable rmxOS USB + ISO (li-006 logistics)
 
 - id: id-012
-- state: **Tier 0 ATTEMPTED → op-111 → build CROSSED INTO COMPILE (first time ever), walled at id-020**
-  (2026-06-23). The entire **includes-install arc is COMPLETE+validated**: id-014/op-113 (apple) +
+- state (2026-06-24 update): **next-wall discovery DEFERRED — Coordinator-held pending build-config
+  decisions.** The includes-install arc AND the test-includes self-containment walls are now ALL cleared:
+  id-020 (`__int8_t` under `-ansi`, op-125) + id-022 (`thrworkq __packed`, op-126) both RETIRED, validated
+  by op-111 r4/r5. The build last stopped *at* test-includes; it has never been observed past that stage.
+  An Explorer op to run the next full clean buildworld and surface the wall behind test-includes was
+  drafted (op-132) **but the Coordinator deferred it back to IDQ (2026-06-24)** — does NOT want a vanilla
+  full build yet, intends to first fold in build-configuration changes. **Coordinator's build-config ideas
+  to land BEFORE the next-wall run (capture, not yet decided):** (1) default the build baseline to
+  **x86_64-v3** microarch (AVX2-class ISA floor — a CFLAGS/`CPUTYPE`/`MACHINE_ARCH` baseline change,
+  changes the codegen target for the whole world+kernel); (2) **kernel configuration changes** (KERNCONF —
+  scope TBD by Coordinator). When un-deferred, the next-wall buildworld op MUST carry these as inputs (and
+  still NO llvm-bootstrap skip — id-017 stays Coordinator-deferred during substantiation). Until then the
+  next-wall item is **HELD** (no id opened yet, per don't-fold — wait to see the wall).
+  (Prior, 2026-06-23:) Tier 0 op-111 build CROSSED INTO COMPILE (first time ever); the entire
+  includes-install arc is COMPLETE+validated: id-014/op-113 (apple) +
   id-018/op-115 (9 dirs) + id-019/op-118 (lib dispatch/private/xpc) all retired by clean-build gates.
   The op-111 re-re-retry from `172ed6b` cleared the lib/ includes phase and **entered the world COMPILE
   phase** — the first non-includes wall: `__int8_t…__intmax_t` "unknown type name" under `-ansi`
   (→ **id-020/op-120**, a NEW compile class). Arc down the build: cross-tools → include/ → lib/ includes
   (ALL done) → **world compile (current wall)** → buildkernel → installworld+kernel → make-memstick →
   boot. Each remaining wall its own op. The full-release
-  tier (Tier 1) still waits on usability gates A–E. The dev-preview Tier 0 was fetched into op-111
+  tier (Tier 1) still waits on the usability milestones li-001…li-005. The dev-preview Tier 0 was fetched into op-111
   and hit a hard wall — see "op-111 first-attempt finding" below: **no clean buildworld+buildkernel
   has ever completed for rmxOS**, so step 1 cannot produce a world+kernel to stage. Parked until
   op-113 fixes id-014 (and any further build-path breakage behind it).
   **NB (Arranger decision 2026-06-23, roadmap §1.0-preview, Coordinator-overridable):** this whole
-  item — the *reproducible release pipeline* — is **NOT a 1.0-preview gate**. The preview ships on
-  the proven base+overlay+pre-staged-kernel staging model (op-104). id-012 is **Gate-F hardening run
+  item — the *reproducible release pipeline* — is **NOT a 1.0-preview milestone**. The preview ships on
+  the proven base+overlay+pre-staged-kernel staging model (op-104). id-012 is **li-006 hardening run
   in parallel, post-preview.** So op-111 is no longer preview-critical; it's the start of the
   build-pipeline-substantiation arc.
 - raised: 2026-06-23 (Coordinator: distribution logistics — a FreeBSD-release-style USB image for
   developer-preview / 1.0)
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (reproducible build → stage → boot:
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (reproducible build → stage → boot:
   "a clean checkout builds + boots the guest reproducibly by *someone other than us*"). This is
   that gate's productization.
 - relations: **id-007 / op-104** (provides the *test-guest* boot oracle — but NOT the release
   build/stage path; the test guests use base-image + overlay + pre-staged kernel, a distinct model
   from buildworld→installworld→make-memstick — see the op-111 finding); **id-014/op-113** (the
   first build-path blocker this item is gated on); **id-006/010/011** (the
-  subsystems that must be staged into the image and boot); **Gate C / Phase 0.8 launchd** (the
+  subsystems that must be staged into the image and boot); **li-003 / Phase 0.8 launchd** (the
   image must boot to a launchd-managed userland, not just single-user).
 - lane (when promoted): infrastructure / release-engineering. Not observation-only — produces
   artifacts + a reproducible pipeline; no product *source* semantics change.
@@ -72,10 +85,10 @@ Gatekeeper-reported-first-hand):
   despite no buildworld — **they share the source tree but NOT the build/stage path** this item
   must productize. (Correction to the id-007 relation below, which over-claimed reuse.)
 
-**Consequence:** Gate F is **unsubstantiated** — the `buildworld → installworld → make-memstick →
+**Consequence:** li-006 is **unsubstantiated** — the `buildworld → installworld → make-memstick →
 boot` release path has never run end-to-end. `make-memstick.sh` itself is inherited FreeBSD
 machinery (low risk); the real risk is producing a clean world+kernel to feed it. A make-memstick-
-machinery smoke on a guest-image tree was offered + **declined** (near-zero Gate-F signal; risks a
+machinery smoke on a guest-image tree was offered + **declined** (near-zero li-006 signal; risks a
 misleading "memstick works" artifact). op-111 resumes only after a clean build actually succeeds.
 
 ## Why raise it now (even pre-1.0)
@@ -84,7 +97,7 @@ A **developer-preview USB image** is the first artifact an outside developer can
 it converts "we have a guest we boot in bhyve" into "someone else can `dd` it to a stick and
 boot rmxOS." That is the floor consumer in the roadmap (developer-usable: "build + run
 Darwin-style programs against Mach/dispatch/notify on FreeBSD 15"). Standing the pipeline up early
-also de-risks Gate F: reproducibility/boot bugs surface on a real image long before 1.0, not at
+also de-risks li-006: reproducibility/boot bugs surface on a real image long before 1.0, not at
 the finish line.
 
 ## Scope (when promoted) — two tiers
@@ -99,33 +112,33 @@ the finish line.
 4. Smoke: a Darwin-style sample (a `dispatch_async` + `notify_post` program) builds + runs on the
    booted image. Proves "developer-usable floor" end-to-end.
 
-**Tier 1 — 1.0 release (gated on Gates A–E):**
+**Tier 1 — 1.0 release (gated on li-001…li-005):**
 1. Full `release.sh` run: memstick + ISO + VM images, **installable via `bsdinstall`** to a disk.
-2. Subsystems staged + verified through the **Gate C lifecycle on first boot** (launchd brings up
+2. Subsystems staged + verified through the **li-003 lifecycle on first boot** (launchd brings up
    notifyd/asl/own daemons; they survive restart/reload on real hardware/VM, not a fixture).
-3. **Reproducible-by-a-third-party** (Gate F truly-green): a documented clean-checkout →
+3. **Reproducible-by-a-third-party** (li-006 truly-green): a documented clean-checkout →
    build → image → boot path that someone *other than us* can run and get a byte-comparable (or
    behavior-comparable) bootable image. Capture the non-reproducible points (timestamps, build
    host state) and pin them — mirrors the op-108 "kernel builds aren't byte-reproducible" lesson:
    define what "reproducible" means concretely (bit-identical vs boot-behavior-identical).
-4. Release notes + the Gate E known-gaps backlog shipped *with* the image (1.0 ships with its
+4. Release notes + the li-005 known-gaps backlog shipped *with* the image (1.0 ships with its
    cataloged gaps).
 
 **Out:** the subsystem conformance work itself (id-006/010/011 — this *consumes* their green,
 doesn't do it); non-amd64 arches (arm64 etc. — FreeBSD confs exist but rmxOS targets amd64 first);
 package repo / pkg(8) distribution (separate logistics item if wanted).
 
-## Truly-green criterion (what "Gate F passed" must mean)
+## Truly-green criterion (what "li-006 passed" must mean)
 
 - a clean checkout builds world+kernel (Darwin userland + `mach.ko`) with no manual fixups;
 - `make-memstick.sh`/`release.sh` produces a bootable amd64 image carrying it;
 - the image boots to a launchd-managed userland on the guest (build→stage→boot is a button, the
   id-007 boot oracle confirms it);
-- **a third party reproduces it** from the documented path — the defining Gate F bar, not us
+- **a third party reproduces it** from the documented path — the defining li-006 bar, not us
   re-running our own script.
 
 ## Open decisions (Coordinator-held, at fetch)
-- target: cut a **developer-preview USB now** (Tier 0, de-risks Gate F early), or hold all of it
+- target: cut a **developer-preview USB now** (Tier 0, de-risks li-006 early), or hold all of it
   for 1.0?
 - reproducibility bar: **bit-identical** image (hard — timestamps, build-host state) vs
   **boot-behavior-identical** (pragmatic — same artifacts, same boot result). Lean

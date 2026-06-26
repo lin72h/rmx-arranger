@@ -2,7 +2,7 @@
 
 - id: id-008
 - state: **WAITING (pending)** — the big-ticket half depends on the kernel substrate (id-001
-  kevent64 + a QoS policy engine), which is behind a Coordinator A-vs-B strategy gate. A
+  kevent64 + a QoS policy engine), which is behind a Coordinator A-vs-B strategy decision. A
   cheaper userland-only sub-item (per-QoS `rtprio_thread` ordering, see Scope) is fetchable
   independently.
 - research note (2026-06-23): this file folds a first-hand QoS investigation (provenance of the
@@ -10,7 +10,7 @@
   cheap `rtprio_thread` route). It corrects a prior "4-band **priority**" assumption — see
   **Provenance** + **Correction** below. Captured as research; not fetched.
 - raised: 2026-06-23 (from the QoS first-hand audit + swift-corelibs Linux comparison)
-- roadmap parent: [roadmap.md](../roadmap.md) — Layer-3 QoS fidelity; relates to Gate B
+- roadmap parent: [roadmap.md](../roadmap.md) — Layer-3 QoS fidelity; relates to li-002
   (Darwin parity) and the "explicitly NOT 1.0 / future kernel track" arc.
 - relations: **id-001** (kevent64 — the unlock for `kevent_qos`/workloops), **id-002**
   (QoS-attr `UNSPECIFIED` Darwin parity, userland), **id-004** (non-NORMAL-QoS timer fflags).

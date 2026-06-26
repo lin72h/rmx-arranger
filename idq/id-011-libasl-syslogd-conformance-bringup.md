@@ -1,17 +1,44 @@
-# id-011 — libasl + syslogd/aslmanager: conformance bring-up (Gate B next rung, Gate C real-service)
+# id-011 — libasl + syslogd/aslmanager: conformance bring-up (li-002 next rung, li-003 real-service)
 
 - id: id-011
-- state: **CONFORMANCE LEG GREEN — verified apples-to-apples MATCH 9/9 (op-116-cont re-run,
-  `8750b46` rx + `e4ed87d` mx), 2026-06-23 → truly-green legs (full Gate-C lifecycle + leg-4 soak)
+- state: **LEG-1 (LIFECYCLE) GREEN — VALIDATED 2026-06-25 (op-146, rmx-gatekeeper, Arranger-verified
+  first-hand @ 864a107).** Independent Gatekeeper guest-run drove the Apple `asld` through the full 7-rung
+  launchd lifecycle (load→start→observe→restart→remove→reload), Elixir-spine + Zig/metal-probe asserted:
+  3 distinct asld PIDs (A=969/B=971/C=fresh), launchd→asld→asl round-trip PASS at observe/restart/reload,
+  no SIGSEGV/signal-11/Fatal-trap (id-024 startup-crash path did NOT fire under lifecycle stress). op-146 +
+  op-124 RETIRED. **Leg status now: leg-3 conformance-MATCH 9/9 GREEN (below) + leg-1 lifecycle GREEN; legs
+  2 (traced matrix) + 4 (hours-scale soak) RESERVED depth-first** (asl is the stronger soak subject —
+  higher volume + on-disk store). NB the direct kernel no-SIGSEGV probe was un-observable this run (my
+  op-146 brief specified a userspace rtld symbol `dl_init_phdr_info` to kernel fbt — defect recorded on
+  op-146); leg-2/leg-4 re-runs use `fbt::sigexit`/`proc:::signal-clear` on the asld PID instead.
+
+  Prior: **CONFORMANCE LEG GREEN — verified apples-to-apples MATCH 9/9 (op-116-cont re-run,
+  `8750b46` rx + `e4ed87d` mx), 2026-06-23 → truly-green legs (full li-003 lifecycle + leg-4 soak)
   FETCHED → op-124 (Gatekeeper), 2026-06-24.** Coordinator depth-first directive: make notify + asl
-  *solid* before opening libxpc (id-021 held). op-124 = Gatekeeper on the op-104 soak-guest, QUEUED
+  *solid* before opening libxpc (id-021 held). **op-133 DONE/RETIRED (`d2c5f40`, Explorer,
+  Arranger-verified first-hand 2026-06-24):** authored the 3 canonical asl harnesses under
+  `rmx-explorer/scripts/asl/` mirroring the op-129/op-131 notify template — `asld-lifecycle-harness.sh`
+  (full D23 spine load→start→observe→restart→remove→reload + asl_search round-trip at observe/reload),
+  `asld-soak-driver.sh` (sustained asl_log/asl_search churn via the launchd-child runner),
+  `asld-soak-oracle.d` (pure-fbt invariant oracle: msg/port/kmsg/mqueue balance + aslmanager-reclaim
+  watch + tick-60s port-slope). op-131 lessons baked in (round-trips via `/root/run-as-launchd-job.sh`;
+  shell-isolated harness; `pgrep -x`). So op-124 is now **execution-only** (run these on the op-104
+  guest), NOT author-and-validate. **TWO carry-forward flags op-124 MUST handle (Arranger, first-hand):**
+  (i) **daemon-identity** — the harness keys on `pgrep -x syslogd`; base FreeBSD ALSO ships
+  `/usr/sbin/syslogd` and rc starts a `syslogd` at boot (seen in the op-128 step-3 serial). op-124 must
+  confirm first-hand the matched process is the **Apple asld** (answers `com.apple.system.logger` Mach
+  bootstrap; overlay provenance) and that no base syslogd confounds the match — else lifecycle
+  kill/restart/remove tests the wrong daemon + paper-greens; (ii) **staging dep** — `do_roundtrip`
+  invokes `/root/asl-harness` (compiled ASL client, expects `asl_search_roundtrip: PASS`), not yet
+  shipped; op-124 host-cross-compiles + stages it on the guest (Path-B pattern) and confirms the marker.
+  op-124 = Gatekeeper on the op-104 soak-guest, QUEUED
   AFTER op-123 (single Gatekeeper host; notify-soak first, asl-soak second — asl is the higher-volume
   stronger soak subject): (a) drive the Apple ASL `asld` through the FULL D23 launchd lifecycle
   (load→start→observe→**restart→reload**; only load+start@rc=0 confirmed at conformance time);
   (b) leg-4 invariant oracle over an hours-scale high-volume soak — msg send/recv balance, no leaked
   Mach ports, store growth bounded + aslmanager reclaims, no stuck enqueue, fbt + filesystem assertions
   (no USDT → pid/fbt + op-099 anchor + the store-write FS dimension). Soak = Gatekeeper. Soak leg (4)
-  + full Gate-C lifecycle = future. The
+  + full li-003 lifecycle = future. The
   asl_search contamination is RESOLVED: re-run on a single byte-identical harness (git blob
   `34775198d35eab94e09b69a6373beaebc40fc31d`, Arranger-verified identical at both commits via
   `git ls-tree`) — count>0 `asl_next` loop restored, void asl_close fix kept. **Both matrices
@@ -24,7 +51,7 @@
   - **No confirmed API divergence in asl** (asl_close void both `asl.h:376`; asl_next/aslresponse_next
     `asl_object_t` both `asl.h:1016`/`:733`). The two earlier "divergences" were both harness/claim
     artifacts, not platform gaps.
-  - **Gate-C lifecycle (partial, confirmed at run):** Apple ASL syslogd (`asld`) **loaded + started
+  - **li-003 lifecycle (partial, confirmed at run):** Apple ASL syslogd (`asld`) **loaded + started
     under launchd** (SYSLOG_LOAD/START rc=0) and libasl reached it via Mach **bootstrap**
     (`com.apple.system.logger`, probe-child path) — asl is the 2nd service-client proven over the
     id-016 bootstrap path (after notify). Full lifecycle (restart/reload/observe) + soak = future op.
@@ -89,13 +116,13 @@
   half** (op-117, mx-a64z) issues once the harness is authored + pushed (it depends on the harness,
   like op-112 did for notify). Soak leg (4) = separate future Gatekeeper op.
   **NB:** asl is **post-preview-floor** (preview floor = Mach/dispatch/notify+image); this is
-  parallel Gate-B breadth on the free Explorer, NOT preview-critical — Coordinator-holdable.
-- raised: 2026-06-23 (roadmap Gate B "notifyd/asl — next rung")
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate B** (layer working + conformance-matched)
-  and a named **Gate C** real service (launchd driving the Apple syslogd, not a fixture).
+  parallel li-002 breadth on the free Explorer, NOT preview-critical — Coordinator-holdable.
+- raised: 2026-06-23 (roadmap li-002 "notifyd/asl — next rung")
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-002** (layer working + conformance-matched)
+  and a named **li-003** real service (launchd driving the Apple syslogd, not a fixture).
 - relations: **id-006** (template); **id-010** (sibling — fetch ordering decided together);
   **id-009/op-107** (shares the mach-ipc substrate — UAF fix benefits this port-churning layer
-  too); **Gate C / Phase 0.8 launchd**.
+  too); **li-003 / Phase 0.8 launchd**.
 - lane (when promoted): evidence-lane + parity-lane (dual-explorer), userland; observation-first.
 
 ## What exists in the tree (first-hand, 2026-06-23)
@@ -109,7 +136,7 @@ than libnotify:
   `asl_object.c`) — rides the libdispatch + mach-ipc substrate.
 - **daemon(s):** `usr.sbin/asl/{syslogd.c, com.apple.syslogd.plist, syslogd.sb (sandbox profile),
   syslogd.8}` — the **Apple ASL syslogd**, distinct from FreeBSD's stock `usr.sbin/syslogd`.
-  Launchd plist present (`com.apple.syslogd`) → Gate-C-shaped. Plus `usr.sbin/aslmanager/`
+  Launchd plist present (`com.apple.syslogd`) → li-003-shaped. Plus `usr.sbin/aslmanager/`
   (log rotation/retention daemon).
 
 Note the **two-syslogd** situation: Apple `usr.sbin/asl/syslogd` vs stock `usr.sbin/syslogd`
@@ -119,8 +146,8 @@ first-hand at fetch (and a conformance subtlety — macOS truth is the ASL syslo
 ## Why this rung (sibling to id-010)
 
 ASL is the **log-path** Darwin daemon — higher message volume than notifyd, with on-disk store
-(`asl_file`/`asl_store`) and a retention manager (aslmanager). It exercises the same Gate B +
-Gate C shape as notifyd but stresses **sustained throughput + persistence**, making it a stronger
+(`asl_file`/`asl_store`) and a retention manager (aslmanager). It exercises the same li-002 +
+li-003 shape as notifyd but stresses **sustained throughput + persistence**, making it a stronger
 soak subject. Same substrate (Mach + dispatch) already proven; new surface = the ASL message
 protocol, store format, and query path.
 
@@ -133,7 +160,7 @@ dimension (store writes/rotation) the oracle must watch alongside the IPC balanc
 ## Scope (when promoted) — copies the id-006 template
 
 **In:**
-1. **Bring-up:** the Apple ASL syslogd loads + stays up under launchd (Gate C lifecycle spine);
+1. **Bring-up:** the Apple ASL syslogd loads + stays up under launchd (li-003 lifecycle spine);
    resolve the two-syslogd ownership question.
 2. **Functional matrix:** `asl_new`/`asl_log`/`asl_send`, key/value messages, level filtering,
    `asl_search`/query, file store write + read-back, aslmanager rotation. Client + daemon paths.
@@ -146,9 +173,9 @@ dimension (store writes/rotation) the oracle must watch alongside the IPC balanc
 **Out:** product source edits (observation-first; defects ladder to fix ops); libnotify (id-010);
 libxpc (long-pole last task, not yet raised).
 
-## Truly-green criterion (what "asl Gate B passed" must mean)
+## Truly-green criterion (what "asl li-002 passed" must mean)
 
-- the ASL syslogd loads + survives the full launchd lifecycle on the guest (Gate C);
+- the ASL syslogd loads + survives the full launchd lifecycle on the guest (li-003);
 - functional matrix green + traced (fbt, not exit-code-only), including store write/read-back;
 - conformance diff vs a *current* macOS ASL run — no semantic mismatch on message/store/query
   (or each laddered);

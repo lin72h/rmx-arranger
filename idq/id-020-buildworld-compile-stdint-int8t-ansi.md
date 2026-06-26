@@ -1,14 +1,21 @@
 # id-020 — clean-buildworld COMPILE phase fails: `__int8_t…__intmax_t` "unknown type name" under `-ansi`
 
 - id: id-020
-- state: **op-120 DONE (root cause PINNED) → op-125 DONE (fix applied, commit `efc8cb1f7c0b`,
-  Arranger-verified) → validation FETCHED → op-111 re-re-re-retry (Gatekeeper clean build), 2026-06-24.**
-  Fix is in but UNPROVEN — id-020 retires only when the Gatekeeper's clean buildworld clears the
-  `test-includes` stage (truly-green bar, NOT a targeted single-header compile). op-125 verified
-  first-hand: exactly one insertion (`#include <sys/_types.h>` before `<sys/_stdint.h>` at thrworkq.h:10,
-  after the include guard); base `_types.h`/`_stdint.h` + `-ansi` untouched — matches the op-120 spec.
-  op-120 (Gatekeeper, free) cleanly pinned the defect; my correction held and BOTH Gatekeeper hypotheses
-  were disproven first-hand.
+- state: **RETIRED 2026-06-24 (scoped defect resolved + validated first-hand).** op-120 DONE (root
+  cause PINNED) → op-125 DONE (fix applied, commit `efc8cb1f7c0b`) → op-111 r4 (Gatekeeper clean build
+  from `efc8cb1f`) **VALIDATED the fix first-hand: zero `__int8_t`/`_stdint.h:34` occurrences** — the
+  `_types.h`-before-`_stdint.h` insertion worked exactly as designed. id-020's specific defect (the
+  `__int8_t` "unknown type name" under `-ansi`) is closed.
+  - **test-includes does NOT yet fully clear thrworkq.h** — op-111 r4 surfaced a *second, distinct*
+    self-containedness defect at **thrworkq.h:93** (`__packed` redefinition; the header uses `__packed`
+    from `cdefs.h:153` without `#include <sys/cdefs.h>`). It was masked by the `__int8_t` error in all
+    prior runs. Per the **don't-fold rule** (different line, different missing include) this is a new
+    item → **[id-022](id-022-thrworkq-self-containment-cdefs.md)**, NOT a re-open of id-020. The Gatekeeper
+    validated the rc=2 first-hand (r4retry-make.rc, log tailed before reporting — op-111 lesson honored).
+  - op-125 verified first-hand: exactly one insertion (`#include <sys/_types.h>` before `<sys/_stdint.h>`
+    at thrworkq.h:10, after the include guard); base `_types.h`/`_stdint.h` + `-ansi` untouched — matches
+    the op-120 spec. op-120 (Gatekeeper, free) cleanly pinned the defect; my correction held and BOTH
+    Gatekeeper hypotheses were disproven first-hand.
   - **NOT a compile-class "world COMPILE" wall after all — it is a `test-includes` self-containment
     failure** (an earlier stage than world compile). The base `tools/build/test-includes` tool compiles
     each installed header *standalone under `-ansi`* (Makefile:27, C89-cleanliness check, base FreeBSD,
@@ -28,7 +35,7 @@
 - raised: 2026-06-23 — surfaced by the **op-111 re-re-retry** (Gatekeeper clean build from
   `172ed6bcbbc0`). id-019 VALIDATED (lib/ includes cleared), the build **crossed into the compile
   phase for the first time ever**, and walled at a compile error.
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (clean build → stage → boot). Build-path
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (clean build → stage → boot). Build-path
   substantiation; the first non-includes wall.
 - relations: **id-014/op-113 + id-018/op-115 + id-019/op-118** (the three *prior* includes-install
   walls — all RETIRED; this is a DIFFERENT class: world COMPILE, not header-install — not folded,

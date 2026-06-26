@@ -5,12 +5,12 @@
   surfaced when op-102 deliverable 3 could not run the 2h soak (bounded ~180s run pattern only).
   op-104 built + proved it. op-105 (the actual 2h soak + port-balance iteration-delta) wakes.
 - raised: 2026-06-23 (op-102 soak deliverable; referenced by op-104 at dispatch)
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate D prerequisite.** Reusable across every
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-004 prerequisite.** Reusable across every
   soak (libdispatch, notifyd, asl, integration), so it earns its own line, not burial in op-102.
 
 ## The gap
 
-The standard run harness is a bounded one-shot (~180s). Gate D (integration soak) and the
+The standard run harness is a bounded one-shot (~180s). li-004 (integration soak) and the
 op-102/id-006 libdispatch soak need a guest that **boots and loops the harness for hours** with
 the invariant-oracle DTrace scripts **attached continuously** (aggregations surviving to END,
 exit code captured).

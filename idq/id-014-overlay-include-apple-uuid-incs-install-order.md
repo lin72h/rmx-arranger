@@ -1,4 +1,4 @@
-# id-014 — rmxOS overlay `include/apple/uuid` includes-install order breakage (Gate-F clean-build blocker)
+# id-014 — rmxOS overlay `include/apple/uuid` includes-install order breakage (li-006 clean-build blocker)
 
 - id: id-014
 - state: **RETIRED — op-113 fix VALIDATED by the op-111 retry (2026-06-23).** The clean build from
@@ -13,7 +13,7 @@
   id-014 = the apple/uuid dir (closed); id-018 = arm/gen/i386/libkern/mach/os/pthread/servers.
 - raised: 2026-06-23 — discovered by op-111 (id-012 Tier 0 clean-build de-risk); first-hand
   verified by the Arranger in product source at e101f9c (the two Makefiles below).
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (reproducible build / stage / boot).
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (reproducible build / stage / boot).
   A clean checkout currently does **not** build → directly blocks "boot is a button, not a ritual."
 - relations: surfaced by **id-012/op-111** (the image/boot de-risk); blocks op-111 steps 2-4
   (memstick → boot → repro) on a *clean* e101f9c build.

@@ -14,7 +14,7 @@
   stage-4.1 includes phase then walled at `include/gen` (`_INCSINS` Error code 71) — the same class
   as id-014, a different dir. Census found **8 source include/ subdirs absent from the mtree** that
   will each fail installincludes the same way.
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (clean build → stage → boot). Build-path
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (clean build → stage → boot). Build-path
   substantiation; no product semantics, but see the mach/ note below.
 - relations: **id-014/op-113** (the *first* dir of this same defect class — apple/uuid; this is the
   remainder, deliberately NOT folded in per the don't-fold rule); **id-012/op-111** (the clean-build

@@ -9,8 +9,8 @@
   remain cataloged as not-yet-covered (consistent across all 3 legs) → pass-2 op, not a id-006 gap.
   This file is now the **template** the id-010/id-011 (notifyd/asl) harnesses copy.
 - raised: 2026-06-23
-- roadmap parent: [roadmap.md](../roadmap.md) — exercises **Gate A** (invariants) + **Gate B**
-  (libdispatch conformance) and **seeds Gate D** (soak). It is the first place we *define*
+- roadmap parent: [roadmap.md](../roadmap.md) — exercises **li-001** (invariants) + **li-002**
+  (libdispatch conformance) and **seeds li-004** (soak). It is the first place we *define*
   truly-green concretely, then reuse the pattern for notifyd/asl/libxpc.
 - lane (when promoted): evidence-lane + parity-lane (dual-explorer conformance), libdispatch
   userland; observation-only (no product source edits).
@@ -38,7 +38,7 @@ exit-code-proven on a primitive surface (op-098 `op098_t2_fails=0`; op-101 `disp
 **Out:** product source edits (observation-only); the SDT typed-arg probes (separate RESTRICTED
 IDQ item); notifyd/asl/libxpc harnesses (this is the template they copy, fetched separately).
 
-## Truly-green criterion (what "Gate B/libdispatch passed" must mean)
+## Truly-green criterion (what "li-002/libdispatch passed" must mean)
 
 - functional matrix runs green on the rmxOS guest (not exit-code-only — traced);
 - conformance diff vs a *current* macOS run shows no semantic mismatch on the matrix (or each

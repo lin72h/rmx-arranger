@@ -96,7 +96,7 @@ the least-intrusive path (consistent with `donor > XNU-ref > local`).
   kernel track.
 - **Future kernel track:** `id-001` (kevent64) + `id-003` (`filt_machport`) are the
   substrate that closes `dispatch_source` MACH_RECV parity and unlocks
-  `kevent_qos`/workloops later. Coordinator-held strategy gates (A-vs-B, placement)
+  `kevent_qos`/workloops later. Coordinator-held strategy decisions (A-vs-B, placement)
   before promotion.
 - libdispatch is the consumer that integration-tests Mach IPC + kqueue and the
   layer libxpc/notifyd/launchd/Swift-concurrency all bind to — its C/ABI surface
@@ -116,4 +116,4 @@ edits.
 - op-093 fix verification: confirm root-cause (a) first-hand from the trace before
   Validators; strip the `OP093_T` dprintf diagnostics before the final commit.
 - Whether to catalog the non-NORMAL-QoS timer fflag gap as `id-004` (Coordinator).
-- id-001/id-003 placement + A-vs-B strategy gate (kernel track promotion).
+- id-001/id-003 placement + A-vs-B strategy decision (kernel track promotion).

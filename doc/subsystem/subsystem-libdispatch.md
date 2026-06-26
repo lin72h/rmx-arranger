@@ -110,7 +110,7 @@ localized port defects in the base we have is the least-intrusive path (consiste
   fflags, latent), id-005 (semaphore 1ms poll, hardening).
 - **Future kernel track:** `id-001` (kevent64) is the remaining substrate that unlocks
   `kevent_qos`/workloops later. (id-003 `filt_machport` is no longer part of this track — the
-  filter already exists via `mach.ko`.) Coordinator-held strategy gates (A-vs-B) before promotion.
+  filter already exists via `mach.ko`.) Coordinator-held strategy decisions (A-vs-B) before promotion.
 - libdispatch is the consumer that integration-tests Mach IPC + kqueue and the layer
   libxpc/notifyd/launchd/Swift-concurrency bind to — its C/ABI surface must stay STABLE.
 

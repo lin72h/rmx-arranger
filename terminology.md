@@ -123,17 +123,30 @@ pipeline IS a superscalar out-of-order machine.
 | Term | Meaning | Was |
 |---|---|---|
 | **op-NNN** | a unit of work (a micro-operation / uop). Zero-padded, sequential project-wide, never reused. | `block-NNN` (renamed — "block" collided with "blocking") |
+| **op-NNNm** | the **only** legal op-id variant: the `m` suffix marks the **op-147m method** form of an op. No other suffix exists. | — |
 | **issue** | the Arranger creates + dispatches an op to a pipeline. | "dispatch" / "create the block" |
 | **multi-issue** | issue several ops at once → they execute on different pipelines in parallel. | — |
 | **pipeline** | an execution lane = an agent (Implementer, Explorer, Validators, Gatekeeper). | — |
 | **retire** | the op is done — validated/accepted, results committed. | "accept" / "done" |
-| **in-flight** | issued but not yet retired. | — |
+| **in-flight** | issued but not yet retired. (OoO concept; the ROB display tag for this state is **`[Exe]`** — renamed `[In-flight]` → `[Air]` → `[Exe]` 2026-06-26.) | — |
 
 **Out-of-order:** issued ops execute on different pipelines and may **retire out of issue
 order.** The Arranger = the issue unit + retirement tracking (the reorder buffer); on a
 Validator conflict or sub-threshold confidence it also acts as Arbiter. The Arranger surfaces
 the live in-flight set as a **ROB** list at the end of each op reply — see
 [rob-mini-format.md](rob-mini-format.md).
+
+**Op-id form (Coordinator 2026-06-26):** an op id is `op-NNN`, optionally with the single
+suffix `m` (`op-147m`). **No compound / continuation ids** — never `op-151-cont`, `op-151-2`,
+`op-151a`. Follow-on or redo work always takes the **next free `op-NNN`**, never a decorated
+version of the original.
+
+**`[Flushed]` op state (Coordinator 2026-06-26):** when an op **does not work out** (fails,
+dead-ends, or was mis-scoped), mark it `[Flushed]` and **re-issue the work under a brand-new
+`op-NNN`** — the flushed op id is closed, not continued. (CPU analogy: a mis-speculated uop is
+*flushed* from the pipeline; the re-fetch gets a fresh slot.) Distinct from `[Done]`: an op that
+delivered its primary objective is `[Done]` even when a follow-on is needed (the follow-on is its
+own new op number). Full ROB status vocabulary lives in [rob-mini-format.md](rob-mini-format.md).
 
 **Work hierarchy (abstraction tiers): `L1i → IDQ → ROB`** — the CPU instruction path,
 most-abstract to most-concrete. Each tier has an architectural name (primary) and a friendly
@@ -142,14 +155,30 @@ backlog→**IDQ**/`id-NNN`; op→**ROB**/`op-NNN` unchanged.)
 
 | Tier (alias) | Artifact | Meaning | OoO analogy |
 |---|---|---|---|
-| **L1i** (roadmap) | `li-NNN` ([roadmap.md](roadmap.md)) | most abstract — *what usable 1.0 means and in what order* (the gate ladder A–F = `li-001`…`li-006`, the arcs). Durable; rarely changes. | the program resident in the L1 instruction cache, before fetch |
-| **IDQ** (backlog) | `id-NNN` ([idq/id-000.md](idq/id-000.md)) | **pending** — decoded from an L1i gate, queued; identified but **not yet fetched** into flight. Concrete enough to fetch. | decoded uops in the instruction-decode queue, awaiting fetch/issue |
+| **L1i** (roadmap) | `li-NNN` ([roadmap.md](roadmap.md)) | most abstract — *what usable 1.0 means and in what order* (the milestone ladder `li-001`…`li-006`, the arcs). Durable; rarely changes. | the program resident in the L1 instruction cache, before fetch |
+| **IDQ** (backlog) | `id-NNN` ([idq/id-000.md](idq/id-000.md)) | **pending** — decoded from an L1i instruction, queued; identified but **not yet fetched** into flight. Concrete enough to fetch. | decoded uops in the instruction-decode queue, awaiting fetch/issue |
 | **ROB** (op) | `op-NNN` (§6 above) | **in-flight** — fetched → issued; owned by a pipeline; executes → retires. | a uop in the reorder buffer |
 
-**Promotion chain:** an **L1i** gate (`li-NNN`) is **decoded** into one or more **IDQ** items
+**Promotion chain:** an **L1i** instruction (`li-NNN`) is **decoded** into one or more **IDQ** items
 (`id-NNN`); an IDQ item is **fetched** into one or more **ROB** entries (`op-NNN`). Promotion =
 fetch (the same word the IDQ uses; state `FETCHED → op-NNN`). Direction of detail: L1i =
 why/what-order · IDQ = what (pending) · ROB = how (now).
+
+**L1i numbering — milestone-grouped 4-digit `li-MNNN` (expanded 2026-06-25):** the leading digit
+**M** = the **milestone number**; **NNN** = the instruction within that milestone. **`li-M000`** is
+the special **milestone-INDEX** entry (names what the milestone means + lists its constituents);
+**`li-M001 … li-M999`** are its constituent instructions. Milestones: **M=1 = 1.0-preview**
+(index [l1i/li-1000.md](l1i/li-1000.md)); M=2 = full service-usable 1.0 (reserved); M=9 =
+infrastructure/long-arc (reserved). **Filenames are number-only — `l1i/li-NNNN.md`** (no descriptive
+suffix); `l1i/li-X000.md` is implicitly the index for `li-X001…li-X999`. The original flat
+`li-001…li-008` are being migrated under this scheme (mapping in li-1000); the standalone
+`l1i/li-007`/`li-008` files stand as li-1005/li-1006 detail until physically renamed.
+
+**Retirement:** "usable 1.0" = all six **L1i** milestones (`li-001`…`li-006`) **retired**. An `li-NNN`
+retires when its **truly-green** criterion holds (first-hand evidence, overclaim-strict) — the same
+in-order retirement an instruction undergoes once its uops complete. (We dropped the earlier "Gate
+A–F" naming 2026-06-24: the milestones *are* the `li-NNN`, and "pass a gate" → "retire an `li-NNN`".
+The lowercase verb "gated on X" = blocked-by-X is kept; so is the **Gatekeeper** role.)
 
 **Pipelines (which agent runs what):**
 - **Explorer** pipeline — discovery (macOS-parity).

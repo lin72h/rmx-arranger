@@ -33,8 +33,8 @@ Caveat: **sound-on-inspection ≠ race-proven.** Smoke found NO bounded repro on
 image (120s ran clean, matching op-104) — so the 120s smoke cannot confirm the fix; only op-108's
 2h soak (the config that hit it on iter 1) can. Unfixed-image serial: `87c86c0a…`; fixed mach.ko
 sha256 `7c8a710d…`.
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate A (mach-ipc invariants) blocker** and a
-  hard blocker on the libdispatch Gate-D soak (id-006/id-007). A kernel UAF under sustained
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-001 (mach-ipc invariants) blocker** and a
+  hard blocker on the libdispatch li-004 soak (id-006/id-007). A kernel UAF under sustained
   dispatch load is exactly the class of defect "service-usable 1.0" cannot ship with.
 - relations: **op-098** (proved the `filt_machport` kqueue path for a *single* MACH_RECV
   round-trip — the bug is under *concurrent create/destroy churn*, not the basic path);

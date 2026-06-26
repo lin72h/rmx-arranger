@@ -8,9 +8,9 @@
 - raised: 2026-06-23 — observed during op-111 retry: a clean `buildworld` spends most of its wall
   time in stage-3 cross-tools compiling in-tree LLVM/clang (~2,600+ `.o`, all cores saturated),
   before any rmxOS-specific work (includes / Darwin overlay / `mach.ko` / kernel) even starts.
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (build pipeline). Pure build-efficiency;
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (build pipeline). Pure build-efficiency;
   no product semantics.
-- relations: **id-012** (Gate-F reproducibility — see the tension below); **id-014/op-111** (the
+- relations: **id-012** (li-006 reproducibility — see the tension below); **id-014/op-111** (the
   build that surfaced the cost).
 
 ## The cost + the knobs
@@ -28,18 +28,18 @@ fast. Knobs to skip it (the build host is FreeBSD 15 with a compatible base clan
 ## The tension (why this is deferred, not declined)
 
 Two modes, and the right one differs by purpose:
-- **Canonical Gate-F reproducibility** *wants* the in-tree toolchain bootstrap — "a third party
+- **Canonical li-006 reproducibility** *wants* the in-tree toolchain bootstrap — "a third party
   builds from a clean checkout" is more honestly reproducible when it doesn't lean on the host's
-  clang version. So the canonical Gate-F truly-green build should keep building the toolchain.
+  clang version. So the canonical li-006 truly-green build should keep building the toolchain.
 - **Dev iteration** (expected: many retries while clearing build walls) does NOT want to recompile
   LLVM every retry — the de-risk target is the overlay/kernel, not LLVM.
 
 So when fetched, this is **not** "always skip LLVM" — it's "skip for iteration builds, keep one
-canonical from-scratch toolchain build for the Gate-F record." Short-term decision (2026-06-23):
+canonical from-scratch toolchain build for the li-006 record." Short-term decision (2026-06-23):
 **compile everything; don't optimize yet.**
 
 ## Truly-green criterion (if/when fetched)
 
 - an iteration-mode build (host/packaged toolchain) produces a world+kernel functionally identical
   to the canonical from-scratch build for the rmxOS overlay/kernel surface, at a fraction of the
-  wall time — with the canonical-toolchain build retained as the Gate-F reproducibility baseline.
+  wall time — with the canonical-toolchain build retained as the li-006 reproducibility baseline.

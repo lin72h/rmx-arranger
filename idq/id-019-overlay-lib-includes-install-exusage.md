@@ -36,7 +36,7 @@
   VALIDATED first-hand (entire `include/` subtree cleared, all 9 mtree dirs created, 0 `_INCSINS`
   Error 71) — the build then progressed into `lib/` and walled at **`lib/libdispatch` installincludes
   with install EX_USAGE (Error code 64)** — a malformed install invocation, NOT dir-not-found.
-- roadmap parent: [roadmap.md](../roadmap.md) — **Gate F** (clean build → stage → boot). Build-path
+- roadmap parent: [roadmap.md](../roadmap.md) — **li-006** (clean build → stage → boot). Build-path
   substantiation; the lib's headers are the libdispatch/libxpc public+private API surface.
 - relations: **id-014/op-113** + **id-018/op-115** (the two *prior* includes walls — but a DIFFERENT
   class: those were missing `etc/mtree/BSD.include.dist` dir skeletons; this is a `lib/*/Makefile`

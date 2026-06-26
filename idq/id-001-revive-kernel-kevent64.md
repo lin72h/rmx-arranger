@@ -2,7 +2,7 @@
 
 - id: id-001
 - state: WAITING (not fetched into the IDQ/ROB; pre-issue) — waits on the two
-  Coordinator decisions below (strategy gate A-vs-B; placement). Recommended fetch
+  Coordinator decisions below (strategy decision A-vs-B; placement). Recommended fetch
   *after* op-091 closes. See index: `id-000.md`.
 - raised: 2026-06-22 (Coordinator: "it's part of NextBSD, we will revive that")
 - lane (when promoted): evidence-lane, kernel-side (`freebsd-src` rmx worktree)

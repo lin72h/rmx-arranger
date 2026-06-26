@@ -2,13 +2,13 @@
 
 - id: id-013
 - state: **WAITING (future)** — not blocking 1.0. soak-testing (the endurance tier) is proven and
-  carries Gate A/D today (op-108). chaos-testing is an **additive hardening discipline** layered on
+  carries li-001/D today (op-108). chaos-testing is an **additive hardening discipline** layered on
   later; fetch when the Coordinator decides to invest. No precondition beyond the soak rig existing
   (it does — id-006/id-007), which chaos-testing extends.
 - raised: 2026-06-23 (Coordinator: "okay to use soak-testing and future add chaos-testing to our
   full testing strategy")
-- roadmap parent: [roadmap.md](../roadmap.md) — hardening of **Gate A** (mach-ipc invariants) and
-  **Gate D** (integration soak). Sharpens those gates from "survives natural churn" to "survives
+- roadmap parent: [roadmap.md](../roadmap.md) — hardening of **li-001** (mach-ipc invariants) and
+  **li-004** (integration soak). Sharpens those gates from "survives natural churn" to "survives
   *injected* adversity"; not a new gate.
 - term: defined in [terminology.md](../terminology.md) §8 — soak-testing (have) vs chaos-testing
   (this, future). **Distinct test type, not a soak rename.**
