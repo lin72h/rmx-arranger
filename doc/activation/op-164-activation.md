@@ -1,6 +1,25 @@
 # op-164 — Gatekeeper: id-025 cond-3 close — identify the `thr_acts` (parked-receiver) offset, re-interpret op-159 fire=1, upgrade necessary-condition → full A.4 precondition FROM DATA ALREADY CAPTURED (no re-soak)
 
-op-164 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: [Ready] dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)
+op-164 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done] → [Retired]** (delivered: thr_acts@0x20 identified + op-159 fire=1 re-interpreted → cond-3 NOT evidenced; verdict NECESSARY-ONLY-CONFIRMED) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — NECESSARY-ONLY-CONFIRMED accepted; verified first-hand against SOURCE; op-164 [Retired]; cheap close is DEAD, cond-3 now needs a fresh overnight re-soak
+
+Verified first-hand against `rmx-gatekeeper @ 7532df5` (`findings/op164-cond3-offset-identification.txt`) AND the FreeBSD/Mach source — not relayed. The verdict REVERSES my earlier hopeful read (fire=1 `off98` = parked waiter), so I checked it hard.
+
+**Offset ID validated against source (airtight):**
+- `struct thread_pool` (sys/sys/mach/thread_pool.h:55-61): `struct thread_shuttle *thr_acts` is the FIRST field (pool+0); `int waiting` at pool+8.
+- `rcd_thread_pool` inside `port_comm`/`rpc_common_data` at port+0x20 (the disasm `addq $0x20` after loading `ith_object`); structurally mirrored by thread_pool.c:74 (`&((struct rpc_common_data *)thread->ith_object)->rcd_thread_pool`) + :75 (`pool->thr_acts`).
+- Disasm cites internally consistent: `thread_pool_put_act` writes `*(port+0x20)=thread` (= `thr_acts` head); `thread_pool_wakeup` `cmpl $0x0,0x8(%rax)` reads `int waiting` at pool+8=port+0x28 (32-bit cmpl ↔ `int` — exact). So thr_acts@0x20 is CORRECT; `off98` is NOT thr_acts.
+
+**Dispositive negative:** op-159 dumped `0x48/0x58/0x68/0x78/0x88/0x98` — NONE in 0x20–0x28. thr_acts was never captured → cond-3 (parked receiver) is genuinely NOT evidenced by op-159's data. The non-NULL `off98` at fire=1 is an unrelated field. **Honest call by the gatekeeper** — it declined to manufacture a full-precondition proof from `off98` (the id-011 discipline).
+
+**CONSEQUENCE — the cheap close is DEAD.** Closing cond-3 now requires a FRESH overnight re-soak with `thr_acts@0x20` ADDED to the predicate (a 3-condition watchpoint). And a 3-condition fire is RARER than op-159's 2-condition fire — it only fires when a receiver is parked AT the transition (the actual race) → likely needs the full ~60-100min stochastic window. So it's a real overnight soak op, NOT a re-interpretation.
+
+**MARKER DISPOSITION (mine):** THRACTS_OFFSET PASS(source-validated) · SEMANTICS PASS · FIRE1_REINTERP PASS(cond-3 not evidenced) · VERDICT **NECESSARY-ONLY-CONFIRMED** · TERMINAL PASS.
+
+**op-164 → [Done] → [Retired]** (deliverable produced + source-verified; remainder = a NEW op if the Coordinator picks path B). The op-156 merge decision is now the Coordinator's (see below) — do NOT park, do NOT merge from this op.
+
+---
 purpose: op-159 retired having proven the id-025 bug's NECESSARY condition reachable on live notifyd (2 fires on `ipc_pset_move`'s no-set→set branch, pid 968), but only 2-of-3 — cond-3 (a direct receiver PARKED at the transition = what makes the freeze specifically the A.4 lost-wakeup) was unconfirmed because the `thr_acts` offset wasn't identified. THIS op closes cond-3. Critically: **no new soak is needed** — op-159's fire=1 already captured the candidate field (`off98 = fffff80003c9f200`, NON-NULL). If `off98` is confirmed = `thr_acts`, fire=1 retroactively IS the full 3-condition A.4 precondition. This is an offset-identification + re-interpretation op on EXISTING data.
 
 STATE OF THE WORLD (verified first-hand, do NOT re-derive):
