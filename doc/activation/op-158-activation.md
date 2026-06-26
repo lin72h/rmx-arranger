@@ -28,3 +28,15 @@ OP158_TERMINAL status=0
 PUSH: report per-target verdicts → Fable first-hand check → if all F1-F4 REFUTED joins GLM (op-157) PASS → fix eligible for merge AFTER op-155 corroborates reachability. Do NOT merge.
 
 CHAIN (id-025): op-156 (fix) → op-157 (GLM exhaustive) ∥ **op-158 (DS4P falsify)** ∥ op-155 (capture) → all green → merge → notify leg-4 / id-010.
+
+---
+
+## FABLE FIRST-HAND VERDICT (2026-06-26) — op-158 PASS confirmed, one provenance correction
+
+Verified the load-bearing claims against source (not relayed):
+- **F1/F3 linchpin TRUE** — `thread_pool_put_act` (thread_pool.c:179) unconditionally sets `thr_act->ith_pool_next = thr_pool->thr_acts` before re-linking → a stale `ith_pool_next` left by the non-blocking `get_act` pop is ALWAYS overwritten on re-park. No corruption. REFUTED stands.
+- **F2 REFUTED** — re-confirms my own op-156 dive: call site holds `ip_lock(port)`+`ips_lock(nset)`; objects alive via space ref; PORT_CHANGED returns cleanly at ipc_mqueue.c:556-559 (no `thread_pool_remove`). No UAF.
+- **F3/F4 REFUTED** — while-loop drains the port pool from the head until NULL; post-move parkers handled by standard `ip_pset` routing. No sibling stranded.
+- **F5 verdict STANDS, provenance CORRECTED** — `git diff --stat 180d30b^ 180d30b` = exactly 2 files (ipc_pset.c +18, docs +140), ZERO build-system touch → the 3 walls (libc_nonshared/kpilite/dtrace) are pre-existing, not fix-introduced. BUT DS4P's stated parent "e101f9c (op-107)" is WRONG: actual parent is **15a6acc ("thrworkq: include cdefs for __packed")**. Does not change the verdict (diff --stat is dispositive); flagged for accuracy.
+
+**op-158 → [Done]** (Fable-verified PASS). Falsification leg of the op-156 gate closed.
