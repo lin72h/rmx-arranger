@@ -23,11 +23,12 @@ So: **XPC message DELIVERY works, but the reply-ROUTING/correlation mechanism is
 
 ## Fix shape (when promoted — observation-first ladder)
 - **Locate** where `xpc_dictionary_create_reply` returns NULL: `lib/libxpc/` (the reply-construction + correlation path; the serial points at `xpc_misc.c:458` unpack + the reply dict creation). Determine whether it's (a) a missing reply-context/connection-association on the incoming message object, or (b) an unimplemented stub returning NULL.
-- **Cross-check macOS truth (op-122 mx-a64z, pending):** the SAME client blob on macOS with a contract-path responder (`xpc_dictionary_create_reply`) is expected to COMPLETE the round-trip (pong + seqid echo + typed echo). That diff pins the exact divergence and the macOS-faithful target behavior.
+- **macOS truth CAPTURED (op-122 mx-a64z, `234cd43`, Arranger-verified 2026-06-27):** the byte-identical client (`34a9cac9`) with a contract-path responder COMPLETES the round-trip on macOS — `reply==pong` + seqid echo + every typed echo PASS (serial `b465c783`). This is the clean counterpart to rmxOS's BLOCK.
+- **macOS-faithful TARGET (quantified from the diff):** the divergence is NOT the send call — `xpc_connection_send_message(peer, reply)` is identical both sides. It is the reply object's **correlation metadata**. The fix: `xpc_dictionary_create_reply(incoming)` must (a) return non-NULL AND (b) stamp the incoming message's **reply-context** (the originator's `_with_reply_sync` correlation handle) onto the new dict, so that a subsequent `xpc_connection_send_message` of that dict routes to the originator's reply-correlation wait — NOT the connection event-handler path. rmxOS today returns NULL → responder builds a fresh, uncorrelated dict → arrives on the event path → client blocks. Target = correlated reply dict, round-trip returns.
 - Then a `lib/libxpc` fix op (Implementer or Explorer-authored fix-on-inspection) to wire the reply correlation; re-run op-122's client unmodified → round-trip must complete.
 
 ## Relations
 - **id-021 / li-007** (libxpc conformance bring-up) — this is the headline divergence its leg-2 conformance run surfaced; likely gates its truly-green.
-- **op-122** (dual-explorer libxpc plane conformance) — the carrier that found it; rx side [Done] @ `a41c8ce`, mx macOS-truth capture pending (will quantify the divergence).
+- **op-122** (dual-explorer libxpc plane conformance) — the carrier that found it; BOTH legs [Done]→[Retired] (rx @ `a41c8ce` found the gap, mx @ `234cd43` captured the macOS round-trip that quantifies it). op-122 is closed; the fix work lives here on id-029.
 - **op-160** (libxpc live service plane) — the plane this rides; op-160 proved delivery works, op-122 found reply-correlation does not.
 - **li-1008** (libxpc catalog) — currently holds the cosmetic XPC items; Coordinator to decide split vs fold.

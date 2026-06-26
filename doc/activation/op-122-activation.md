@@ -197,3 +197,29 @@ OP122_TERMINAL status=0
 ```
 
 PUSH: same branch `op-122-xpc-plane` (macOS responder + `op122-macos-serial.log`; commit author lin). Report → Arranger-seat first-hand verify the macOS blob sha matches + the round-trip COMPLETED on macOS → Arranger computes the per-case rx-vs-mx diff = the id-029 reply-correlation divergence, quantified → op-122 → [Retired]; id-029 gets its macOS-faithful target behavior.
+
+---
+
+## ARRANGER-SEAT VERIFY — mx-a64z leg (2026-06-27, Fable seat, model Opus 4, FIRST-HAND per Rule 1)
+
+Fetched `origin/op-122-xpc-plane`; verified the mx push against the raw commit/blobs (NOT the report prose):
+
+- **Push provenance:** `a41c8ce..234cd43`, single commit `234cd433…`, author **lin** / committer **lin**. Changeset = 3 files only (`com.rmxos.op122.echo.plist`, `op122-macos-serial.log`, `op122-xpc-echo.macos.c`); the client `xpc-harness-plane.c` is NOT in the diff.
+- **Client byte-identity HELD:** `git show 234cd43:…/xpc-harness-plane.c | sha256sum` = `34a9cac9c0f8eba3484defcec5683c619774d873f308349e478d3b3f783e4edd` — byte-identical to the rmxOS-side locked blob. Apples-to-apples confirmed.
+- **Round-trip COMPLETES on macOS** (serial `op122-macos-serial.log`, sha256 `b465c7832f0905d3…` = reported): `op122_plane_reply_received`, `…_reply_pong`, `…_seqid_echo`, `…_string_echo`/`…_int64_echo`/`…_uint64_echo`/`…_bool_echo`, and every `…_typed_*` (int64/string/bool/uint64/count) = **PASS**. The clean counterpart to rmxOS's `_with_reply_sync` BLOCK.
+- **Sole FAIL is the flagged client-design artifact, NOT a divergence:** `op122_plane_cancel_event_seen: FAIL / (no event)` (`op122_matrix_fails=1`). Per the Explorer caveat the client `sleep(2)`s on the main thread without pumping the target queue, so no cancel event is delivered — this is a harness-client property, identical on both OSes, NOT a macOS-vs-rmxOS cancel-semantics fact. Does NOT gate. `op122_matrix_terminal status=0`.
+- **Responder uses the contract path** (`op122-xpc-echo.macos.c`, read first-hand): `xpc_dictionary_create_reply(event)` → set `{reply:pong}` + echo seqid + typed fields → `xpc_connection_send_message(peer, reply)`. No fresh-dict fallback.
+
+**Build-flag caveat (assessed, benign):** the macOS client built with `cc -fblocks -include Avail…` (the rmxOS `__OSX_AVAILABLE_BUT_DEPRECATED` shims pre-empt the real SDK macros on the macOS-27 beta SDK). A preprocessor `-include` injects macro definitions; it does NOT alter the source file — proven by the `34a9cac9` sha match. The conformance subject is the source contract + the `xpc_*` calls the client makes; both are identical. Caveat does not weaken apples-to-apples.
+
+### THE QUANTIFIED rx-vs-mx DIFF (= id-029, the reply-correlation divergence)
+
+Per-case, the matrices are **identical except the reply leg**:
+- rmxOS (`a41c8ce` serial): plane crosses both ways (`OP122_ECHO_PEER status=0`, 196B request unpacked, 20B response emitted) — DELIVERY works — but `xpc_dictionary_create_reply()` returns **NULL** (`OP122_ECHO_REPLY status=1 reason=create_reply_null_fallback`) → responder sends a FRESH dict → client `_with_reply_sync` **BLOCKS** indefinitely (torn down at 30s). No reply/seqid/typed assertion ever fires.
+- macOS (`234cd43` serial): `create_reply(event)` returns a **correlated** dict → same `send_message` call → client `_with_reply_sync` **RETURNS** → all reply/seqid/typed cases PASS.
+
+**The divergence is NOT the send call — it is identical on both sides** (`xpc_connection_send_message(peer, reply)`). The divergence is the reply object's **provenance/correlation metadata**: macOS `create_reply(event)` produces a dict carrying the reply-context that links it to the client's `_with_reply_sync` correlation wait; rmxOS returns NULL, forcing a fresh dict with no correlation metadata, which routes to the connection's event-handler path instead of the reply-correlation wait. **macOS-faithful target for id-029:** `xpc_dictionary_create_reply(incoming)` must return non-NULL and stamp the incoming message's reply-context onto the new dict, so a subsequent `xpc_connection_send_message` of that dict routes to the originator's `_with_reply_sync` wait — completing the round-trip. (This sharpens id-029 from "returns NULL" to the exact wire-correlation contract the fix must satisfy.)
+
+## TERMINAL RESOLUTION (Fable seat, 2026-06-27)
+
+op-122 (both legs) **→ [Done] → [Retired].** rx leg [Done] @ `a41c8ce` (plane LIVE + reply-correlation gap found); mx leg [Done] @ `234cd43` (macOS round-trip COMPLETES, the clean counterpart). The diff is computed + recorded above. **id-029 carries the quantified macOS-faithful target** (reply-context stamping, not just non-NULL). op-122's mission — pin the divergence apples-to-apples — is complete; no residual. The fix work lives on **id-029** (Coordinator-owned: li-1008 split + libxpc-truly-green/preview-scope impact). Branch `op-122-xpc-plane` NOT merged (findings branch; per brief).
