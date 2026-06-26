@@ -87,3 +87,35 @@ Verified first-hand against rmx-explorer branch (`xpc-harness-plane.c` @ SHA c54
 **MARKER DISPOSITION (mine):** HARNESS_EXTENDED FAIL(wrong target + no responder) · APPLES_TO_APPLES HELD(premature) · RMXOS_RUN REJECTED(plane not exercised) · MACOS_TRUTH HALTED(do not capture on this harness) · PLANE_DIFF N/A · VERDICT **FIX-BACK** · TERMINAL not reached.
 
 **op-122 → stays [In-flight], reverts to fix-back** (harness re-author at rx-x64z; mx-a64z capture HELD until the corrected harness lands). Not a divergence, not a MATCH — a harness correction. li-1005 libxpc conformance leg remains OPEN.
+
+---
+
+## RESPONDER CONTRACT (2026-06-26, Arranger seat, model Opus 4) — locked so rx and mx do NOT improvise two divergent echo services
+
+Forced by the mx-a64z hold note (its Task #54 plans to author a macOS echo service independently). A byte-identical CLIENT pointed at two independently-authored RESPONDERS reintroduces the false-divergence risk just rejected. The responder behavior is therefore SPEC'd here once; both sides build to it. Reuse op-160's proven `op160-xpc-service.c` pattern — do not re-invent.
+
+**Identity rule (the apples-to-apples line for this op):**
+- **CLIENT (the harness) = BYTE-IDENTICAL** both sides. `git diff` of the client `.c` across the rx-x64z and mx-a64z commits is EMPTY; both SHAs recorded. (Unchanged from the original gate.)
+- **RESPONDER (the echo service) = BEHAVIOR-IDENTICAL**, source MAY differ for build glue. The fixed contract below is what makes the responders equivalent; neither side may add/drop a key or change the protocol.
+
+**Shared service name (ONE string, hardcoded in the byte-identical client → both responders MUST register exactly this):** `com.rmxos.op122.echo`
+- macOS: a user **LaunchAgent** with `MachServices` key `com.rmxos.op122.echo` (= true); `launchctl bootout` after.
+- rmxOS: a **launchd-job** (id-016, NOT shell-launch) with `MachServices` `com.rmxos.op122.echo`.
+- Plist FORMAT macOS-faithful per standing directive (`Label`, `ProgramArguments`, `MachServices`); the `com.rmxos.op122.echo` label string is a fine fixture name.
+
+**Protocol (request → reply):**
+- Client sends a dict: `{ "op": "ping", "seqid": <unique uint64>, <typed-fidelity fields> }`.
+- Responder builds its reply with `xpc_dictionary_create_reply()` (the op-160 path that requires `_XPC_FROM_WIRE`), sets `{ "reply": "pong" }`, **echoes the request `XPC_SEQID`** (the op-160 seqid mechanism), and **echoes every typed-fidelity field verbatim**.
+- Typed-fidelity fields (the in-scope dict types, echoed value-for-value): `string` / `int64` / `uint64` / `bool` / `array`.
+
+**ASSERT vs RECORD (unchanged, restated for the responder):**
+- Client **ASSERTs**: `reply=="pong"`, `seqid` echoed == sent, each typed field round-trips identical value.
+- Client **RECORDs-does-not-assert** the cancel→error case: `printf` the observed error `description` + `code`; the rmxOS `"Connection invalid"` vs macOS `XPC_ERROR_CONNECTION_INVALID` delta is computed by DIFFING the two captured truth blobs, never baked into a harness pass/fail.
+
+**AUTHORING SPLIT under this contract:**
+- **rx-x64z**: authors the byte-identical CLIENT + the **rmxOS responder** (re-point op-160's `op160-xpc-service.c` to `com.rmxos.op122.echo`, extend it to echo the typed fields), loads both as launchd-jobs, runs, REPORTs. This is the fix-back.
+- **mx-a64z**: authors the **macOS responder LaunchAgent** to THIS contract — **may start NOW** (de-coupled from the client blob; the contract is fixed). On blob-landing: pull the canonical client `.c`, load the macOS responder, run the client UNMODIFIED, capture macOS-truth (error case recorded-not-asserted), `launchctl bootout`, commit (author lin), REPORT.
+
+**`_XPC_TYPE_ERROR` copy-relocation (rmxOS LLD):** real surface gap → **li-1008** (already noted above). Client work-around (avoid referencing the type-identity constant directly) is correct and stays in the byte-identical blob, so it is benign on macOS too.
+
+Net: one client, one contract, two responders that cannot diverge by construction. mx's responder authoring decouples from the blob; only the run + truth-capture waits on rx's landing.
