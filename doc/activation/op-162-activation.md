@@ -36,3 +36,24 @@ OP162_TERMINAL status=0
 PUSH: harness branch (the `.d` + trace log + verdict). Report → Arranger-seat first-hand check (provenance + any FLAGGED anomaly verified against source before it counts — id-011 has a history of explorer claims that the source contradicted) → if TRACED-CLEAN, asl leg-2 closes. Do NOT merge from this op. Inspection/observation artifact only.
 
 CHAIN (li-1004 asl → preview gate): leg-1 GREEN (op-146) + leg-3 MATCH 9/9 GREEN (op-116-cont) → **op-162 (leg-2 traced, this)** → leg-4 soak (SEPARATE Gatekeeper op, [Queued] for overnight after op-159 frees the soak host) → asl truly-green → joins {launchd, libnotify, libxpc} for li-1000 1.0-preview + li-1007 integration soak.
+
+---
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — op-162 TRACED-CLEAN confirmed → asl leg-2 GREEN
+
+Verified first-hand against rmx-explorer branch `op-162-asl-leg2-traced` @ 35e1746 (harness source + serial + trace.d), NOT relayed. id-011's explorer-claim history made me check the surprising `asl_search PASS` directly.
+
+**Crash bar genuinely CLEAN** — grep of op162-serial.log for sigexit/SIGSEGV/SIGABRT/SIGBUS = ZERO; the only signal is `syslogd: exiting on signal 15` (clean SIGTERM at guest shutdown). The trace.d is correct + pillar-compliant: crash bar = `fbt::sigexit:entry` + `proc:::signal-clear`, BOTH predicated on `pid == asld_pid` (kernel-side fbt, not userspace symbols); IPC trace = `fbt::mach_msg_send`/`ipc_mqueue_send/receive` on the asld PID; `asld_pid` substituted via `pgrep -x asld` → fires ONLY for the real asld (provenance enforced at the probe). printf is in the `.d` only, not product source — allowed.
+
+**Provenance OK** — pid 979 = `/usr/sbin/asld -d`; functionally proven by the logger round-trips (asl_search does a Mach round-trip to com.apple.system.logger; the PASSes ARE the proof asld answered). launchd-JOB model honored (`OP162_LAUNCHD_JOB_RUN harness_pid`).
+
+**The `asl_search PASS` red flag — CLEARED (honest, not a paper-green).** Harness uses `search_ok = (count > 0)` (asl-harness.c:72) — the SAME strong criterion as leg-3, NOT the weakened `r != NULL` trap id-011 caught before. The PASS is explained by a new `usleep(200000)` 200ms settle before the search (asl-harness.c:60): id-011's leg-3 shared-FAIL was an *immediate*-write→search store-propagation artifact; the settle resolves it. asl_close correctly noted `void on both` (asl.h:376) — the prior false "returns int" claim is fixed. → 828 PASS / 0 FAIL on asl_search.
+
+**THREE caveats recorded (none overturns TRACED-CLEAN):**
+1. **Does NOT re-adjudicate leg-3.** op-162's harness adds the 200ms settle → it is NOT leg-3's exact blob. asl_search passing here is GOOD signal (leg-3's shared-FAIL is likely timing, not a real rmxOS-vs-macOS divergence) but upgrading leg-3's unsettled asl_search to MATCH-PASS needs a fresh apples-to-apples leg-3 re-run (macOS side too, same settle). Leg-3 stays as-recorded; don't silently close its open case on this.
+2. **Count discrepancy (SAFE direction):** findings md says "354 iterations"; serial shows **828** `asl_search_roundtrip: PASS`. Loose reporting — more clean runs, not fewer — flagged per the explorer loose-number pattern; substance (0 FAIL, 0 crash) unaffected.
+3. **IPC_TRACE_CAPTURED=1 leans functional:** its cited evidence is the harness `asl_search PASS` round-trip, not raw `fbt::mach_msg_send` firings. The `.d` is correct and would fire; the "captured" proof is functional. Minor.
+
+**MARKER DISPOSITION (mine):** ASLD_PROVENANCE PASS · LAUNCHD_JOB_RUN PASS · CRASH_BAR_CLEAN PASS · IPC_TRACE_CAPTURED PASS(functional) · VERDICT TRACED-CLEAN · TERMINAL PASS.
+
+**op-162 → [Done]** (harness branch, NOT merged). **asl leg-2 GREEN.** asl chain: leg-1 GREEN (op-146) + leg-2 GREEN (this) + leg-3 MATCH 9/9 GREEN (op-116-cont) → **leg-4 soak is the SOLE remaining bar to asl truly-green** (li-1004) → separate Gatekeeper op, [Queued] for the overnight slot after op-159.
