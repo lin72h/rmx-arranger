@@ -1,6 +1,6 @@
 # op-166 — Implementer: stage the op-156-patched leg-4 soak image (graft patched `mach.ko` onto the op-123 leg-4 base) — the build that unblocks op-165 (notify leg-4)
 
-op-166 | role: **Implementer** | EXU: **wip-gpt (Implementer seat)** | state: **[Awaiting]** — released, runs on the BUILD host PARALLEL to op-163's soak (different host; no soak-host contention) | parent id: id-010 (notify leg-4) + id-025 (op-156 fix carrier) | authored 2026-06-27 (Arranger seat, model Opus 4)
+op-166 | role: **Implementer** | EXU: **wip-gpt (Implementer seat)** | state: **[Ready]** — released/cleared to dispatch (= [Awaiting] on the ROB); runs on the BUILD host PARALLEL to op-163's soak (different host; no soak-host contention) | parent id: id-010 (notify leg-4) + id-025 (op-156 fix carrier) | authored 2026-06-27 (Arranger seat, model Opus 4)
 
 purpose: op-165 (notify leg-4 hours-scale soak) is BLOCKED on a single missing artifact — a bootable soak image whose running `mach.ko` carries the op-156 fix (`ipc_pset_port_changed`). No such image is staged (`build/op123-leg4/leg4-soak.img` is the OLD **pre-fix** op-123 image). This op produces it. PASS here → op-165 is dispatchable for the next overnight batch; a soak on a stale pre-fix `mach.ko` would prove nothing about the fix (op-165 IMAGE_PROVENANCE gate).
 
