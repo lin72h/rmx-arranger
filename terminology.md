@@ -8,9 +8,23 @@ discipline (current terms only; record old→new maps; never accrete). Cross-ref
 
 ## 1. Roles
 
+**Executor** (the precise term, 2026-06-26) — an autonomous executing entity = **harness + LM (language
+model) + Tool(s)**. This is what we used to loosely call an "agent": the harness drives the loop, the LM
+reasons, the tools act. Every non-human role below (Arranger, Implementer, Explorer, Gatekeeper, Validators,
+Oracle) is an **Executor**; only the **Coordinator** is human. Use "Executor" where precision matters; "agent"
+persists only as informal shorthand and in baked-in names (repo dirs, `cross-agent`).
+
+**Shorthand (2026-06-26):**
+- **EXU** = **Executor Unit** — the compact tag for one Executor. This deliberately collides with the CPU OoO
+  term **EXU = Execution Unit**: an Executor IS our execution unit, so we use **EXU** for both senses and drop
+  "pipeline"/"backend" as the OoO-counterpart word (the EXU replaces "pipeline" in §6). One EXU = one execution
+  lane.
+- **Ex** = **Execution / Executing** — the short prefix/adjective form (e.g. an op is "in Ex" = executing,
+  matching the `[Exe]` ROB tag).
+
 | Current term | Meaning |
 |---|---|
-| **Coordinator** | Human owner. Sets milestones, accepts/authorizes spends, owns cross-agent routing. |
+| **Coordinator** | Human owner. Sets milestones, accepts/authorizes spends, owns cross-Executor routing. |
 | **Oracle** | A more powerful agent the Arranger CONSULTS when it cannot resolve a problem itself — the Arranger's escalation/consultation resource. Coordinator-mediated. (Repurposed 2026-06-20 from the retired "Composer" placeholder term.) NOT the old explorer+gatekeeper "Oracle" (that union is now **Ruler**), and NOT the lowercase "test oracle / macOS source-of-truth" sense. |
 | **Arranger** | Decomposes Milestone → `block-NNN`, targets agents, reviews first-hand. (Fable.) |
 | **Arbiter** | Conflict-resolution + adjudication seat. Held by the Arranger (Fable holds both). NEVER a Validator. |
@@ -21,6 +35,11 @@ discipline (current terms only; record old→new maps; never accrete). Cross-ref
 | **Validators** | GLM (enumeration/completeness) + DS4P (falsification/forward-instinct). Review legs; routed assignee-neutral. |
 
 ### Retired / renamed (old → new; older records keep old terms with this map)
+- **agent → Executor** (2026-06-26): the loose role-sense of "agent" is now the precise **Executor**
+  (= harness + LM + tool). "agent" stays only as informal shorthand + in baked-in names (`cross-agent`,
+  the `Agent repos` dir grouping in §4). Shorthand: **EXU** (Executor Unit), **Ex** (Execution/Executing).
+- **pipeline → EXU** (2026-06-26): the OoO execution-lane word is now **EXU** (Execution Unit), which
+  doubles as **Executor Unit**. "pipeline"/"backend" retired as the lane term.
 - **Maestro → Coordinator** (2026-06-13).
 - **Conductor → Arranger** (2026-06-13).
 - **Oracle (OLD meaning = the Explorer+Gatekeeper union) → that union is now "Ruler"**
@@ -116,21 +135,22 @@ are NOT role terms and stay unless separately renamed.
 
 ## 6. Workflow model — CPU out-of-order execution terminology (2026-06-20)
 
-We describe the workflow with CPU OoO-execution terms: the agents are parallel **execution
-pipelines**, the Arranger is the **issue + retire** unit. The discovery→implementation
-pipeline IS a superscalar out-of-order machine.
+We describe the workflow with CPU OoO-execution terms: the Executors are parallel **execution units
+(EXU)**, the Arranger is the **issue + retire** unit. The discovery→implementation machine IS a
+superscalar out-of-order machine. (We use **EXU** — Executor/Execution Unit — for the execution lane;
+"pipeline" / "backend" are retired as the lane word.)
 
 | Term | Meaning | Was |
 |---|---|---|
 | **op-NNN** | a unit of work (a micro-operation / uop). Zero-padded, sequential project-wide, never reused. | `block-NNN` (renamed — "block" collided with "blocking") |
 | **op-NNNm** | the **only** legal op-id variant: the `m` suffix marks the **op-147m method** form of an op. No other suffix exists. | — |
-| **issue** | the Arranger creates + dispatches an op to a pipeline. | "dispatch" / "create the block" |
-| **multi-issue** | issue several ops at once → they execute on different pipelines in parallel. | — |
-| **pipeline** | an execution lane = an agent (Implementer, Explorer, Validators, Gatekeeper). | — |
+| **issue** | the Arranger creates + dispatches an op to an EXU. | "dispatch" / "create the block" |
+| **multi-issue** | issue several ops at once → they execute on different EXUs in parallel. | — |
+| **EXU** | **Executor/Execution Unit** — an execution lane = one **Executor** (Implementer, Explorer, Validators, Gatekeeper). Replaces "pipeline"/"backend". | `pipeline` (renamed 2026-06-26) |
 | **retire** | the op is done — validated/accepted, results committed. | "accept" / "done" |
 | **in-flight** | issued but not yet retired. (OoO concept; the ROB display tag for this state is **`[Exe]`** — renamed `[In-flight]` → `[Air]` → `[Exe]` 2026-06-26.) | — |
 
-**Out-of-order:** issued ops execute on different pipelines and may **retire out of issue
+**Out-of-order:** issued ops execute on different EXUs and may **retire out of issue
 order.** The Arranger = the issue unit + retirement tracking (the reorder buffer); on a
 Validator conflict or sub-threshold confidence it also acts as Arbiter. The Arranger surfaces
 the live in-flight set as a **ROB** list at the end of each op reply — see
@@ -144,7 +164,7 @@ version of the original.
 **`[Flushed]` op state (Coordinator 2026-06-26):** when an op **does not work out** (fails,
 dead-ends, or was mis-scoped), mark it `[Flushed]` and **re-issue the work under a brand-new
 `op-NNN`** — the flushed op id is closed, not continued. (CPU analogy: a mis-speculated uop is
-*flushed* from the pipeline; the re-fetch gets a fresh slot.) Distinct from `[Done]`: an op that
+*flushed* from the EXU; the re-fetch gets a fresh slot.) Distinct from `[Done]`: an op that
 delivered its primary objective is `[Done]` even when a follow-on is needed (the follow-on is its
 own new op number). Full ROB status vocabulary lives in [rob-mini-format.md](rob-mini-format.md).
 
@@ -157,7 +177,7 @@ backlog→**IDQ**/`id-NNN`; op→**ROB**/`op-NNN` unchanged.)
 |---|---|---|---|
 | **L1i** (roadmap) | `li-NNN` ([roadmap.md](roadmap.md)) | most abstract — *what usable 1.0 means and in what order* (the milestone ladder `li-001`…`li-006`, the arcs). Durable; rarely changes. | the program resident in the L1 instruction cache, before fetch |
 | **IDQ** (backlog) | `id-NNN` ([idq/id-000.md](idq/id-000.md)) | **pending** — decoded from an L1i instruction, queued; identified but **not yet fetched** into flight. Concrete enough to fetch. | decoded uops in the instruction-decode queue, awaiting fetch/issue |
-| **ROB** (op) | `op-NNN` (§6 above) | **in-flight** — fetched → issued; owned by a pipeline; executes → retires. | a uop in the reorder buffer |
+| **ROB** (op) | `op-NNN` (§6 above) | **in-flight** — fetched → issued; owned by an EXU; executes → retires. | a uop in the reorder buffer |
 
 **Promotion chain:** an **L1i** instruction (`li-NNN`) is **decoded** into one or more **IDQ** items
 (`id-NNN`); an IDQ item is **fetched** into one or more **ROB** entries (`op-NNN`). Promotion =
@@ -180,16 +200,16 @@ in-order retirement an instruction undergoes once its uops complete. (We dropped
 A–F" naming 2026-06-24: the milestones *are* the `li-NNN`, and "pass a gate" → "retire an `li-NNN`".
 The lowercase verb "gated on X" = blocked-by-X is kept; so is the **Gatekeeper** role.)
 
-**Pipelines (which agent runs what):**
-- **Explorer** pipeline — discovery (macOS-parity).
-- **Implementer** pipeline — execution / implementation.
-- **Validator** pipelines (GLM, DS4P) — parallel quality-validation (genuinely superscalar:
+**EXUs (which Executor runs what):**
+- **Explorer** EXU — discovery (macOS-parity).
+- **Implementer** EXU — execution / implementation.
+- **Validator** EXUs (GLM, DS4P) — parallel quality-validation (genuinely superscalar:
   both review the same op concurrently).
-- **Gatekeeper** pipeline — macOS-parity validation.
+- **Gatekeeper** EXU — macOS-parity validation.
 - **Arranger** — issue + retire (+ Arbiter on Validator conflict / confidence <8).
 
 **Retired terms:** `block-NNN` → `op-NNN`; "dispatch a block" → "issue an op"; "accept/done"
-→ "retire". Frozen/committed records keep `block-NNN` (historical); live work uses `op-NNN`.
+→ "retire"; **`pipeline`/`backend` → `EXU`** (2026-06-26). Frozen/committed records keep `block-NNN` (historical); live work uses `op-NNN`.
 In-flight renames: block-081→op-081, block-082→op-082, block-080a-R-fix→op-080a-R-fix.
 
 ## 8. Test/evidence vocabulary — soak-testing & chaos-testing (2026-06-23)

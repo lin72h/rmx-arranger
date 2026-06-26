@@ -152,6 +152,40 @@ and explained nothing → a re-run WITHOUT the watchpoint is not worth an overni
 (Earlier "stranded on rx1's env / not on host" was a Fable error — `git ls-files` hides untracked files and
 a `head -40` truncated the find; the files were here all along, just never committed.)**
 
+## op-151 → op-153 → op-154 chain — the "fast-freeze" was a DETECTION ARTIFACT; rig now PROVEN; id-025 still UNCAPTURED (2026-06-26, Fable-verified first-hand @ rmx-explorer f2f2d76)
+The op-150 fast-freeze was chased host-side (kgdb via the bhyve `-G` stub, the freeze-surviving vantage takeaway #1 demanded):
+- **op-151 (rx1):** found a "sub-5-min reproducer" + claimed `FINGERPRINT_MATCH=1`. **OVER-claimed** — the
+  watchpoint never emitted (`OP148_HB count=0`), so no fingerprint was ever measured (Fable-flagged).
+- **op-153 (rx1):** PROVED the kgdb/`-G` rig but declared the freeze "NOT id-025 / hung before mach loaded."
+  **REFUTED first-hand** — its capture saw only the 2 idle vCPUs (`-G` stub exposes per-vCPU regs only, never
+  walks `allproc`); "mach not loaded" was a sysroot/add-kld symbol-resolution failure. Identity left UNRESOLVED.
+- **op-154 (rx1) — the COMPLETE capture (deliverable met):** sysroot fixed → mach.ko symbols resolve
+  (`ipc_mqueue_receive`/`pset_receive`/`thread_block`/`thread_pool_wakeup`/`ipc_pset_signal` all real addrs);
+  **`allproc` walked = 26 procs all PRS_NORMAL; per-thread walk = 51 threads, NONE in `ipc_mqueue_receive`/
+  `pset_receive`/any wedge.** DECISIVE: the "freeze" the detector flagged was **serial-silence BY DESIGN** —
+  rc.local routes HB/churn output to files then `sleep 960`; the walk caught **`pid=982 sleep` in `nanslp`**
+  (rc.local's terminal sleep) AND **`pid=980 notify-churn-probe` in `nanslp` actively iterating** → the system
+  was HEALTHY at every "freeze-detected" moment. **op-151's fast-freeze = a false positive, RETIRED.**
+
+**Net after op-154 (Fable, Rule-1 first-hand):**
+- The host-side complete-capture RIG is PROVEN end-to-end (kgdb + `-G` stub + `allproc` walk + mach.ko
+  symbols) — reusable for the real capture. This is op-154's primary deliverable → op-154 **[Done]**.
+- **id-025 is NOT refuted — it is still UNCAPTURED.** op-154's `different_wedge=1` marker is imprecise: there
+  was *no wedge* at capture time (detection artifact), not a different wedge. The real candidate — **op-150's
+  iter≈400 / ~6.7-min freeze** — was never reached (churn still early/healthy). It remains the live id-025 lead.
+- **METHODOLOGICAL REQUIREMENT for the real capture (op-155):** the walk gave `wmesg` only. `wmesg=thread_block`
+  (launchd thr[0]) is **AMBIGUOUS** — a normal Mach msg-wait AND a wedged `ipc_mqueue_receive` both block via
+  `thread_block`. At a genuine freeze the walk MUST reconstruct per-blocked-thread **backtraces** (`td_pcb`
+  `pcb_rip`/`pcb_rbp` → `bt`) to distinguish them; `wmesg` alone proved "healthy" here but cannot CONFIRM id-025.
+- op-142 stays **[Hold]** — still no id-025 blocked-thread stack.
+
+**op-155 (rx1, the corrected real-freeze capture — NOT "op-154-cont"):** (1) route watchpoint+churn HB to
+`/dev/console` so the detector sees real liveness; (2) trigger on **HB-silence**, not raw serial-silence;
+(3) hold off until churn **iter ≈ 400** (op-150 onset) before declaring a freeze; (4) kgdb-attach only AFTER a
+real freeze is confirmed, then run the op-154 rig PLUS per-blocked-thread `bt` reconstruction. Verdict gate:
+any thread in `ipc_mqueue_receive`/`pset_receive`/mach-IPC → id-025 stack CAPTURED → op-142 releases; all
+benign with churn genuinely wedged → re-scope.
+
 ## Relations
 - **id-010 / op-123** (notify conformance) — leg-4 no-hang bar: the freeze is non-deterministic, so
   leg-4 "green" is now a judgment call (see Gatekeeper note); notify is 3/4 firm + leg-4 contingent.
