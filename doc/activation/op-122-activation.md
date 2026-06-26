@@ -57,3 +57,33 @@ MANDATORY harness rule (folds in the smart half of the mx "draft" option, avoids
 - macOS hosting = a user **LaunchAgent** echo service (`launchctl bootout` after); the plist stays macOS-faithful per the standing launchd-plist-fidelity directive.
 
 Net: rx guarantees the link (option 1) + the error case is divergence-safe (option 2's good idea) with no extra round-trip. Apples-to-apples unchanged: both SHAs recorded, `git diff` of the harness EMPTY.
+
+---
+
+## ARRANGER-SEAT VERDICT (2026-06-26, model Opus 4) — rmxOS-side report REJECTED for harness miscalibration; HALT macOS-truth capture; fix-back required
+
+Verified first-hand against rmx-explorer branch (`xpc-harness-plane.c` @ SHA c54e5261, commit bff9627), NOT relayed. id-011's false-divergence history made me read the actual send→reply target before letting "Expected divergence vs macOS" stand.
+
+**FINDING — the send→reply "FAIL" is NOT a plane result and NOT a divergence. It is a harness-target error.** Two first-hand confirmations:
+
+1. **Wrong service target.** `xpc-harness-plane.c:117`: `xpc_connection_create("com.apple.system.logger", NULL)`. That is the **ASL syslogd Mach service**, NOT an `xpc_connection` echo endpoint. The harness's own comment (lines 109-110) admits "Available on macOS; may or may not be registered on rmxOS" — then the report labels the resulting `kr=22 (EINVAL)` "Expected divergence vs macOS." This is the exact id-011 false-divergence trap: an uncertain target's failure miscast as a behavior divergence. `com.apple.system.logger` is not a generic XPC echo responder on macOS *either* — sending an `{op:ping}` dict and expecting `{reply:pong}` is not its protocol. So the case would mis-FAIL or mis-behave on BOTH sides for reasons unrelated to the plane.
+
+2. **No companion responder authored.** `git show --stat bff9627` adds ONLY `xpc-harness-plane.c` (+ compiled binary + serial + findings md). There is **no service `.c` and no service plist**. The harness is the CLIENT half only. op-160's *proven* live plane used `org.rmxos.op160.xpc-service` WITH a companion `op160-xpc-service.c` echo responder + `com.rmxos.op160.xpc-service.plist`. op-122 never exercised op-160's live plane — it pointed a lone client at an unrelated daemon.
+
+**CONSEQUENCE for the markers as reported:**
+- `OP122_RMXOS_RUN` — the send→reply, cancel→error, and "typed payload OVER THE WIRE" plane cases did NOT run against the op-160 plane. The "typed payload: ALL PASS" is **local dict accessors** (the wire send returned EINVAL, so nothing crossed the transport — that PASS proves substrate, already covered by op-121, not wire fidelity). The cancel "event handler didn't fire within 1s" ran against an already-broken connection → uninterpretable, NOT a cancel-semantics finding.
+- `OP122_APPLES_TO_APPLES status=0` is premature: byte-identical is necessary but the blob must exercise the *right* plane first. A byte-identical wrong-target harness is apples-to-apples on the wrong fruit.
+- Substrate 14 PASS = fine, no regression (it re-runs op-121's covered surface).
+
+**DISPOSITION:** rmxOS-side report **REJECTED as a conformance artifact** (no fault to the run mechanics — the harness DESIGN is wrong). **HALT mx-a64z macOS-truth capture on this harness** — capturing truth for `com.apple.system.logger` ping/pong would burn a cycle and risk cataloging an EINVAL that is a harness error, not an rmxOS gap.
+
+**FIX-BACK (rx-x64z, before any truth capture):**
+- The harness MUST include a **companion echo SERVICE** (responder) registered under a test name (e.g. `com.rmxos.op122.echo` / macOS-side a matching LaunchAgent label), loaded as a **launchd-JOB** on each side (id-016 — not shell-launch). The client half connects to THAT, sends `{op:ping}`, expects `{reply:pong}` with the `XPC_SEQID` echo. This mirrors op-160's proven `org.rmxos.op160.xpc-service` + responder pattern — reuse it, do not re-invent.
+- Keep the ASSERT/RECORD split already decided (ASSERT send→reply payload + seqid + typed values; RECORD-don't-assert the cancel/error description).
+- Plist for the echo service stays **macOS-plist-faithful** per the standing directive (Label, ProgramArguments, MachServices; `com.rmxos.op122.echo` label is a fine fixture name — the directive is about FORMAT/keys, not the label string).
+
+**REAL rmxOS SURFACE GAP worth keeping (not a false one):** the `_XPC_TYPE_ERROR` copy-relocation issue on rmxOS LLD (harness lines 64/169/285-286 — can't reference the type-identity constant directly) is a GENUINE rmxOS toolchain/surface gap (consistent with op-121's `_XPC_TYPE_*` copy-reloc finding). Catalog to **li-1008** as a real divergence; the harness work-around (avoid referencing the constant) is correct.
+
+**MARKER DISPOSITION (mine):** HARNESS_EXTENDED FAIL(wrong target + no responder) · APPLES_TO_APPLES HELD(premature) · RMXOS_RUN REJECTED(plane not exercised) · MACOS_TRUTH HALTED(do not capture on this harness) · PLANE_DIFF N/A · VERDICT **FIX-BACK** · TERMINAL not reached.
+
+**op-122 → stays [In-flight], reverts to fix-back** (harness re-author at rx-x64z; mx-a64z capture HELD until the corrected harness lands). Not a divergence, not a MATCH — a harness correction. li-1005 libxpc conformance leg remains OPEN.
