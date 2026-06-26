@@ -1,6 +1,6 @@
 # op-122 — Dual-Explorer lockstep: libxpc SERVICE-PLANE conformance MATCH (rx-x64z vs mx-a64z) over the op-160 live send→reply→cancel→error plane
 
-op-122 | role: **Explorer ×2 dual-lockstep** (FREE — mx-a64z macOS-truth + rx-x64z/rx1 rmxOS) | state: READY dispatch (authorized — UN-HELD by op-160 plane-live) | parent id: id-021 (libxpc / li-1005) | authored 2026-06-26 (Arranger seat, model Opus 4)
+op-122 | role: **Explorer ×2 dual-lockstep** (FREE — mx-a64z macOS-truth + rx-x64z/rx1 rmxOS) | EXU: **rx-x64z (rmxOS side, DONE) + mx-a64z (macOS-truth, pending)** | state: **[Done]** (rx side delivered + Arranger-verified first-hand; mx-a64z macOS-truth capture + final diff pending) | parent id: id-021 (libxpc / li-1005) | authored 2026-06-26 (Arranger seat, model Opus 4)
 purpose: the conformance-MATCH leg for libxpc — diff rmxOS vs macOS-truth over the service plane op-160 just made live. This is li-1005's leg-3 (MATCH) analogue to asl op-116-cont / notify op-110-cont. Plane-live (op-160) is the prerequisite; THIS proves it conforms to macOS behavior. Runs after op-160 [Done]; parallel-OK with op-159 / asl leg-4 (different pipeline).
 
 STATE OF THE WORLD (verified first-hand, do NOT re-derive):
@@ -146,3 +146,26 @@ OP122_TERMINAL status=0
 ```
 
 PUSH: rx branch (responder .c + plist + retargeted client + serial). Report → Arranger-seat first-hand verify the client actually hit the responder (serial shows pong+seqid, not EINVAL) + the client `.c` is mx-compilable (no rmxOS-only client branch) → release the CLIENT_SHA to mx-a64z #54b for macOS-truth capture. Do NOT merge. The apples-to-apples diff happens after mx captures truth on this exact SHA.
+
+---
+
+## ARRANGER-SEAT VERIFY (2026-06-27, model Opus 4) — rx fix-back VERIFIED FIRST-HAND @ a41c8ce; PLANE LIVE + reply-correlation gap REAL; op-122 [Done] (rx side); CLIENT_SHA released to mx with a STALE-DOC OVERRIDE
+
+Verified against the committed blob + serial @ `a41c8ce` on `origin/op-122-xpc-plane` (rmx-explorer) — NOT relayed; the report's prose and the linked finding markdown DISAGREE, so I read the raw artifacts.
+
+**Client — VERIFIED canonical:** `xpc-harness-plane.c` sha256 = `34a9cac9c0f8eba3484defcec5683c619774d873f308349e478d3b3f783e4edd` (matches report). Target retargeted to `com.rmxos.op122.echo` (`#define OP122_ECHO_SERVICE`, line 38), NOT `com.apple.system.logger`. mx-compilable: the only `#ifdef`s are macOS availability-macro guards (`__OSX_AVAILABLE_STARTING` etc.) that `#define`-empty when absent — no rmxOS-only LOGIC branch. ✓
+
+**Plane LIVE — VERIFIED from serial:** client `xpc_send` (id=1) → responder `recv_message … new peer on port <28>` → `OP122_ECHO_PEER status=0`. Bidirectional: responder unpacks `data_size=196` (request), client unpacks `data_size=20` (fallback). The op-160 plane is genuinely crossed both ways. ✓
+
+**Reply-correlation gap — VERIFIED, the finding is REAL (NOT an id-011 manufacture):** `OP122_ECHO_REPLY status=1 reason=create_reply_null_fallback` → `xpc_dictionary_create_reply` returns NULL at runtime (symbol present @0x12d30) → responder falls back to a FRESH dict via `xpc_connection_send_message` (`fallback=1`). The client's `send_message_with_reply_sync` needs a CORRELATED reply, not a fresh message → it BLOCKED. NO `reply_valid`/`seqid_correlation`/pong assertion ever prints; run torn down via `Shutdown NOW!` @ uptime 30s. The Explorer did NOT fake a pong/seqid match — honest (cancel marker explicitly "not reached, blocked"). The rmxOS truth for the reply cases = **round-trip BLOCKS** (no correlated reply), which IS the conformance finding.
+
+**TWO DEFECTS flagged (do not let them reach mx uncorrected):**
+1. **STALE finding markdown.** `findings/nx-r64z/20260626-op122-xpc-plane-conformance-rmxos.md` was NOT refreshed for the fix-back — it still documents the OLD rejected run (`com.apple.system.logger`, EINVAL kr=22, harness sha `c54e526…`). Its "mx-a64z instructions" cite the WRONG SHA. **mx MUST IGNORE that doc** and use the override below. (Explorer to refresh the md; non-blocking for the mx capture given the override.)
+2. **li-1008 is being overloaded.** The reply-correlation gap (core XPC request-reply broken) is SUBSTANTIVE, distinct from the cosmetic `_XPC_TYPE_ERROR` copy-reloc already under li-1008. Flag: this likely BLOCKS libxpc truly-green (id-021/li-1005) for the 1.0-preview — request-reply is the central XPC pattern. Coordinator to decide li-1008 split vs new li.
+
+**CLIENT_SHA RELEASE TO mx-a64z (#54b) — authoritative, overrides the stale md:**
+- Blob: `xpc-harness-plane.c` @ sha256 `34a9cac9c0f8eba3484defcec5683c619774d873f308349e478d3b3f783e4edd`, commit `a41c8ce`, branch `origin/op-122-xpc-plane`. Build + run UNMODIFIED on macOS (mm4).
+- macOS responder: author the LaunchAgent registering `com.rmxos.op122.echo` to the LOCKED CONTRACT using the **`xpc_dictionary_create_reply` contract path** (NOT the rmxOS fallback) — so the divergence captured = "macOS correlated-reply WORKS vs rmxOS create_reply NULL." `launchctl bootout` after.
+- Capture macOS-truth serial; expected: client round-trip COMPLETES (pong + seqid echo + typed echo asserted) where rmxOS BLOCKED. Diff per-case → the li-1008 reply-correlation gap is the headline divergence.
+
+**DISPOSITION:** op-122 → **[Done]** (rx side: plane-live + canonical client SHA + rmxOS reply-correlation truth, Arranger-verified). mx-a64z macOS-truth capture + the final apples-to-apples diff remain the pending downstream consumption → op-122 [Retired] after that diff. mx capture is the same op-122 (authoring split), not a new op.
