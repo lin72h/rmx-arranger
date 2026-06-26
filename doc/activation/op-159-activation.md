@@ -32,3 +32,20 @@ OP159_TERMINAL status=0
 PUSH: harness branch (the `.d` + run log + fire record). Report → Arranger-seat first-hand verify the fire record → if PROVEN, joins the inspection legs → op-156 eligible to MERGE → id-025 closes → notify leg-4 / id-010 unblocks. Do NOT merge from this op.
 
 CHAIN (id-025): op-156 (fix sound) + op-157 (coverage PASS) + op-158 (falsify PASS) [inspection CLOSED] → reachability: op-155 (stochastic capture) ∥ **op-159 (deterministic precondition watchpoint)** → either fires → merge → notify leg-4 / id-010 green.
+
+---
+
+## v2 NOTE + INTERPRETATION BAR (2026-06-26, Arranger seat, model Opus 4) — Gatekeeper ran a RAW-OFFSET .d with a 2-of-3 predicate; fixing the verdict bar before results land
+
+Gatekeeper reports op-159 v2 running (bg `bydaqoa2d`): a raw-offset `.d` bypassing the struct-CTF limitation that killed v1. Predicate = `arg2 != 0 && *(uint64_t*)(arg1+0x80) == 0`. This is conditions **1 + 2 only**; condition **3 (parked direct receiver, `thr_acts != NULL`) is DROPPED** pending thr_acts offset identification (v2 dumps candidate offsets toward it).
+
+**The bar this fixes IN ADVANCE (do not move post-hoc, either direction):**
+- A v2 **fire = "notifyd reaches the no-set→set branch"** — NECESSARY, NOT SUFFICIENT. It does NOT prove the bug precondition, because condition 3 (a direct waiter parked AT THAT INSTANT) is exactly what turns a benign no-set→set move into the lost-wakeup. A bare 2-condition fire must be reported as *branch-reached, parked-waiter coincidence UNCONFIRMED* — NOT "reachability PROVEN." `OP159_PRECONDITION_FIRED` stays status=0 on a 2-condition fire alone.
+- The **STRONG outcome is condition-3-independent**: a fire FOLLOWED by a wedge on the **SAME port** (`OP159_HANG_CORRELATED`) recovers sufficiency empirically — the causal link (no-set→set on port X → port X orphaned/0%-CPU) proves the parked-waiter coincidence happened without needing to read thr_acts. **Prioritize capturing the port identity on every fire** so the hang can be correlated to it.
+- A full-soak **no-fire is still a real negative** (notifyd never hits no-set→set → op-156 not THE bug → escalate), unchanged.
+
+**TWO things to verify first-hand before any fire record counts (Rule 1 / id-011 claim-history):**
+1. **Offset 0x80 provenance** — is `ip_pset` actually at `+0x80` in this kernel's `struct ipc_port`? A wrong raw offset reads garbage and the predicate is meaningless. Gatekeeper must cite the derivation (CTF of a sibling type / pahole / source struct layout), not assert it.
+2. **thr_acts from the candidate dump** — use v2's offset dump to land condition 3 in a **v3** = the real deterministic detector. v3 (3-condition) is what can set `OP159_PRECONDITION_FIRED`; v2 narrows + de-risks v3 but does not self-certify the gate.
+
+Net: v2 is a legitimate CTF work-around and good signal (especially the fire+same-port-hang path), but it does NOT carry the deterministic-reachability claim on a bare fire. Let it run; verdict on the actual record, against this bar.
