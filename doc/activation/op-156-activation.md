@@ -1,6 +1,6 @@
 # op-156 — Implementer: code-reasoned id-025 dive — map the Mach-IPC wait-path lock discipline, NAME the inversion/lost-wakeup, propose the fix (fix-on-inspection, NO live repro required)
 
-op-156 | role: **Implementer** (cost-30) | state: READY dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Fable)
+op-156 | role: **Implementer** (cost-30) | EXU: **wip-gpt (Implementer seat)** | state: **[Ready]** (merge-eligible per the ARRANGER-SEAT MERGE DECISION below; remaining Implementer unit = build-wall provenance triage → then merge) | parent id: id-025 | authored 2026-06-26 (Fable)
 assignment rationale: source-edit + build work = Implementer-exclusive. This RELEASES the cost-30 dive that was wrongly held behind a live capture for ~2 days. Supersedes op-142 ([Flushed] — its "wait for a captured stack" gate was the error; re-issued here as the inspection dive). Runs IN PARALLEL with op-155 (Explorer capture), not behind it.
 
 PREMISE — the dive does NOT need a live reproducer (the correction that releases this op):
@@ -117,3 +117,29 @@ Authority note: "you decide" = I set the merge BAR and release op-156; the merge
 **BUILD bar — THE ONE REMAINING CONCRETE GATE before merge-ready.** op-156's own note: the three `buildkernel` walls (libc_nonshared `__iconv_bool`; kpilite `thread_lite`; dtrace `systrace_freebsd32`) must be cleared OR shown PRE-EXISTING on clean base. These match the current-tree buildworld walls op-160 also hit (very likely pre-existing, NOT op-156-induced, = the separate id-017/018/020 buildworld-track problem). REMAINING IMPLEMENTER ACTION: a clean-base reproduction triage — confirm all three walls reproduce on base WITHOUT op-156's ipc_pset change → if so they do NOT gate this merge (separate track); if any is op-156-induced, fix it. This is the gate between op-156 [Done] and op-156 merged.
 
 **NET:** op-156 → **[Ready]** (merge-eligible: reachability@necessary-condition + validators SATISFIED; remaining Implementer action = the buildkernel-wall provenance triage, then merge). On merge: **id-025 closes** with the documented cond-3 residual + the notify-leg-4-soak rider as its confirmation → notify leg-4 / id-010 unblocks. The merge itself = Implementer action, Coordinator-dispatched.
+
+---
+
+## MERGE DISPATCH BRIEF — wip-gpt / Implementer seat (normal-form, 2026-06-27, Arranger seat, model Opus 4)
+
+role: **Implementer (cost-30 — wip-gpt seat)** | state: READY dispatch (authorized) | parent id-025 (notifyd A.4 lost-wakeup / li-1004) | gates the op-156 merge → id-025 close → notify leg-4 (id-010) unblock
+why: the fix (no-set→set `ipc_pset_move` defensive correction) is sound-on-inspection, validator-passed (op-157/158), and reachability-proven at the necessary condition (op-159, live notifyd pid 968). The ONLY thing between [Ready] and merged is the build bar: op-156's BUILD_CLEAN was over-claimed (only mach.ko/ipc_pset.o built; full buildkernel hit three walls). Clear their provenance, then merge.
+
+DELIVER:
+1. **build-wall provenance triage** — on CLEAN base (WITHOUT op-156's ipc_pset change), reproduce the three `buildkernel` walls: libc_nonshared `__iconv_bool`; kpilite `thread_lite`; dtrace `systrace_freebsd32`. For EACH: confirms-on-base = PRE-EXISTING (separate id-017/018/020 buildworld track, does NOT gate this merge) | only-with-op-156 = op-156-induced → FIX it. Cite the base SHA + the per-wall result, do not assert.
+2. **merge** — iff all three walls are PRE-EXISTING (or fixed): merge op-156's ipc_pset change to the integration branch. Mach-primitives-outward, low-risk defensive path; the change is already inspected.
+3. **REPORT** — per-wall provenance verdict (base SHA + reproduce/not), the merge SHA. → Arranger-seat first-hand verify the triage (walls reproduce on base, not manufactured) before id-025 is stamped closed.
+
+GATES (id-011 / overclaim): no BUILD_CLEAN claim without an actual clean buildkernel OR a per-wall pre-existing citation; a wall left un-triaged blocks merge (do not merge "around" it). cond-3 observation is NOT a merge gate (recovered non-blocking via the notify leg-4 soak rider — see decision above). Do NOT author a dedicated cond-3 re-soak.
+
+MARKERS:
+```
+OP156_WALL_LIBC     status=0   # libc_nonshared __iconv_bool — base-repro? PRE-EXISTING | op156-induced(+fix)
+OP156_WALL_KPILITE  status=0   # kpilite thread_lite — base-repro? PRE-EXISTING | op156-induced(+fix)
+OP156_WALL_DTRACE   status=0   # dtrace systrace_freebsd32 — base-repro? PRE-EXISTING | op156-induced(+fix)
+OP156_BUILDKERNEL   status=0   # clean buildkernel achieved OR all 3 walls cited pre-existing
+OP156_MERGE_SHA     recorded   # ipc_pset change merged to integration branch
+OP156_TERMINAL      status=0
+```
+
+PUSH: implementer branch (triage log + merge). Report → Arranger first-hand verify (per-wall base-repro, merge SHA) → id-025 closes (cond-3 residual + leg-4 soak rider documented) → notify leg-4 / id-010 unblocks. The notify leg-4 soak op (when authored) MUST carry the `thr_acts@0x20` precondition rider `.d` (standing directive).
