@@ -1,7 +1,18 @@
 # id-025 — kernel Mach IPC deadlock-on-wait under sustained notifyd register/post/check/cancel churn
 
 - id: id-025
-- state: **STOCHASTIC RACE — op-140 closed with a DEFINITIVE NEGATIVE finding (2026-06-25,
+- state: **CLOSED 2026-06-27 (Arranger-verified first-hand) — FIX MERGED. op-156 (`ipc_pset_port_changed`
+  wakes direct receivers on the no-set→set `ipc_pset_move` transition) is merged to `origin/alpha` (`3c2dd7f`,
+  fix `180d30bd`); sound/covered(op-157)/falsified(op-158) + reachability PROVEN at the NECESSARY condition
+  on live notifyd (op-159: 2 fires, pid 968) + the fix drains exactly the `thr_acts@0x20` parked-receiver
+  head op-164 source-identified. CLOSED on the necessary-condition basis (Coordinator-delegated merge
+  decision (A), op-156). RESIDUAL (non-blocking): cond-3 (a receiver parked AT the transition) is reasoned-
+  sound but not yet OBSERVED — folded into the notify leg-4 soak (op-165) as a non-blocking `thr_acts@0x20`
+  rider. RE-OPEN trigger: a freeze recurrence in the op-165 leg-4 soak on the op-156-patched kernel.
+  Carrier chain retired: op-140/148/150/151/153/154/155 (capture attempts) → op-159 (necessary-condition
+  reachability) → op-164 (cond-3 offset) → op-156 (fix, MERGED). Historical investigation log below.**
+
+- prior-state: **STOCHASTIC RACE — op-140 closed with a DEFINITIVE NEGATIVE finding (2026-06-25,
   Arranger-verified first-hand against rmx-explorer-2 `explorer-rx2` @ ddb5e3d + the leg-4-exact oracle
   log). The op-123 leg-4 deadlock (sha 88ab17f7…) did NOT reproduce across 3 faithful re-runs: act-1
   (N=4, 30m clean), act-2 (N=1, 70m clean), act-3 (N=1, leg-4's OWN exact harness, ran to 87m / alloc
