@@ -2,10 +2,14 @@
 
 - id: id-026
 - state: OPEN — phase-1 tryout of the x86-64-v3 platform baseline. **REVIVED 2026-06-27 (Coordinator):**
-  carrier op-149 [Ready] (Implementer wip-gpt, overnight) → on PASS feeds **op-168** (Gatekeeper long
-  stability soak = the ADOPTION GATE). Two-step: Implementer builds (correct + safe), Gatekeeper soaks
-  (stable enough to ship). Hold-stable → adopt v3+`-O2 -pipe` as the 1.0-preview build baseline (a
-  deliberate modern-CPU / no-legacy selling point vs Linux distros).
+  carrier op-149 (Implementer wip-gpt) → on PASS feeds **op-168** (Gatekeeper long stability soak = the
+  ADOPTION GATE). Two-step: Implementer builds (correct + safe), Gatekeeper soaks (stable enough to ship).
+  Hold-stable → adopt v3+`-O2 -pipe` as the 1.0-preview build baseline (modern-CPU / no-legacy selling point).
+  **op-149 ATTEMPT-1 (2026-06-27): buildworld FAIL (rc=2), v3 UNREACHED — Arranger-verified.** Cleared mtree +
+  thrworkq.h walls, then hit the pre-existing `lib/libc_nonshared` `__iconv_bool` implicit-int wall (header-
+  staging class, v3-INDEPENDENT — confirmed at source). The build tree is missing a stack of already-validated
+  header-staging fixes; op-149 [Held] pending Coordinator's next-hop choice (grind wall-by-wall vs FREE-Explorer
+  batch-audit the remaining deltas up front → one clean buildworld → then the v3 checks). NOT a v3 verdict.
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 
