@@ -1,7 +1,19 @@
 # id-011 — libasl + syslogd/aslmanager: conformance bring-up (li-002 next rung, li-003 real-service)
 
 - id: id-011
-- state: **LEG-1 (LIFECYCLE) GREEN — VALIDATED 2026-06-25 (op-146, rmx-gatekeeper, Arranger-verified
+- state: **LEG-4 (SOAK) PARTIAL — op-163 FLAGGED, Arranger-verified first-hand 2026-06-27 (serial sha
+  `74515b0a…`). asl is NOT truly-green yet.** Crash/PID/degrade durability GREEN over 4h/7234 iters (no crash,
+  no restart, no degradation — first-hand confirmed: 259 crashbar HBs all crashes=0, 0 PID_CHANGE, matrix_fails=0
+  only, clean SOAK_TERMINAL, no CRASH_DETECTED in serial). **BUT the leg-4 "store growth bounded + aslmanager
+  reclaims" criterion is UNMET/under-instrumented:** RSS grew MONOTONICALLY 6→45MB (decelerating 2.56→0.76
+  pg/it → leak-INCONSISTENT, but never plateaued → bounded UNPROVEN); fd count + on-disk store size were NEVER
+  sampled (HB carried only `rss_pages`); aslmanager reclaim NEVER observed (0 markers) though `usr.sbin/aslmanager/`
+  ships in-tree. Mach-port leak invariant also unmeasured (op-163 didn't run the op-133 oracle). NEXT: op-170
+  (FREE Explorer rx1, read-only) audits whether aslmanager is wired into the soak image's launchd + its reclaim
+  trigger → decides fix shape → leg-4 RE-SOAK (Gatekeeper, RESERVED) instrumenting {fd, RSS, on-disk store} +
+  reclaim-watch, threshold-forced to observe ≥1 reclaim cycle. Legs 1/2/3 GREEN stand. — Prior:
+
+  **LEG-1 (LIFECYCLE) GREEN — VALIDATED 2026-06-25 (op-146, rmx-gatekeeper, Arranger-verified
   first-hand @ 864a107).** Independent Gatekeeper guest-run drove the Apple `asld` through the full 7-rung
   launchd lifecycle (load→start→observe→restart→remove→reload), Elixir-spine + Zig/metal-probe asserted:
   3 distinct asld PIDs (A=969/B=971/C=fresh), launchd→asld→asl round-trip PASS at observe/restart/reload,

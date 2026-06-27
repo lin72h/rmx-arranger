@@ -1,6 +1,6 @@
 # op-163 — Gatekeeper: asl leg-4 (SOAK) — sustained launchd-hosted asld stability over the 9-case asl churn; the last bar to li-1004 truly-green
 
-op-163 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** (soak host — boot the asld/launchd image, NOT the base kernel) | state: **[Exe]** — DISPATCHED 2026-06-27 (overnight batch) on `rmx-gatekeeper-rx-x64z`; boot image `build/op162-leg2/op162-leg2.img` (asld overlay, provenance-proven at op-162: pid 979 = `/usr/sbin/asld` answering com.apple.system.logger); blocker cleared (op-159 [Retired] → soak host was free). Awaiting soak completion + Arranger-seat first-hand verify | parent id: id-011 (li-1004 asl) | authored 2026-06-26 (Arranger seat, model Opus 4)
+op-163 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** (soak host — boot the asld/launchd image, NOT the base kernel) | state: **[Done] — FLAGGED (bar 3 RSS), Arranger-verified first-hand 2026-06-27 (serial sha `74515b0a…` matches). Crash/PID/degrade bars CLEAN; resource bar FLAGGED + UNDER-INSTRUMENTED. asl NOT truly-green — leg-4 PARTIAL. Drives op-170 (aslmanager-reclaim wiring audit) → re-soak.** | parent id: id-011 (li-1004 asl) | authored 2026-06-26 (Arranger seat, model Opus 4)
 purpose: close the SOLE remaining leg on asl. legs done: leg-1 lifecycle GREEN (op-146), leg-2 traced GREEN (op-162), leg-3 conformance-MATCH 9/9 GREEN (op-116-cont). leg-4 (soak) proves launchd-hosted asld survives SUSTAINED 9-case churn over the overnight window with no crash / no leak / no store runaway / no degradation — i.e. asl is not point-green but durable. PASS here → asl is the FIRST core service truly-green → joins {launchd, libnotify, libxpc} toward li-1000 1.0-preview.
 
 ROLE BOUNDARY: this is a **fixed-bar regression soak = Gatekeeper's** (feedback_soak_is_gatekeeper). leg-3's MATCH and leg-2's trace are the fixed bars; leg-4 holds them over duration. NOT Explorer (no discovery) and NOT the Implementer proving its own fix. Distinct from op-159 (id-025 notifyd soak) — different subject, different boot image; the two CONTEND for the single soak host → op-163 QUEUES BEHIND op-159 (kernel blocker wins the slot; asld image ≠ base-kernel boot target).
@@ -38,3 +38,57 @@ OP163_TERMINAL status=0
 PUSH: harness branch (the `.d` + soak log + iter/elapsed + verdict). Report → Arranger-seat first-hand verify the crash-bar log (grep sigexit/SIGSEGV/SIGABRT/SIGBUS = 0 over the window, not just the summary line) + the PID-stable + the no-runaway samples (id-011 explorer-claim history — verify the artifact, not the relayed verdict) → if SOAK-CLEAN, asl leg-4 closes → **asl truly-green (li-1004)** → first core service done. Do NOT merge from this op (harness/observation artifact only).
 
 CHAIN (li-1004 asl → preview): leg-1 GREEN (op-146) + leg-2 GREEN (op-162) + leg-3 MATCH 9/9 GREEN (op-116-cont) → **op-163 (leg-4 soak, this — QUEUED behind op-159 for the soak host)** → asl truly-green → joins {launchd, libnotify (post id-025), libxpc (post op-122)} → li-1000 1.0-preview + li-1007 integration soak.
+
+---
+
+## ARRANGER-SEAT VERIFY + VERDICT (2026-06-27, model Opus 4, first-hand on the serial log)
+
+Report (rmx-gatekeeper `ae6576f`): 7,234 iters / 4h / 0 fails / PID stable / no crash; FLAGGED bar 3 (RSS).
+Verified against `build/op163/op163-serial.log` (sha `74515b0a…` matches the reported serial-sha), NOT relayed:
+
+**CLEAN bars (confirmed first-hand):**
+- **Bar 1 (crash):** 259 `OP163_CRASHBAR_HB` heartbeats, ALL `crashes=0`; 0 lines with `crashes=[1-9]`; clean
+  `OP163_SOAK_TERMINAL iter=7234`. **No `OP163_CRASH_DETECTED` anywhere in the serial** — the crash-stack the
+  report describes (postsig←ast_sig, "planned SIGTERM") lives in a separate crashbar file, NOT the serial; the
+  serial shows no mid-soak crash. The garbage `sig=-8796…` is the known `fbt::sigexit` arg0 mismatch
+  (feedback_fbt_traces_kernel_only — sigexit arg0 isn't the signal number), not a real signal. Bar 1 holds.
+- **Bar 2 (PID):** `pid=973` on every HB; 0 `OP163_PID_CHANGE`. No KeepAlive-masked restart. Holds.
+- **Bar 4 (degrade):** `op116_matrix_fails=0` is the ONLY matrix value present across the run; 0 fails / 7234
+  iters. Holds.
+
+**Bar 3 (resource) — FLAGGED stands, and it is UNDER-INSTRUMENTED (the report's "not a leak" is INFERRED, not
+measured):**
+- RSS growth is REAL and MONOTONIC — independently recomputed the full 144-sample `rss_pages` series: every
+  sample rises, 1505→11518 pages (~6→45MB). Bar 3's own text says "FAIL on monotonic runaway" → monotonic, so
+  FLAGGED is correct; do NOT upgrade to CLEAN.
+- The per-iter RATE genuinely DECELERATES (2.56→1.78→1.48→1.20→1.16→0.68→~0.76 pg/it) — this is leak-INCONSISTENT
+  (a constant-rate heap leak does not decelerate), consistent with store accumulation. BUT the curve NEVER
+  plateaued (still +0.76 pg/it at the end) → "bounded" is UNPROVEN.
+- **Two of bar 3's three required samplers were NOT run:** the HB marker carries ONLY `rss_pages` — **fd count
+  and on-disk asl STORE size were never sampled.** So "RSS tracks stored-log volume, not a leak" rests on the
+  on-disk store size, which was not measured. Inference, not evidence.
+- **aslmanager reclaim was NEVER observed:** 0 `aslmanager`/`reclaim` markers in the serial. The id-011 leg-4
+  truly-green criterion is "store growth **bounded + aslmanager reclaims**" — the reclaim half is UNMET/unseen.
+  The tree ships `usr.sbin/aslmanager/`, so the open question is whether it is wired into the soak image's
+  launchd + what triggers it (ttl/size/timer) — likely NOT loaded or threshold not hit in 4h, NOT necessarily
+  a deep leak.
+- Residual-coverage note: op-163's bars are crash/PID/fd-RSS-store/degrade; it did NOT run the op-133
+  `asld-soak-oracle.d` Mach-port/kmsg balance invariants, so id-011's "zero leaked Mach ports" criterion is
+  unmeasured here (separate dimension).
+
+VERDICT: **op-163 = FLAGGED (crash-clean).** asl leg-4 is **PARTIAL** — crash/PID/degrade DURABILITY is GREEN
+(strong: 4h/7234 iters, no crash, no restart, no degradation), but the resource/store criterion FLAGGED and
+under-instrumented, and the aslmanager-reclaim criterion is unmet/unseen. **asl is NOT truly-green** (do not
+conflate strong crash-durability with readiness; feedback_no_conflate_gating_with_readiness).
+
+NEXT-HOP:
+- **op-170 (FREE Explorer rx1, read-only, FIRST):** is `aslmanager` wired into the `build/op162-leg2` soak
+  image's launchd, and what triggers its reclaim (ttl/size/timer)? Cite the plist + `aslmanager.c` trigger
+  logic. Decides fix shape: not-loaded/not-scheduled → wire-up (Implementer) + re-soak; loaded-but-threshold-
+  not-hit → re-soak longer / lower threshold; runs-but-store-still-grows → real bug (Implementer).
+- **leg-4 RE-SOAK (Gatekeeper, RESERVED — author after op-170):** instrument ALL THREE of {fd, RSS, on-disk
+  asl store size} + an aslmanager-reclaim watch; run long enough / threshold-forced to observe ≥1 reclaim
+  cycle; pass-bar = RSS+store PLATEAU across a reclaim, not merely "decelerating monotonic."
+
+op-163 → **[Done]** (soak data delivered + Arranger-verified). The FLAG routes to op-170; asl truly-green
+(li-1004) HELD pending bounded-store demonstration.
