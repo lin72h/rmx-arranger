@@ -1,8 +1,8 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Held] — RE-POINT recommended (op-169 verify): build the v3 tryout in `wip-gpt/wip-rmxos` @ `3c2dd7f` (the proven rmxOS alpha), NOT vanilla `freebsd-src-official-stable-15`. Moots the entire stable-15 wall-grind. Awaiting Coordinator confirm of the base switch.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — BASE SWITCH CONFIRMED (Coordinator 2026-06-27): build the v3 tryout in `wip-gpt/wip-rmxos` @ `3c2dd7f` (proven rmxOS alpha, op-156 merge tip), NOT vanilla `freebsd-src-official-stable-15`. The stable-15 mtree/thrworkq/iconv PRECONDITIONS below are MOOT under this base — do NOT carry them forward. Add ONLY the v3 make.conf to the proven tree, rebuild. Released for dispatch.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
 
-BASE RE-POINT (op-169 Arranger-verified 2026-06-27): attempt-1 ground vanilla `freebsd-src-official-stable-15`
+BASE RE-POINT — CONFIRMED (Coordinator 2026-06-27; op-169 Arranger-verified): attempt-1 ground vanilla `freebsd-src-official-stable-15`
 wall-by-wall (mtree → thrworkq → iconv) because it is a FreeBSD checkout incompletely retrofitted with rmxOS
 staging (8 Darwin dirs, missing dispatch/private/xpc). The PROVEN rmxOS alpha source `wip-gpt/wip-rmxos`
 @ `3c2dd7f` (op-156 merge tip; builds the alpha image) has ALL 11 Darwin dirs → the staging walls do not
@@ -23,6 +23,12 @@ PRECONDITION RE-VERIFIED (Fable first-hand 2026-06-27): build tree HEAD `524d71d
 fixes — `grep -E 'pthread|apple' etc/mtree/BSD.include.dist` → ABSENT; op-115 SHA `12330136` NOT an ancestor.
 The restore below is still step-zero; without it the build dies at the includes phase (exactly what killed
 rx2's run, which it mislabeled a "race").
+
+>>> SUPERSEDED by the CONFIRMED base switch (2026-06-27): the entire stable-15 PRECONDITION/TREE-SYNC grind
+>>> below is MOOT — the build now runs against `wip-gpt/wip-rmxos` @ `3c2dd7f` (target tree + SHA verified
+>>> first-hand at release: `git cat-file -t 3c2dd7f` = commit "alpha: merge op-156 id-025 wait-path fix",
+>>> all 11 Darwin dirs present). Do the v3 make.conf add ONLY; ignore the mtree restore / iconv / thrworkq
+>>> steps that follow (they were stable-15 retrofit debt, absent in the alpha base).
 assignment rationale: RE-ASSIGNED 2026-06-26. Core work is a `buildworld`+`buildkernel` on a build path
 that has never completed clean (cleared wall-by-wall id-014→018→020→022) — that is Implementer-by-nature,
 not Explorer scouting. Originally went to Explorer rx2, who did not know how to build the OS and cargo-culted

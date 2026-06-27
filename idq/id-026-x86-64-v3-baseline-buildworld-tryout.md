@@ -14,7 +14,10 @@
   (op-156 merge tip, builds the alpha image, all 11 Darwin dirs) has none of them. Recommendation: re-point
   op-149's build root to `wip-gpt/wip-rmxos` + add the v3 make.conf → clean v3 isolation, stable-15 walls moot.
   op-169's "switch to NextBSD" was REJECTED (donor lineage, missing pthread+private — would reintroduce walls;
-  the explorer's tree counts were inverted). Awaiting Coordinator confirm of the base switch. NOT a v3 verdict.
+  the explorer's tree counts were inverted). **BASE SWITCH CONFIRMED (Coordinator 2026-06-27): point op-149 at
+  `wip-gpt/wip-rmxos` @ `3c2dd7f` (tree+SHA re-verified first-hand at release). op-149 → [Awaiting], released
+  for dispatch to wip-gpt — add ONLY the v3 make.conf, the stable-15 mtree/thrworkq/iconv grind is dropped.**
+  NOT a v3 verdict — v3 stays UNREACHED until a clean buildworld on the alpha base.
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 
