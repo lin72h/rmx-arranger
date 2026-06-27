@@ -1,6 +1,6 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — BASE SWITCH CONFIRMED (Coordinator 2026-06-27): build the v3 tryout in `wip-gpt/wip-rmxos` @ `3c2dd7f` (proven rmxOS alpha, op-156 merge tip), NOT vanilla `freebsd-src-official-stable-15`. The stable-15 mtree/thrworkq/iconv PRECONDITIONS below are MOOT under this base — do NOT carry them forward. Add ONLY the v3 make.conf to the proven tree, rebuild. Released for dispatch.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[In-flight] — DISPATCHED to wip-gpt 2026-06-27 (overnight batch). Base: `wip-gpt/wip-rmxos` @ `3c2dd7f` (proven rmxOS alpha, op-156 merge tip), NOT vanilla `freebsd-src-official-stable-15`. The stable-15 mtree/thrworkq/iconv PRECONDITIONS below are MOOT under this base — do NOT carry them forward. Add ONLY the v3 make.conf to the proven tree, rebuild. Awaiting build/boot/safety result → on PASS feeds op-168.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
 
 BASE RE-POINT — CONFIRMED (Coordinator 2026-06-27; op-169 Arranger-verified): attempt-1 ground vanilla `freebsd-src-official-stable-15`
 wall-by-wall (mtree → thrworkq → iconv) because it is a FreeBSD checkout incompletely retrofitted with rmxOS
