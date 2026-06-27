@@ -1,6 +1,6 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[In-flight] — DISPATCHED to wip-gpt 2026-06-27 (overnight batch). Base: `wip-gpt/wip-rmxos` @ `3c2dd7f` (proven rmxOS alpha, op-156 merge tip), NOT vanilla `freebsd-src-official-stable-15`. The stable-15 mtree/thrworkq/iconv PRECONDITIONS below are MOOT under this base — do NOT carry them forward. Add ONLY the v3 make.conf to the proven tree, rebuild. Awaiting build/boot/safety result → on PASS feeds op-168.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — ATTEMPT-2 on alpha base FAILED (verified first-hand, see ATTEMPT-2 block): buildworld rc=2 at the iconv `__iconv_bool` wall — the base switch cleared mtree+thrworkq but did NOT moot iconv (a v3-independent `lib/libc` source-level header self-containedness defect, identical in both trees). NEXT-HOP DECIDED: Implementer applies the faithful iconv self-containedness fix (commit as baseline tree fix), reruns buildworld from a CLEAN obj prefix, then v3 checks (steps 2-5). NO further base switching. Released for re-dispatch to wip-gpt, overnight batch. v3 still UNREACHED, not falsified.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
 
 BASE RE-POINT — CONFIRMED (Coordinator 2026-06-27; op-169 Arranger-verified): attempt-1 ground vanilla `freebsd-src-official-stable-15`
 wall-by-wall (mtree → thrworkq → iconv) because it is a FreeBSD checkout incompletely retrofitted with rmxOS
@@ -141,3 +141,44 @@ NEXT-HOP (Coordinator's call — two options, recommendation below):
   they only run once a baseline buildworld completes.
 
 op-149 → **[Held]** pending the next-hop choice. This is NOT a v3 verdict; it is a baseline-buildability block.
+
+---
+
+## ATTEMPT-2 RESULT (alpha base) + ARRANGER-SEAT VERIFY (2026-06-27, model Opus 4, first-hand)
+
+Report: branch `op-149-x86-64-v3-alpha`, commit `a0362e8` (tools record `wip-rmxos/tools/op149/README.md`),
+pushed to origin. Markers: `OP149_MAKECONF_SET=0`, `OP149_BUILDWORLD=1`, `OP149_VERDICT p1_green=0`. Verified
+at log (`build/op149-alpha-x86-64-v3/logs/buildworld.log`, rc=2) + source, NOT relayed:
+
+- **The base switch did NOT moot the wall.** On the CONFIRMED alpha base `wip-rmxos` @ `3c2dd7f`, buildworld
+  fails at the **IDENTICAL** `lib/libc/iconv/iconv-internal.h:35:48 __iconv_bool` implicit-int wall
+  (`-Werror,-Wimplicit-int`), in `lib/libc_nonshared` / `_startup_libs`, rc=2 — same signature as attempt-1.
+- **Root cause = source-level header self-containedness, NOT mtree staging (verified at source).**
+  `lib/libc/iconv/iconv-internal.h` has NO `#include` providing `__iconv_bool`; the typedef lives only in
+  `include/iconv.h:44` (`_Bool` under C99). The libc_nonshared consumer TU compiles `iconv-internal.h` with
+  `<iconv.h>` NOT in scope → implicit-int. The iconv sources are IDENTICAL across stable-15 and the alpha tree
+  → the wall reproduces verbatim. mtree Darwin-dir completeness (op-169's 11-vs-8 table) is IRRELEVANT to it.
+- **v3 still UNREACHED, not falsified.** No buildkernel/boot/AVX-safety/codegen/smoke. p1_green=0.
+
+CORRECTION (Arranger owns the verify-first gap): op-169's "switch base → moots the entire wall-grind" was an
+OVERCLAIM, and the Arranger confirmation checked the wrong proxy (the mtree dir-count table, never evidence
+about iconv). NET effect of the base switch was POSITIVE-BUT-PARTIAL: the alpha base already carries the mtree
++ thrworkq fixes, so the build sailed past those two walls and reached iconv as wall #1 — but iconv, being a
+`lib/libc` include-order defect identical in both trees, survives the base change. Also: op-169's "wip-rmxos
+BUILDS THE ALPHA IMAGE" provenance is now SUSPECT under a clean object prefix — a clean-obj buildworld fails at
+iconv, so the alpha image was almost certainly built incrementally with `iconv.o` stale-staged, masking the
+source defect. Do NOT let "it builds the image" drive further base-hunting.
+
+NEXT-HOP (DECIDED — grind the single wall; do NOT switch base again):
+- iconv is now ONE isolated, concrete, v3-INDEPENDENT wall on the BEST available base. Base-switching is proven
+  not to address it. Implementer applies the **faithful iconv self-containedness fix** (make `iconv-internal.h`
+  self-contained / ensure the libc_nonshared consumer pulls `<iconv.h>` first — derive the faithful edit from
+  upstream FreeBSD, do not hand-roll), COMMITS it as a baseline tree fix (v3-independent), then reruns
+  buildworld from a **CLEAN object prefix** → on green, continues to the v3 checks (steps 2-5).
+- Folded into op-149 (one cost-30 cycle), not a separate op — single known fix.
+- ESCALATION RULE: if a SECOND distinct `lib/libc` self-containedness wall appears AFTER iconv on the alpha
+  base, STOP grinding blind — escalate to a compile-based audit (actually attempt the build / diff against a
+  truly clean-building tree), since op-169's dir-count audit demonstrably missed iconv.
+
+op-149 → **[Awaiting]** with the iconv precondition above; released for Coordinator re-dispatch to wip-gpt
+(overnight batch). Still NOT a v3 verdict — baseline-buildability block, wall #1 of (hopefully) 1.

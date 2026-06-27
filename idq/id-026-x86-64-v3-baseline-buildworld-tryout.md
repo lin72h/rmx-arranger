@@ -14,10 +14,15 @@
   (op-156 merge tip, builds the alpha image, all 11 Darwin dirs) has none of them. Recommendation: re-point
   op-149's build root to `wip-gpt/wip-rmxos` + add the v3 make.conf → clean v3 isolation, stable-15 walls moot.
   op-169's "switch to NextBSD" was REJECTED (donor lineage, missing pthread+private — would reintroduce walls;
-  the explorer's tree counts were inverted). **BASE SWITCH CONFIRMED (Coordinator 2026-06-27): point op-149 at
-  `wip-gpt/wip-rmxos` @ `3c2dd7f` (tree+SHA re-verified first-hand at release). op-149 → [Awaiting], released
-  for dispatch to wip-gpt — add ONLY the v3 make.conf, the stable-15 mtree/thrworkq/iconv grind is dropped.**
-  NOT a v3 verdict — v3 stays UNREACHED until a clean buildworld on the alpha base.
+  the explorer's tree counts were inverted). BASE SWITCH CONFIRMED (Coordinator 2026-06-27): point op-149 at
+  `wip-gpt/wip-rmxos` @ `3c2dd7f`. **ATTEMPT-2 (2026-06-27, Arranger-verified first-hand): the alpha base STILL
+  FAILS buildworld (rc=2) at the SAME iconv `__iconv_bool` wall.** The switch cleared mtree+thrworkq (the build
+  reached iconv as wall #1) but did NOT moot iconv — iconv is a v3-independent `lib/libc` source-level header
+  self-containedness defect (`iconv-internal.h` lacks the include for `__iconv_bool`; typedef only in
+  `include/iconv.h:44`), IDENTICAL in both trees. op-169's "moots the wall-grind" was an OVERCLAIM (the Arranger
+  confirmed the wrong proxy — mtree dir-counts, not the iconv wall). NEXT-HOP DECIDED: grind the single wall —
+  Implementer applies the faithful iconv self-containedness fix + reruns from a CLEAN obj prefix; NO further base
+  switching. op-149 → [Awaiting] for re-dispatch. v3 stays UNREACHED, not falsified.
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 

@@ -2,6 +2,15 @@
 
 op-169 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Done] → [Retired]** (reported `5b47fe8`; Arranger-verified first-hand 2026-06-27 — switch-base instinct CONFIRMED, but TARGET corrected NextBSD → wip-rmxos) | parent id: id-026 | L1i: li-1009 | cost: free | authored + resolved 2026-06-27 (Arranger seat, model Opus 4)
 
+> POST-HOC CORRECTION (op-149 attempt-2, Arranger-verified first-hand 2026-06-27): this audit's load-bearing
+> claim — that the wip-rmxos alpha base "moots the entire stable-15 wall-grind" — was an OVERCLAIM. The alpha
+> base DID clear the mtree + thrworkq walls, but the iconv `__iconv_bool` wall SURVIVED the base switch:
+> op-149 attempt-2 fails buildworld at the identical iconv wall on `wip-rmxos` @ `3c2dd7f`. Root cause is a
+> `lib/libc` source-level header self-containedness defect (iconv sources identical across both trees), NOT
+> the mtree Darwin-dir completeness this audit measured. The dir-count table (11 vs 8) was real but was never
+> evidence about iconv. The Arranger confirmation inherited the same proxy error. Net: base switch was
+> positive-but-partial, not a moot. See op-149 ATTEMPT-2 block. Lesson logged to verify-first.
+
 ---
 
 ## ARRANGER-SEAT VERIFY + CORRECTION (2026-06-27, model Opus 4, first-hand)
