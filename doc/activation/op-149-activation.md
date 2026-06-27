@@ -1,6 +1,18 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | state: **HELD → re-assign to Implementer (Coordinator 2026-06-26: builds are Implementer-only)** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable)
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Ready] — REVIVED (Coordinator 2026-06-27): release for overnight batch** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived 2026-06-27
+
+REVIVAL (Coordinator 2026-06-27): the x86-64-v3 + `-O2 -pipe` baseline is back ON. Build is **Implementer
+(wip-gpt)** — NOT an Explorer (the prior rx2 attempt failed: rx2 didn't know how to build the OS; deeper
+cause = the unsynced tree below). Runs **overnight batch, in PARALLEL with op-163 soak** (different EXU /
+host — the build does NOT touch the gatekeeper soak host). On PASS, the v3 image feeds **op-168** (Gatekeeper
+long stability soak = the ADOPTION GATE): if op-168 holds, v3+`-O2 -pipe` becomes the 1.0-preview build
+baseline (a deliberate selling point vs Linux distros — modern-CPU-tuned, no legacy ballast).
+
+PRECONDITION RE-VERIFIED (Fable first-hand 2026-06-27): build tree HEAD `524d71df` STILL lacks the mtree
+fixes — `grep -E 'pthread|apple' etc/mtree/BSD.include.dist` → ABSENT; op-115 SHA `12330136` NOT an ancestor.
+The restore below is still step-zero; without it the build dies at the includes phase (exactly what killed
+rx2's run, which it mislabeled a "race").
 assignment rationale: RE-ASSIGNED 2026-06-26. Core work is a `buildworld`+`buildkernel` on a build path
 that has never completed clean (cleared wall-by-wall id-014→018→020→022) — that is Implementer-by-nature,
 not Explorer scouting. Originally went to Explorer rx2, who did not know how to build the OS and cargo-culted
@@ -70,4 +82,7 @@ PUSH: Implementer branch; commit the mtree tree-sync diff (the op-113/op-115 `BS
 the make.conf diff, build/boot logs, the kernel-flag/disasm evidence, the codegen-sanity evidence. No
 multi-GB build trees / images committed. Report SHA → Fable verify → Coordinator.
 
-CHAIN (li-1009): op-149 (this, P1 base tryout) → P2 ports/pkg poudriere → P3 default the staged image.
+CHAIN (li-1009): op-149 (this, P1 base build+boot+safety) → **op-168 (Gatekeeper long stability soak on the
+v3 image = adoption gate)** → on hold-stable, adopt v3+`-O2 -pipe` as the 1.0-preview baseline → P2 ports/pkg
+poudriere → P3 default the staged image. (op-149 proves the v3 image is *correct + safe*; op-168 proves it is
+*stable enough to ship* — distinct questions, distinct roles: Implementer builds, Gatekeeper soaks.)

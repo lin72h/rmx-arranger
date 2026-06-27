@@ -1,7 +1,11 @@
 # id-026 — x86-64-v3 base buildworld/kernel tryout (li-1009 phase 1)
 
 - id: id-026
-- state: OPEN — phase-1 tryout of the x86-64-v3 platform baseline. Carrier op-149 [Queued, overnight].
+- state: OPEN — phase-1 tryout of the x86-64-v3 platform baseline. **REVIVED 2026-06-27 (Coordinator):**
+  carrier op-149 [Ready] (Implementer wip-gpt, overnight) → on PASS feeds **op-168** (Gatekeeper long
+  stability soak = the ADOPTION GATE). Two-step: Implementer builds (correct + safe), Gatekeeper soaks
+  (stable enough to ship). Hold-stable → adopt v3+`-O2 -pipe` as the 1.0-preview build baseline (a
+  deliberate modern-CPU / no-legacy selling point vs Linux distros).
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 
@@ -32,11 +36,19 @@ auto-added (`kern.pre.mk:67`). This item validates it end-to-end: builds, boots,
 - relates id-017 (buildworld skip-llvm-bootstrap) — bootstrap toolchain interaction under a global CPUTYPE.
 - LONG build → overnight batch (op-149 [Queued]); do NOT run interactive.
 
-## Carrier
-op-149 (**Implementer, cost-30**, [Held — re-assigned 2026-06-26]) → on PASS, li-1009 P1 green → P2 (ports/pkg
-poudriere). RE-ASSIGNED from Explorer rx2: builds are Implementer-only (rx2 didn't know how to build; standing
-rule = agents request a build + receive the artifact, no build-procedure doc). The v3 disasm/codegen
-inspection (steps 3-5) runs on the Implementer's build, or on the shared image — no separate build by anyone.
+## Carriers
+- **op-149** (**Implementer wip-gpt, cost-30**, [Ready — revived 2026-06-27]) — the v3 build+boot+safety+codegen
+  tryout. RE-ASSIGNED from Explorer rx2: builds are Implementer-only (rx2 didn't know how to build; standing
+  rule = agents request a build + receive the artifact, no build-procedure doc). The v3 disasm/codegen
+  inspection (steps 3-5) runs on the Implementer's build, or on the shared image — no separate build by anyone.
+- **op-168** (**Gatekeeper rmx-gatekeeper-rx-x64z**, [Queued]) — the long stability soak on op-149's v3 image.
+  THE ADOPTION GATE: op-149 answers "correct + safe?", op-168 answers "stable enough to ship?". Blocked on
+  op-149 PASS + the single soak-host slot (behind op-163/op-165). Hold-stable → ADOPT-V3 (Coordinator's call
+  whether v3 then *gates* preview or lands adopted-but-parallel); a SIGILL/FPU/miscompile signature → route to
+  Implementer, v3 stays a parallel track.
+
+On op-149 PASS → li-1009 P1 build-green; on op-168 hold-stable → v3 baseline ADOPTED → P2 (ports/pkg poudriere)
+→ P3 default the staged image.
 
 ## Tree-sync precondition (Fable-verified first-hand 2026-06-26)
 rx2's earlier attempt died at the includes phase (`usr/include/pthread/ does not exist → _INCSINS Error 64`)
