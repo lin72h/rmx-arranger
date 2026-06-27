@@ -1,7 +1,21 @@
 # id-031 — libxpc header-surface truth alignment: drop the 4 declared-but-non-exported symbols (macOS-truth-verified absent)
 
 - id: id-031
-- state: **OPEN — proposed bucket-2 (low-risk macOS-fidelity) under li-1011.** Verify-first; scope-in Coordinator-owned.
+- state: **OPEN — VERIFIED (op-167, Arranger-confirmed first-hand 2026-06-27); scope SHRINKS 4→2.** Bucket-2; scope-in Coordinator-owned.
+
+## op-167 VERIFY RESULT (Arranger first-hand, NextBSD-CURRENT libxpc tree — the audited tip)
+
+The census was **2-of-4 stale** — verify-first caught our OWN error (explorer correct, not a false claim):
+- **VALID droppable cruft (2):** `xpc_service_main` (`xpc/xpc.h:2441`) + `xpc_debugger_api_misuse_info`
+  (`xpc/debug.h:21`) — declared in headers, **zero `.c` def** (grep-confirmed), not exported (op-135 `.tbd`),
+  **0 internal callers**. These remain the bucket-2 fix: drop the 2 decls. Near-zero risk, unchanged.
+- **CENSUS ERRORS (2) — NOT droppable:** `xpc_object_validate` and `xpc_unreachable` have **no public
+  (non-underscore) declaration at all**. Only internal variants exist: `_xpc_object_validate` (inline at
+  `xpc/xpc.h:71`, used by the retain/release macros at `:357`/`:382`) and `_xpc_unreachable()` (macro at
+  `xpc/base.h:99` = `__builtin_unreachable()`). These are legitimate internal helpers — **leave them alone**.
+  The li-007 Class-B census mis-listed them; corrected there too.
+
+→ **Fix scope is now exactly 2 header decls** (`xpc_service_main`, `xpc_debugger_api_misuse_info`).
 - raised: 2026-06-27 (Arranger seat, materializing the li-1011 bucket-2 candidate list).
 - roadmap parent: **li-1005 / li-007** (libxpc core service); governed by **li-1011**; catalog residue in **li-1008**.
 - bucket: **2 — Low-Risk macOS-Fidelity** (header surface = closer to Apple's actual exported contract; near-zero risk).

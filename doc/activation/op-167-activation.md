@@ -1,7 +1,7 @@
 # op-167 — libxpc bucket-2 verify-FIRST sweep (id-031 header-surface + id-032 get_name stub) on the alpha tip
 
 - op: op-167
-- state: **[Ready]** (authored, not dispatched; Coordinator releases)
+- state: **[Done] → [Retired]** (reported `4c55582`; Arranger-verified first-hand 2026-06-27)
 - role: **Explorer** (FREE) · EXU: **rx-x64z** (rmx-explorer / rx1)
 - drives: **id-031** (header-surface truth) + **id-032** (`xpc_connection_get_name` stub) under **li-1011 bucket-2 / li-1005·li-007**
 - cost: free (source-read only; NO product edit, NO build, NO soak-host)
@@ -62,3 +62,31 @@ B3. Cross-check macOS `xpc_connection_get_name` behavior for unnamed/anonymous c
 - li-1011 (bucket-2 driver list) · li-1005/li-007 (libxpc census + op-135 macOS-truth join)
 - id-031, id-032 (the two ids this sweep verifies) · id-029 (libxpc bucket-1, NOT in scope here)
 - feedback: verify_signature_divergence_claims, agent_host_isolation
+
+---
+
+## ARRANGER-SEAT VERIFY + TERMINAL RESOLUTION (2026-06-27, model Opus 4, first-hand on NextBSD-CURRENT libxpc tree)
+
+Report `9061288..4c55582` (SHA `4c55582`) verified at source, NOT relayed. The report CORRECTS the prior
+li-007 census; per verify-first discipline (explorers have claimed false divergences 3×) a census-correction
+is exactly the kind of claim that must be source-confirmed before it rewrites scope. It checks out — the
+explorer was RIGHT (this is a caught census error, not a false claim):
+
+- **OP167_ID031_DECLS — CONFIRMED 2-valid / 2-stale.** Public decls present: `xpc_service_main` (`xpc/xpc.h:2441`),
+  `xpc_debugger_api_misuse_info` (`xpc/debug.h:21`). NO public decl for `xpc_object_validate` / `xpc_unreachable`
+  — only `_xpc_object_validate` (inline `xpc/xpc.h:71`) + `_xpc_unreachable` (macro `xpc/base.h:99`). Census error
+  confirmed.
+- **OP167_ID031_EXPORT — non-exported** rests on op-135 `.tbd` join (prior Arranger-verified); re-affirmed.
+- **OP167_ID031_CALLERS — 0** `.c` def or caller of the 2 valid symbols (Grep, whole libxpc tree, empty).
+- **OP167_ID032_STUB — CONFIRMED** `xpc_connection.c:269` → `return ("unknown"); /* ??? */` at `:272`.
+- **OP167_ID032_RETENTION — CONFIRMED NOT retained:** `xc_name` field at `xpc_internal.h:108`, but the string
+  `xc_name` never appears in `xpc_connection.c` → never assigned at create, never read by get_name.
+
+OUTCOME (both feed Coordinator scope-in with concrete, verified fix shapes):
+- **id-031** scope SHRINKS 4→2: drop 2 header decls (`xpc_service_main`, `xpc_debugger_api_misuse_info`).
+  near-zero risk, still bucket-2. The 2 census-error symbols are left alone (internal helpers).
+- **id-032** still bucket-2, fix shape DETERMINED: 2-line retain-at-create + accessor; named→name, anon→NULL.
+- li-007 Class-B census corrected in place (2 droppable, not 4).
+
+RESOLUTION: op-167 was a verify-first FREE-Explorer audit; results Arranger-confirmed first-hand → **[Done] →
+[Retired]** (Arranger self-retires verified discovery/docs). No product changed by this op (read-only by design).

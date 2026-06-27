@@ -87,11 +87,14 @@ join was done here rather than ferried):
 - **Class C (7 stubs) — ALL 7 are real Apple-shipped API** → every rmxOS stub is a genuine behavioral parity
   gap that must be filled: `xpc_connection_cancel`, `xpc_endpoint_create`, `set_finalizer_f`, `xpc_main`,
   `xpc_transaction_begin`/`end`, `xpc_connection_get_name`.
-- **Class B (33 declared/zero-impl) — 29 are real Apple API** (must implement for parity), **4 are NOT in
+- **Class B (33 declared/zero-impl) — 29 are real Apple API** (must implement for parity), **4 were listed as NOT in
   Apple's exported surface:** `xpc_debugger_api_misuse_info`, `xpc_object_validate`, `xpc_service_main`,
-  `xpc_unreachable`. These are likely macros/inlines or NextBSD-local header cruft (the `.tbd` lists exported
-  symbols, not macros) → **not a link-level parity gap**; cheap header-level confirm deferred. The other 29
-  (activity ×7, typed dict accessors, shmem, fd, copy, set_event_stream_handler, get_egid, …) are real.
+  `xpc_unreachable`. **CORRECTION (op-167 verify, 2026-06-27):** only `xpc_service_main` (`xpc.h:2441`) +
+  `xpc_debugger_api_misuse_info` (`debug.h:21`) are actually declared/zero-impl header cruft (→ id-031 drops them).
+  `xpc_object_validate` + `xpc_unreachable` were **census errors** — no public decl exists; only internal
+  `_xpc_object_validate` (inline `xpc.h:71`) + `_xpc_unreachable` (macro `base.h:99`) → legit helpers, NOT cruft.
+  So the droppable set is **2, not 4**. The other 29 (activity ×7, typed dict accessors, shmem, fd, copy,
+  set_event_stream_handler, get_egid, …) are real.
 - **NEW — Class D: a whole API GENERATION missing.** macOS ships modern surfaces our legacy NextBSD libxpc
   has **no headers or impl** for: **`xpc_session_*` ×16** (the modern xpc_connection replacement),
   **`xpc_listener_*` ×10** (server side), **`xpc_rich_error_*`** + **`peer_requirement`**, and

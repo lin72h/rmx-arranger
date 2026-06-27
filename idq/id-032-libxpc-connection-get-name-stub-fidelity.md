@@ -1,7 +1,16 @@
 # id-032 — libxpc trivial stub fidelity: `xpc_connection_get_name` returns the literal `"unknown"` (cheap real-value fix)
 
 - id: id-032
-- state: **OPEN — proposed bucket-2 (low-risk macOS-fidelity) under li-1011.** Verify-first; scope-in Coordinator-owned.
+- state: **OPEN — VERIFIED (op-167, Arranger-confirmed first-hand 2026-06-27); fix shape DETERMINED, still bucket-2.** Scope-in Coordinator-owned.
+
+## op-167 VERIFY RESULT (Arranger first-hand, NextBSD-CURRENT libxpc tree)
+
+- Stub confirmed: `xpc_connection_get_name` (`xpc_connection.c:269`) `return ("unknown"); /* ??? */` at `:272`.
+- `xc_name` field EXISTS (`xpc_internal.h:108`, `const char *xc_name;`) but is **never referenced in
+  xpc_connection.c** — `xpc_connection_create` zero-inits the struct and never assigns it → NOT retained.
+- **Fix shape (2 lines, Implementer touch):** assign at create (`conn->xc_name = name;` in the create path) +
+  return it (`return (conn->xc_name);`). macOS-faithful per header docs: **named → name; peer/anonymous → NULL.**
+  Confirmed still bucket-2 (pure accessor over create-time state; no MACH_RECV dispatch dependency).
 - raised: 2026-06-27 (Arranger seat, materializing the li-1011 bucket-2 candidate list).
 - roadmap parent: **li-1005 / li-007** (libxpc core service); governed by **li-1011**.
 - bucket: **2 — Low-Risk macOS-Fidelity** (one stub → its real value; bounded, no substrate, no dispatch dependency).
