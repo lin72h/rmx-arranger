@@ -1,6 +1,6 @@
 # op-166 — Implementer: stage the op-156-patched leg-4 soak image (graft patched `mach.ko` onto the op-123 leg-4 base) — the build that unblocks op-165 (notify leg-4)
 
-op-166 | role: **Implementer** | EXU: **wip-gpt (Implementer seat)** | state: **[Ready]** — released/cleared to dispatch (= [Awaiting] on the ROB); runs on the BUILD host PARALLEL to op-163's soak (different host; no soak-host contention) | parent id: id-010 (notify leg-4) + id-025 (op-156 fix carrier) | authored 2026-06-27 (Arranger seat, model Opus 4)
+op-166 | role: **Implementer** | EXU: **wip-gpt (Implementer seat)** | state: **[Done] → [Retired]** (2026-06-27) — patched leg-4 image staged + Arranger-verified first-hand (`leg4-soak-op156.img` SHA `6aa7d184…`, mach.ko `9c7706a3…` carries `ipc_pset_port_changed`, no static pre-empt, harness intact); ran on the BUILD host parallel to op-163's soak. Deliverable produced, no residual in stage scope (running-load KBI = op-165's gate) | parent id: id-010 (notify leg-4) + id-025 (op-156 fix carrier) | authored 2026-06-27 (Arranger seat, model Opus 4)
 
 purpose: op-165 (notify leg-4 hours-scale soak) is BLOCKED on a single missing artifact — a bootable soak image whose running `mach.ko` carries the op-156 fix (`ipc_pset_port_changed`). No such image is staged (`build/op123-leg4/leg4-soak.img` is the OLD **pre-fix** op-123 image). This op produces it. PASS here → op-165 is dispatchable for the next overnight batch; a soak on a stale pre-fix `mach.ko` would prove nothing about the fix (op-165 IMAGE_PROVENANCE gate).
 
@@ -36,3 +36,28 @@ OP166_TERMINAL status=0
 PUSH: build artifacts under `build/op166-leg4-patched/` (the image + the build log + the mach.ko SHA/symbol evidence); no product-tree commit (build/stage op). Report → **Arranger-seat first-hand verify** the built `mach.ko` carries `ipc_pset_port_changed` (symbol check, not the relayed marker) + the module is on the real load path (not a shadow/static defeat) + harness intact → then op-165 flips **[Queued] → [Awaiting]** (its image dependency satisfied) for the next overnight batch on the soak host.
 
 CHAIN: op-156 merged (`3c2dd7f`) → **op-166 (stage patched leg-4 image, this — build host, parallel to op-163 soak)** → op-165 unblocked (notify leg-4 soak) → notify truly-green (id-010 retires) + id-025 regression-confirmed. Sequencing note: single soak host — op-163 (asl leg-4) holds it this batch; op-166 stages op-165's image in parallel so op-165 runs the NEXT batch without idling the host.
+
+---
+
+## ARRANGER-SEAT VERIFY (2026-06-27, Fable seat, model Opus 4, FIRST-HAND per Rule 1)
+
+Verified the wip-gpt report against the raw artifacts in `build/op166-leg4-patched/` (not the relayed markers):
+
+- **MACHKO_BUILT ✓** — `mach-module-build-3c2dd7f.rc` = `0`; build log shows the `ld … -o mach.ko.full … ipc_pset.o …` link from `sys/modules/mach` against the alpha object prefix. Manifest: `source_head=origin_alpha=3c2dd7f2bb7c`, `fix_commit=180d30bdb8c1`. Built `mach.ko` SHA256 `9c7706a3f187…`; `nm` shows `ipc_pset_port_changed` @ `0x1e800`.
+- **IMAGE_GRAFTED ✓** — `leg4-soak-op156.img` from op-123 base (`base_image` SHA `277b41a7…`). `/boot/modules/mach.ko` replaced: pre-graft `7c8a710d…` (old base module) → post-graft `9c7706a3…` = **byte-identical to the built module**. Graft is exact.
+- **LOAD_PATH_PROVEN ✓ (on-disk) — `static-vs-module-proof.txt`:** `ipc_pset_port_changed` is **absent from ALL FOUR image kernels** (`/boot/kernel/kernel`, `/boot/TWQDEBUG/kernel`, `/boot/MACHDEBUG/kernel`, `/boot/MACHDEBUGDEBUG/kernel`) and **present only in `/boot/modules/mach.ko`** → no static mach pre-empts the graft. `loader.conf`: `mach_load="YES"` + `module_path` includes `/boot/modules`; `rc.local` also `kldload mach`.
+- **PROVENANCE ✓** — final image SHA256 `6aa7d1845da5…` (matches report); on-image module symbol re-confirmed.
+- **HARNESS_INTACT ✓** — `bs_probe` (`cac3d9a3…`), `notifyd-soak-driver.sh` (`c80514c1…`), `notifyd-soak-oracle.d` (`1891ef40…`), `run-as-launchd-job.plist.template` (`af01662f…`), `rc.local` (`93fb8516…`) all present with hashes. Cleanup confirmed (no stray mdconfig/mount).
+
+**op-166 is a CLEAN stage — all 6 markers verified first-hand.** The artifacts are honest (real SHAs, real symbol check, real static-vs-module disproof) — no id-011 manufacture.
+
+### CAVEATS for op-165 (NOT op-166 defects — correctly deferred to op-165's gate)
+
+1. **Running-load / boot-KBI is NOT proven by op-166 (by design).** `loader.conf` has multiple `kernel=` lines → **last-wins boots `MACHDEBUGDEBUG`**; the module was built against the alpha object prefix. op-166 proves on-disk presence + no static pre-empt, but NOT that the module successfully `kldload`s against the booted `MACHDEBUGDEBUG` kernel (KBI match). **op-165's IMAGE_PROVENANCE gate MUST do the RUNNING-kernel check** (`kldstat` mach loaded + `ipc_pset_port_changed` in the live kernel), not trust the on-disk graft. Safety net (bounded, no false-green): if `kldload mach` fails at boot, notifyd cannot come up → `rc.local` halts at `OP123_LEG4_FIRST_BLOCKER rung=notifyd_up` — a KBI mismatch surfaces as a hard setup-FAIL, never a silent unpatched soak. (Mitigating signal: module size `345456 → 345552`, +96B = just the added function; same alpha source tree the old base module loaded from → KBI match is likely but op-165 proves it.)
+2. **`SOAK_DURATION` baked to 7200s (2h) in `rc.local`.** Clears the id-025 freeze window (~64min) but op-165 wants hours-scale overnight — op-165 must override `SOAK_DURATION` (env/rc.local) for a longer run AND sync the oracle `tick-Ns` to it (the op-165 brief's 120s-oracle warning).
+3. **cond-3 `thr_acts@0x20` rider `.d` is NOT in this image** — only the base `notifyd-soak-oracle.d`. op-165 authors/adds the non-blocking 3-condition rider at run time (op-166 was image-staging only).
+4. **Minor:** `rc.local` precondition also checks `/root/run-as-launchd-job.sh` (`-x`); the inventory listed the `.plist.template` + runner but did not re-hash `run-as-launchd-job.sh` explicitly. Carried from the untouched op-123 base (graft only touched `mach.ko`); `rc.local` self-halts if absent → no false-green. op-165 boot will confirm.
+
+## TERMINAL RESOLUTION (Fable seat, 2026-06-27)
+
+op-166 **→ [Done] → [Retired].** The deliverable — a bootable leg-4 soak image (`leg4-soak-op156.img`, SHA `6aa7d184…`) whose `/boot/modules/mach.ko` carries the op-156 fix `ipc_pset_port_changed`, with no static-mach pre-empt and the harness intact — is produced + Arranger-verified first-hand. No residual within op-166's stage scope; the running-load KBI confirmation is op-165's gate (caveat 1), not an op-166 reopen. **op-165's image dependency is SATISFIED** → op-165 flips [Queued]-on-image to image-ready (now blocked ONLY on the soak-host slot held by op-163 → next overnight batch).
