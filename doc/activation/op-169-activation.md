@@ -1,6 +1,37 @@
 # op-169 — Explorer: enumerate the baseline-buildworld header-staging walls in `freebsd-src-official-stable-15` UP FRONT (batch-audit for op-149), + pin the right build-base tree
 
-op-169 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Ready]** (authored, not dispatched) | parent id: id-026 | L1i: li-1009 | cost: free (source audit, read-only; NO build, NO soak-host) | authored 2026-06-27 (Arranger seat, model Opus 4) | parallel-safe (no contention with op-163 soak)
+op-169 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Done] → [Retired]** (reported `5b47fe8`; Arranger-verified first-hand 2026-06-27 — switch-base instinct CONFIRMED, but TARGET corrected NextBSD → wip-rmxos) | parent id: id-026 | L1i: li-1009 | cost: free | authored + resolved 2026-06-27 (Arranger seat, model Opus 4)
+
+---
+
+## ARRANGER-SEAT VERIFY + CORRECTION (2026-06-27, model Opus 4, first-hand)
+
+Report `4c55582..5b47fe8`. The "stop grinding stable-15, switch base" instinct is RIGHT, but the explorer's
+counts + chosen target are WRONG — verify-first caught it before it drove a harmful base switch. Counted the
+Darwin-compat dirs in each tree's `etc/mtree/BSD.include.dist` first-hand:
+
+| tree | HEAD | Darwin dirs | missing |
+|---|---|---|---|
+| `freebsd-src-official-stable-15` (op-149 tip) | `4ccd2b8` | **8** | dispatch, private, xpc |
+| **`wip-gpt/wip-rmxos` (alpha)** | `3c2dd7f` | **11** | — (most complete) |
+| `nx/NextBSD` (donor) | `236c336` | **9** | **pthread, private** |
+
+- Explorer said "NextBSD 8 / wip-rmxos 5 / stable-15 2" → **factually wrong**. Real ordering is
+  **wip-rmxos(11) > NextBSD(9) > stable-15(8)** — the explorer inverted the top two.
+- **NextBSD is the WRONG switch target:** it is the donor lineage AND is **missing `pthread`** (op-149's
+  original includes wall) + `private` → switching there REINTRODUCES walls. Recommendation rejected.
+- **Correct base = `wip-gpt/wip-rmxos` @ `3c2dd7f`** — the proven rmxOS ALPHA (carries the op-156 merge, builds
+  the alpha image, all 11 Darwin dirs). Building v3 there moots the whole stable-15 wall-grind and isolates the
+  v3 variable cleanly (proven tree, only the make.conf changes).
+
+WHAT THE EXPLORER GOT RIGHT (credited): grinding vanilla stable-15 IS the wrong path; the 3 missing dirs
+(dispatch/private/xpc) in stable-15 are real (set-diff confirmed); iconv `__iconv_bool` is a staging/ordering
+artifact not a source defect (the iconv sources are identical across trees — consistent with the op-149 verify
+that the typedef exists in `include/iconv.h` but wasn't staged in time). All of that is moot under the
+wip-rmxos base.
+
+RESOLUTION: discovery verified first-hand → **[Done] → [Retired]**. Drives the op-149 base re-point to
+`wip-gpt/wip-rmxos` (Coordinator confirms the base switch; see id-026 / op-149).
 
 ## WHY
 

@@ -1,6 +1,16 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Held] — attempt-1 reported buildworld FAIL (rc=2), v3 question UNREACHED; blocked on pre-existing baseline-tree walls (Arranger-verified first-hand 2026-06-27). Next-hop = Coordinator's call (see ATTEMPT-1 RESULT block).** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived 2026-06-27
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Held] — RE-POINT recommended (op-169 verify): build the v3 tryout in `wip-gpt/wip-rmxos` @ `3c2dd7f` (the proven rmxOS alpha), NOT vanilla `freebsd-src-official-stable-15`. Moots the entire stable-15 wall-grind. Awaiting Coordinator confirm of the base switch.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27
+
+BASE RE-POINT (op-169 Arranger-verified 2026-06-27): attempt-1 ground vanilla `freebsd-src-official-stable-15`
+wall-by-wall (mtree → thrworkq → iconv) because it is a FreeBSD checkout incompletely retrofitted with rmxOS
+staging (8 Darwin dirs, missing dispatch/private/xpc). The PROVEN rmxOS alpha source `wip-gpt/wip-rmxos`
+@ `3c2dd7f` (op-156 merge tip; builds the alpha image) has ALL 11 Darwin dirs → the staging walls do not
+exist there. **Re-point op-149's build root to `wip-gpt/wip-rmxos`** (already in the Implementer's owned dir →
+host-isolation-correct): add the v3 make.conf to the proven tree, rebuild — the only changed variable is
+`CPUTYPE?=x86-64-v3` + `COPTFLAGS=-O2 -pipe`, which is the clean v3 experiment. The mtree PRECONDITION below
+and the iconv wall are MOOT under this base (do not carry them forward). NextBSD was explicitly REJECTED as the
+base (donor lineage, missing pthread+private — would reintroduce walls).
 
 REVIVAL (Coordinator 2026-06-27): the x86-64-v3 + `-O2 -pipe` baseline is back ON. Build is **Implementer
 (wip-gpt)** — NOT an Explorer (the prior rx2 attempt failed: rx2 didn't know how to build the OS; deeper

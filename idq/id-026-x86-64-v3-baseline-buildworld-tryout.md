@@ -8,8 +8,13 @@
   **op-149 ATTEMPT-1 (2026-06-27): buildworld FAIL (rc=2), v3 UNREACHED — Arranger-verified.** Cleared mtree +
   thrworkq.h walls, then hit the pre-existing `lib/libc_nonshared` `__iconv_bool` implicit-int wall (header-
   staging class, v3-INDEPENDENT — confirmed at source). The build tree is missing a stack of already-validated
-  header-staging fixes; op-149 [Held] pending Coordinator's next-hop choice (grind wall-by-wall vs FREE-Explorer
-  batch-audit the remaining deltas up front → one clean buildworld → then the v3 checks). NOT a v3 verdict.
+  header-staging fixes; op-149 [Held]. **op-169 batch-audit (Arranger-verified 2026-06-27) → base RE-POINT:**
+  op-149 was building the WRONG tree. Vanilla `freebsd-src-official-stable-15` (8 Darwin staging dirs, missing
+  dispatch/private/xpc) keeps hitting retrofit walls; the **proven rmxOS alpha `wip-gpt/wip-rmxos` @ `3c2dd7f`**
+  (op-156 merge tip, builds the alpha image, all 11 Darwin dirs) has none of them. Recommendation: re-point
+  op-149's build root to `wip-gpt/wip-rmxos` + add the v3 make.conf → clean v3 isolation, stable-15 walls moot.
+  op-169's "switch to NextBSD" was REJECTED (donor lineage, missing pthread+private — would reintroduce walls;
+  the explorer's tree counts were inverted). Awaiting Coordinator confirm of the base switch. NOT a v3 verdict.
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 
