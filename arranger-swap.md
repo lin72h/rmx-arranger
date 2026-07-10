@@ -56,11 +56,26 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
   `rmx-gatekeeper/build/op258/`; header edit ratified this epoch; asl leg-4 REMAINS OPEN — do not treat
   green; re-soak owed as op-286); op-171 = stale-SUPERSEDED (orphaned by op-149's base switch to
   wip-rmxos alpha, its NextBSD mach_debug premise dead). Neither is awaited.
-- returned consults awaiting adjudication: NONE remaining except the 3 bonus design seeds in
-  `rmx-oracle/` (zig-cort-dispatch, swift-network, zfs-installer) needing ids allocated. NOTE: staged
+- **>>> TOMORROW'S QUEUE (2026-07-11) — 3 UNHANDLED `rmx-oracle/` return docs (found 2026-07-10 by a
+  full-dir cross-check; CORRECTS an earlier "burn-down complete" overclaim — the op-NNN-named sweep
+  missed non-op-named deliverables). All post-preview, none preview-gating. Do NOT lose these:**
+  1. **op-274** (zfs-installer-updater-design.md) — RETURNED-but-UNADJUDICATED: deliverable staged +
+     complete (op-277 cited it first-hand), but ROB header STILL reads `[Awaiting]` = same stale-header
+     drift as op-273/275/265/277 (missed because filename isn't `op-274-*`). ACTION: verify first-hand,
+     adjudicate → almost certainly BANK to a distribution/updater li (op-274 is the ZFS-BE + sealed-base
+     OS-distribution design op-277's app-updater roadmap §5-D/A2 leans on), flip the stale header.
+  2. **swift-network-rmxos-integration-design.md** — ORPHAN: no owning op, no id, not seeded anywhere.
+     ACTION: allocate **id-038**, record the returned design, parent to the swift lane, adjudicate/bank.
+  3. **zig-cort-dispatch-integration-design.md** — ORPHAN: no owning op, no id, not seeded. ACTION:
+     allocate **id-039**, parent to the cort subsystem, adjudicate/bank.
+  (scratch-op273 = op-273 working scratch, NOT a deliverable — leave. oracle-rulebook.md/AGENTS.md =
+  infra. Everything else in `rmx-oracle/` IS handled — op-223/225/228/231/244/260/262/263/264/269/271/
+  273/275/277/265 all on ROB, terminal, findings routed/banked; verified 2026-07-10.)
+- returned consults awaiting adjudication: the 3 above (op-274 + 2 orphans) are the ONLY unhandled
+  Oracle returns; queued to 2026-07-11. NOTE: staged
   deliverables in `rmx-oracle/` may still read `[Awaiting]` in their activation headers (drift
-  op-273/op-275/op-265/op-277 all had — verify the staged findings file, not the header, before
-  treating as pending). (op-269 CLOSED 2026-07-10 → BANKED-CLOSURE; op-273 CLOSED 2026-07-10 →
+  op-273/op-275/op-265/op-277 all had, AND op-274 has it — verify the staged findings file, not the
+  header, before treating as pending). (op-269 CLOSED 2026-07-10 → BANKED-CLOSURE; op-273 CLOSED 2026-07-10 →
   BANKED-with-ONE-ROUTED (Finding A → op-289→op-290); op-275 CLOSED 2026-07-10 → BANKED (li-008 seeds,
   no routed fix); op-265 CLOSED 2026-07-10 → BANKED (post-preview li-1000/id-000 design seeds, no
   routed fix; Fact 0(a)/0(b) kernel backbone spot-verified first-hand); op-277 CLOSED 2026-07-10 →
@@ -72,8 +87,10 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
   2026-07-10 (asl leg-4 re-soak #2, [Ready], dispatch-recommended — was proposed-reserved);
   op-287/op-288 allocated 2026-07-10 (oracle2 preview-closure consults); op-289/op-290 allocated
   2026-07-10 (launchd Finding A evidence-first chain from op-273); op-291 allocated 2026-07-10
-  (libxpc lifecycle acceptance Gatekeeper pass, follow-on to op-285's landed edit). Next free: project
-  op-292, id-038.
+  (libxpc lifecycle acceptance Gatekeeper pass, follow-on to op-285's landed edit). **id-038/id-039
+  EARMARKED (not yet written) 2026-07-11 for the two orphan Oracle design docs (swift-network →
+  id-038, zig-cort-dispatch → id-039) — see TOMORROW'S QUEUE above.** Next free: project op-292,
+  id-040 (id-038/039 earmarked).
 - pending Coordinator decisions: op-286 DISPATCH (authored/Ready 2026-07-10 — asl leg-4 re-soak #2,
   Gatekeeper session-time); halt/re-scope the CURRENTLY-RUNNING unsanctioned background asl soak
   (survival-only, does not count toward leg-4); op/id number-lane split between the two Arrangers;
