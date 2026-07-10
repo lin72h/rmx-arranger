@@ -17,12 +17,16 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 - SWAPIN authority: Coordinator directive, 2026-07-10: "you as arranger1 now swapin" — auto-SWAPOUTs
   Arranger2 at the same boundary.
 - implied SWAPOUT: **Arranger2**
-- last updated: 2026-07-10T09:12:48Z
+- last updated: 2026-07-10T23:34:51Z (cp-002 published; journal current to task-13 — SWAP-READY)
 
 ### Pickup snapshot
 
-- last completed action: executed SWAPIN Arranger1 (recorded mutex handoff, archived the Arranger2
-  epoch, set ACTIVE); authored the SWAPOUT meta-op `op-001m` for Arranger2.
+- last completed action: 2026-07-11 returned-doc burn-down — **op-274 ADJUDICATED → BANKED** (stale
+  header flipped, id-012 seeded, backbone spot-verified first-hand @ alpha `778cb07`); published
+  **cp-002**. IN-FLIGHT: swift-network orphan adjudication (parent li-9001; `id-038` earmarked, NOT
+  yet written) — next action is the F5 kTLS-constant spot-check then write+bank id-038; then zig-cort
+  → id-039. Journal task-13 carries the exact next step. (Prior epoch action: executed SWAPIN
+  Arranger1, archived the Arranger2 epoch, authored SWAPOUT meta-op `op-001m`.)
 - shared tree: `main` at `ddf5663` (`ddf56639efc231908b1df9993400b1e49a412dc6`); `origin/main` an
   ancestor, local `main` 46 ahead, unpushed. Working tree = 143 mixed tracked/untracked entries, live
   state, preserved (no clean/stage/commit/push).
@@ -97,12 +101,14 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
   Validator 8-vs-9 threshold ruling; push/checkpoint of the 46-ahead+dirty tree.
   (RESOLVED 2026-07-10: frozen-tree disposition — retain `wip-claude` writable as a consult channel,
   one-writer rule by discipline; rmx-arranger2 already removed.)
-- origin/validation blockers: tree unpushed (46 ahead); retirement binds to origin-reachable (Rule 7).
+- origin/validation blockers: tree unpushed (**48 ahead**); retirement binds to origin-reachable (Rule 7).
 - known evidence gaps: op-258 leg-4 bar UNMET; Validator threshold contradiction; op-171 markers not
   yet re-read first-hand. (rmx-arranger2 parity gap resolved — tree removed.)
-- safest next action: hand `op-001m` to the Coordinator to paste to Arranger2 (SWAPOUT). Then resume
-  the returned-consult burn-down at op-269 (verify first-hand at wip-gpt/wip-rmxos → route to
-  fix/verify or banked-closure).
+- safest next action: **SWAP-READY** — journal + cp-002 current; a `SWAPIN Arranger2` here hands off
+  cleanly with swift-network mid-flight (task-13 states the exact next step). If Arranger1 continues
+  instead: finish swift-network → write+bank `id-038` (F5 kTLS-constant spot-check first), then
+  zig-cort → `id-039`, then a checkpoint commit of the 2026-07-11 burn-down. Uncommitted this session:
+  op-274 header + id-012 seed + this swap + `doc/marketing/` (preserve; do not clean).
 
 ### Tasks since this SWAPIN
 
@@ -239,13 +245,35 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
   seed (roadmap S6), (ii) op-268 reframe/re-issue prerequisite (held/REJECTED-on-dispatch) before any
   demand-launch reliance. Returned-consult queue now EMPTY except 3 bonus design seeds needing ids
   (zig-cort-dispatch, swift-network, zfs-installer).
+- task-13 **[Open]** — 2026-07-11 TOMORROW'S-QUEUE burn-down (the 3 unhandled `rmx-oracle/` docs).
+  **(1/3 DONE) op-274 (zfs-installer-updater-design) ADJUDICATED → BANKED** — preview-adjacent,
+  non-gating (§5 "Nothing here alters the preview gate"); stale `[Awaiting]` header flipped (FIFTH of
+  the drift series). Backbone SPOT-VERIFIED first-hand @ wip-rmxos alpha `778cb07`: `be_activate(…,
+  bool)` bootonce (`lib/libbe/be.h:60`), bootonce plumbing (`be.c:157/:431-435/:1077-1079`), loader BE
+  menu (`stand/lua/core.lua:304-317`), `bectl activate -t` (`bectl.c:51`), `root_rw_mount` seal knob
+  (`rc.d/root:21`) — try-boot-once→auto-revert machinery is real. Banked to **id-012** as a design
+  OPTION (sealed-BE + incremental-receive) alongside the 2026-06-29 FreeBSD-faithful `bsdinstall` plan;
+  one genuine risk = bucket #1 pre-mountcritlocal `/etc` audit; forward pointer = bucket #2
+  walking-skeleton soak. **(2/3 IN-FLIGHT) swift-network orphan** (`rmx-oracle/swift-network-rmxos-
+  integration-design.md`, 2026-07-04): read end-to-end first-hand; strong, overclaim-disciplined
+  (agent claims labeled, F1 falsified+corrected first-hand); post-preview, explicitly non-gating
+  ("nothing here gates li-1000"). Parent identified = **li-9001** (Swift toolchain long-arc). **id-038
+  EARMARKED, NOT yet written.** NEXT ACTION: one first-hand spot-check (F5 kTLS socket-opt constants
+  `TCP_TXTLS_ENABLE=39`/`TCP_RXTLS_ENABLE=41` in `netinet/tcp.h`, the L1 flagship rests on them), then
+  write `idq/id-038` (parent li-9001), add a scope-in pointer under li-9001, BANK the consult (design
+  seeds: shape = position SwiftNetwork as the base-system transport stack riding our libdispatch+kqueue
+  via a thin Darwin-arm-routing patchset; short-term S0-S4, substrate gate S1 = prove dispatch
+  fd-source servicing on rx; long-term L1-L6, flagship = kTLS TCP offload). **(3/3 NOT STARTED)
+  zig-cort-dispatch orphan → id-039.** Side-task this session (NON-control-state, uncommitted):
+  created `doc/marketing/superapp-2.0.md` + `doc/marketing/superstation-2.0.md` (product positioning
+  briefs) at Coordinator request — informational, no ROB/ID impact.
 
 ### Coordination points
 
-- latest checkpoint: **cp-001** (epoch `swap-20260710T091248Z-arranger1`), 2026-07-10T09:12:48Z,
-  through task-01
+- latest checkpoint: **cp-002** (epoch `swap-20260710T091248Z-arranger1`), 2026-07-10T23:34:51Z,
+  through task-13
 - latest acknowledged catchup: **none**
-- next catchup target: **Arranger2**, through `swap-20260710T091248Z-arranger1/cp-001`
+- next catchup target: **Arranger2**, through `swap-20260710T091248Z-arranger1/cp-002`
 
 ## 1. Vocabulary
 
@@ -502,6 +530,35 @@ and Coordinator-authorization rules; it is not part of this protocol.
 - unresolved / safest next action: deliver `op-001m` to Arranger2, then burn down returned consults
   from op-269. Carried Coordinator decisions: number-lane split, Validator 8-vs-9 threshold,
   push/checkpoint, frozen-tree disposition.
+
+### cp-002 — 2026-07-11 returned-doc burn-down (op-274 banked; swift-network mid-flight) *(epoch `swap-20260710T091248Z-arranger1`)*
+
+- epoch / owner: `swap-20260710T091248Z-arranger1` / Arranger1 (Fable)
+- timestamp: 2026-07-10T23:34:51Z (UTC clock; work is the 2026-07-11 TOMORROW'S-QUEUE)
+- through: task-13
+- prior checkpoint: cp-001 (this epoch)
+- delta since cp-001: the returned-consult burn-down of tasks 03–12 (op-269 banked-closure; op-273/
+  op-275/op-265/op-277 adjudicated→banked; op-284 gated + op-285 edit verified first-hand + op-291
+  authored) is already reflected in the activation headers and the task journal. NEW this checkpoint:
+  **op-274 ADJUDICATED → BANKED** (header flipped from stale `[Awaiting]`; id-012 seeded with the
+  sealed-BE/incremental-receive design option; backbone spot-verified first-hand @ alpha `778cb07`).
+  **swift-network orphan is MID-FLIGHT** — read first-hand, parent = li-9001, `id-038` earmarked but
+  NOT yet allocated; next action = F5 kTLS-constant spot-check → write id-038 → bank. **zig-cort
+  orphan (→ id-039) not started.**
+- pickup / ROB / IDs: in-flight op set unchanged from the live record (op-291 / op-289 / op-290 /
+  op-286 all `[Ready]`, pending Coordinator dispatch — activation headers authoritative). Returned
+  gates: TOMORROW'S-QUEUE now **1/3 done** (op-274), **1/3 in-flight** (swift-network/id-038),
+  **1/3 pending** (zig-cort/id-039). High-water: on-disk op-291 / id-037; **id-038 being allocated
+  now** (swift-network), **id-039 earmarked** (zig-cort); next free after = project op-292 / id-040.
+- tree: `main` at `3b8400a`, **48 ahead** of `origin/main`, unpushed. Dirty (uncommitted this
+  session): `doc/activation/op-274-activation.md` (M), `idq/id-012-release-distribution-image.md` (M),
+  `arranger-swap.md` (M, this write), `doc/marketing/` (untracked — 2 positioning briefs, non-control-
+  state). No clean/stage/commit/push performed.
+- unresolved / safest next action: finish swift-network → id-038 (spot-check + write + bank), then
+  zig-cort → id-039, then a checkpoint commit of the 2026-07-11 burn-down. Carried Coordinator
+  decisions unchanged (op-291/289/286 dispatch; number-lane split; Validator 8-vs-9 threshold;
+  push of the 48-ahead tree).
+- requested catchup: `CATCHUP Arranger2 THROUGH swap-20260710T091248Z-arranger1/cp-002`.
 
 ## 10. Closed epochs
 

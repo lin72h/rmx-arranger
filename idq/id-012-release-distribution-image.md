@@ -122,6 +122,44 @@ bsdinstall) is the cheap, high-confidence part sitting behind that one expensive
 First promoted op (post-preview) should be a `__has_include`-aware buildworld dive bound to wip-gpt
 (Implementer-30). The prior op-132 next-wall buildworld op stays the natural vehicle when un-deferred.
 
+## op-274 design seed (2026-07-04, BANKED 2026-07-11) — a sealed-BE + incremental-receive installer/updater OPTION
+
+Oracle consult op-274 (`rmx-oracle/zfs-installer-updater-design.md`) delivered a full
+preview-adjacent installer+updater design, ADJUDICATED → BANKED here (post-preview,
+non-gating; §5 "Nothing here alters the preview gate"). It is an **alternative design
+option**, not a replacement of the 2026-06-29 Coordinator plan above — record both, let
+whoever activates the distribution track choose:
+
+- **This id-012 plan (2026-06-29):** FreeBSD-faithful — stock `bsdinstall` zfsboot flow,
+  FreeBSD init+rc, GENERIC-derived prod kernel. Simplest, most-inherited.
+- **op-274 option:** sealed base + boot-environments + `zfs send/receive` incremental
+  updater. Single hidden canonical `zroot/rmx/base` lineage (receive-only, never mounted)
+  → each release BE = `zfs clone @rN` (readonly=on, mountpoint=/); update = incremental
+  `zfs receive -s` onto lineage + clone + carry-forward inject (hostid, loader.conf.local)
+  + `bectl activate -t` (bootonce) + a launchd finalize daemon that promotes on
+  health-check pass, else the consumed bootonce auto-reverts on next boot = **zero-step
+  rollback**. Full-send fallback receives into a fresh lineage dataset (no `-F`/force
+  semantics ever). State split: sealed base (/, /bin, /sbin, /usr−/usr/local, /boot,
+  minimal /etc stub) vs machine-state datasets (/etc overlay-mount, /var, /home,
+  /usr/local = FreeBSD PREFIX convention, survives base swaps).
+
+Backbone SPOT-VERIFIED first-hand @ wip-rmxos alpha `778cb07`: `be_activate(…, bool)`
+temporary/bootonce (`lib/libbe/be.h:60`) + bootonce plumbing (`be.c:157/:431-435/
+:1077-1079`); loader BE menu `core.bootenvDefault/List` (`stand/lua/core.lua:304-317`);
+`bectl activate [-t]` (`sbin/bectl/bectl.c:51`); `root_rw_mount` sealed knob
+(`libexec/rc/rc.d/root:21`). The try-boot-once → auto-revert machinery is real, not
+speculative.
+
+- **The one genuine risk (note bucket #1):** the pre-mountcritlocal rc.conf-consumer audit
+  that decides §1(a) sealed-stub + state-`/etc`-overlay vs §1(b) mutable-`/etc`-in-BE
+  fallback — a small bhyve boot test, NOT yet done.
+- **Forward pointer (Coordinator owns activation):** note bucket #2 "walking-skeleton"
+  soak (build-host lineage → full-receive install in bhyve → one incremental → bootonce
+  boot → forced-failure auto-revert proof → manual `bectl` rollback) is the natural FIRST
+  product op if this model is adopted. Still sits behind id-012's dominant risk #1 (clean
+  buildworld has never completed) — this option consumes a buildable world, it does not
+  remove that gate.
+
 ## op-111 first-attempt finding (2026-06-23) — the release pipeline is unexercised
 
 Tier 0 was fetched into **op-111** (Gatekeeper). Recon + a clean-build attempt established (build
