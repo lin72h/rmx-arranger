@@ -22,7 +22,15 @@
   `include/iconv.h:44`), IDENTICAL in both trees. op-169's "moots the wall-grind" was an OVERCLAIM (the Arranger
   confirmed the wrong proxy — mtree dir-counts, not the iconv wall). NEXT-HOP DECIDED: grind the single wall —
   Implementer applies the faithful iconv self-containedness fix + reruns from a CLEAN obj prefix; NO further base
-  switching. op-149 → [Awaiting] for re-dispatch. v3 stays UNREACHED, not falsified.
+  switching. op-149 → [Awaiting] for re-dispatch. v3 stays UNREACHED, not falsified. **ELEGANCE PASS — op-171
+  authored 2026-06-27 (Arranger):** past iconv the alpha build hit a SECOND baseline wall — in-tree elftoolchain
+  objcopy/strip (r3769) fails `--only-keep-debug`/strip on `libsys.so.7.full`, and the Implementer punched
+  through it across attempts 5/5b/6 with AD-HOC host-binutils overrides (`OBJCOPY`/`STRIPBIN=/usr/bin/...` in
+  uncommitted side make.conf files). Committed source stayed clean (make.conf = the 2 lines), but the v3 image
+  would be produced by unrecorded host-tool substitution → muddies op-168's provenance. op-171 (Implementer
+  wip-gpt) confirms v3-independence on a non-v3 build, root-causes the elftoolchain failure, commits a sanctioned
+  fix (NOT host-binary swap; make.conf stays the clean 2 lines), rebuilds from a CLOBBERED obj prefix, and reaches
+  op-149 steps 3-5 → hands op-168 an image built reproducibly from committed source.
 - raised: 2026-06-25.
 - L1i parent: li-1009 (x86-64-v3 platform baseline).
 

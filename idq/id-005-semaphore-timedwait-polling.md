@@ -41,3 +41,19 @@ Preserve `_dispatch_timeout` semantics and the EINTR handling.
 
 `sem_clockwait(CLOCK_MONOTONIC)` (preferred if the FreeBSD-15 libc/guest provides it — verify
 first-hand) vs absolute-deadline `sem_timedwait(CLOCK_REALTIME)`. Pick when scheduled.
+
+## Precise coordinates + interim disposition (op-223 LEG A, Arranger-verified first-hand 2026-07-02)
+
+- **Located precisely:** the poll loop is `semaphore.c:58-81` (`_dispatch_timeout`→`sem_trywait`→
+  capped `nanosleep`, 1ms cap at `:73-75`); call sites `:373`/`:381` and `:596`/`:604`. Enabled
+  because `USE_POSIX_SEM=1` / `USE_MACH_SEM` undefined (`config/config.h:175,:178`).
+- **This id is the POSIX-side axis only.** It improves the *POSIX* emulation (poll → non-polling
+  primitive). It is NOT about native Mach semaphores.
+- **Why POSIX at all:** the kernel Mach-semaphore trap family is a wired-but-hollow shell —
+  `semaphore_create` is a MIG shell (`task_server.c:3583`) but wait/signal are `UNSUPPORTED`
+  (`mach_traps.c:142-158`) and timedwait is `ENOSYS` (`mach_misc.c:90-107`). Building the *real*
+  Mach-semaphore primitive is the **orthogonal** future feature, cataloged at **li-9003 Item 3**.
+- **Interim disposition (user, 2026-07-02):** accept the POSIX-sem solution as the near-term
+  "simple solution that works now" (it does — correctness already Validator-confirmed above). The
+  non-polling polish here stays a later-tier item; native Mach semaphores are li-9003 Item 3.
+  Don't conflate the two axes.

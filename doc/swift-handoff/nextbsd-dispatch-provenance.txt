@@ -1,0 +1,36 @@
+# rmxOS libdispatch ABI provenance — for swift-rx op-068 Phase D
+# source object: op-221 canonical UEFI image  /usr/lib/libdispatch.so.5  (OS-owned system library)
+# gathered first-hand by rmxOS Arranger 2026-06-30 from canonical tree op-171-x86-64-v3-alpha
+
+== file ==
+/Users/me/wip-mach/wip-gpt/build/op221-canonical-uefi/iso-root/usr/lib/libdispatch.so.5: ELF 64-bit LSB shared object, x86-64, version 1 (FreeBSD), dynamically linked, for FreeBSD 15.0 (1500068), not stripped
+
+== SONAME / NEEDED ==
+  0x0000000000000001 (NEEDED)       Shared library: [libBlocksRuntime.so.0]
+  0x0000000000000001 (NEEDED)       Shared library: [libmach.so.5]
+  0x0000000000000001 (NEEDED)       Shared library: [libthr.so.3]
+  0x0000000000000001 (NEEDED)       Shared library: [libsys.so.7]
+  0x0000000000000001 (NEEDED)       Shared library: [libc.so.7]
+  0x000000000000000e (SONAME)       Library soname: [libdispatch.so.5]
+
+== symbol-version defs (.gnu.version_d) ==
+
+== rmxOS-local patches (git log lib/libdispatch) ==
+ffa71438204c libdispatch: prefer platform O_SYMLINK definition
+04852ce93b53 build: stage migcom for Darwin MIG consumers
+172ed6bcbbc0 libdispatch: fix overlay lib installincludes layout
+9d78ed42bda7 libdispatch: enable timer USDT (DISPATCH_USE_DTRACE=1)
+129ee3ce8d52 libdispatch: remove redundant manager timer poll
+9a903c33e7e7 libdispatch: service timers on rmxOS kqueue
+cf36acf8e541 userland: link Darwin daemons against shared runtime libs
+773c41819919 build: make imported userland clean-build reproducible
+f367e359bdc3 build: wire libnotify
+439f5e890604 build: bring up Mach substrate and libdispatch
+3447905e8c5f libdispatch: decode standard dead-name notifications
+86e881687a94 libdispatch: fix source compile bitfields
+
+== workqueue backing ==
+HAVE_PTHREAD_WORKQUEUES=1, HAVE_PTHREAD_WORKQUEUE_QOS=1 (kernel pthread-workqueue + QoS path; NOT portable internal thread-pool); rmxOS-local kqueue timer servicing
+
+== export counts ==
+defined FUNC/OBJECT: 516 ; dispatch_* exports: 145

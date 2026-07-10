@@ -27,7 +27,9 @@ POSIX threads. That mechanism is exactly the `os_object` layer in our tree:
   `_os_object_xref_dispose`; fast-path inlines in `src/inline_internal.h`).
 - The **shared base** under `dispatch_object_t`, `xpc_object_t`, `voucher_t`, and
   `os_object_t` itself — one retain/release model + one typed-handle (`*_t`) convention across
-  **GCD and XPC**. That unification *is* "common."
+  **GCD and XPC**. That unification *is* "common." **(Caveat — verified 2026-07-02: in our tree
+  this is true for the dispatch family but only type-deep for XPC — libxpc forks its own
+  refcount. See "Consumer wiring" below.)**
 - The **atomic** retain/release internals are the object-lifecycle half of the talk's
   thread-safety claim; the manager thread + TWQ workers are the scheduling half. Same
   subsystem, two halves.
@@ -92,6 +94,18 @@ ObjC: a Clang closure extension with a tiny standalone ABI (`Block_layout` +
 `_Block_copy`/`_Block_release` + `_NSConcreteStackBlock`/`Global`), satisfied by libBlocksRuntime
 with zero ObjC. CoRT/dispatch needs BlocksRuntime, not objc4.
 
+## Consumer wiring — verified first-hand (2026-07-02): transitive via dispatch, and libxpc forks the refcount
+
+Who actually exercises CoRT, checked against the tree (canonical `wip-gpt/wip-rmxos`). Two clean facts + one divergence:
+
+1. **Zero DIRECT `os_object` API use in any core service.** grep for `os_object`/`os_retain`/`os_release`/`OS_OBJECT`/`_os_object` across `lib/libnotify`, `lib/libasl`, `usr.sbin/notifyd`, `usr.sbin/asl` (asld), `usr.sbin/aslmanager`, `sbin/launchd` → **no matches**. None of the four core services call the runtime by hand.
+
+2. **Heavy INDIRECT use via libdispatch objects.** The same dirs carry **386 `dispatch_*` calls across 32 files** (queues, sources, async, semaphores, `dispatch_mach`). Because the core builds `-DOS_OBJECT_USE_OBJC=0`, every `dispatch_queue_t`/`dispatch_source_t` those services create is a C-runtime `os_object`, and its retain/release/dispose flows through `src/object.c`. **So launchd, notifyd, asld, and the libnotify/libasl clients all exercise CoRT — transitively, through the dispatch object lifecycle, never the `os_object` API directly.** The CoRT hot path in production is dispatch-object churn, not hand-written `os_retain`.
+
+3. **libxpc is the divergence — `xpc_object_t` is an os_object by TYPE, not by runtime.** `xpc/xpc.h` declares `xpc_object_t` via the `OS_OBJECT_DECL` machinery (11 refs) — so at the type/handle level it matches the shared model. **But the implementation forks its own refcount:** `xpc_misc.c:152-173` implements `xpc_retain`/`xpc_release` on a private `xo->xo_refcnt` (`atomic_add_int`/`atomic_fetchadd_int`), **not** `_os_object_retain`/`_os_object_release`. So libxpc's own objects do **not** bind to the CoRT runtime; libxpc touches CoRT only via the dispatch objects it uses for Mach transport.
+
+**Fidelity gap (vs macOS / libSystem):** on Darwin `xpc_object_t` genuinely *is* an `os_object` sharing the runtime — `os_retain`/`os_release` work uniformly on dispatch and XPC handles, and that cross-family unification is load-bearing. In our tree the unification is skin-deep for XPC: the header type-declares it, but the refcount is a parallel `xo_refcnt`. Likely benign for single-library use; it bites any code that expects `os_retain(xpc_obj)` or cross-object-family `os_object` behavior. This is the concrete divergence the CoRT-testing entry (Open items) should target — capture the macOS os_object∪xpc unification as truth and diff rmxOS against it (an op-228 D4 candidate). Verified at source, not inferred (`verify_signature_divergence_claims`).
+
 ## Zig integration — two tiers
 
 **Tier 1 — works today, zero blocks, zero ObjC.** The dispatch C API ships function-pointer
@@ -133,4 +147,18 @@ not a requirement; (3) hold the line — **no objc4** (the build already proves 
 - Confirm `translate-c`/`@cImport` behavior on the block-param decls on our header set (expected:
   silently dropped → bind via `_f` or hand-written externs until arocc PR 971 lands).
 - Decide whether CoRT warrants its own testing entry (atomic-refcount / lifecycle invariants)
-  layered on the shared DTrace-first baseline.
+  layered on the shared DTrace-first baseline. **Concrete first target (from the 2026-07-02
+  consumer-wiring finding): the libxpc `xo_refcnt` vs `os_object` divergence** — a conformance
+  probe that asserts the macOS os_object∪xpc unification (`os_retain`/`os_release` uniform across
+  dispatch and XPC handles) and shows where rmxOS's forked refcount breaks it. Natural op-228 D4
+  candidate.
+- **cort refcount base is CLEARED but has one production-silent residual (op-244, 2026-07-02).**
+  The base matches canonical dispatch-500.x and is locally UNMODIFIED since vendor import
+  7f9f2a5ff50b (zero post-import commits to object.c/object_internal.h/inline_internal.h/init.c) —
+  no unbalanced retain/release found on the MACH_RECV path. BUT the "release while external
+  references exist" (internal-count underflow) guard is checked ONLY under `DISPATCH_DEBUG`
+  (inline_internal.h:119-123). In a production (non-DISPATCH_DEBUG) build, one unbalanced
+  `_dispatch_release` = silent early dispose = UAF with no crash at the release site. Not a live
+  defect today; it is the *failure mode* any future unbalanced release would take. A cort
+  conformance/invariant probe (above) should assert this underflow guard fires. Full context:
+  rmx-oracle/op-244-cort-lifetime-findings.md §1/§R4.

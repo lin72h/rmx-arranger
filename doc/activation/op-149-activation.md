@@ -1,6 +1,33 @@
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
-op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — ATTEMPT-2 on alpha base FAILED (verified first-hand, see ATTEMPT-2 block): buildworld rc=2 at the iconv `__iconv_bool` wall — the base switch cleared mtree+thrworkq but did NOT moot iconv (a v3-independent `lib/libc` source-level header self-containedness defect, identical in both trees). NEXT-HOP DECIDED: Implementer applies the faithful iconv self-containedness fix (commit as baseline tree fix), reruns buildworld from a CLEAN obj prefix, then v3 checks (steps 2-5). NO further base switching. Released for re-dispatch to wip-gpt, overnight batch. v3 still UNREACHED, not falsified.** | parent id: id-026 | L1i: li-1009 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27
+op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — RE-SCOPED 2026-06-28: the v3 buildworld/kernel goal is FULFILLED + li-1012-CERTIFIED by op-182 (clobbered clean-obj from c14e0904: v3 world + MACHDEBUGDEBUG kernel + mach.ko, all rc=0). op-149 now = ASSEMBLE the 1.0-preview bootable UEFI x86-64-v3 image FROM op-182's certified artifacts. See CURRENT SCOPE banner. Released to wip-gpt.** | parent id: id-026 | L1i: li-1009 / li-1012 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27, RE-SCOPED to image-assembly 2026-06-28
+
+## >>> CURRENT SCOPE (2026-06-28, Arranger seat, model Opus 4) — this supersedes the buildworld history below <<<
+
+**The build is DONE.** op-178 (buildworld), op-180 (buildkernel MACHDEBUGDEBUG), op-181 (mach.ko), and the
+op-182 clobbered do-it-once cert all GREEN at HEAD `c14e0904`. op-182's certified artifact set lives at
+`build/op182-li1012-clean-cert/obj/...` (v3 world per make.conf `CPUTYPE?=x86-64-v3` + `COPTFLAGS=-O2 -pipe` +
+`WITHOUT_LIB32=yes`; kernel sha `c526a91d…`; mach.ko sha `30d23616…`). The wall-by-wall buildworld grind
+recorded below is HISTORY — do NOT re-run it.
+
+**op-149's remaining deliverable: a bootable 1.0-preview image, FULL-provenance from op-182's certified set.**
+- **installworld the CERTIFIED v3 world** (op-182 obj prefix) + **installkernel KERNCONF=MACHDEBUGDEBUG** to a
+  FRESH disk image — NOT staging a new kernel onto a warm-provenance base userland (that would reintroduce mixed
+  provenance and void li-1012). The ENTIRE image (userland + kernel + mach.ko) must trace to `c14e0904`.
+- **mach.ko → `/boot/modules/mach.ko`**; loader.conf `kernel="MACHDEBUGDEBUG"`,
+  `module_path="/boot/kernel;/boot/modules;/boot/MACHDEBUGDEBUG"`, `mach_load="YES"` (auto-load at boot — match
+  `stage-guest.sh:470-473`). Plus harness serial console (`boot_serial`, `comconsole`).
+- **UEFI/GPT ONLY** — ESP + freebsd-ufs root, NO legacy i386 BIOS/MBR (64-bit-only + UEFI-only invariant; bhyve
+  boots via bhyveload per run-guest.sh, real HW via UEFI loader.efi). No `stand/i386`.
+- **Content-verify, never filename/size** (artifact_identity_needs_content_check): mount the image, readelf/sha
+  the staged kernel + mach.ko against op-182's cert fingerprints; confirm a v3 userland binary (e.g. bin/sh).
+- **Boot-smoke before handing to op-168**: bhyveload → multiuser; `kldstat` shows `mach`; no panic. Then op-168
+  Gatekeeper soak on this image is clean-provenance (no re-confirm owed).
+
+VERDICT (one of): `preview-image-staged` (image built, content-verified vs op-182 cert, boot-smoke + mach loaded
+→ hand to op-168) | `assembly-walled` (a staging/boot wall → report it, do not patch around provenance).
+
+---
 
 BASE RE-POINT — CONFIRMED (Coordinator 2026-06-27; op-169 Arranger-verified): attempt-1 ground vanilla `freebsd-src-official-stable-15`
 wall-by-wall (mtree → thrworkq → iconv) because it is a FreeBSD checkout incompletely retrofitted with rmxOS

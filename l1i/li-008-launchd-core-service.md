@@ -55,6 +55,46 @@ launchd straddles two planes, and only ONE is the open work:
 4. **Service-plane hosting:** `xpc_domain` import/host path solid over libxpc/nvlist (gated on li-007 fill +
    the MACH_RECV dispatch sub-fix).
 
+## op-264 seeds — KeepAlive/restart supervision (Oracle consult, Arranger-verified first-hand 2026-07-07)
+
+Consult read the supervise-and-respawn cluster in `core.c`/`runtime.c`; verified at source in the release
+base `wip-gpt/wip-rmxos`. The path a hosted daemon rides (NOTE_EXIT → reap → keepalive → throttled restart;
+unload → stop → pended remove) is **well-built and safe to keep relying on** — Q1 reap-attribution +
+double-reap, Q2 policy order (useless→active→keepalive), Q3 per-job throttle (`job_start:4477-4486`, 10s
+default), Q4 remove/cancel/free with in-batch event pruning all SOLID. Seeds:
+
+1. **[PRIMARY seed — Finding A — small/med effort, HIGH blast radius] The `waitpid_loop` cross-thread reaper.**
+   `runtime.c:646-657` runs a detached free-running `for(;;)` thread (created :260-261) that reaps via
+   `jobmgr_reap_pid` (`core.c:7230-7238`) — walking the job tables (`jobmgr_find_by_pid_deep` :7233) and
+   `waitpid` :7236 with NO serialization against the main thread's LIST_INSERT/REMOVE/free. Three hazards:
+   (a) torn traversal/read-after-free → **launchd(pid-1) abort = system down** (low prob, but fires on EVERY
+   child exit); (b) transient miss consumes a MANAGED job's zombie → main-thread wait4 ECHILD → job_reap
+   synthesizes SIGSEGV status → spurious crash + garbage LASTEXITSTATUS; (c) `WNOWAIT` **busy-spin** (managed
+   zombie stays waitable / no-children ECHILD → ~100% of one core at idle-boot). Purpose is legit (pid-1
+   FreeBSD orphan reaping). PROPOSAL: route unknown-pid reaping through the main runloop (EVFILT_SIGNAL SIGCHLD
+   on mainkq → main-thread WNOHANG drain skipping pids present in the hashes), or minimally serialize
+   `jobmgr_reap_pid`. **PREVIEW-RELEVANT** (unlike op-263's post-preview seeds): notifyd/asld ride this exact
+   path (KeepAlive:true, op-134 cold-boot), so this is the one structural item worth an op BEFORE heavy soak
+   reliance. NEEDS-RUNTIME-CHECK to set severity: idle-boot CPU watch + kill-storm soak on a KeepAlive job
+   (watch for "Reap failed" / spurious "appears to have crashed"). **Gating decision = Coordinator, NOT
+   auto-gated** (finding is a hypothesis; runtime evidence sizes it first).
+2. **[trivial seed — Finding B] `#ifdef` out the two `kev->data` bit tests on `__FreeBSD__`.** `Makefile:45`
+   force-defines NOTE_EXIT_DECRYPTFAIL=0x10000 / NOTE_EXIT_MEMORY=0x20000; `core.c:4204/4207` test them vs
+   `kev->data`, which on FreeBSD holds the UNMASKED exit code → `_exit` with bit 16/17 set spuriously flips
+   fpfail/jettisoned (log noise + wrong LASTEXITSTATUS export). Restart decision unaffected. Compile the two
+   tests out on FreeBSD.
+3. **[test-notes] `-u` dev mode voids on-demand semantics.** The `|| uflag` at `core.c:4058` force-starts every
+   dispatched inactive job under `-u`, so on-demand / KeepAlive-false semantics don't exist there — any
+   KeepAlive-policy soak run under `-u` is VACUOUS; don't misread such evidence.
+4. **[donor gaps to log — roadmap, not path correctness]** NetworkState is boot-frozen (PF_SYSTEM event socket
+   fails on FreeBSD, `launchd.c:666-685`) and PathState is unhandled in `semaphoreitem_setup` ("Unrecognized
+   KeepAlive attribute"). No current daemon uses these shapes (notifyd/asld are KeepAlive:true) — log against
+   li-008 for the day a job needs NETWORK_/PATH_ keepalive.
+5. **[cheap runtime checks]** throttle cadence probe (/usr/bin/false KeepAlive:true → ~10s steady cadence,
+   others unaffected); crashed-machservice respawn under the donor `job_active` change (`core.c:6337-6346`
+   returns NULL where Apple blocked respawn while a machservice port lingered) — crash a checked-in mach job,
+   verify the respawn re-checks-in cleanly.
+
 ## Truly-green criterion
 
 - launchd boots and hosts the core daemons (notifyd, asld, own) — they auto-start on clean boot;

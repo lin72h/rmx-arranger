@@ -1,6 +1,16 @@
 # id-012 — release / distribution image: bootable rmxOS USB + ISO (li-006 logistics)
 
 - id: id-012
+- state (2026-06-29 update): **FreeBSD-faithful release pipeline — DEFERRED to POST-1.0-preview by
+  Coordinator decision (play-safe).** 1.0-preview ships on the PROVEN id-015 staging model (base
+  FreeBSD image + overlay lib-copy + pre-staged kernel — green today, op-128 4/4). id-012 is the
+  FreeBSD-faithful release-pipeline track and is tackled AFTER the preview ships, NOT before — its
+  dominant risk (clean buildworld has never completed for rmxOS) is kept off the preview's critical
+  path. Arranger success-rate estimate to first bootable installer image: **~4/10**, gated almost
+  entirely by the first stage (clean buildworld, ~3/10 — `__has_include` landmine op-178 the likely
+  next wall); the release/install machinery downstream is inherited FreeBSD (8/10) so re-rates upward
+  fast IF buildworld lands. See "Coordinator plan (2026-06-29)" below. (Prior 2026-06-24 state retained
+  below for the build-config history.)
 - state (2026-06-24 update): **next-wall discovery DEFERRED — Coordinator-held pending build-config
   decisions.** The includes-install arc AND the test-includes self-containment walls are now ALL cleared:
   id-020 (`__int8_t` under `-ansi`, op-125) + id-022 (`thrworkq __packed`, op-126) both RETIRED, validated
@@ -65,6 +75,52 @@ built into world+kernel, staged into the image, and boot to a usable launchd use
 all:** the clean `buildworld` has never completed (fails at id-014, includes phase) and the overlay
 has only ever been built piecemeal — so "survives the standard release build" is an *open
 question*, not a near-given. See the op-111 finding above.
+
+## Coordinator plan (2026-06-29) — FreeBSD-faithful 1.0 + USB installer, tackled post-preview
+
+**Intent (Coordinator, verbatim sense):** the 1.0 image AND the USB installer should stick to
+FreeBSD's counterpart **as much as possible** — i.e. the 1.0 build carries the *default* kernel and
+world configuration (no bespoke minimization), **OpenZFS for the root filesystem**, and the standard
+FreeBSD install-to-disk flow. This is deliberately the FreeBSD-faithful path, NOT the id-015 staging
+model. **Sequencing: play safe — 1.0-PREVIEW ships first on id-015; this id-012 work is tackled
+AFTER the preview.** Captured here as the standing plan; not promoted/fetched yet.
+
+**Design (the FreeBSD-faithful release pipeline, as scoped 2026-06-29):**
+- **World+kernel: stock-default config.** `buildworld buildkernel` with FreeBSD defaults as the
+  starting point (+ our overlay + `mach.ko`); the production kernel derived from **GENERIC** (with
+  `COMPAT_MACH`), NOT the certified MACHDEBUGDEBUG debug kernel — so a production-kernel re-cert is
+  required (boot + IPC + the 4 core services re-proven on the lean kernel).
+- **Root FS: OpenZFS**, installed via `bsdinstall`'s stock `zfsboot` flow (robust, inherited). Our
+  only delta is the phased case-insensitive `/Users` dataset — additive, off the boot-critical path.
+- **Init/userland:** FreeBSD `init` + `rc` as the base, with launchd brought up as a service
+  (li-003 lifecycle on first boot), faithful to FreeBSD's boot rather than replacing it.
+- **Boot/partitioning:** UEFI-only GPT (project decision: 64-bit-only + UEFI-only, no lib32/no BIOS).
+- **Installer:** full `bsdinstall` install-to-disk (memstick + ISO), the standard FreeBSD flow —
+  the machinery is inherited (release.sh / make-memstick.sh / mkisoimages.sh / mkimg), low risk.
+
+**Risk register (why ~4/10 to first bootable installer image):**
+1. **Clean buildworld has NEVER completed for rmxOS (dominant, ~3/10).** Stalls in the
+   includes/bootstrap phase; the **`__has_include` landmine (op-178)** — overlay `mach/*.h` flips base
+   FB software onto Mach paths needing libmach before libmach exists in the bootstrap — is the likely
+   next wall. This is unscoped depth, a cost-30 Implementer dive (likely multi-session).
+2. **Production-kernel re-cert (~5/10).** GENERIC-derived prod kernel ≠ the op-182-certified
+   MACHDEBUGDEBUG kernel; needs its own boot/IPC/4-service re-cert.
+3. **`make release` → memstick/ISO/VM (~8/10).** Inherited FreeBSD machinery; low risk if world+kernel
+   exist.
+4. **OpenZFS root via bsdinstall zfsboot (~7/10).** Stock + robust; case-insensitive `/Users` is
+   phased/additive.
+5. **bsdinstall install-to-disk lifecycle (~6/10).** Inherited but never exercised with our world
+   (launchd-as-service in the installed rc env is the unknown).
+6. **x86-64-v3 baseline vs installer hardware-reach.** The v3 microarch floor (AVX2-class) narrows the
+   hardware an installer image boots on; revisit whether the *distributable* installer wants a
+   baseline-amd64 target vs the v3 perf bet (the v3 bet is carried for the dogfood/preview, not
+   necessarily the broad-reach installer).
+
+**Critical path = converting risk #1 into evidence:** the whole estimate is gated by one question —
+*can we land one clean buildworld?* Everything the Coordinator pictures (OpenZFS root, default config,
+bsdinstall) is the cheap, high-confidence part sitting behind that one expensive, low-confidence gate.
+First promoted op (post-preview) should be a `__has_include`-aware buildworld dive bound to wip-gpt
+(Implementer-30). The prior op-132 next-wall buildworld op stays the natural vehicle when un-deferred.
 
 ## op-111 first-attempt finding (2026-06-23) — the release pipeline is unexercised
 

@@ -51,6 +51,26 @@ either source tree (only stray hits inside `contrib/llvm-project`). Same for `ke
 (the macOS dispatch-workloop variant) — absent. These are a *later* layer; kevent64 is
 their prerequisite.
 
+## Residual-fidelity note (op-223 LEG A review, Arranger-verified first-hand 2026-07-02)
+
+The Oracle's LEG A review flagged the kevent64 shim; verified at source. Two separable facts:
+
+- **Adequate for TODAY's libdispatch** — every kevent64 call site in `lib/libdispatch/src/source.c`
+  (`:2138`, `:2170-2171`, `:2272`) passes `flags = 0`, so the shim's `flags != 0 → ENOTSUP` arm is
+  never taken on our path; and base `struct kevent` carries `ext[4]` (`sys/sys/event.h:92`) ≥ the
+  Darwin `kevent64_s` `ext[2]`, so the `ext[2..3]`-zeroing is a fill, not a truncation. The shim is
+  functionally sufficient for the dispatch we ship.
+- **Envelope-only, NOT filter semantics** — the shim translates the *call ABI*, but the kernel
+  `EVFILT_TIMER` behind it lacks Darwin's timer-coalescing fflags. Base `event.h` has
+  `NOTE_MSECONDS`/`NOTE_ABSTIME` (`:227`/`:230`) but **no** `NOTE_LEEWAY`/`NOTE_CRITICAL`/`NOTE_BACKGROUND`.
+  So a dispatch timer **fires correctly** but does not **coalesce identically** to macOS. A li-1002
+  timer-conformance bar must read as "fires right," not "coalesces identically" — this is a benign,
+  non-blocking fidelity residual, not a correctness bug.
+- **Scope implication for this id:** neither strategy A (donor-faithful) nor B (additive front-end)
+  restores leeway/coalescing on its own — that needs kernel `EVFILT_TIMER` to gain the missing
+  fflags, which is kevent_qos-era work and **out of id-001 scope**. id-001 revives the *syscall*; the
+  QoS/leeway fidelity layer stays a later, separate arc.
+
 ## Scope (when promoted to an op-chain)
 
 **In:**

@@ -1,7 +1,8 @@
 # id-010 — libnotify + notifyd: conformance bring-up (li-002 next rung, li-003 real-service)
 
 - id: id-010
-- state: **3 OF 4 LEGS GREEN — LEG 4 (hours-scale soak) FAILED the no-hang bar (op-123 leg-4, 2026-06-25,
+- state: **TRULY-GREEN / RETIRED 2026-06-29 — ALL 4 LEGS GREEN; leg-4 no-hang + oracle-slope both PASS on the op-156-patched kernel (op-165 LEG4-GREEN, Arranger artifact-verified first-hand).** Leg-4 re-soak on the patched `mach.ko` sha `9c7706a3` (id-025 fix `ipc_pset_port_changed` @0x1e800, content-proven loaded): `6394 iters / 0 fails / 7200s`, `Uptime 2h0m12s` clean shutdown, NO freeze — crossed the op-123 ~64min freeze point by 56 min; D2 oracle port-slope FLAT (in-guest capture: start `518/518/0` → end `63916/63918/-2`, no monotonic growth = no leak). id-025 regression CONFIRMED (2nd confirmation after op-185's 4-plane corroboration). li-002 notify rung SOLID. (Prior leg-4 fail history retained below for provenance.)
+- prior-state (pre-fix): **3 OF 4 LEGS GREEN — LEG 4 (hours-scale soak) FAILED the no-hang bar (op-123 leg-4, 2026-06-25,
   Arranger-verified first-hand). Notify NOT truly-green.** Leg 4 ran clean+balanced for ~63 min
   (port alloc==destroy every sample, no FAILs) then HARD-HUNG at ~t=64m and stayed frozen ~48 min
   through t=112m (bhyve 0.0% CPU / IC blocked-idle = deadlock-on-wait, not spin, not leak). The leak

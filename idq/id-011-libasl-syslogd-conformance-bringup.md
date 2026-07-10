@@ -4,7 +4,31 @@
 - state: **LEG-4 (SOAK) PARTIAL — op-163 FLAGGED, Arranger-verified first-hand 2026-06-27 (serial sha
   `74515b0a…`). asl is NOT truly-green yet.** Crash/PID/degrade durability GREEN over 4h/7234 iters (no crash,
   no restart, no degradation — first-hand confirmed: 259 crashbar HBs all crashes=0, 0 PID_CHANGE, matrix_fails=0
-  only, clean SOAK_TERMINAL, no CRASH_DETECTED in serial). **BUT the leg-4 "store growth bounded + aslmanager
+  only, clean SOAK_TERMINAL, no CRASH_DETECTED in serial). **ASL-NATIVE-SUBMIT note (op-212, 2026-06-29,
+  Arranger-verified first-hand @ bdd0fdc):** op-210 made asld the live logger but proved it only via the BSD
+  `/var/run/syslog` socket; the ASL *native* Mach submit (asl_log/aslutil over `com.apple.system.logger`)
+  returned `found=0`. op-212 source-traced this to the **id-016 ambient-bootstrap gap, NOT a Mach/asl defect**:
+  the submit client ran with `bootstrap_port==0` → `asl_core.c:110 bootstrap_look_up2` fails → `asl.c:1132`
+  guard skips the send (it never reaches the kernel). Verdict `independent` (the `ipc_entry_lookup failed on 0`
+  printf is a separate benign reject; NOT debt-#21). **So asl's last native-submit leg is a cheap
+  bootstrap-CONTEXT re-test — re-run aslutil/asl_log from a launchd-HOSTED client and confirm the message lands
+  in the store — NOT a Mach-receive investigation.** Mechanism predicts it passes (valid bootstrap → send
+  proceeds) but it is not yet runtime-proven; don't call asl FULLY green until that launchd-context native-submit
+  round-trip is shown (folds with id-016). **NATIVE-SUBMIT LEG CLOSED (op-216, 2026-06-29, Arranger SOURCE-verified
+  first-hand @ f2e4b45): `native-green`.** The launchd-hosted re-test ran the asl-harness as a launchd child →
+  asl_open PASS (bootstrap resolved) → asl_log native Mach submit (`asl.c:1163 _asl_server_message` over
+  com.apple.system.logger, gated on `:1132 server_port != MACH_PORT_NULL` — NO socket fallback in this path) LANDED
+  in `/var/log/asl/2026.06.29.G80.asl`; asl_search_roundtrip read it back. The op-210 `found=0` was solely the
+  id-016 null-bootstrap (the `:1132` guard FALSE), confirmed by the found=0→found>0 flip under a valid bootstrap.
+  So asl's native-submit leg is now runtime-proven — leg-4 (store-bound) is the ONLY remaining leg before asl is
+  FULLY green. **LEG-4 STILL UNMET — op-198 v5 HARNESS-INVALID (2026-06-29, Arranger serial-verified first-hand):**
+  v5 reclaim FIRED once clean (50MB→20kb, matches op-213) but the harness filled the root FS → asld stall-ballooned
+  to 1.43GB/32K-fd (couldn't drain to a full disk) → guest OOM-cascade killed asld+launchd+devd at ~t=3min; cycles
+  2-16 are zombie (no live logger/load). NOT an asld defect (launchd died too — full-disk symptom, op-214's
+  bounded-asld stands). Re-run as v6: (1) `/` headroom + capped fill, (2) backdate store files with asld STOPPED
+  (no `date <past>` under a live logger), (3) solve the RIDER-1 marker channel (markers route through asld, not -d
+  stdout). leg-4 = the sole gate to asl fully-green. (asl_search PASS here does NOT reverse the leg-3 shared-FAIL conformance baseline:
+  that was an in-process write→search race; op-216 reads the live asld on-disk store — different setup.) **BUT the leg-4 "store growth bounded + aslmanager
   reclaims" criterion is UNMET/under-instrumented:** RSS grew MONOTONICALLY 6→45MB (decelerating 2.56→0.76
   pg/it → leak-INCONSISTENT, but never plateaued → bounded UNPROVEN); fd count + on-disk store size were NEVER
   sampled (HB carried only `rss_pages`); aslmanager reclaim NEVER observed (0 markers) though `usr.sbin/aslmanager/`

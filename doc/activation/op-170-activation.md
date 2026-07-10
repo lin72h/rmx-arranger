@@ -1,6 +1,6 @@
 # op-170 — Explorer: why did aslmanager NOT reclaim during the op-163 asl leg-4 soak? (wiring + trigger audit)
 
-op-170 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Awaiting]** — released for dispatch | parent id: id-011 (li-1004 asl, leg-4) | L1i: li-1004 | cost: free | authored 2026-06-27 (Arranger seat, model Opus 4)
+op-170 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Retired — verdict aslmanager-not-wired; closes the op-163 store-bound FLAG]** (commit 263c21c origin/main; findings/nx-r64z/20260627-op170-aslmanager-wiring-audit.md; source-verified asl_store.c file_cache fixed-size + on-disk FILE* backing → RSS = I/O buffering not retention) | parent id: id-011 (li-1004 asl, leg-4) | L1i: li-1004 | cost: free | authored 2026-06-27 (Arranger seat, model Opus 4)
 
 ## WHY (one line)
 

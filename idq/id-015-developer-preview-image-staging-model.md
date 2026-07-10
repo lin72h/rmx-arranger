@@ -157,8 +157,38 @@ asl/libxpc/li-003 real-service lifecycle (deferred past preview); non-amd64.
   bridge; macOS-faithful self-scan is a li-008 target, non-blocking). This blocker is closed; id-015's
   remaining open items are the Coordinator-held decisions below (USB-vs-ISO, MACHDEBUG kernel, conformance-wait).
 
+## UEFI-only switch + bhyveload firmware-bypass gap (2026-06-29, Coordinator decision → op-217)
+
+**Decision (Coordinator, 2026-06-29): switch id-015 to UEFI-only — for BOTH the bhyve test path
+AND the target live image (USB + liveCD/ISO).** Driver: the deploy target is an **Intel Rocket Lake
+workstation that is UEFI-exclusive**. Aligns with the standing 64-bit-only + UEFI-only / no-BIOS
+project decision. UFS root stays UNCHANGED — this is a partition-scheme / boot-path change, NOT the
+ZFS-root change (that's id-012, post-preview).
+
+**GAP surfaced first-hand (load-bearing): every id-015 boot proof booted via `bhyveload`, which
+bypasses the firmware boot chain.** `wip-gpt/scripts/bhyve/run-guest.sh:57` =
+`load_cmd="doas bhyveload -m … -d ${vm_image} …"` (no `-l bootrom,…BHYVE_UEFI.fd`). `bhyveload` is a
+host-side userspace loader that reads `/boot/loader` straight out of the guest UFS and injects the
+kernel — **no ESP, no `loader.efi`, no UEFI firmware** in that path. So op-128's ESP (make-memstick
+stages one) has **NEVER been exercised**, and the real-hardware UEFI chain (firmware → ESP →
+`loader.efi` → kernel) is **unvalidated on any path**. This matters precisely because the Rocket Lake
+target has no BIOS shortcut. **Split into a role-correct pair (build vs independent boot-proof; the
+builder must NOT self-certify boot-green, because a bhyveload false-green is the exact failure mode):**
+→ **op-217 (Implementer wip-gpt, cost-30, [Awaiting]) — dispatch NOW, parallel to op-165:** repackage
+the proven staged tree as a pure-UEFI GPT image (USB + UEFI ISO, UFS root UNCHANGED) + ABI-match the
+op-215 gated `mach.ko` (sha `ffc67eda`, built on op-196 base) to id-015's MACHDEBUGDEBUG kernel
+(content-verify or rebuild) → hand artifacts to op-218. → **op-218 (Gatekeeper, free, [Awaiting], gated
+on op-217 handoff):** independent edk2-firmware boot proof — boot via the **edk2 bootrom in bhyve**
+(NOT bhyveload — banned bypass), op-104 oracle green through the firmware path + op-215 de-spam
+confirmed; D3 flags whether a real-hardware Rocket Lake UEFI smoke is still owed (bhyve+edk2 is a strong
+proxy, not the literal silicon). (Cost note: the free Implementer runs op-217 in parallel with op-165 —
+the cost map orders roles, it does not license waiting out the busy Gatekeeper to dodge the cost-30.)
+Parallel/non-blocking to the leg-4 soaks, but a real-hardware prerequisite before dogfooding on the
+Rocket Lake box.
+
 ## Open decisions (Coordinator-held, at fetch)
-- USB-only vs USB+ISO for the first preview cut.
+- USB-only vs USB+ISO for the first preview cut. **(UPDATE 2026-06-29: both — UEFI USB + UEFI
+  liveCD/ISO, per op-217.)**
 - pre-staged kernel: keep `MACHDEBUG` for the preview (proven), or wait for a non-DEBUG kernel
   (cf. the op-111 KERNCONF note) — lean keep-MACHDEBUG for preview-ASAP, lighter kernel post-preview.
 - whether to wait for the full notify conformance MATCH (op-110) or ship the preview image once

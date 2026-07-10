@@ -11,6 +11,16 @@
   rider. RE-OPEN trigger: a freeze recurrence in the op-165 leg-4 soak on the op-156-patched kernel.
   Carrier chain retired: op-140/148/150/151/153/154/155 (capture attempts) → op-159 (necessary-condition
   reachability) → op-164 (cond-3 offset) → op-156 (fix, MERGED). Historical investigation log below.**
+- **2026-06-29 — STAYS CLOSED; POSITIVE CORROBORATION (no freeze — interim report retracted).** op-185
+  (4-plane integration soak, op196-aslmanager-wired-v3 image, kernel CARRIES op-156 — verified first-hand:
+  `3c2dd7f` is reachable from op-171/op-149/alpha) crossed **t=108min still running** (hb=7 @ t=105min,
+  bhyve alive 319% CPU) — PAST both prior freeze points (op-123 leg-4 ~99m, op-150 ~6-8m) under the
+  HEAVIEST load yet (notify churn + asl + oracle + dispatch concurrent) with NO deadlock. The Gatekeeper's
+  earlier "freeze at ~80-85min = same id-025" call was a **pgrep-race misdiagnosis, RETRACTED** (no freeze
+  occurred). This STRENGTHENS the op-156 necessary-condition close — the fix holds under combined load past
+  the historical onset window. NOTE (separate, non-id-025): the asld RSS growth (6→110MB by t=75min) + the
+  3.9M `ipc_entry_lookup failed on 0` flood (op-212 benign null-dest reject) are real combined-load signals
+  tracked under op-185/op-214 — they are NOT id-025 and do not bear on this close.
 
 - prior-state: **STOCHASTIC RACE — op-140 closed with a DEFINITIVE NEGATIVE finding (2026-06-25,
   Arranger-verified first-hand against rmx-explorer-2 `explorer-rx2` @ ddb5e3d + the leg-4-exact oracle
