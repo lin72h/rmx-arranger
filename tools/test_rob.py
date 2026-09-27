@@ -32,7 +32,7 @@ class RobTest(unittest.TestCase):
         (self.root / "doc" / "activation").mkdir(parents=True)
         (self.root / "idq").mkdir()
         (self.root / "idq" / "id-042-preview.md").write_text("# id-042\n")
-        (self.root / "arranger-swap.md").write_text("journal mentions chat-only op-205\n")
+        (self.root / "arranger-swap.md").write_text("journal\n")
         self.write("op-100", LEGACY_DONE)
 
     def tearDown(self):
@@ -55,8 +55,16 @@ class RobTest(unittest.TestCase):
         self.assertIn("[returned]: op-100", self.rob("board").stdout)
         self.assertIn("(legacy [Done", self.rob("list").stdout)
 
-    def test_next_id_skips_ids_mentioned_only_in_the_journal(self):
-        self.assertEqual(self.rob("next-id").stdout.strip(), "op-206")
+    def test_next_id_starts_above_the_legacy_floor(self):
+        self.assertEqual(self.rob("next-id").stdout.strip(), "op-361")
+
+    def test_prose_mentions_do_not_reserve_ids(self):
+        (self.root / "arranger-swap.md").write_text("next: relay op-900\n")
+        self.assertEqual(self.rob("next-id").stdout.strip(), "op-361")
+
+    def test_next_id_follows_the_highest_op_file(self):
+        self.write("op-400", "---\nid: op-400\nstate: draft\nagent: a\nrepo: r\n---\n# op-400 — t\n")
+        self.assertEqual(self.rob("next-id").stdout.strip(), "op-401")
 
     def test_new_requires_agent_and_repo(self):
         r = self.rob("new", "x", "agent=a", ok=False)
@@ -65,20 +73,20 @@ class RobTest(unittest.TestCase):
 
     def test_new_creates_draft_pointing_at_ops_md(self):
         out = self.rob("new", "Gatekeeper: t", "agent=gk", "repo=rmx-gatekeeper", "idq=id-042").stdout
-        self.assertIn("op-206-activation.md", out)
-        text = self.read("op-206")
-        self.assertTrue(text.startswith("---\nid: op-206\nstate: draft\n"))
+        self.assertIn("op-361-activation.md", out)
+        text = self.read("op-361")
+        self.assertTrue(text.startswith("---\nid: op-361\nstate: draft\n"))
         self.assertIn("OPS.md in your repo", text)
         self.assertNotIn("REPORT op-", text)
-        self.assertIn("[draft]: op-206", self.rob("board").stdout)
+        self.assertIn("[draft]: op-361", self.rob("board").stdout)
 
     def test_show_renders_relay_view_without_front_matter(self):
         self.rob("new", "Gatekeeper: t", "agent=gk", "repo=rmx-gatekeeper", "authority=no guest")
-        shown = self.rob("show", "206").stdout
-        self.assertTrue(shown.startswith("# op-206 — Gatekeeper: t\nagent: gk | repo: rmx-gatekeeper"))
+        shown = self.rob("show", "361").stdout
+        self.assertTrue(shown.startswith("# op-361 — Gatekeeper: t\nagent: gk | repo: rmx-gatekeeper"))
         self.assertIn("authority: no guest", shown)
         self.assertNotIn("state: draft", shown)
-        self.assertTrue(self.rob("show", "206", "--raw").stdout.startswith("---\n"))
+        self.assertTrue(self.rob("show", "361", "--raw").stdout.startswith("---\n"))
 
     def test_valid_transitions_and_legacy_conversion_keep_the_body(self):
         self.assertIn("returned -> closed", self.rob("set", "100", "closed", "gate=self").stdout)
@@ -89,15 +97,15 @@ class RobTest(unittest.TestCase):
 
     def test_invalid_transition_is_refused_unless_forced(self):
         self.rob("new", "t", "agent=a", "repo=r")
-        r = self.rob("set", "206", "closed", ok=False)
+        r = self.rob("set", "361", "closed", ok=False)
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("draft -> closed is not allowed", r.stderr)
-        self.assertIn("draft -> closed", self.rob("set", "206", "closed", "--force").stdout)
+        self.assertIn("draft -> closed", self.rob("set", "361", "closed", "--force").stdout)
 
     def test_same_state_updates_fields_only(self):
         self.rob("new", "t", "agent=a", "repo=r")
-        self.rob("set", "206", "draft", "needs=op-100")
-        self.assertIn("needs: op-100", self.read("op-206"))
+        self.rob("set", "361", "draft", "needs=op-100")
+        self.assertIn("needs: op-100", self.read("op-361"))
 
     def test_check_reports_dangling_needs_missing_idq_and_stale_ops(self):
         self.write("op-300", "---\nid: op-300\nstate: returned\nagent: a\nrepo: r\n"

@@ -15,8 +15,8 @@ read-only onboarding op.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (was `wip-gpt`) | repo updated, OPS.md added (local commits `92a8d92`, `52b1789`, `025d54e`); op-361 to relay |
-| Gatekeeper | `rmx-gatekeeper` | next |
+| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded (op-361 closed); working rounds: op-362, op-363 |
+| Gatekeeper | `rmx-gatekeeper` | after the Implementer rounds |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
 | Validators | `wip-glm`, `wip-ds4p`, `rmx-validator3` | pending |
@@ -27,20 +27,24 @@ read-only onboarding op.
 
 Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted
 containment and staging, then a small regression slice; the generic preflight checker is off the
-path) and j-20260922-003 (no NFS or Kerberos in base; keep OpenSSH/OpenSSL and filesystem ACLs).
+path). NFS/Kerberos: j-20260922-003 as revised by op-340 in chat. Kernel NFS options and NFS
+modules are off, NFS userland stays dormant, Kerberos is at upstream defaults, and
+OpenSSH/OpenSSL/ACLs are kept. Coordinator to confirm (j-20260927-010).
 
-Known from disk (j-20260927-008): ops through op-360 ran from chat between 2026-09-22 and
-2026-09-25 and were not recorded here. The alpha2 candidate (`15c185c0`, worktree
-`../build/alpha2-stable15-sync-20260921`) carries the op-338/op-340 release profile as three
-uncommitted paths. Builds exist under `rmx-implementer/build/` for op-335 through op-358; the
-newest is `op358-alpha2-20260925T000042Z`. Their results are not yet established.
+Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
+image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
+the op-343 kernel and `mach.ko` loaded at boot by `loader.conf`. Composition succeeded (makefs
+and mkimg rc 0; extracted partition byte-for-byte equal). It has never been mounted or booted.
+`mach.ko` compatibility is static only, and module and kernel toolchains differ (clang 19.1.7 vs
+clang/LLD 21.1.8).
 
 | # | Step | Owner | Status |
 |---|---|---|---|
-| 1 | Re-establish the baseline: candidate state and newest build result, from disk | Implementer (op-361) | draft |
-| 2 | Coordinator reviews the build evidence by hand | Coordinator | waits on 1 |
-| 3 | Accepted containment, then staging | Gatekeeper | waits on 2 |
-| 4 | Small regression slice: boot/base, Mach IPC, dispatch/workqueue | Gatekeeper | waits on 3 |
+| 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
+| 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | draft |
+| 3 | Coordinator reviews the build and image evidence by hand | Coordinator | waits on 2 |
+| 4 | Accepted containment, then staging of the op-358 image | Gatekeeper | waits on 3 |
+| 5 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 4 |
 
 ## Off the path (backlog, not live)
 

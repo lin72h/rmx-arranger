@@ -408,3 +408,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-361 rewritten in the short form (still draft, authority none, Limits read-only); `tools/rob new` emits the short template.
 - evidence: op-brief-forms.md; rmx-implementer/OPS.md; `python3 -B tools/test_rob.py` passes.
 - next: Coordinator relays op-361; then the Gatekeeper repo.
+
+### j-20260927-010 — op-361 closed: Implementer onboarded; alpha2 baseline established
+
+- time / kind: 2026-09-27T23:37:28Z / RETURN
+- outcome: The Implementer read AGENTS.md and OPS.md and reported the baseline; every fact was re-verified first-hand (S gate). rmx-implementer main `025d54e` clean, 5 commits not on origin; wip-rmxos alpha `26655e67` clean, on origin; three linked worktrees; alpha2 candidate `15c185c0` with 1 modified and 4 untracked profile paths; 7 tracked scripts still hard-code the wip-gpt path. Newest build `op358-alpha2-20260925T000042Z`: 8 GiB UFS and raw GPT image from the candidate with mach.ko staged via loader.conf (kernel from op-343); makefs and mkimg rc 0; extracted partition byte-for-byte equal; not mounted or booted. Caveats from its summary: mach.ko compatibility is static only, and module (clang 19.1.7) and kernel (clang/LLD 21.1.8) toolchains differ. Also found: op-340 revised j-20260922-003 in chat. Kernel NFS options and NFS modules are off, NFS userland stays dormant, Kerberos is back to upstream defaults, OpenSSH/OpenSSL/ACLs kept (rmx-implementer/docs/op340-minimal-nfs-profile.md). Coordinator to confirm that this is the policy in force.
+- state delta: op-361 issued → returned → closed.
+- evidence: rmx-implementer/AGENTS.md sha256:e07913e1…; OPS.md sha256:f415b73b…; build/op358-alpha2-20260925T000042Z/evidence/final-makefs-return.txt sha256:1a21f3bc…, final-mkimg-return.txt sha256:1a6260f8…, final-partition-compare-return.txt sha256:e0752bc4…, op358-summary.txt.
+- next: Relay op-362 (alpha2 build-chain index) to the Implementer.

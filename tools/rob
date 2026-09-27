@@ -40,6 +40,8 @@ NEXT = {
     "dropped": set(),
 }
 STALE_DAYS = {"issued": 14, "returned": 7}
+# Ids through op-360 were used by chat-only ops that have no file here (j-20260927-008).
+LEGACY_FLOOR = 360
 FIELDS = ["id", "state", "agent", "repo", "idq", "needs", "gate", "authority", "updated"]
 
 # Legacy header tags -> current state. Unknown tags are reported by `rob check`.
@@ -225,12 +227,12 @@ def cmd_set(ops, args):
 
 
 def next_id():
-    hi = 0
-    scan = [ROOT / "arranger-swap.md", ROOT / "now.md", *IDQ.glob("*.md"), *OPS.glob("*.md")]
-    for p in scan:
-        if p.exists():
-            for m in re.finditer(r"\bop-(\d{3,})\b", p.read_text(errors="replace")):
-                hi = max(hi, int(m.group(1)))
+    """Next id above every op file and above LEGACY_FLOOR. Prose mentions never reserve ids."""
+    hi = LEGACY_FLOOR
+    for p in OPS.glob("op-*-activation.md"):
+        m = FILE_RE.search(p.name)
+        if m and not m.group(2):
+            hi = max(hi, int(m.group(1)))
     return hi + 1
 
 

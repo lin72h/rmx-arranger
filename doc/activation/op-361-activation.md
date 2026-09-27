@@ -1,12 +1,12 @@
 ---
 id: op-361
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-27T23:28Z
+updated: 2026-09-27T23:37Z
 ---
 # op-361 — Implementer: onboarding to the 2026-09-28 workflow
 
