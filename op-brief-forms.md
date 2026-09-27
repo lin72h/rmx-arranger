@@ -4,6 +4,15 @@ Every op is one file, `doc/activation/op-NNN-activation.md`, created with `tools
 front matter is the op's state; its body is the brief. The Coordinator relays every brief and every
 REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form convention.)
 
+## Where each part lives
+
+- **Each role repo's `OPS.md`** is that role's standing op contract: what a brief contains, the
+  defaults that apply unless a brief says otherwise, and the REPORT block (copied from below). The
+  role's `AGENTS.md` links it. First: `rmx-implementer/OPS.md`.
+- **The brief** carries only what is specific to its op. Never repeat the defaults or the REPORT
+  block in it.
+- Until a role repo has an `OPS.md`, add that role's defaults and the REPORT block to the brief.
+
 ## Front matter
 
 ```yaml
@@ -14,23 +23,23 @@ repo: <the exact repo the deliverable lands in; the agent must own it>
 idq: <id-NNN this op serves>
 needs: [<op-NNN>, ...]        # optional
 gate: self | validator | both  # expected review size; S/M self, L one, XL/critical-path both
-authority: <what is allowed: e.g. build-only, no guest; or guest attempts: 1>
+authority: <everything allowed beyond the role's defaults: e.g. build-only; guest attempts: 1>
 ```
 
 ## Brief body
 
-Written for the agent, not for a human deep-read. Keep every binding path, pin, signature,
-marker, limit, and stop condition; cut narration. Sections:
+`tools/rob show op-NNN` prints the title, a header line built from the front matter, then:
 
-1. **Outcome** — the observable result and what evidence proves it.
-2. **Inputs** — exact paths, commits, hashes.
-3. **Do / don't** — scope, authority, attempt budget, stop conditions.
-4. **REPORT** — the block below, verbatim.
+1. **Outcome** — the observable result and the evidence that proves it.
+2. **Inputs** or **Limits** — only when the op needs paths or limits beyond the role's defaults.
+3. One closing line pointing to the role's `OPS.md` (the `rob new` template adds it).
 
-When the Coordinator asks for a brief, show it with `tools/rob show op-NNN` as one clean
-copy-paste block: no line numbers, no box-drawing. Showing a brief does not send it.
+Written for the agent, not for a human deep-read: keep every binding path, pin, signature,
+marker, limit, and stop condition; cut narration. When the Coordinator asks for a brief, show the
+`tools/rob show` output as one clean copy-paste block with no line numbers and no box-drawing.
+Showing a brief does not send it.
 
-## REPORT (every agent returns this)
+## REPORT (canonical; each OPS.md copies it)
 
 ```text
 REPORT op-NNN

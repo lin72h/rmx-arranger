@@ -51,6 +51,9 @@ Ops for different agents run in parallel and may close in any order.
 Each agent writes only its own repo. Reading another repo is allowed when a brief names the path;
 reading never grants write authority. Cross-repo work is a separate op for the owning agent.
 
+Each role repo has an `AGENTS.md` (standing rules) and an `OPS.md` (its op contract: brief format,
+defaults, and the REPORT block), so a brief carries only what is specific to its op.
+
 ## Review and closure
 
 Source: Coordinator 2026-06-20; risk-sized and single threshold 2026-09-28 (j-20260927-003).

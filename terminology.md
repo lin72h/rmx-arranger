@@ -120,7 +120,7 @@ by visiting every L1i row (Coordinator, 2026-07-11). The current critical path i
 [now.md](now.md).
 
 **Op states, board, and ids:** [rob-mini-format.md](rob-mini-format.md). **Brief and REPORT
-format:** [op-brief-forms.md](op-brief-forms.md). **Review rule:** [roles.md](roles.md) § Review
+format:** [op-brief-forms.md](op-brief-forms.md); each role repo's `OPS.md` holds its defaults. **Review rule:** [roles.md](roles.md) § Review
 and closure. Old workflow terms: §9.
 
 **L1i numbering:** `li-MNNN`, where M is the milestone (1 = 1.0-preview, index

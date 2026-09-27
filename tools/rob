@@ -17,7 +17,8 @@ front matter and leaves the original header untouched below it.
   rob next-id                 next free project op number
   rob check                   unknown states, dangling needs/idq, stale issued/returned ops
 
-States and transitions: rob-mini-format.md. Brief format: op-brief-forms.md.
+States and transitions: rob-mini-format.md. Brief format: op-brief-forms.md. Each role's
+defaults and REPORT block live in its repo's OPS.md, so briefs carry only op-specific parts.
 """
 import datetime as dt
 import pathlib
@@ -58,26 +59,7 @@ FILE_RE = re.compile(r"op-(\d{3,})(m?)-activation\.md$")
 BRIEF_TEMPLATE = """## Outcome
 
 
-## Inputs
-
-
-## Do / don't
-
-
-## REPORT
-
-Return exactly this block:
-
-```text
-REPORT {oid}
-agent:      <role / instance>
-outcome:    DONE | PARTIAL | BLOCKED | FAILED — one line
-evidence:   <path> sha256:<hash>   (one per line; raw artifacts, not summaries)
-commits:    <repo> <hash> on-origin:<yes|no>   (or none)
-untested:   <what was not covered, or none>
-blockers:   <what stops further progress, or none>
-next:       <single smallest next action>
-```
+Defaults and the REPORT block: OPS.md in your repo.
 """
 
 
@@ -268,7 +250,7 @@ def cmd_new(_ops, args):
     if path.exists():
         die(f"{path} exists")
     fields = {"id": oid, "state": "draft", **kv, "updated": stamp()}
-    path.write_text(render_fm(fields) + f"# {oid} — {title}\n\n" + BRIEF_TEMPLATE.format(oid=oid))
+    path.write_text(render_fm(fields) + f"# {oid} — {title}\n\n" + BRIEF_TEMPLATE)
     print(path.relative_to(ROOT))
 
 

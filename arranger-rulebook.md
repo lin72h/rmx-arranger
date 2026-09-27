@@ -64,9 +64,10 @@ whether it may run yet. Format: [op-brief-forms.md](op-brief-forms.md).
 
 **Rule 4 — Show the complete brief; showing is not sending.** When the Coordinator asks for an op,
 or the Arranger names one as the next dispatch, the reply contains the entire brief from
-`tools/rob show` as one clean copy-paste block ending with the REPORT template. A summary, stub,
-or path never substitutes. Plain labels only, no box-drawing. The op stays `draft` until the
-Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28.
+`tools/rob show` as one clean copy-paste block. A summary, stub, or path never substitutes. The
+brief holds only what is specific to the op; the role repo's `OPS.md` holds the defaults and the
+REPORT block (op-brief-forms.md). Plain labels only, no box-drawing. The op stays `draft` until the
+Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28; OPS.md split 2026-09-28.
 
 **Rule 5 — Run the independent in parallel, sequence the dependent.** Independent ops go to
 different agents in parallel; a dependent op lists `needs: [op-NNN]` and is not sent until those

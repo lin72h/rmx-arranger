@@ -10,11 +10,12 @@ Git and the journal. Op state comes from `tools/rob board`, problem state from `
 ## Onboarding (in progress)
 
 The Coordinator is onboarding each role repo directly (j-20260927-007): rename to `rmx-<role>`,
-rewrite its instructions for the current workflow, then relay one read-only onboarding op.
+rewrite its instructions for the current workflow, add its `OPS.md` op contract, then relay one
+read-only onboarding op.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (was `wip-gpt`) | repo updated (local commits `92a8d92`, `52b1789`); op-361 to relay |
+| Implementer | `rmx-implementer` (was `wip-gpt`) | repo updated, OPS.md added (local commits `92a8d92`, `52b1789`, `025d54e`); op-361 to relay |
 | Gatekeeper | `rmx-gatekeeper` | next |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |

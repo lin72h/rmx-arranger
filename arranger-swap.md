@@ -400,3 +400,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-339…op-344 draft files removed.
 - evidence: directory listings above; `tools/rob next-id`.
 - next: none beyond j-20260927-007.
+
+### j-20260927-009 — standing op contract moves into each role repo's OPS.md
+
+- time / kind: 2026-09-27T23:28:34Z / DECISION
+- outcome: Coordinator directs that briefs stop repeating standing sections. Each role repo gets an `OPS.md` linked from its AGENTS.md, holding the brief format, the role's defaults (allowed, needs explicit authority, stop conditions), and the REPORT block. A brief now carries only the header line, the Outcome, and op-specific Inputs or Limits, plus one line pointing to OPS.md. First: rmx-implementer/OPS.md (`025d54e`, local). `authority` now means grants beyond the defaults; tighter restrictions go under Limits.
+- state delta: op-361 rewritten in the short form (still draft, authority none, Limits read-only); `tools/rob new` emits the short template.
+- evidence: op-brief-forms.md; rmx-implementer/OPS.md; `python3 -B tools/test_rob.py` passes.
+- next: Coordinator relays op-361; then the Gatekeeper repo.

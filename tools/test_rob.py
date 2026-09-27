@@ -63,12 +63,13 @@ class RobTest(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("repo=", r.stderr)
 
-    def test_new_creates_draft_with_report_template(self):
+    def test_new_creates_draft_pointing_at_ops_md(self):
         out = self.rob("new", "Gatekeeper: t", "agent=gk", "repo=rmx-gatekeeper", "idq=id-042").stdout
         self.assertIn("op-206-activation.md", out)
         text = self.read("op-206")
         self.assertTrue(text.startswith("---\nid: op-206\nstate: draft\n"))
-        self.assertIn("REPORT op-206", text)
+        self.assertIn("OPS.md in your repo", text)
+        self.assertNotIn("REPORT op-", text)
         self.assertIn("[draft]: op-206", self.rob("board").stdout)
 
     def test_show_renders_relay_view_without_front_matter(self):

@@ -35,8 +35,9 @@ publication; push this workspace only when the Coordinator asks.
 - Create, read, and change ops only with `tools/rob`; never hand-edit a state tag.
   Format: [op-brief-forms.md](op-brief-forms.md); states: [rob-mini-format.md](rob-mini-format.md).
 - When presenting an op, show its complete brief (`tools/rob show`) as one
-  copy-paste block ending with the REPORT template. Showing is not sending: the op
-  stays `draft` until the Coordinator says it was sent.
+  copy-paste block. The brief holds only what is specific to the op; each role
+  repo's `OPS.md` holds its defaults and the REPORT block. Showing is not sending:
+  the op stays `draft` until the Coordinator says it was sent.
 - State execution authority unambiguously. Status-only replies need not invent an op.
 
 ## Finish outcomes, not preparation loops
