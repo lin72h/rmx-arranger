@@ -384,3 +384,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: no op or IDQ state changed; op-339/op-343/op-344 drafts revised (op-344 now needs op-343 and copies GLM's Validator rulebook itself instead of an Arranger cross-repo sync).
 - evidence: this commit; `python3 -B tools/test_rob.py` (11 tests pass); `tools/rob check` (0 problems).
 - next: Coordinator takes the agent repos one by one, starting with any of op-339…op-343.
+
+### j-20260927-007 — direct repo onboarding; wip-gpt renamed to rmx-implementer
+
+- time / kind: 2026-09-27T23:21:26Z / DECISION
+- outcome: Coordinator directs the Arranger to onboard each role repo directly, one at a time: rename it to `rmx-<role>` and update its instructions to the current workflow. Agents' prior session state is not carried over; they are onboarded fresh. This is an explicit exception to "write only in this workspace" for onboarding. First repo: `/Users/me/wip-mach/wip-gpt` renamed to `rmx-implementer`; `wip-gpt` is a transitional symlink until other repos stop referencing it; `wip-rmxos` linked worktrees under `../build/` repaired to the new path (alpha2 candidate keeps its 3 op-338/op-340 profile files); three op108 objdir-backup symlinks retargeted. Implementer repo commits (local, not pushed): `92a8d92` snapshot of 29 uncommitted paths as found, `52b1789` onboarding (AGENTS.md rewritten, CLAUDE.md imports AGENTS.md, docs/role-governance.md points to roles.md).
+- state delta: no op state changed by this entry; see j-20260927-008 for op ids.
+- evidence: `git -C /Users/me/wip-mach/rmx-implementer/wip-rmxos worktree list`; Implementer repo log.
+- next: Coordinator relays the Implementer onboarding op; then the next role repo.
+
+### j-20260927-008 — correct op ledger: op-335 through op-360 ran chat-only
+
+- time / kind: 2026-09-27T23:21:26Z / CORRECTION
+- outcome: Corrects j-20260927-004/006 and now.md. Between 2026-09-22 and 2026-09-25, ops through at least op-360 were briefed and run from chat without op files here. Evidence includes rmx-implementer/build/op335-*, op336-*, op338, op340, op342, op343-*, op344-*, op348-*, op358-alpha2-20260925T000042Z; rmx-implementer/docs/op338-base-release-profile.md (CONFIGURATION-READY-FOR-VALIDATION) and op340-minimal-nfs-profile.md; and rmx-validator3/op339-review.*, op341-review.* (so validator3 is active). The drafts op-339…op-344 created in j-20260927-004 reused those ids; they were never sent and are deleted (their text remains in Git at 620815a and f7e4d19). Ids through op-360 are taken; `tools/rob next-id` allocates above them. Per the Coordinator, the chat-only ops are not reconstructed; the Implementer onboarding op re-establishes the product baseline from disk.
+- state delta: op-339…op-344 draft files removed.
+- evidence: directory listings above; `tools/rob next-id`.
+- next: none beyond j-20260927-007.

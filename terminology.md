@@ -62,18 +62,19 @@ unambiguous: `rmx-explorer-mx-a64z` vs `swift-rx-explorer-mx-a64z`.
 
 ## 4. Agent repos
 
-Each agent writes only its own repo. Paths are under `/Users/me/wip-mach/`.
+Each agent writes only its own repo. Paths are under `/Users/me/wip-mach/`. Role repos are being
+renamed to `rmx-<role>` as each is onboarded (j-20260927-007).
 
 | Local workspace | Upstream | Role |
 |---|---|---|
 | `rmx-arranger` | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `wip-gpt` (product source in `wip-gpt/wip-rmxos`) | `git@github.com:lin72h/project-rmx.git` | Implementer |
+| `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
 | `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper |
 | `wip-glm` | none (not a Git repo) | Validator GLM |
 | `wip-ds4p` | none (not a Git repo) | Validator DS4P |
 | `rmx-oracle` | none (not a Git repo) | Oracle |
-| `rmx-validator3` | none (not a Git repo) | third Validator; status unconfirmed |
+| `rmx-validator3` | none (not a Git repo) | Validator (active: reviewed op-339/op-341 on 2026-09-22) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
 
@@ -173,6 +174,7 @@ Older records keep their original words; read them with these maps.
 | Composer | Oracle (consult role) | 2026-06-20 |
 | Executor, EXU, Ex | agent | 2026-09-28 (introduced 2026-06-26) |
 | Arranger1 / Arranger2, SWAP, mutex, epoch | single Arranger seat | 2026-09-27 |
+| `wip-gpt` (Implementer repo folder) | `rmx-implementer` | 2026-09-28 |
 
 **Workflow**
 

@@ -4,8 +4,8 @@ Status: canonical for the workflow: who the roles are, what may pass between the
 returned work is reviewed and closed. Terms: [terminology.md](terminology.md). Op states and the
 board: [rob-mini-format.md](rob-mini-format.md). Brief and REPORT format:
 [op-brief-forms.md](op-brief-forms.md). Current critical path: [now.md](now.md).
-`wip-gpt/docs/role-governance.md` is being aligned to this file (op-339); where they differ, this
-file wins.
+Role repos point here as they are onboarded (the Implementer since 2026-09-28); where anything
+disagrees with this file, this file wins.
 
 ## Roles
 
@@ -13,10 +13,10 @@ file wins.
 |---|---|---|---|
 | **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
 | **Arranger** (single seat; holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops | write product source or any other repo |
-| **Implementer** | `wip-gpt` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
+| **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
 | **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
-| **Validators**: GLM, DS4P | `wip-glm`, `wip-ds4p` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
+| **Validators**: GLM, DS4P, validator3 | `wip-glm`, `wip-ds4p`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
 | **Oracle** | `rmx-oracle` | consult: design, hypotheses, architectural ambiguity | validate or close ops |
 
 Explorer and Gatekeeper instances are named on the "ruler" grammar in terminology §2 (for example

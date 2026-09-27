@@ -7,29 +7,39 @@ Git and the journal. Op state comes from `tools/rob board`, problem state from `
 
 **alpha2 regression** on the path to 1.0-preview (`li-1000`, `id-042`).
 
+## Onboarding (in progress)
+
+The Coordinator is onboarding each role repo directly (j-20260927-007): rename to `rmx-<role>`,
+rewrite its instructions for the current workflow, then relay one read-only onboarding op.
+
+| Role | Repo | Status |
+|---|---|---|
+| Implementer | `rmx-implementer` (was `wip-gpt`) | repo updated (local commits `92a8d92`, `52b1789`); op-361 to relay |
+| Gatekeeper | `rmx-gatekeeper` | next |
+| Explorer | `rmx-explorer` | pending |
+| Oracle | `rmx-oracle` | pending |
+| Validators | `wip-glm`, `wip-ds4p`, `rmx-validator3` | pending |
+
+`../wip-gpt` stays a symlink to `rmx-implementer` until no repo references the old path.
+
 ## Critical path
 
-| # | Step | Owner / repo | Status |
+Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted
+containment and staging, then a small regression slice; the generic preflight checker is off the
+path) and j-20260922-003 (no NFS or Kerberos in base; keep OpenSSH/OpenSSL and filesystem ACLs).
+
+Known from disk (j-20260927-008): ops through op-360 ran from chat between 2026-09-22 and
+2026-09-25 and were not recorded here. The alpha2 candidate (`15c185c0`, worktree
+`../build/alpha2-stable15-sync-20260921`) carries the op-338/op-340 release profile as three
+uncommitted paths. Builds exist under `rmx-implementer/build/` for op-335 through op-358; the
+newest is `op358-alpha2-20260925T000042Z`. Their results are not yet established.
+
+| # | Step | Owner | Status |
 |---|---|---|---|
-| 1 | Exact-candidate cold build of `15c185c0` (op-335, build-only) | Implementer / wip-gpt | brief was chat-only; dispatch unknown |
-| 2 | Release profile: NFS and Kerberos off in base (op-338, config-only) | Implementer / wip-gpt | brief was chat-only; dispatch unknown; serialize after 1 |
-| 3 | Coordinator reviews build evidence by hand | Coordinator | waits on 1 |
-| 4 | Accepted containment, then staging | Gatekeeper / rmx-gatekeeper | waits on 3 |
-| 5 | Small regression slice: boot/base, Mach IPC, dispatch/workqueue | Gatekeeper / rmx-gatekeeper | waits on 4 |
-
-Decisions in force: j-20260922-001 (this path; the generic preflight checker is off it),
-j-20260922-003 (no NFS/Kerberos in base; keep OpenSSH/OpenSSL and filesystem ACLs).
-
-## Open questions for the Coordinator
-
-- Were op-335, op-338, op-323 or op-324 sent, and did anything come back? None has an op file.
-  Once answered, record each with `tools/rob new` or re-issue it under a fresh number.
-
-## Workflow alignment (in progress)
-
-One op per agent brings each repo's instructions in line with `roles.md` and the REPORT block:
-op-339 Implementer, op-340 Explorer, op-341 Gatekeeper, op-342 Oracle, op-343 GLM, op-344 DS4P
-(after op-343). The Coordinator is taking these repo by repo.
+| 1 | Re-establish the baseline: candidate state and newest build result, from disk | Implementer (op-361) | draft |
+| 2 | Coordinator reviews the build evidence by hand | Coordinator | waits on 1 |
+| 3 | Accepted containment, then staging | Gatekeeper | waits on 2 |
+| 4 | Small regression slice: boot/base, Mach IPC, dispatch/workqueue | Gatekeeper | waits on 3 |
 
 ## Off the path (backlog, not live)
 
