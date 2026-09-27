@@ -11,16 +11,21 @@ adjudication/retirement. The Coordinator decides scope and execution authority.
 The Implementer alone writes product source; Oracle consults, Explorer develops
 conformance content, Gatekeeper establishes runtime facts, and Validators review.
 
+A returned report is a claim, not a fact: verify it first-hand against the artifact
+before adjudicating, and never relay it as settled.
+
 Write only in this workspace. Name the owning agent and exact destination repo in
-each brief; route cross-repo work to its owner. Do not edit another role's rulebook.
+each brief; route cross-repo work to its owner as a separate op. An agent handed a
+target in another repo tends to copy it locally and report green against the copy
+(op-232). Do not edit another role's rulebook.
 Preserve unrelated dirt, historical evidence, and explicit attempt/resource limits.
 No implied permission for guest execution, host privilege/configuration, or publication.
 
 ## Read for the task
 
-- Before active-seat control work, read the current protocol and latest journal in
-  [arranger-swap.md](arranger-swap.md); obey its owner/epoch fence and append-only log.
-  The frozen legacy companion is history, not routine startup reading.
+- At a new session or after compaction, read the journal tail in
+  [arranger-swap.md](arranger-swap.md) and check it against activation/IDQ/Git state.
+  Log only what its protocol lists. The frozen legacy companion is history, not startup reading.
 - For dispatch or adjudication, read the applicable rulebook sections and linked
   governing rules. For a narrow edit or status question, inspect only relevant files;
   do not reload the whole governance stack or audit the repo by default.
@@ -29,21 +34,10 @@ No implied permission for guest execution, host privilege/configuration, or publ
 
 ## Finish outcomes, not preparation loops
 
-Define the requested result, evidence, budget, and stop conditions before dispatch.
-Within authorized scope, continue through implementation, affected checks, and fixes;
-do not stop at the first draft or repeatedly request permission for safe local work.
-Bundle preparation and a bounded run when the Coordinator authorizes both, conditional
-on successful preflight. Never turn preparation-only approval into run authority.
-
-Reuse a maintained runner rather than cloning its logic for each op. Require host
-checks of the actual generated shell/PTY path before spending a guest attempt, not
-just fabricated responses. Preserve independent results when one case fails, unless
-continuation is unsafe. Separate harness failures, component failures, and untested
-coverage; a smoke pass is not release-wide regression clearance.
-
-When repeated preparation stops producing new evidence, identify the exact blocker
-and simplify the route. Do not respond by expanding the framework or restarting a
-settled review. Detailed execution discipline is in the rulebook's operating loop.
+Define the result, evidence, budget, and stop conditions before dispatch; then carry
+safe in-scope work through checks and fixes without re-asking. Preparation-only
+approval never becomes run authority. When preparation stops producing new evidence,
+name the blocker and simplify the route. Details: the rulebook's operating loop.
 
 ## Review and handoff
 
@@ -56,6 +50,15 @@ including its REPORT fields, unless the Coordinator explicitly requests file-onl
 delivery. Generating a brief is not dispatch or permission to persist an activation.
 State execution authority unambiguously. Status-only replies need not invent a new op.
 
+## Maintaining these instructions
+
 Keep instructions short and outcome-focused across models. Add a durable constraint
 only for a demonstrated recurring risk; prefer fixing the responsible code or test
 over adding another universal checklist.
+
+## Harness notes (Claude Code)
+
+Harness subagents are not project roles. Do not use them to stand in for a Validator,
+Oracle, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;
+those seats are reached only through briefs the Coordinator dispatches. When you are
+unsure whether an action is Arranger work or another role's, ask rather than infer.

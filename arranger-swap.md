@@ -1,27 +1,20 @@
 # Arranger swap protocol
 
-Status: Coordinator-governed seat-control protocol and **sole active continuity log** for the two
-interchangeable Arranger seats. The current protocol below supersedes the legacy pickup snapshot,
-task journal, coordination-point, and cp-NNN checkpoint machinery. Pre-unified history is immutable
-and hash-pinned in `arranger-swap-legacy-frozen-cp103.md`; it is not a second active log. This file
-governs ownership of the shared control tree; it does not change the Arranger's product-write,
-dispatch, adjudication, or retirement authority.
+Status: Coordinator-governed **sole continuity log** for the Arranger. Since 2026-09-27 the
+workspace runs a **single Arranger seat**, so the two-seat mutex, epoch fence, and SWAP/CATCHUP
+handoff are retired. The file keeps its name because many records link to it. Pre-unified history
+is frozen in `arranger-swap-legacy-frozen-cp103.md`.
 
 Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 
-## Live mutex record
+## Seat record
 
-- mutex: **HELD**
-- owner: **Arranger2**
-- epoch: **swap-20260710T234047Z-arranger2**
-- readiness: **ACTIVE** — current owner is verified; consult the latest unified journal entry and
-  authoritative activation/IDQ state for current work.
-- SWAPIN authority: Coordinator directive `op-002m`, 2026-07-11 — auto-SWAPOUTed Arranger1.
-- implied SWAPOUT: **Arranger1** (Fable)
-- mutex last changed: **2026-07-10T23:40:47Z** — ordinary work no longer rewrites this header;
-  consult the latest unified journal entry for current work.
+- mode: **SINGLE-SEAT** — one Arranger (Claude Opus 5.5); no mutex, epoch, or handoff entries.
+- since: 2026-09-27T21:20Z, Coordinator directive (j-20260927-001).
+- back to two seats: only by explicit Coordinator directive. Restore the two-seat protocol from
+  commit `f1c38f6` (`git show f1c38f6:arranger-swap.md`) and start with a SWAPIN entry.
 
-## Current protocol — one journal serves work and swap
+## Current protocol — single seat
 
 ### 1. Authorities
 
@@ -29,99 +22,43 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 - `doc/activation/op-NNN-activation.md` headers are authoritative op state.
 - `idq/id-000.md` and individual IDQ files are authoritative problem state.
 - Git and content hashes are authoritative artifact state.
-- The journal links those records; it does not duplicate their full histories.
-- Rule-13 chat ROBs and a SWAPOUT entry's compact ROB are derived renderings/snapshots of
-  activation-header state, never competing authorities or maintained logs.
-- On any journal-versus-authority conflict, the authoritative activation/IDQ/Git record wins.
-  Append a `CORRECTION` naming the divergent entry; never silently rewrite history.
-- Immediately before every shared control-state write—journal append, activation/IDQ edit, ID
-  allocation, issue, adjudication, retirement, commit, or push—re-read the live mutex owner and
-  epoch. If either differs from this seat, stop: it has been SWAPOUT. Re-check after long-running
-  commands before consuming their results. The incoming seat's first SWAPIN header write under an
-  explicit Coordinator directive is the sole pre-ownership exception; see section 3.
+- The journal links those records; it does not duplicate them. Rule-13 chat ROBs are renderings
+  of activation-header state, not a log. On conflict, the authoritative record wins; append a
+  `CORRECTION`.
 
-### 2. One-entry rule
+### 2. When to log
 
-Append exactly one journal entry after each coherent action that changes shared control state,
-issues an op, consumes a Coordinator decision, or authorizes a Rule-9 spend. Pure read-only
-inspection owes no entry. Interdependent file edits may share one entry when they implement one
-declared outcome and no Coordinator decision, Rule-9 authorization, seat transition, or independent
-op-state transition occurs inside the batch. Crash test: every partial change must remain
-recoverable from an authoritative record, and the eventual single entry must explain the complete
-result. Do not separately update a pickup snapshot, task list, coordination summary, or checkpoint
-block.
-
-A Rule-9 delegation or spend authorization is itself a coherent action: append a `DECISION` entry
-before the irreversible step. The step's result is a separate later action and entry. Two actions,
-two entries; never pre-write an optimistic outcome.
-
-Use:
+Append one entry at EOF when an op is issued, returns, is adjudicated, or retires; when a
+Coordinator decision is consumed; or when a Rule-9 spend is authorized (log the authorization
+before the spend and the result separately after). Related edits for one outcome share one entry.
+Reads, drafts, and documentation edits that change no op/IDQ state need no entry; the commit
+message is their record. Do not keep a pickup snapshot, task list, or checkpoint alongside it.
 
 ```text
 ### j-<UTC-YYYYMMDD>-<NNN> — <short outcome>
-- time: <UTC>
-- kind: ACTION | ISSUE | RETURN | DECISION | SWAPOUT | SWAPIN | CORRECTION
-- owner / epoch: <seat> / <epoch>
+- time / kind: <UTC> / ISSUE | RETURN | DECISION | ACTION | CORRECTION
 - outcome: <what became true>
-- state delta: <only changed op/ID states; link authoritative files>
-- evidence: <decisive paths/hashes or none>
-- blockers / decisions: <only still-live items>
-- next: <single safest action; one physical line; final field>
+- state delta: <changed op/IDQ states; link authoritative files>
+- evidence: <decisive paths/hashes, or none>
+- next: <single next action>
 ```
 
-Journal IDs use the UTC date and a day-local monotonic sequence. Before append, census only real
-headings matching `^### j-[0-9]{8}-[0-9]{3} ` and require the new ID to be absent. A complete entry
-ends with exactly one physical `- next:` line as its final field; a torn entry missing that sentinel
-is void and is re-appended complete under a new ID.
+IDs take the next free sequence number for that UTC date. Entries are immutable; fix a mistake
+with a `CORRECTION` entry naming the target j-ID. Older entries keep their historical
+owner/epoch fields.
 
-Entries are immutable and physically append at EOF. A `CORRECTION` names its target j-ID, corrected
-fields, and now-true statement. If two complete bodies share one ID, ordinary work stops: a new
-unique `CORRECTION` must identify both bodies by SHA-256 and declare the canonical one only when
-intent is unambiguous; otherwise escalate to the Coordinator.
+### 3. New session or compaction recovery
 
-### 3. SWAP / SWAPIN / SWAPOUT
+Read the journal tail back to the most recent `DECISION` (at least the last five entries), then
+confirm it against activation headers, the IDQ index, and `git status`. Journal text is a
+hypothesis until checked; record any divergence as a `CORRECTION`.
 
-- Only an explicit Coordinator directive grants or revokes ownership. A seat records that grant;
-  it never self-grants from the file.
-- **Standalone SWAPOUT:** after an explicit Coordinator park directive, the reachable outgoing seat
-  appends one complete `SWAPOUT` entry containing current Git state, compact live ROB, unresolved
-  Coordinator decisions, blockers, and exact next action. It then records the mutex as `FREE`
-  (`owner: none`, `readiness: INACTIVE`) and becomes read-only. Entry precedes header; reverse order
-  is forbidden.
-- **SWAPIN / automatic SWAPOUT:** the Coordinator directive immediately revokes the prior owner and
-  grants the incoming seat. Transfer never depends on an outgoing final turn; if no SWAPOUT entry
-  exists, the incoming `SWAPIN` entry records that waived handoff as a discrepancy.
-- The incoming seat's first write records `HELD`, its owner/new epoch, and readiness `VERIFYING`.
-  It then verifies the current journal, activation headers, IDQ index, Git state, and named evidence
-  first-hand; journal text is a hypothesis, not evidence.
-- On success, append a complete `SWAPIN` entry whose outcome is `ACTIVE`, then set header readiness
-  to `ACTIVE`. Work starts only when both entry and header say `ACTIVE`.
-- On failure, append a complete `SWAPIN` entry whose outcome is `BLOCKED` with the exact mismatch,
-  then set header readiness `BLOCKED`. Only those continuity writes are allowed; hold ordinary
-  control work and escalate to the Coordinator.
-- This is a cooperative mutex: Coordinator serialization, the owner/epoch fence, and per-entry
-  provenance prevent/detect stale writes; no mechanical compare-and-swap is claimed.
-
-### 4. Catchup and recovery without checkpoints
-
-An inactive seat may be told `CATCHUP <seat> THROUGH <journal-id>`. It reads through that immutable
-journal entry and returns a read-only acknowledgement. Catchup never changes ownership and creates
-no second log. Any later entries are the visible tail.
-
-On restart, compaction recovery, or SWAPIN, read the most recent complete `SWAPIN`/`SWAPOUT` entry
-(or the journal beginning if none exists), every later entry, and the authoritative activation/
-IDQ/Git records. Treat journal claims as unverified until reconciled. Append a `CORRECTION` for a
-recoverable divergence. A torn/duplicate journal identity or unclear stale-seat write sets/keeps
-readiness `BLOCKED`; preserve and diff it, verify first-hand, and escalate rather than silently
-discarding or guessing intent.
-
-### 5. Frozen legacy archive
+### 4. Frozen legacy archive
 
 Pre-unified pickup/task/coordination/checkpoint history through `cp-103` lives byte-verbatim in
 `arranger-swap-legacy-frozen-cp103.md`: 310,808 bytes / 4,177 lines / SHA-256
-`c4e2068900bd74c602865c7e11ff48627d7f164b0c347d8c9407692e237b009d`. The companion is historical
-provenance, not current procedure or an active log. It is permanently immutable: never edit or
-append it. No current invariant may live only there.
+`c4e2068900bd74c602865c7e11ff48627d7f164b0c347d8c9407692e237b009d`. It is historical
+provenance, not current procedure. Never edit or append it.
 
 ## Unified continuity journal
 
@@ -398,3 +335,11 @@ append it. No current invariant may live only there.
 - evidence: targeted git diff --check passed for rmx-gatekeeper/AGENTS.md and ONBOARDING.md; both files were clean before editing.
 - blockers / decisions: no guest execution or retry is authorized by these edits; unrelated files and historical runtime evidence were not modified.
 - next: Gatekeeper should read the updated instructions before continuing its currently authorized work.
+
+### j-20260927-001 — single Arranger seat; two-seat swap protocol retired
+
+- time / kind: 2026-09-27T21:20:19Z / DECISION
+- outcome: Coordinator directs a single Arranger seat (Claude Opus 5.5). The mutex, epoch fence, SWAP/SWAPIN/SWAPOUT, and CATCHUP procedures are retired; the journal remains the sole chronological log with a lighter entry rule (op state changes, Coordinator decisions, Rule-9 spend only). Arranger1/Arranger2 ownership is superseded.
+- state delta: arranger-swap.md header and protocol, arranger-rulebook.md Rule 15, and AGENTS.md reading guidance updated; no activation, IDQ, dispatch, guest budget, or publication state changed.
+- evidence: Coordinator chat directive 2026-09-28 local; prior protocol recoverable from Git history of arranger-swap.md.
+- next: Continue current authorized work under the single-seat protocol.

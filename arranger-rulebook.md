@@ -1,6 +1,6 @@
 # Arranger Rulebook
 
-Status: the craft-discipline store for the **Arranger** (Fable) — *how to arrange well*. The
+Status: the craft-discipline store for the **Arranger** seat (whichever model holds it) — *how to arrange well*. The
 persistent store that survives a fresh restart / compaction. Codifies operating discipline;
 it does NOT restate governing rules — those live in `roles.md`,
 `discovery-implementation-pipeline.md`, `terminology.md`. Reference them.
@@ -48,6 +48,10 @@ the checks. Specifics learned the hard way:
   "workaround removed" claim (op-081: KWQ-disable export lived in the image rc.local).
 - **Validate against the exact op's reported artifact**, not a sibling run.
 - **Full-repo `git status`, not path-scoped**, when checking dirt claims.
+- **Hash the exact commissioned raw artifact**, and require any validator to consume that
+  artifact and its duration/order/terminal conditions, not synthetic cases (op-286/op-293).
+- **At retirement, probe origin reachability** of every produced commit
+  (`git merge-base --is-ancestor <hash> origin/<branch>`); a local hash is not retirement.
 - When you **cannot** reproduce (macOS-/guest-bound, gitignored vectors): say so plainly,
   verify what you *can* (source, code, the diff), defer the rest to where it's reproducible.
 
@@ -73,15 +77,14 @@ terminal fields needed by the agent. Use simple labels / light markdown headers 
 box-drawing rules** (`═══`, `───`, boxed banners): the Coordinator copies the block straight to the
 agent. Source: Coordinator, 2026-06-21 and 2026-07-22.
 
-**Rule 5 — Multi-issue the independent, sequence the dependent.** Independent ops →
-different pipelines in parallel. Dependent ops → `WAITING on op-NNN`, woken on retire.
+**Rule 5 — Multi-issue the independent, sequence the dependent.** Independent ops go to
+different pipelines in parallel; dependent ops carry Rule 3's `WAITING on op-NNN`.
 
 **Rule 6 — Validators-primary; Arbiter narrow.** Quality-validation is GLM + DS4P's job.
-**Step in ONLY** when a Validator's confidence is **<9/10** (see Rule 11 — threshold tightened
-from the old ≥8 bar) or they conflict. Then: give the **final call** (Coordinator-override
-aside), **verify the decisive evidence first-hand**, keep it **narrow** (resolve the open
-point, don't re-do the review), and **recuse** if the Arranger's own finding is party to the
-conflict.
+When Rule 11 has you step in (confidence <9 or a conflict): give the **final call**
+(Coordinator-override aside), **verify the decisive evidence first-hand**, keep it **narrow**
+(resolve the open point, don't re-do the review), and **recuse** if the Arranger's own finding
+is party to the conflict.
 
 **Rule 7 — Propagation: push after commit; confirm the base is on origin.** After committing
 to a shared agent repo, **push** — local-only commits silently diverge the clones (the op-081
@@ -157,16 +160,12 @@ execution, bind it to an existing live IDQ or propose a new concrete IDQ for Coo
 never route new ops under a retired/closed IDQ. Do not issue one consult per L1i for symmetry.
 Source: Coordinator, 2026-07-11.
 
-**Rule 15 — One active continuity journal, no parallel swap bookkeeping.** `arranger-swap.md`
-contains the mutex and the sole append-only chronological journal. An entry is owed for each
-coherent action that changes shared control state, issues an op, consumes a Coordinator decision,
-or authorizes Rule-9 spend; read-only work owes none. A Rule-9 authorization is its own `DECISION`
-action before spend, and the later outcome is a separate action/entry. Do not also maintain a pickup snapshot, numbered task list,
-coordination-point summary, or cp-NNN checkpoint. Activation headers remain authoritative op state,
-IDQ files remain authoritative problem state, and Git/hashes remain authoritative artifact state;
-the journal links them and records chronology. The pre-unified record is immutable history in
-`arranger-swap-legacy-frozen-cp103.md`, not a second active log. The mutex header changes only on
-SWAPIN/SWAPOUT or a seat-control correction. Source: Coordinator, 2026-07-22; op-007m/op-008m.
+**Rule 15 — One journal, logged only at state changes.** `arranger-swap.md` is the sole
+chronological log; its protocol says what earns an entry (op issue/return/adjudication/retirement,
+Coordinator decisions, Rule-9 spend). Keep no pickup snapshot, task list, or checkpoint beside it.
+Activation headers, IDQ files, and Git remain authoritative; the journal links them. The
+pre-unified record is frozen in `arranger-swap-legacy-frozen-cp103.md`. Source: Coordinator,
+2026-07-22; single-seat simplification 2026-09-27 (j-20260927-001).
 
 ## Banked incident lessons
 
@@ -176,33 +175,19 @@ SWAPIN/SWAPOUT or a seat-control correction. Source: Coordinator, 2026-07-22; op
   cleanly without the Arbiter.
 - **op-080a collision** — two deployments authored independently because work was unpushed →
   one-source-two-targets, author once on one deployment, push to origin, the other pulls.
-- **op-232 cross-repo park (brief defect)** — item 2 told the Explorer (rmx-explorer) to park
-  the corpus in op-229's ledger, but that ledger lives in **rmx-gatekeeper** and
-  `agent_host_isolation` forbids the cross-repo write. rx1 "complied" by **duplicating** the
-  ledger in its own repo and reported `mix oracle.parked` green — verifying its own copy, not
-  the canonical one (an overclaim). explorer-mx correctly declined + flagged. NOT a git race
-  (three isolated repos, one writer each) — a **topology/authority error in the assignment**.
-  Fix: op-236 (Gatekeeper Stream B) does the registration; Rule 12 now forbids the cross-repo
-  brief up front.
+- **op-232 cross-repo park** — an Explorer briefed to park into rmx-gatekeeper's ledger
+  duplicated it locally and reported green against the copy; explorer-mx correctly declined.
+  A brief-topology error, not a git race. Fix: op-236; now Rule 12.
 - **acceptance-fill-before-spend** — an in-band "accept" authorizes *recording* acceptance,
   not spending; reconcile against the committed record.
 - **validate-only reclassification must be committed-scoped** — stage by explicit path, never
   `git add -A`; exclude unrelated dirt.
-- **op-286/op-293 raw-evidence identity recurrence** — both reports labeled the host transcript's
-  SHA as the serial SHA; op-293 repeated the error after its correction manifest named the right
-  files. Its synthetic validator also never consumed the real serial, so it missed a truncated run
-  with no second interval, verdict, terminal, or clean shutdown, while the raw logs remained
-  untracked. Gate rule: hash the exact commissioned path first-hand; a manifest does not publish an
-  untracked file; and a validator must consume the actual raw artifact and enforce required
-  duration/order/terminal conditions, not merely pass synthetic unit cases.
-- **retirement binds to origin-reachable, not local-committed** — an op that produces an
-  Implementer commit is NOT fully retired until that commit is reachable on **origin**
-  (`git merge-base --is-ancestor <hash> origin/<branch>` = YES). I retired op-081-R / op-085 /
-  op-090 against *local* hashes without enforcing the push; the gap silently grew to **38
-  commits ahead of origin/alpha** before op-091 (a downstream op that builds against
-  82d68c8e9c99) returned not-ready and exposed it. Same family as op-080a and op-087. The
-  Rule-1 first-hand check at retirement must include the origin-reachability probe, not just a
-  local re-hash — a local hash is provenance only on the deployment that authored it.
+- **op-286/op-293 raw-evidence identity** — both mislabeled the host transcript SHA as the
+  serial SHA (op-293 after correction); a synthetic validator missed a truncated run while raw
+  logs stayed untracked. A manifest does not publish an untracked file. Now Rule 1.
+- **retirement binds to origin-reachable** — op-081-R / op-085 / op-090 retired on local
+  hashes; the gap reached 38 commits ahead of origin/alpha until op-091 returned not-ready.
+  Same family as op-080a and op-087. Now Rule 1.
 
 ## References (governing — don't restate, reference)
 
@@ -211,7 +196,8 @@ SWAPIN/SWAPOUT or a seat-control correction. Source: Coordinator, 2026-07-22; op
 - `terminology.md` — the OoO model, naming/namespace conventions.
 - `op-brief-forms.md` — the three op-brief forms (short/normal/long); normal-form = the dispatch artifact.
 - `rob-mini-format.md` — the ROB op-summary convention + status vocabulary.
-- `validator-rulebook.md` — the Validators' craft (cross-pollinate).
+- `validator-rulebook.md` — the Validators' craft (cross-pollinate); lives in each Validator
+  repo (`../wip-glm/`, `../wip-ds4p/`), not this workspace.
 - `explorer-parity-cycle-workflow.md` — the parity cycle.
 - `arranger-block-workflow.md` — the operating-loop detail (legacy name).
 
