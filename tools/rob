@@ -1,0 +1,220 @@
+#!/usr/bin/env python3
+"""rob — op state for the Arranger workspace.
+
+Op files live at doc/activation/op-NNN[m]-activation.md. A converted file starts with a
+front-matter block; a legacy file carries its state in the prose header (`state: **[X]**`),
+which rob maps onto the current vocabulary. `rob set` converts a legacy file by prepending
+front matter and leaves the original header untouched below it.
+
+  rob board                 live ops grouped by state (the Rule-13 board)
+  rob list [STATE...]       one line per op, optionally filtered
+  rob show OP               print the op file (the brief to relay)
+  rob set OP STATE [k=v..]  change state (and optional fields), converting if needed
+  rob new TITLE agent=.. repo=.. [k=v..]   create a draft op with the next free id
+  rob next-id               next free project op number
+  rob check                 unknown states, dangling needs, missing fields
+"""
+import datetime as dt
+import pathlib
+import re
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+OPS = ROOT / "doc" / "activation"
+SCAN_FOR_IDS = [ROOT / "arranger-swap.md", *sorted((ROOT / "idq").glob("*.md")), *sorted(OPS.glob("*.md"))]
+
+STATES = ["draft", "issued", "returned", "hold", "closed", "dropped"]
+LIVE = ["issued", "returned", "draft", "hold"]
+FIELDS = ["id", "state", "agent", "repo", "idq", "needs", "gate", "authority", "updated"]
+
+# Legacy header tags -> current state. Unknown tags are reported by `rob check`.
+LEGACY = {
+    "draft": "draft", "ready": "draft", "awaiting": "draft",
+    "exe": "issued", "in": "issued", "in-flight": "issued", "air": "issued", "queued": "issued",
+    "done": "returned", "returned": "returned", "partial": "returned",
+    "hold": "hold", "held": "hold", "deferred": "hold",
+    "retired": "closed", "closed": "closed",
+    "flushed": "dropped", "void": "dropped", "rejected": "dropped",
+}
+
+FM_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+LEGACY_RE = re.compile(r"state:\s*\**\s*\[?([A-Za-z-]+)")
+ID_RE = re.compile(r"op-(\d{3,})(m?)-activation\.md$")
+
+
+def die(msg):
+    sys.exit(f"rob: {msg}")
+
+
+def op_key(name):
+    m = re.match(r"op-(\d+)(m?)$", name)
+    return (m.group(2), int(m.group(1))) if m else ("z", 0)
+
+
+class Op:
+    def __init__(self, path):
+        self.path = path
+        m = ID_RE.search(path.name)
+        self.id = f"op-{m.group(1)}{m.group(2)}"
+        self.text = path.read_text()
+        self.fields = {}
+        fm = FM_RE.match(self.text)
+        self.converted = bool(fm)
+        if fm:
+            for line in fm.group(1).splitlines():
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    self.fields[k.strip()] = v.strip()
+            self.state = self.fields.get("state", "")
+            self.raw = self.state
+        else:
+            lm = LEGACY_RE.search("\n".join(self.text.splitlines()[:15]))
+            self.raw = lm.group(1) if lm else ""
+            raw = self.raw.lower()
+            self.state = LEGACY.get(raw) or LEGACY.get(raw.split("-")[0], "")
+        title = next((l for l in self.text.splitlines() if l.startswith("# ")), "# " + self.id)
+        self.title = title[2:].split(" — ", 1)[-1].strip()
+
+    def needs(self):
+        v = self.fields.get("needs", "").strip("[] ")
+        return [x.strip() for x in v.split(",") if x.strip()]
+
+
+def load():
+    ops = {}
+    for p in OPS.glob("op-*-activation.md"):
+        if ID_RE.search(p.name):
+            op = Op(p)
+            ops[op.id] = op
+    return ops
+
+
+def get(ops, name):
+    name = name if name.startswith("op-") else f"op-{name}"
+    if name not in ops:
+        die(f"no such op: {name}")
+    return ops[name]
+
+
+def render_fm(fields):
+    lines = ["---"] + [f"{k}: {fields[k]}" for k in FIELDS if k in fields]
+    lines += [f"{k}: {v}" for k, v in fields.items() if k not in FIELDS]
+    return "\n".join(lines + ["---", ""])
+
+
+def cmd_board(ops, _):
+    groups = {s: [] for s in STATES}
+    unknown = []
+    for op in ops.values():
+        (groups[op.state] if op.state in groups else unknown).append(op.id)
+    for s in LIVE:
+        if groups[s]:
+            print(f"[{s}]: " + ", ".join(sorted(groups[s], key=op_key)))
+    if unknown:
+        print("[unknown]: " + ", ".join(sorted(unknown, key=op_key)) + "  (rob check)")
+
+
+def cmd_list(ops, args):
+    want = set(args)
+    for op in sorted(ops.values(), key=lambda o: op_key(o.id)):
+        if want and op.state not in want:
+            continue
+        legacy = "" if op.converted else f" (legacy [{op.raw or '?'}])"
+        print(f"{op.id} [{op.state or 'unknown'}]{legacy} {op.fields.get('agent', '')} — {op.title[:90]}")
+
+
+def cmd_show(ops, args):
+    if len(args) != 1:
+        die("usage: rob show OP")
+    sys.stdout.write(get(ops, args[0]).text)
+
+
+def parse_kv(args):
+    out = {}
+    for a in args:
+        if "=" not in a:
+            die(f"expected key=value, got {a!r}")
+        k, v = a.split("=", 1)
+        out[k] = v
+    return out
+
+
+def cmd_set(ops, args):
+    if len(args) < 2:
+        die("usage: rob set OP STATE [key=value ...]")
+    op, state = get(ops, args[0]), args[1]
+    if state not in STATES:
+        die(f"state must be one of {', '.join(STATES)}")
+    fields = dict(op.fields) if op.converted else {"id": op.id}
+    if not op.converted and op.raw:
+        fields["legacy-state"] = op.raw
+    fields.update(parse_kv(args[2:]))
+    fields["state"] = state
+    fields["updated"] = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    body = FM_RE.sub("", op.text, count=1) if op.converted else op.text
+    op.path.write_text(render_fm(fields) + body)
+    print(f"{op.id}: {op.raw or 'unknown'} -> {state}")
+
+
+def next_id():
+    hi = 0
+    for p in SCAN_FOR_IDS:
+        for m in re.finditer(r"\bop-(\d{3,})\b(?!m)", p.read_text(errors="replace")):
+            hi = max(hi, int(m.group(1)))
+    return hi + 1
+
+
+def cmd_next_id(_ops, _args):
+    print(f"op-{next_id():03d}")
+
+
+def cmd_new(_ops, args):
+    if not args:
+        die("usage: rob new TITLE agent=... repo=... [key=value ...]")
+    title, kv = args[0], parse_kv(args[1:])
+    for k in ("agent", "repo"):
+        if k not in kv:
+            die(f"{k}= is required (name the owning agent and exact repo)")
+    oid = f"op-{next_id():03d}"
+    path = OPS / f"{oid}-activation.md"
+    if path.exists():
+        die(f"{path} exists")
+    fields = {"id": oid, "state": "draft", **kv,
+              "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")}
+    path.write_text(render_fm(fields) + f"# {oid} — {title}\n\n"
+                    "## Brief\n\n\n## REPORT\n\n"
+                    "op / agent / outcome / artifacts (paths + SHA-256) / commits (repo, hash, "
+                    "on origin?) / next\n")
+    print(path.relative_to(ROOT))
+
+
+def cmd_check(ops, _):
+    problems = 0
+    for op in sorted(ops.values(), key=lambda o: op_key(o.id)):
+        issues = []
+        if not op.state:
+            issues.append(f"unknown state [{op.raw or 'none'}]")
+        elif op.converted and op.state not in STATES:
+            issues.append(f"invalid state {op.state!r}")
+        if op.converted:
+            for k in ("agent", "repo"):
+                if k not in op.fields and op.state in ("draft", "issued"):
+                    issues.append(f"missing {k}")
+            for n in op.needs():
+                if n not in ops:
+                    issues.append(f"needs unknown {n}")
+        if issues:
+            problems += 1
+            print(f"{op.id}: " + "; ".join(issues))
+    legacy = sum(not o.converted for o in ops.values())
+    print(f"{len(ops)} ops, {legacy} legacy headers, {problems} with problems")
+    return 1 if problems else 0
+
+
+COMMANDS = {"board": cmd_board, "list": cmd_list, "show": cmd_show, "set": cmd_set,
+            "new": cmd_new, "next-id": cmd_next_id, "check": cmd_check}
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
+        sys.exit(__doc__)
+    sys.exit(COMMANDS[sys.argv[1]](load(), sys.argv[2:]) or 0)

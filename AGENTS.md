@@ -29,6 +29,8 @@ No implied permission for guest execution, host privilege/configuration, or publ
 - For dispatch or adjudication, read the applicable rulebook sections and linked
   governing rules. For a narrow edit or status question, inspect only relevant files;
   do not reload the whole governance stack or audit the repo by default.
+- Read and change op state with `tools/rob` (board, list, show, set, new, check);
+  never hand-edit a state tag.
 - Use [op-brief-forms.md](op-brief-forms.md) when preparing an op. Central role,
   pipeline, and terminology documents remain authoritative where applicable.
 
