@@ -15,7 +15,7 @@ read-only onboarding op.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded (op-361 closed); working rounds: op-362, op-363 |
+| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded (op-361 closed); op-362 closed; op-363 draft |
 | Gatekeeper | `rmx-gatekeeper` | after the Implementer rounds |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
@@ -34,15 +34,15 @@ OpenSSH/OpenSSL/ACLs are kept. Coordinator to confirm (j-20260927-010).
 Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
 image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
 the op-343 kernel and `mach.ko` loaded at boot by `loader.conf`. Composition succeeded (makefs
-and mkimg rc 0; extracted partition byte-for-byte equal). It has never been mounted or booted.
+and mkimg rc 0; extracted partition byte-for-byte equal). Image hashes re-verified first-hand (j-20260927-011). It has never been mounted or booted.
 `mach.ko` compatibility is static only, and module and kernel toolchains differ (clang 19.1.7 vs
 clang/LLD 21.1.8).
 
 | # | Step | Owner | Status |
 |---|---|---|---|
 | 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
-| 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | draft |
-| 3 | Coordinator reviews the build and image evidence by hand | Coordinator | waits on 2 |
+| 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
+| 3 | Coordinator reviews the build and image evidence by hand | Coordinator | ready |
 | 4 | Accepted containment, then staging of the op-358 image | Gatekeeper | waits on 3 |
 | 5 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 4 |
 

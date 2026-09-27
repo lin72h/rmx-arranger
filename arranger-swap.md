@@ -416,3 +416,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-361 issued → returned → closed.
 - evidence: rmx-implementer/AGENTS.md sha256:e07913e1…; OPS.md sha256:f415b73b…; build/op358-alpha2-20260925T000042Z/evidence/final-makefs-return.txt sha256:1a21f3bc…, final-mkimg-return.txt sha256:1a6260f8…, final-partition-compare-return.txt sha256:e0752bc4…, op358-summary.txt.
 - next: Relay op-362 (alpha2 build-chain index) to the Implementer.
+
+### j-20260927-011 — op-362 closed: alpha2 build chain indexed for Coordinator review
+
+- time / kind: 2026-09-27T23:54:26Z / RETURN
+- outcome: The Implementer committed rmx-implementer/docs/alpha2-build-chain.md (`cb92a3c`, not on origin; only that file). Verified first-hand (M gate): file SHA-256 06185ec5…; rows spot-checked against recorded evidence for op-335 (BUILD-DONE, rc 0, kernel b4792259…), op-336 (STAGING-BLOCKED, makefs rc 1 on the krb5 debug directory), op-343 (848 modules; kernel b4608699…; mach.ko 1acea1e0…), op-344 (IMAGE-READY-FOR-REVIEW, image 24c2d4eb…), op-348 (IMAGE-READY, BOM pin mismatch recorded, 20/20 rows matched); the candidate's current profile files match op-340's three configs and op-342's Makefile. The deliverable images were hashed directly: UFS 0b877039…a4 and GPT 96644d80…d6, matching the index. Non-blocking gap: the op-358 row omits that op-358 also rewrote the candidate's release/rmxos/README.md (now 701d401a…) and the owner handoff doc.
+- state delta: op-362 issued → returned → closed.
+- evidence: rmx-implementer/docs/alpha2-build-chain.md; build/op358-alpha2-20260925T000042Z/images/final-rootfs-8g.ufs and final-op358-alpha2-gpt.raw (sha256 above).
+- next: Coordinator reviews the index (critical path step 3); op-363 is ready to relay.

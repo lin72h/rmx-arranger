@@ -1,12 +1,12 @@
 ---
 id: op-362
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-27T23:37Z
+updated: 2026-09-27T23:54Z
 ---
 # op-362 — Implementer: index the alpha2 build chain from disk
 
