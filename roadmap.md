@@ -54,6 +54,12 @@ Darwin-style programs against **Mach / dispatch / notify**, on a bootable image.
   Mach/dispatch/notify floor is NOT a separate ship point — it is a waypoint inside the expanded gate.
   **1.0-preview = {launchd, libnotify, asl, libxpc} all truly-green over the {libdispatch, mach-ipc}
   substrate, launchd hosting them, holding under integration soak.**
+- **PID-1 REQUIRED (Coordinator decision 2026-07-12):** launchd must be the actual PID 1 in the
+  1.0-preview image, not a `-u` daemon under FreeBSD init. The accepted starting topology is the
+  op-201 hybrid (`init_path=/sbin/launchd` plus a launchd job that chain-loads `/etc/rc`). It gates
+  shipping on exact current-tip staging/containment, root-rw/base-duty closure, reaper evidence and
+  any warranted fix, PID-1 shutdown/reboot/crash robustness, and the final all-up soak. Historical
+  launchd-job-only evidence remains useful but no longer satisfies the ship topology.
 - **Stance — get-it-right over speed; aim stable-usable, not just "preview" (Coordinator 2026-06-25):**
   "preview" is a *public label*, NOT a license to ship thin. The quality target is **stable + usable**.
   Take the necessary steps to make each core service as solid as we can; do not rush. This *strengthens*
@@ -120,10 +126,14 @@ daemons (notifyd/asl + own), not test fixtures.
 All layers together under sustained load (launchd → libxpc → libdispatch → mach-ipc) with the
 li-001 invariants watching for leaks/hangs/races over hours.
 - truly-green: hours-long soak, zero invariant violations, no leak/hang — not a 5-minute run.
+- concrete milestone-1 carrier: **[id-042](idq/id-042-1.0-preview-todo.md)** tracks the remaining
+  component prerequisites, exact current-origin staging-model image, all-up evidence, and ship-stamp.
 
 ### li-005 — known gaps cataloged, not hidden  *(NOT runtime — adjudication/bookkeeping)*
-1.0 ships *with* an IDQ (id-001 kevent64, id-002 QoS-attr, id-004 non-NORMAL-QoS timers,
-id-005 semaphore poll, **id-023 launchd no self-scan of `/etc/launchd.d/` (rmxOS uses a generic boot-load
+1.0 ships *with* an IDQ. **Coordinator scope ruling 2026-07-11:** id-001 kevent64, id-002 QoS-attr,
+id-004 non-NORMAL-QoS timers, id-005 semaphore poll, and id-008 fine-grained kernel QoS are
+explicitly **deferred post-preview**, not ship gates. Other cataloged gaps include **id-023 launchd
+no self-scan of `/etc/launchd.d/` (rmxOS uses a generic boot-load
 bridge; macOS-faithful self-scan is a li-008 get-it-right target — op-134 census)**, **id-021 libxpc out-of-preview gaps — Class-D modern `xpc_session_*`/
 `xpc_listener_*`/`rich_error` generation + the `xpc_activity_*` scheduler subsystem + `xpc_shmem_*`
 large-payload path (op-135 census; the C-side lifecycle Class-B/C items stay IN preview, these don't)**,
@@ -155,7 +165,9 @@ The service host: boots, hosts, supervises the core daemons; bootstrap anchor. B
 lifecycle-spine slice. **Two-plane:** control (launchctl→launchd) = liblaunch/Mach (works, diverges from
 macOS XPC); service (`xpc_domain` hosting) = libxpc/nvlist = the open work.
 - truly-green: launchd auto-starts + hosts real daemons (notifyd/asld/own), full li-003 spine against real
-  services, xpc_domain plane live over nvlist, holds under li-004 soak.
+  services, runs as non-`-u` PID 1 with the accepted root-rw rc-chain hybrid and ambient bootstrap,
+  passes PID-1 reaper/shutdown/crash-floor gates, satisfies the accepted service plane, and holds under
+  li-004 soak.
 - full instruction: **[l1i/li-008-launchd-core-service.md](l1i/li-008-launchd-core-service.md)**; carries
   li-003 spine + id-016 + op-134.
 
@@ -195,3 +207,6 @@ item (see [idq/id-000.md](idq/id-000.md)).
 - memory_object / GPU integration — the 5-year center.
 - non-NORMAL-QoS timers (id-004), full QoS-attr Darwin parity (id-002), semaphore absolute-
   deadline (id-005) — hardening items.
+- external/public syscall-`MACH_RCV_LARGE` retain/report/identity/same-message-retry compatibility
+  — nominal but incomplete in NextBSD, no activated in-tree preview consumer; explicitly deferred
+  to [li-9007](l1i/li-9007.md). The separate active libxpc trailer boundary remains preview work.

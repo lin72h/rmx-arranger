@@ -16,6 +16,30 @@ into ops, **issue** them to pipelines, **verify returned work first-hand**, adju
 **agent REPORT → verify FIRST-HAND → adjudicate → issue the next ops.** A report describes
 *intent*; verification confirms *fact*. Never relay.
 
+### Completion and avoiding churn
+
+Commission an observable outcome, its evidence, execution budget, and stop conditions.
+For a single owning agent, preparation, host checks, and a bounded runtime attempt can
+be one op when all are explicitly authorized; “one pipeline” does not mean one op per
+mechanical step. Preparation-only authority never grants runtime authority. Continue
+safe in-scope corrections without another readiness/review/permission round; stop for
+new authority, exhausted attempt budgets, unsafe conditions, or a genuine input blocker.
+
+Reuse tested runner logic and keep per-op evidence/configuration separate. For guest
+harness changes, test the actual generated launch-to-collection path in a real host
+shell/PTY, including failure continuation and cleanup. Synthetic responses alone do
+not establish shell correctness. Freeze and pin the final tested revision; recheck
+affected tests after changes rather than repeatedly recertifying unrelated surfaces.
+
+Keep completed observations and run independent cases after a component failure when
+safe. Collect status and useful diagnostics before optional parsing can abort reporting.
+Do not infer product regressions from harness failures or general clearance from smoke
+tests. Review a correction's delta; reopen settled findings only for changed evidence.
+
+Repeated preparation without new evidence is a signal to simplify, not grow the harness.
+At roughly 30 minutes of such work, report the concrete blocker and smallest viable
+route; this is a course-correction checkpoint, not an automatic stop or new approval gate.
+
 ## Rules
 
 **Rule 1 — Verify first-hand, never relay.** Reproduce hashes, read the changed lines, run
@@ -35,11 +59,19 @@ ops.
 `WAITING on op-NNN` (sits in the reservation station; **wakes** when op-NNN retires). The
 Coordinator should never have to infer whether to route.
 
-**Rule 4 — Issue with a REPORT terminal block.** `op:` / `agent:` / `dispatch:` / `next-hop:`
-at minimum; drop useless lines. **Lean plain-text only** — the Coordinator copy-pastes the
-issue block straight to an agent, so use simple labelled lines / light markdown headers; **no
-box-drawing rules** (`═══`, `───`, boxed banners). They waste tokens and are paste-unfriendly
-(Coordinator, 2026-06-21).
+**Rule 4 — Show the complete op; include its REPORT terminal block.** Whenever the Coordinator
+asks to generate, show, prepare, or provide an op—or the Arranger identifies one as the next
+dispatch—the user-facing reply contains the **entire agent-facing normal-form brief** in one
+contiguous terminal/copy-paste-friendly fenced block or plain-text block. A short normal form,
+`op:` / `agent:` / `dispatch:` / `next-hop:` REPORT stub, summary, link, or activation-file path
+never substitutes for the full content. Only omit the full terminal body when the Coordinator
+explicitly asks to write/save the op to a Markdown file instead; generating or showing alone
+neither issues the op nor authorizes creating/updating an activation Markdown file. Activation
+headers remain authoritative when an op is made live, Rule 15's journal remains chronology, and
+neither internal record waives this output rule. The full brief still ends with the lean REPORT
+terminal fields needed by the agent. Use simple labels / light markdown headers and **no
+box-drawing rules** (`═══`, `───`, boxed banners): the Coordinator copies the block straight to the
+agent. Source: Coordinator, 2026-06-21 and 2026-07-22.
 
 **Rule 5 — Multi-issue the independent, sequence the dependent.** Independent ops →
 different pipelines in parallel. Dependent ops → `WAITING on op-NNN`, woken on retire.
@@ -64,15 +96,19 @@ central; rulebooks reference, never redefine.
 
 **Rule 9 — Delegation ("you decide").** Treat as a **channeled, not self-granted**
 acceptance: proceed decisively, **record the delegation explicitly**, preserve a **pre-spend
-checkpoint** before anything irreversible.
+continuity-journal entry** before anything irreversible.
 
 **Rule 10 — Triage by phase.** Parity-*fix* ops are frozen under catalog-only; *foundation-
 completion* and *solidity-blocker* work is not. Tag ledger items `solidity-blocker` vs
 `cosmetic`; only the former become fix ops while catalog-only holds.
 
-**Rule 11 — Size every gate; delegate the adjudication labor (the Arranger is cost-40/100).**
-Gating returned feedback from Implementer/Gatekeeper/Explorer is itself expensive Arranger
-cycles. So don't self-adjudicate everything:
+**Rule 11 — Size every gate; delegate substantial independent review.**
+Choose review depth by risk and evidence surface, not model-era cost assumptions:
+- **Return is not retirement.** When the bound EXU returns its deliverable/report, advance the op
+  `[Exe] → [Done]` and keep it in the live ROB. `[Done]` records only that the EXU returned; it is
+  not a verified/accepted/green verdict. Validate the return directly where this rule permits or
+  issue a Validator op. Only after that gate is consumed and every downstream/origin blocker is
+  clear does the Arranger record retirement and remove the op from the ROB.
 - **Size each gate S/M/L/XL** the moment work returns — the difficulty of the adjudication
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
@@ -82,9 +118,13 @@ cycles. So don't self-adjudicate everything:
 - **Step in yourself only when the Validator's confidence is <9** (or Validators conflict —
   Rule 6). At ≥9 the Validator's adjudication stands; you retire on their word after a light
   provenance check, not a full re-review.
-- **S/M you may gate directly** when cheaper than the round-trip, but prefer delegation
-  whenever a Validator is free and idle — the point is to keep the expensive Arranger seat off
-  routine adjudication.
+- **S/M you may gate directly** when cheaper than the round-trip. An idle Validator is
+  not by itself a reason to create another review cycle.
+- **Bounded source-correctness validation routes to a Validator, not Oracle** (Coordinator,
+  2026-07-11). Oracle is consult/design/hypothesis generation, especially for architectural
+  ambiguity; it is not a substitute validation lane. Explorer owns discovery/conformance content,
+  and Gatekeeper establishes runtime fact. op-272's already-dispatched reuse of an unanswered
+  legacy Oracle consult is the explicit one-time exception; its return still requires validation.
 This does NOT relax Rule 1: whoever gates (you or the Validator) verifies first-hand; delegation
 moves the *labor*, not the *standard*. Source: Coordinator, 2026-07-02.
 
@@ -100,6 +140,33 @@ registration is a **Gatekeeper handoff (id-033 Stream B authority-transfer)**, a
 If a draft brief contains a verb like *park / register / vendor-into / add-to-ledger* pointing
 at another repo's artifact, split that clause into its own op targeting the owning agent.
 Source: op-232, 2026-07-02.
+
+**Rule 13 — Compact ROB live board by default; detailed rendering is list form.** End every
+adjudication/dispatch reply with the **complete live ROB grouped by canonical status**—the compact
+board (`[Exe]: op-…`, `[Ready]: op-…`) is the default. Call the former one-op-per-line
+status/role/description rendering **list form**; use it only when the Coordinator asks for “list
+form” or exact per-op mapping is load-bearing. Every live op appears once, `[Retired]` never
+appears, and activation headers remain authoritative. Source: Coordinator, 2026-07-11.
+
+**Rule 14 — Drive preview work from concrete IDQ problems, not L1i category sweeps.** L1i is the
+milestone coverage map: it states *why*, the retirement bar, and broad ordering. It does not create
+work merely because a subsystem row exists. Select active preview review, quality-control, and
+fetch work from a **live, preview-relevant IDQ problem**. One cross-subsystem problem remains one
+IDQ and may decode into several role-bounded ROB ops. Before routing a consult finding into new
+execution, bind it to an existing live IDQ or propose a new concrete IDQ for Coordinator approval;
+never route new ops under a retired/closed IDQ. Do not issue one consult per L1i for symmetry.
+Source: Coordinator, 2026-07-11.
+
+**Rule 15 — One active continuity journal, no parallel swap bookkeeping.** `arranger-swap.md`
+contains the mutex and the sole append-only chronological journal. An entry is owed for each
+coherent action that changes shared control state, issues an op, consumes a Coordinator decision,
+or authorizes Rule-9 spend; read-only work owes none. A Rule-9 authorization is its own `DECISION`
+action before spend, and the later outcome is a separate action/entry. Do not also maintain a pickup snapshot, numbered task list,
+coordination-point summary, or cp-NNN checkpoint. Activation headers remain authoritative op state,
+IDQ files remain authoritative problem state, and Git/hashes remain authoritative artifact state;
+the journal links them and records chronology. The pre-unified record is immutable history in
+`arranger-swap-legacy-frozen-cp103.md`, not a second active log. The mutex header changes only on
+SWAPIN/SWAPOUT or a seat-control correction. Source: Coordinator, 2026-07-22; op-007m/op-008m.
 
 ## Banked incident lessons
 
@@ -121,6 +188,13 @@ Source: op-232, 2026-07-02.
   not spending; reconcile against the committed record.
 - **validate-only reclassification must be committed-scoped** — stage by explicit path, never
   `git add -A`; exclude unrelated dirt.
+- **op-286/op-293 raw-evidence identity recurrence** — both reports labeled the host transcript's
+  SHA as the serial SHA; op-293 repeated the error after its correction manifest named the right
+  files. Its synthetic validator also never consumed the real serial, so it missed a truncated run
+  with no second interval, verdict, terminal, or clean shutdown, while the raw logs remained
+  untracked. Gate rule: hash the exact commissioned path first-hand; a manifest does not publish an
+  untracked file; and a validator must consume the actual raw artifact and enforce required
+  duration/order/terminal conditions, not merely pass synthetic unit cases.
 - **retirement binds to origin-reachable, not local-committed** — an op that produces an
   Implementer commit is NOT fully retired until that commit is reachable on **origin**
   (`git merge-base --is-ancestor <hash> origin/<branch>` = YES). I retired op-081-R / op-085 /
@@ -143,6 +217,7 @@ Source: op-232, 2026-07-02.
 
 ## Maintenance
 
-Add a rule each time a process miss recurs or a new discipline proves out — state the rule,
-cite the op it came from, note what happened. This rulebook is the accreted Arranger craft
-the next fresh restart inherits.
+Prefer fixing the responsible implementation or test over accumulating instructions.
+Add or amend a rule only for a demonstrated recurring decision boundary; cite its evidence,
+remove superseded guidance, and keep task-specific lessons out of mandatory startup reading.
+Consult relevant sections for the current task, not every reference before every edit.

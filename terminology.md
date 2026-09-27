@@ -143,30 +143,37 @@ superscalar out-of-order machine. (We use **EXU** — Executor/Execution Unit �
 | Term | Meaning | Was |
 |---|---|---|
 | **op-NNN** | a unit of work (a micro-operation / uop). Zero-padded, sequential project-wide, never reused. | `block-NNN` (renamed — "block" collided with "blocking") |
-| **op-NNNm** | the **only** legal op-id variant: the `m` suffix marks the **op-147m method** form of an op. No other suffix exists. | — |
+| **op-NNNm** | the **only** legal op-id variant: the `m` suffix marks a method/meta-control op. Explicitly labeled META ops use their own sequential control lane and do not consume a project ROB number; `op-147m` is the established method-form precedent. No other suffix exists. | — |
 | **issue** | the Arranger creates + dispatches an op to an EXU. | "dispatch" / "create the block" |
 | **multi-issue** | issue several ops at once → they execute on different EXUs in parallel. | — |
 | **EXU** | **Executor/Execution Unit** — an execution lane = one **Executor** (Implementer, Explorer, Validators, Gatekeeper). Replaces "pipeline"/"backend". | `pipeline` (renamed 2026-06-26) |
-| **retire** | the op is done — validated/accepted, results committed. | "accept" / "done" |
+| **`[Done]`** | the EXU has returned the op's deliverable/report; validation is still pending, so the op remains in the ROB. It does not mean accepted or retired. | overloaded "done" |
+| **retire** | the returned op is validated/accepted, all required downstream/origin blockers are clear, and the Arranger records closure. The op then leaves the ROB. | "accept" / "done" |
 | **in-flight** | issued but not yet retired. (OoO concept; the ROB display tag for this state is **`[Exe]`** — renamed `[In-flight]` → `[Air]` → `[Exe]` 2026-06-26.) | — |
+| **ROB live board** | the default compact presentation of the complete live ROB: op ids grouped by canonical status (`[Exe]: op-…`, `[Ready]: op-…`). | former default ROB list |
+| **list form** | the detailed alternate ROB rendering: one line per op with status, role, and description. Used on explicit request or when per-op mapping is load-bearing. | previous default presentation |
 
 **Out-of-order:** issued ops execute on different EXUs and may **retire out of issue
 order.** The Arranger = the issue unit + retirement tracking (the reorder buffer); on a
 Validator conflict or sub-threshold confidence it also acts as Arbiter. The Arranger surfaces
-the live in-flight set as a **ROB** list at the end of each op reply — see
+the complete live set as the grouped compact **ROB live board** at the end of each op reply;
+the former detailed per-op rendering is **list form** — see
 [rob-mini-format.md](rob-mini-format.md).
 
-**Op-id form (Coordinator 2026-06-26):** an op id is `op-NNN`, optionally with the single
-suffix `m` (`op-147m`). **No compound / continuation ids** — never `op-151-cont`, `op-151-2`,
-`op-151a`. Follow-on or redo work always takes the **next free `op-NNN`**, never a decorated
-version of the original.
+**Op-id form (Coordinator 2026-06-26; meta-control lane confirmed 2026-07-11):** an op id is
+`op-NNN`, optionally with the single suffix `m` (`op-147m`). Explicitly labeled META controls use
+their own sequential `op-NNNm` high-water and never spend or reserve a project `op-NNN`. **No
+compound / continuation ids** — never `op-151-cont`, `op-151-2`, `op-151a`. Product/discovery/
+validation follow-on or redo work always takes the **next free project `op-NNN`**, never a
+decorated version of the original.
 
 **`[Flushed]` op state (Coordinator 2026-06-26):** when an op **does not work out** (fails,
 dead-ends, or was mis-scoped), mark it `[Flushed]` and **re-issue the work under a brand-new
 `op-NNN`** — the flushed op id is closed, not continued. (CPU analogy: a mis-speculated uop is
-*flushed* from the EXU; the re-fetch gets a fresh slot.) Distinct from `[Done]`: an op that
-delivered its primary objective is `[Done]` even when a follow-on is needed (the follow-on is its
-own new op number). Full ROB status vocabulary lives in [rob-mini-format.md](rob-mini-format.md).
+*flushed* from the EXU; the re-fetch gets a fresh slot.) Distinct from `[Done]`: an op whose EXU
+returned its primary deliverable is `[Done]` even when validation or a follow-on is still needed;
+`[Done]` is not a retirement verdict. A follow-on receives its own new op number. Full ROB status
+vocabulary lives in [rob-mini-format.md](rob-mini-format.md).
 
 **Work hierarchy (abstraction tiers): `L1i → IDQ → ROB`** — the CPU instruction path,
 most-abstract to most-concrete. Each tier has an architectural name (primary) and a friendly
@@ -183,6 +190,11 @@ backlog→**IDQ**/`id-NNN`; op→**ROB**/`op-NNN` unchanged.)
 (`id-NNN`); an IDQ item is **fetched** into one or more **ROB** entries (`op-NNN`). Promotion =
 fetch (the same word the IDQ uses; state `FETCHED → op-NNN`). Direction of detail: L1i =
 why/what-order · IDQ = what (pending) · ROB = how (now).
+
+**Preview-routing rule (Coordinator, 2026-07-11):** active burndown and quality review are driven
+by concrete, preview-relevant **IDQ problems**, not by issuing one audit for every L1i subsystem
+category. L1i remains the coverage/retirement map. A cross-subsystem defect is still one IDQ; an
+L1i row with no concrete open problem does not generate an op by itself.
 
 **L1i numbering — milestone-grouped 4-digit `li-MNNN` (expanded 2026-06-25):** the leading digit
 **M** = the **milestone number**; **NNN** = the instruction within that milestone. **`li-M000`** is

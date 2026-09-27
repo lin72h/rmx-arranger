@@ -1,629 +1,400 @@
 # Arranger swap protocol
 
-Status: Coordinator-governed seat-control protocol and live continuity record for the two
-interchangeable Arranger seats. It governs ownership of the shared control tree; it does not
-change the Arranger's product-write, dispatch, adjudication, or retirement authority.
+Status: Coordinator-governed seat-control protocol and **sole active continuity log** for the two
+interchangeable Arranger seats. The current protocol below supersedes the legacy pickup snapshot,
+task journal, coordination-point, and cp-NNN checkpoint machinery. Pre-unified history is immutable
+and hash-pinned in `arranger-swap-legacy-frozen-cp103.md`; it is not a second active log. This file
+governs ownership of the shared control tree; it does not change the Arranger's product-write,
+dispatch, adjudication, or retirement authority.
 
 Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 
 ## Live mutex record
 
 - mutex: **HELD**
-- owner: **Arranger1** (Fable)
-- epoch: **swap-20260710T091248Z-arranger1**
-- readiness: **ACTIVE** — SWAPIN preflight complete. The Arranger2 RECOVERY inventory was reconciled
-  first-hand this session (tree parity, live ROB, stale in-flights, ID high-water, bonus seeds);
-  residual first-hand checks carried as non-blocking open items (op-171 markers, rmx-arranger2 parity).
-- SWAPIN authority: Coordinator directive, 2026-07-10: "you as arranger1 now swapin" — auto-SWAPOUTs
-  Arranger2 at the same boundary.
-- implied SWAPOUT: **Arranger2**
-- last updated: 2026-07-10T23:34:51Z (cp-002 published; journal current to task-13 — SWAP-READY)
+- owner: **Arranger2**
+- epoch: **swap-20260710T234047Z-arranger2**
+- readiness: **ACTIVE** — current owner is verified; consult the latest unified journal entry and
+  authoritative activation/IDQ state for current work.
+- SWAPIN authority: Coordinator directive `op-002m`, 2026-07-11 — auto-SWAPOUTed Arranger1.
+- implied SWAPOUT: **Arranger1** (Fable)
+- mutex last changed: **2026-07-10T23:40:47Z** — ordinary work no longer rewrites this header;
+  consult the latest unified journal entry for current work.
 
-### Pickup snapshot
+## Current protocol — one journal serves work and swap
 
-- last completed action: 2026-07-11 returned-doc burn-down — **op-274 ADJUDICATED → BANKED** (stale
-  header flipped, id-012 seeded, backbone spot-verified first-hand @ alpha `778cb07`); published
-  **cp-002**. IN-FLIGHT: swift-network orphan adjudication (parent li-9001; `id-038` earmarked, NOT
-  yet written) — next action is the F5 kTLS-constant spot-check then write+bank id-038; then zig-cort
-  → id-039. Journal task-13 carries the exact next step. (Prior epoch action: executed SWAPIN
-  Arranger1, archived the Arranger2 epoch, authored SWAPOUT meta-op `op-001m`.)
-- shared tree: `main` at `ddf5663` (`ddf56639efc231908b1df9993400b1e49a412dc6`); `origin/main` an
-  ancestor, local `main` 46 ahead, unpushed. Working tree = 143 mixed tracked/untracked entries, live
-  state, preserved (no clean/stage/commit/push).
-- divergence: **CLEARED first-hand** — `diff -qr --exclude=.git` wip-claude↔rmx-arranger shows only
-  canonical-forward drift (AGENTS.md protocol repoint; arranger-swap.md itself; op-258-activation.md =
-  my ratified adjudication). No un-migrated wip-claude tail. rmx-arranger is head-of-line. **Frozen-tree
-  status (first-hand 2026-07-10):** rmx-arranger2 is ALREADY REMOVED (no such dir). `wip-claude` is the
-  SOLE remaining frozen twin — still present + writable, HEAD ddf5663 byte-parallel to canonical, and
-  the default cwd of an agent session. **Coordinator decision 2026-07-10: RETAIN `wip-claude` in place
-  and writable as a fallback consult channel to the prior session — do NOT chmod/rename/delete it.** The
-  one-writer rule is held by DISCIPLINE, not enforcement: canonical `rmx-arranger` is the only writer;
-  if `wip-claude` drifts from canonical, flag it (do not silently reconcile).
-- live ROB: **authoritative per-op state lives in each `doc/activation/op-NNN-activation.md` header —
-  source of truth; do NOT restate per-op status here. On any conflict the activation header wins.**
-  In-flight op set: op-270, 272, 276, 278, 279, 280, 281, 282, 283, 284, 286 (+ oracle2 consults
-  op-287, 288). Swap-relevant deltas only (ops with an OPEN Coordinator action or just-returned):
-  op-285 DONE 2026-07-10 — EDIT LANDED at alpha `778cb07`, Arranger1-verified FIRST-HAND (all 4
-  release-scope items confirmed at source: object header @ `xpc_internal.h:110`, connection destructor
-  @ `xpc_misc.c:140`/`xpc_connection.c:563`, first-message ordering serialized on the listener recv
-  queue, NULL-handler guards). ACCEPTANCE NOT done/claimed (no runtime evidence performed) → authored
-  **op-291** [Ready] = the follow-on Gatekeeper 4-part bar (provenance sha-match against fix artifact
-  `9854f45…` FIRST, then lifecycle+leak census, named byte-0 re-check, managed-mode drive); Coordinator
-  dispatch owed. op-286 authored [Ready], Coordinator dispatch owed; op-284 Returned/premise-confirmed
-  (gate closed). op-273 ADJUDICATED 2026-07-10 (Finding A confirmed first-hand → routed to op-289→op-290);
-  op-289 authored [Ready], Coordinator dispatch owed (launchd Finding A premise-check).
-  Evidence-first gating chains (NOT recorded in the activation headers — keep here): op-281→op-282,
-  op-284→op-285→op-291 (libxpc lifecycle: premise-check → edit LANDED → acceptance pass),
-  op-279→op-280, op-289→op-290 (launchd Finding A: heal→halt collision),
-  op-287→op-288 (oracle2 preview-closure consults, issued 2026-07-10).
-- stale [In-flight] reconciled: op-258 = RETURNED / HARNESS-INVALID FAIL (first-hand verified against
-  `rmx-gatekeeper/build/op258/`; header edit ratified this epoch; asl leg-4 REMAINS OPEN — do not treat
-  green; re-soak owed as op-286); op-171 = stale-SUPERSEDED (orphaned by op-149's base switch to
-  wip-rmxos alpha, its NextBSD mach_debug premise dead). Neither is awaited.
-- **>>> TOMORROW'S QUEUE (2026-07-11) — 3 UNHANDLED `rmx-oracle/` return docs (found 2026-07-10 by a
-  full-dir cross-check; CORRECTS an earlier "burn-down complete" overclaim — the op-NNN-named sweep
-  missed non-op-named deliverables). All post-preview, none preview-gating. Do NOT lose these:**
-  1. **op-274** (zfs-installer-updater-design.md) — RETURNED-but-UNADJUDICATED: deliverable staged +
-     complete (op-277 cited it first-hand), but ROB header STILL reads `[Awaiting]` = same stale-header
-     drift as op-273/275/265/277 (missed because filename isn't `op-274-*`). ACTION: verify first-hand,
-     adjudicate → almost certainly BANK to a distribution/updater li (op-274 is the ZFS-BE + sealed-base
-     OS-distribution design op-277's app-updater roadmap §5-D/A2 leans on), flip the stale header.
-  2. **swift-network-rmxos-integration-design.md** — ORPHAN: no owning op, no id, not seeded anywhere.
-     ACTION: allocate **id-038**, record the returned design, parent to the swift lane, adjudicate/bank.
-  3. **zig-cort-dispatch-integration-design.md** — ORPHAN: no owning op, no id, not seeded. ACTION:
-     allocate **id-039**, parent to the cort subsystem, adjudicate/bank.
-  (scratch-op273 = op-273 working scratch, NOT a deliverable — leave. oracle-rulebook.md/AGENTS.md =
-  infra. Everything else in `rmx-oracle/` IS handled — op-223/225/228/231/244/260/262/263/264/269/271/
-  273/275/277/265 all on ROB, terminal, findings routed/banked; verified 2026-07-10.)
-- returned consults awaiting adjudication: the 3 above (op-274 + 2 orphans) are the ONLY unhandled
-  Oracle returns; queued to 2026-07-11. NOTE: staged
-  deliverables in `rmx-oracle/` may still read `[Awaiting]` in their activation headers (drift
-  op-273/op-275/op-265/op-277 all had, AND op-274 has it — verify the staged findings file, not the
-  header, before treating as pending). (op-269 CLOSED 2026-07-10 → BANKED-CLOSURE; op-273 CLOSED 2026-07-10 →
-  BANKED-with-ONE-ROUTED (Finding A → op-289→op-290); op-275 CLOSED 2026-07-10 → BANKED (li-008 seeds,
-  no routed fix); op-265 CLOSED 2026-07-10 → BANKED (post-preview li-1000/id-000 design seeds, no
-  routed fix; Fact 0(a)/0(b) kernel backbone spot-verified first-hand); op-277 CLOSED 2026-07-10 →
-  BANKED (li-2000 flagship-app roadmap seeds, post-preview; A1 launchctl-verb trap spot-verified
-  first-hand @ `launchctl.c:89-104`; forward pointers = li-008 modern-verb parity + op-268 reframe);
-  all recorded in their activation headers.)
-- reserved IDs / high-water: on-disk op-288 / id-037. Meta-op lane: op-001m allocated this epoch
-  (meta-ops use a separate `m` lane so they never consume project ROB numbers). op-286 AUTHORED
-  2026-07-10 (asl leg-4 re-soak #2, [Ready], dispatch-recommended — was proposed-reserved);
-  op-287/op-288 allocated 2026-07-10 (oracle2 preview-closure consults); op-289/op-290 allocated
-  2026-07-10 (launchd Finding A evidence-first chain from op-273); op-291 allocated 2026-07-10
-  (libxpc lifecycle acceptance Gatekeeper pass, follow-on to op-285's landed edit). **id-038/id-039
-  EARMARKED (not yet written) 2026-07-11 for the two orphan Oracle design docs (swift-network →
-  id-038, zig-cort-dispatch → id-039) — see TOMORROW'S QUEUE above.** Next free: project op-292,
-  id-040 (id-038/039 earmarked).
-- pending Coordinator decisions: op-286 DISPATCH (authored/Ready 2026-07-10 — asl leg-4 re-soak #2,
-  Gatekeeper session-time); halt/re-scope the CURRENTLY-RUNNING unsanctioned background asl soak
-  (survival-only, does not count toward leg-4); op/id number-lane split between the two Arrangers;
-  Validator 8-vs-9 threshold ruling; push/checkpoint of the 46-ahead+dirty tree.
-  (RESOLVED 2026-07-10: frozen-tree disposition — retain `wip-claude` writable as a consult channel,
-  one-writer rule by discipline; rmx-arranger2 already removed.)
-- origin/validation blockers: tree unpushed (**48 ahead**); retirement binds to origin-reachable (Rule 7).
-- known evidence gaps: op-258 leg-4 bar UNMET; Validator threshold contradiction; op-171 markers not
-  yet re-read first-hand. (rmx-arranger2 parity gap resolved — tree removed.)
-- safest next action: **SWAP-READY** — journal + cp-002 current; a `SWAPIN Arranger2` here hands off
-  cleanly with swift-network mid-flight (task-13 states the exact next step). If Arranger1 continues
-  instead: finish swift-network → write+bank `id-038` (F5 kTLS-constant spot-check first), then
-  zig-cort → `id-039`, then a checkpoint commit of the 2026-07-11 burn-down. Uncommitted this session:
-  op-274 header + id-012 seed + this swap + `doc/marketing/` (preserve; do not clean).
+### 1. Authorities
 
-### Tasks since this SWAPIN
+- `arranger-swap.md` is the **only chronological Arranger log**.
+- `doc/activation/op-NNN-activation.md` headers are authoritative op state.
+- `idq/id-000.md` and individual IDQ files are authoritative problem state.
+- Git and content hashes are authoritative artifact state.
+- The journal links those records; it does not duplicate their full histories.
+- Rule-13 chat ROBs and a SWAPOUT entry's compact ROB are derived renderings/snapshots of
+  activation-header state, never competing authorities or maintained logs.
+- On any journal-versus-authority conflict, the authoritative activation/IDQ/Git record wins.
+  Append a `CORRECTION` naming the divergent entry; never silently rewrite history.
+- Immediately before every shared control-state write—journal append, activation/IDQ edit, ID
+  allocation, issue, adjudication, retirement, commit, or push—re-read the live mutex owner and
+  epoch. If either differs from this seat, stop: it has been SWAPOUT. Re-check after long-running
+  commands before consuming their results. The incoming seat's first SWAPIN header write under an
+  explicit Coordinator directive is the sole pre-ownership exception; see section 3.
 
-- task-01 **[Done]** — execute SWAPIN Arranger1: record mutex handoff, preflight, reconcile the
-  Arranger2 RECOVERY inventory first-hand, set ACTIVE, archive the Arranger2 epoch under Closed epochs.
-- task-02 **[Done]** — delivered SWAPOUT meta-op `op-001m` to Arranger2 (normal-form, via Coordinator
-  paste). **Verdict returned: SWAPOUT-ACK inactive** (markers `A2_SWAPOUT_ACK`, `A2_INFLIGHT_QUARANTINE
-  none`, `A2_TERMINAL`). Arranger2 confirms inactive/read-only; no tool call in flight at the boundary;
-  no cross-boundary mutation landed; quarantine: none. Arranger1 retains sole mutex ownership. Swap
-  round-trip (SWAPIN Arranger1 + auto-SWAPOUT Arranger2 + confirmation) validated end-to-end.
-- task-03 **[Done]** — 1.0-preview burn-down resumed. (a) **op-269 adjudicated → BANKED-CLOSURE**
-  (headline verified first-hand at `asl_object.c:272/275` — 0xFFFF truncation → presence-test;
-  consumer census clean incl. `aslmanager.c:1400` explicit `ASL_QUERY_OP_EQUAL`; all findings
-  donor+ravynos byte-identical; asl post-preview-floor). Carried discrepancy: li-1004 has NO
-  standalone file, `li-1000.md:85` status row stale. (b) **Preview-critical pivot (Coordinator
-  "your call")**: op-284/op-285 briefs re-verified first-hand against product source — ALL cited
-  claims match (`xpc_internal.h:85-93/109-136`, `xpc_connection.c:57-62/84/572-586`,
-  `xpc_type.c:133-152/467-474`, `xpc_misc.c:139-177`, `aslmanager.c:1555-1603/1590-1592`); plus a
-  sharpened prediction: `xpc_connection.c:585` invokes `peer->xc_handler` UNCONDITIONALLY → NULL-call
-  crash if the type check keeps `accept_connection` from installing it. Adjacent note (not scoped
-  in): create error paths `:92-95/:99-102` leak conn+queues — fold into op-285 finalization only.
-  op-284 handed to Coordinator in normal-form for dispatch; op-285 stays RESERVED.
-- task-04 **[Done]** — reviewed oracle2's independent preview-closure plan (proof-closure matrix +
-  known-bad/mutation atlas); answered its 8 governance/evidence questions, ALL verified first-hand
-  same-day (alpha HEAD dd6e7a8 clean = scan pin NOT candidate pin; canonical = rmx-arranger;
-  rmx-gatekeeper exactly 27 unpushed + 33 dirty; core = li-1001…1008 per li-1000:63; op-253 =
-  PASS-narrow probe-A with trailer sub-claim unvalidated; threshold ≥9-canonical/≥8-stale
-  contradiction Coordinator-pending; today's op-258/269/171/284 state changes enumerated; atlas
-  foundation-only). NEW FIND: **li-1012 exists on disk but is MISSING from li-1000's constituent
-  table** (dangling index; its build-provenance finding feeds the matrix's freshness columns) —
-  flagged to Coordinator. Minted **op-287** (matrix, issued) + **op-288** (atlas, HOLD gated on
-  op-287 second-Arranger-review); feedback block handed to Coordinator for paste to oracle2.
-- task-05 **[Done]** — gated op-284 return first-hand (commit 4143321; raw serial read, probe source
-  read, 8 host libxpc builds hashed): **PREMISE-CONFIRMED partial-bar** — `xpc_get_type` → NULL for
-  BOTH connection kinds on the guest; corrected the Gatekeeper's "compiled layout differs"
-  hypothesis (single struct def in tree; real finding = guest libxpc sha `6393a714…` matches NO
-  host build → deployed-lib provenance UNKNOWN, li-1012 live). Gaps (item-2 lifecycle depth, item-3
-  managed-mode drive, uncommitted raw logs, provenance) folded into op-285's acceptance bar — no
-  op-284 re-run. op-285 → RELEASE-RECOMMENDED (Coordinator warrant pending). Out-of-scope serial
-  observation recorded: kernel `ipc_entry_lookup failed on 0` x9 around launchd -u (op-287
-  cross-ref). OPEN QUESTION flagged to Coordinator: an "op-258 ASL soak" is running in the
-  Gatekeeper session (~2h15m left, store monotonic, ZERO reclaims past the 500K forced trigger, fd
-  flat 37) — under WHICH op and was the harness corrected per the op-258 adjudication's 5 mandatory
-  fixes? If uncorrected, the run is pre-invalidated for leg-4 (survival evidence only). Zero
-  reclaims past trigger = the op-257 wiring/trigger itself may not fire — a distinct product/config
-  question from harness validity.
-- task-06 **[Done]** — exercised the Coordinator "your call" warrant on two gated items. (a)
-  **op-285 RELEASED** — flipped RESERVED/RELEASE-RECOMMENDED → RELEASED; fix scope FINAL (INTENT
-  items 1+2 confirmed + item-3 source-reasoned + NULL-handler guard @ `xpc_connection.c:585`);
-  acceptance = the 4-part augmented bar, adjudicated by a FOLLOW-ON Gatekeeper pass (NOT op-285);
-  dispatched to wip-gpt in normal-form (below, for Coordinator relay). (b) **op-286 AUTHORED**
-  ([Ready], dispatch-recommended) — the asl leg-4 re-soak owed by op-258's HARNESS-INVALID FAIL;
-  inherits op-258 SCOPE 1–7, fixes the four verified harness defects, and FRONT-LOADS a
-  reclaim-trigger PREMISE-CHECK (known-good control) gating the long soak — driven by the live
-  background-run signal (zero reclaims past the 500K threshold ⇒ op-257's reclaim may not fire at
-  all, a product/config question distinct from harness validity). RULING on the running background
-  soak: unsanctioned + survival-only, does NOT count toward leg-4; op-286 is the authoritative
-  re-soak (Coordinator dispatches — soaks consume Gatekeeper session time).
-- task-07 **[Done]** — DRY fix on Coordinator direction ("your call"): removed the
-  activation-header/swap-file per-op status duplication. Established the source-of-truth split
-  explicitly (op state → `doc/activation/op-NNN` headers; id state → `idq/id-000.md`; on conflict
-  the activation header wins) and relaxed the §4/§5 pickup-snapshot & CHECKPOINT discipline from
-  "carry the full live ROB" (full per-op status restatement) to "reference the activation dir +
-  restate ONLY the ops with an open Coordinator action or just-returned, plus the gating chains /
-  IDs / decisions / blockers that the activation headers do NOT record." The live-ROB pickup line
-  is now a lean pointer. No op state was changed — only where it is (not) mirrored.
-- task-08 **[Done]** — resumed the burn-down: **op-273 (launchd scheduled-launch) ADJUDICATED**.
-  Discovered its header was stale `[Awaiting]` while the deliverable was staged since 2026-07-06
-  (`rmx-oracle/op-273-launchd-scheduled-launch-findings.md`) — corrected the header. Verified
-  **Finding A first-hand** at wip-gpt/wip-rmxos @ alpha `dd6e7a8`: calendar self-heal
-  `raise(SIGUSR1)` (`core.c:5882`) collides with the donor's init-compat SIGUSR1→RB_HALT handler
-  (`runtime.c sighandler_init_compat`→`job_mig_reboot2(root_jobmgr,…)`), reachable on EVERY MIG
-  completion (`sanity_check` @ `core.c:3521` = last line of `job_mig_destructor`), type confusion
-  silenced by `Makefile:37` — a LIVE system-DOWN failure mode on pid-1. Q1–Q4 SOLID; trivia banked
-  as li-008 seeds. ROUTED as an evidence-first chain (mirrors op-284→op-285): **op-289** (Gatekeeper
-  runtime premise-check, [Ready], GATES) → **op-290** (RESERVED Implementer decouple-fix). Both
-  authored. Coordinator gates op-289 dispatch + the SIGUSR1 init-compat signal-ownership decision.
-  id-000.md id-016 row updated with the seed pointer.
-- task-09 **[Done]** — burn-down continued: **op-275 (launchd pre-exec child setup) ADJUDICATED →
-  BANKED** (stale `[Awaiting]` header corrected). Consult sound + careful (self-corrected a −4/−5
-  line drift). NO preview-blocking defect. Spot-verified first-hand at alpha `dd6e7a8`: H2 (io-policy
-  silently ENOSYS — syscall 259 `__iopolicysys`=`lkmressys`+`SY_THR_ABSENT` @ `init_sysent.c:331`)
-  and H7 (non-root identity-fail = warn-and-run, fatal branch `#if 0`) both CONFIRMED. Findings
-  banked as li-008 hygiene seeds + a NON-blocking parity/runtime-check bundle (H2/H3/H7 + Q4
-  setpgid-vs-setsid session topology, which feeds the id-016 launchd-as-pid1 question). Flagged: the
-  runtime-check items could opportunistically ride op-289's pid-1 boot, but op-289 stays scoped to
-  Finding A. Coordinator decides whether to commission the bundle + the H7 non-root fatal-vs-warn
-  policy. Next in burn-down: op-265 (workqueue-governor design), then op-277 (openclaw, defer).
-- task-10 **[Done]** — burn-down continued: **op-265 (pthread_workqueue governor API design)
-  ADJUDICATED → BANKED** (post-preview li-1000/id-000 seeds, NO routed fix, NO preview scope; stale
-  `[Awaiting]` header corrected — third of the drift series). Strong API-design consult that correctly
-  stays out of preview. Spot-verified the design's pivotal kernel backbone FIRST-HAND at alpha
-  `dd6e7a8`: **Fact 0(a)** occupancy counts only ENROLLED threads (`td_twq` via
-  `twq_lane_active_adjust` `kern_thrworkq.c:653-700`) + **Fact 0(b)** per-process width budget capped
-  by `mp_ncpus`, NO cross-process/loadavg input (`twq_parallelism_limit` `MAX(1,mp_ncpus)` `:279-288`;
-  `twq_lane_target_locked` `MIN(requested, limit-higher_pressure)` `:353-368`; loadavg/cross-process
-  grep EMPTY). Backbone HOLDS — it makes the design's two headline calls *necessary*: (i) workgroup
-  join/leave + recommended-width-query is the right iteration-1 seam (foreign runtime must enroll to
-  be counted); (ii) a machine-wide cross-process budget is an iteration-2 KERNEL job, not API-surface.
-  Concurred bank-worthy calls: governor-vs-executor = two faces on one pool; ERTS seam = external agent
-  (no patch) driving `schedulers_online`; TCM = client (share one budget, cheap cross-runtime
-  composability); iteration-1 surface internal/unstable {narrow-hint + width-query + grow-request}. NO
-  op routed (post-preview by construction); id-000 initiative may commission the governor surface +
-  ERTS-agent shim post-preview at Coordinator's call. Next in burn-down: op-277 (openclaw, defer
-  post-preview) + the 3 bonus design seeds needing ids.
-- task-11 **[Done]** — **op-285 (libxpc managed-lifecycle fix) RETURNED → EDIT VERIFIED FIRST-HAND →
-  [Done]; acceptance authored as op-291.** Coordinator reported the edit committed on alpha as
-  `778cb07`. Per Rule 1, verified at product source (wip-gpt/wip-rmxos @ alpha `778cb07`, clean, 1
-  ahead of origin/alpha, child of `dd6e7a8`): ALL FOUR release-scope items confirmed AT SOURCE — (1)
-  object header `struct xpc_object xc_object` embedded front of `struct xpc_connection`
-  (`xpc_internal.h:110`); (2) `xpc_object_destroy`→`xpc_connection_destroy` teardown routing
-  (`xpc_misc.c:140`, `xpc_connection.c:563`+, ports/queues/sources drained + finalizer + pending/peer/
-  ctor-failure cleanup); (3) first-message ordering — old racy two-`dispatch_async` new-peer path
-  REPLACED, accept handler runs inline on listener serial recv queue, first msg via
-  `xpc_connection_dispatch_event` only after peer setup returns; (4) NULL-handler guards at every
-  delivery site. Build/link (rc 0, `libxpc.so.5` sha `9854f45…`, 200080 B) is the Implementer's own
-  claim, NOT re-run by Arranger. Coordinator explicitly did NO runtime/guest evidence → per
-  `no_conflate_gating_with_readiness` the landed edit is NOT accepted/green. Authored **op-291**
-  [Ready] = follow-on Gatekeeper 4-part acceptance bar (provenance sha-match vs `9854f45…` FIRST, then
-  lifecycle+leak census, named byte-0 re-check, managed-mode drive). op-285 header flipped
-  RELEASED→[DONE/EDIT LANDED]; chain now op-284→op-285→op-291.
-- task-12 **[Done]** — burn-down COMPLETE: **op-277 (openclaw integration strategy, li-2000 flagship
-  track) ADJUDICATED → BANKED** (post-preview roadmap seeds, NO routed fix; stale `[Awaiting]` header
-  corrected — fourth/last of the drift series). Strong, overclaim-disciplined design consult that
-  correctly never gates 1.0: verifies substrate first-hand, marks agent-sourced app-tree claims as
-  hypotheses, self-caught the openclaw version skew (2026.4.6/4.29/6.11), holds the op-265 iter-2
-  honesty line on cross-process budget. Spot-verified the ONE pivotal product-source finding
-  first-hand — the **A1 launchctl-verb trap**: openclaw drives modern launchd2 verbs
-  (bootstrap/bootout/kickstart/print/enable/disable) but our `launchctl.c:89-104` only has the legacy
-  set {start/stop/load/unload/remove/bootstrap/list/dump/log/help} and our `bootstrap` is the
-  `/etc/launchd.d` boot-scan (`:106-108`), not the domain-target verb — CONFIRMED, driver fails
-  verb-by-verb; note's P2 rmxos-launchd app-side backend is the right shape. Banked to li-2000; two
-  forward pointers for when li-2000 activates post-preview: (i) li-008 launchctl modern-verb parity
-  seed (roadmap S6), (ii) op-268 reframe/re-issue prerequisite (held/REJECTED-on-dispatch) before any
-  demand-launch reliance. Returned-consult queue now EMPTY except 3 bonus design seeds needing ids
-  (zig-cort-dispatch, swift-network, zfs-installer).
-- task-13 **[Open]** — 2026-07-11 TOMORROW'S-QUEUE burn-down (the 3 unhandled `rmx-oracle/` docs).
-  **(1/3 DONE) op-274 (zfs-installer-updater-design) ADJUDICATED → BANKED** — preview-adjacent,
-  non-gating (§5 "Nothing here alters the preview gate"); stale `[Awaiting]` header flipped (FIFTH of
-  the drift series). Backbone SPOT-VERIFIED first-hand @ wip-rmxos alpha `778cb07`: `be_activate(…,
-  bool)` bootonce (`lib/libbe/be.h:60`), bootonce plumbing (`be.c:157/:431-435/:1077-1079`), loader BE
-  menu (`stand/lua/core.lua:304-317`), `bectl activate -t` (`bectl.c:51`), `root_rw_mount` seal knob
-  (`rc.d/root:21`) — try-boot-once→auto-revert machinery is real. Banked to **id-012** as a design
-  OPTION (sealed-BE + incremental-receive) alongside the 2026-06-29 FreeBSD-faithful `bsdinstall` plan;
-  one genuine risk = bucket #1 pre-mountcritlocal `/etc` audit; forward pointer = bucket #2
-  walking-skeleton soak. **(2/3 IN-FLIGHT) swift-network orphan** (`rmx-oracle/swift-network-rmxos-
-  integration-design.md`, 2026-07-04): read end-to-end first-hand; strong, overclaim-disciplined
-  (agent claims labeled, F1 falsified+corrected first-hand); post-preview, explicitly non-gating
-  ("nothing here gates li-1000"). Parent identified = **li-9001** (Swift toolchain long-arc). **id-038
-  EARMARKED, NOT yet written.** NEXT ACTION: one first-hand spot-check (F5 kTLS socket-opt constants
-  `TCP_TXTLS_ENABLE=39`/`TCP_RXTLS_ENABLE=41` in `netinet/tcp.h`, the L1 flagship rests on them), then
-  write `idq/id-038` (parent li-9001), add a scope-in pointer under li-9001, BANK the consult (design
-  seeds: shape = position SwiftNetwork as the base-system transport stack riding our libdispatch+kqueue
-  via a thin Darwin-arm-routing patchset; short-term S0-S4, substrate gate S1 = prove dispatch
-  fd-source servicing on rx; long-term L1-L6, flagship = kTLS TCP offload). **(3/3 NOT STARTED)
-  zig-cort-dispatch orphan → id-039.** Side-task this session (NON-control-state, uncommitted):
-  created `doc/marketing/superapp-2.0.md` + `doc/marketing/superstation-2.0.md` (product positioning
-  briefs) at Coordinator request — informational, no ROB/ID impact.
+### 2. One-entry rule
 
-### Coordination points
+Append exactly one journal entry after each coherent action that changes shared control state,
+issues an op, consumes a Coordinator decision, or authorizes a Rule-9 spend. Pure read-only
+inspection owes no entry. Interdependent file edits may share one entry when they implement one
+declared outcome and no Coordinator decision, Rule-9 authorization, seat transition, or independent
+op-state transition occurs inside the batch. Crash test: every partial change must remain
+recoverable from an authoritative record, and the eventual single entry must explain the complete
+result. Do not separately update a pickup snapshot, task list, coordination summary, or checkpoint
+block.
 
-- latest checkpoint: **cp-002** (epoch `swap-20260710T091248Z-arranger1`), 2026-07-10T23:34:51Z,
-  through task-13
-- latest acknowledged catchup: **none**
-- next catchup target: **Arranger2**, through `swap-20260710T091248Z-arranger1/cp-002`
+A Rule-9 delegation or spend authorization is itself a coherent action: append a `DECISION` entry
+before the irreversible step. The step's result is a separate later action and entry. Two actions,
+two entries; never pre-write an optimistic outcome.
 
-## 1. Vocabulary
-
-- **SWAP** — one serialized transfer of the Arranger seat.
-- **SWAPIN** — the Coordinator grants the target seat the mutex. This is the normal command.
-- **SWAPOUT** — revocation of a seat's mutex. A SWAPIN automatically SWAPOUTs the previous owner.
-- **CHECKPOINT** — a frozen process snapshot published by the active seat while it retains the
-  mutex. It is a Markdown coordination point, not a Git commit, tag, stash, or push.
-- **CATCHUP** — a read-only synchronization pass by the SWAPOUT seat through one named CHECKPOINT.
-  It does not transfer the mutex.
-- **epoch** — one seat's uninterrupted ownership interval, identified by
-  `swap-YYYYMMDDTHHMMSSZ-arrangerN`.
-- **pickup snapshot** — the maintained summary of unresolved work the next seat must verify and
-  continue.
-- **task journal** — the list of tasks opened since the current epoch's SWAPIN, including completed
-  work and exact next actions for unfinished work.
-
-Use `SWAPIN Arranger1` or `SWAPIN Arranger2` as the canonical Coordinator directive. An equally
-explicit plain-language directive is valid, but the canonical form avoids ambiguity.
-
-## 2. Mutex invariants
-
-1. At most one Arranger seat is authorized to mutate shared control state.
-2. Only the Coordinator can SWAPIN a seat. A seat cannot infer, inherit, or self-grant ownership.
-3. SWAPIN and the prior owner's SWAPOUT are one logical event. No outgoing acknowledgement is
-   needed and there is no overlap in authority.
-4. The Coordinator directive is the authority boundary. The live mutex record is its durable
-   reflection, not a second grant.
-5. A standalone `SWAPOUT ArrangerN` is used only to leave **no active owner**. It sets the mutex to
-   `FREE`; work resumes only after a later SWAPIN.
-6. Deprecated workspaces never participate in the mutex. The shared workspace above is the only
-   live control tree.
-7. CHECKPOINT and CATCHUP do not change the mutex owner or epoch. The SWAPOUT seat remains
-   read-only throughout CATCHUP.
-
-This is a cooperative logical mutex. A tool call already executing at the SWAP boundary may finish,
-but the swapped-out seat must start no further call and must not use the result to mutate or retire
-state. The incoming owner treats any write that lands across the boundary as unverified and
-reconciles it first-hand.
-
-## 3. SWAPIN procedure
-
-The incoming seat performs these steps in order:
-
-1. Receive an explicit Coordinator SWAPIN directive.
-2. Record the new owner and epoch with readiness `VERIFYING`; record the prior owner as implicitly
-   SWAPOUT. This mutex-record update is the sole write allowed before activation preflight because it
-   prevents the stale seat from making later writes. It does not authorize issue, adjudication,
-   retirement, or ID allocation.
-3. Confirm `pwd`, writable workspace root, branch/HEAD/origin relation, and full working-tree status.
-4. Read the outgoing epoch's pickup snapshot, task journal, latest CHECKPOINT, acknowledged CATCHUP,
-   and the tail after that CHECKPOINT; then read the required governing documents and any changed
-   governing lines.
-5. Verify the outgoing claims first-hand against the shared tree and exact cited artifacts. A
-   journal is a starting hypothesis, never evidence.
-6. Carry every unresolved item into the new pickup snapshot. Record discrepancies explicitly; do
-   not silently repair or discard them.
-7. Set readiness to `ACTIVE` only when ownership, task inventory, live ROB, reserved/high-water IDs,
-   blockers, and safest next action are reconciled.
-8. Begin task action.
-
-If the prior journal is absent, incomplete, or inconsistent, set readiness to `RECOVERY`. The seat
-still owns the mutex, but it may only inspect and repair continuity state until the missing inventory
-is reconstructed or the Coordinator explicitly dispositions it.
-
-## 4. Active-seat journal discipline
-
-The active seat maintains this file continuously; SWAPOUT must never depend on a final turn from the
-outgoing session.
-
-- Before starting a non-trivial Coordinator task or control-state operation, add it under **Tasks
-  since this SWAPIN** as `[Open]` with its objective and intended artifacts.
-- Update the entry after every durable decision or mutation. Track task-level facts, not individual
-  shell commands.
-- Use `[Open]`, `[Waiting]`, `[Done]`, or `[Dropped]` for swap-journal tasks. These local labels do
-  not replace ROB status vocabulary.
-- For unfinished work, state the exact next action, blockers, relevant paths/commits/evidence, and
-  related `li-NNN` / `id-NNN` / `op-NNN` identifiers.
-- Keep completed tasks in the current epoch journal so the next seat can see what changed since
-  SWAPIN.
-- Keep the pickup snapshot current. **Per-op state is NOT restated here — each
-  `doc/activation/op-NNN-activation.md` header is the authoritative source of truth for its op's
-  status (and `idq/id-000.md` for id state); on any conflict the activation header wins.** At minimum
-  the snapshot references the activation dir and carries: the in-flight op set, and — restated ONLY
-  for ops with an open Coordinator action or just-returned-awaiting-adjudication — the swap-relevant
-  delta; the evidence-first gating chains (which the activation headers do not record); reserved IDs
-  and next candidates; pending Coordinator decisions; origin/validation blockers; evidence gaps;
-  working-tree state; and safest next action. (Full-status-restatement was dropped 2026-07-10 on
-  Coordinator direction — "your call" — to remove activation-header/swap-file drift.)
-- Record facts conservatively. Executor reports remain reports until the responsible gate verifies
-  them first-hand under the governing rules.
-- Publish a CHECKPOINT at each coherent Coordinator-task or op-batch boundary, before a requested
-  CATCHUP, before a planned pause/SWAP, and whenever the unshared tail is becoming large enough that
-  the other seat would face a difficult catchup.
-
-Immediately before any shared control-state edit, ID allocation, op issue, adjudication, retirement,
-commit, or push, re-read the live `owner` and `epoch`. If either differs from the seat's own epoch,
-stop: it has been SWAPOUT. Re-check again after long-running commands and before consuming their
-results.
-
-## 5. CHECKPOINT and CATCHUP
-
-These are coordination points, not ownership transitions and not Git operations.
-
-### CHECKPOINT — active seat publishes
-
-The active seat appends an immutable, epoch-local `cp-NNN` block under **Checkpoints**. A checkpoint
-contains:
-
-- epoch, owner, UTC timestamp, and the last task included;
-- concise delta since the preceding checkpoint;
-- current pickup snapshot: the in-flight op set + only the ops with an open Coordinator action or
-  just-returned (activation headers are authoritative — NOT a full per-op status restatement),
-  returned gates, and op/ID high-water or reservations;
-- working-tree/branch/origin facts needed to understand the delta;
-- unresolved questions, blockers, and safest next action; and
-- the exact CATCHUP directive, when one is wanted.
-
-Checkpoint numbers reset to `cp-001` at each SWAPIN; the epoch/checkpoint pair is the unique name.
-Once published, a checkpoint is not rewritten except for an explicitly dated factual correction.
-New facts go in the live record and the next checkpoint.
-
-### CATCHUP — SWAPOUT seat reads
-
-The Coordinator routes `CATCHUP ArrangerN THROUGH <epoch>/cp-NNN`. The target seat may inspect the
-shared tree and run non-mutating checks, but it must not edit files, allocate IDs, issue or
-adjudicate ops, retire work, commit, push, or change the mutex record.
-
-The target returns a read-only report to the Coordinator:
+Use:
 
 ```text
-CATCHUP REPORT
-seat:
-active owner observed:
-epoch / checkpoint:
-tree HEAD and working-state observed:
-deltas understood:
-pre-SWAPOUT inventory:        # bootstrap only, when requested
-questions or discrepancies:
-status: CAUGHT-UP | PARTIAL
+### j-<UTC-YYYYMMDD>-<NNN> — <short outcome>
+- time: <UTC>
+- kind: ACTION | ISSUE | RETURN | DECISION | SWAPOUT | SWAPIN | CORRECTION
+- owner / epoch: <seat> / <epoch>
+- outcome: <what became true>
+- state delta: <only changed op/ID states; link authoritative files>
+- evidence: <decisive paths/hashes or none>
+- blockers / decisions: <only still-live items>
+- next: <single safest action; one physical line; final field>
 ```
 
-The active seat verifies the report as needed and records the acknowledgement in the live record;
-the SWAPOUT seat never writes its own acknowledgement. A discrepancy is advice to the active owner,
-not an adjudication or authority transfer. Work after the named checkpoint remains a visible tail
-for the next CATCHUP.
+Journal IDs use the UTC date and a day-local monotonic sequence. Before append, census only real
+headings matching `^### j-[0-9]{8}-[0-9]{3} ` and require the new ID to be absent. A complete entry
+ends with exactly one physical `- next:` line as its final field; a torn entry missing that sentinel
+is void and is re-appended complete under a new ID.
 
-Regular CHECKPOINT/CATCHUP pairs reduce the eventual SWAP to the last unshared tail. They do not
-relax the incoming seat's activation preflight or first-hand verification duty.
+Entries are immutable and physically append at EOF. A `CORRECTION` names its target j-ID, corrected
+fields, and now-true statement. If two complete bodies share one ID, ordinary work stops: a new
+unique `CORRECTION` must identify both bodies by SHA-256 and declare the canonical one only when
+intent is unambiguous; otherwise escalate to the Coordinator.
 
-## 6. Automatic SWAPOUT behavior
+### 3. SWAP / SWAPIN / SWAPOUT
 
-When the Coordinator SWAPINs the other seat, the old seat is SWAPOUT immediately:
+- Only an explicit Coordinator directive grants or revokes ownership. A seat records that grant;
+  it never self-grants from the file.
+- **Standalone SWAPOUT:** after an explicit Coordinator park directive, the reachable outgoing seat
+  appends one complete `SWAPOUT` entry containing current Git state, compact live ROB, unresolved
+  Coordinator decisions, blockers, and exact next action. It then records the mutex as `FREE`
+  (`owner: none`, `readiness: INACTIVE`) and becomes read-only. Entry precedes header; reverse order
+  is forbidden.
+- **SWAPIN / automatic SWAPOUT:** the Coordinator directive immediately revokes the prior owner and
+  grants the incoming seat. Transfer never depends on an outgoing final turn; if no SWAPOUT entry
+  exists, the incoming `SWAPIN` entry records that waived handoff as a discrepancy.
+- The incoming seat's first write records `HELD`, its owner/new epoch, and readiness `VERIFYING`.
+  It then verifies the current journal, activation headers, IDQ index, Git state, and named evidence
+  first-hand; journal text is a hypothesis, not evidence.
+- On success, append a complete `SWAPIN` entry whose outcome is `ACTIVE`, then set header readiness
+  to `ACTIVE`. Work starts only when both entry and header say `ACTIVE`.
+- On failure, append a complete `SWAPIN` entry whose outcome is `BLOCKED` with the exact mismatch,
+  then set header readiness `BLOCKED`. Only those continuity writes are allowed; hold ordinary
+  control work and escalate to the Coordinator.
+- This is a cooperative mutex: Coordinator serialization, the owner/epoch fence, and per-entry
+  provenance prevent/detect stale writes; no mechanical compare-and-swap is claimed.
 
-- It performs no final cleanup write, ID allocation, issue, adjudication, retirement, commit, or
-  push.
-- It does not modify its closed epoch after transfer.
-- It may acknowledge that it is inactive, but its continuously maintained journal is the handoff.
-- Any unfinished task remains `[Open]` or `[Waiting]`; the incoming seat decides how to carry it
-  after first-hand verification.
+### 4. Catchup and recovery without checkpoints
 
-The incoming seat, not the outgoing seat, closes and archives the prior epoch after verification.
-This makes transfer safe even when the outgoing session is crashed, compacted, busy in a tool call,
-or no longer reachable.
+An inactive seat may be told `CATCHUP <seat> THROUGH <journal-id>`. It reads through that immutable
+journal entry and returns a read-only acknowledgement. Catchup never changes ownership and creates
+no second log. Any later entries are the visible tail.
 
-## 7. Closing and archiving an epoch
+On restart, compaction recovery, or SWAPIN, read the most recent complete `SWAPIN`/`SWAPOUT` entry
+(or the journal beginning if none exists), every later entry, and the authoritative activation/
+IDQ/Git records. Treat journal claims as unverified until reconciled. Append a `CORRECTION` for a
+recoverable divergence. A torn/duplicate journal identity or unclear stale-seat write sets/keeps
+readiness `BLOCKED`; preserve and diff it, verify first-hand, and escalate rather than silently
+discarding or guessing intent.
 
-After verifying the prior record, the incoming seat:
+### 5. Frozen legacy archive
 
-1. Copies the prior live mutex record, pickup snapshot, and complete task journal verbatim under
-   **Closed epochs**.
-2. Adds `SWAPOUT at`, `successor`, and any first-hand discrepancy notes.
-3. Creates the new live record and carries unresolved tasks into its pickup snapshot. It may use new
-   local task numbers; project IDs remain unchanged. Prior CHECKPOINT blocks and CATCHUP
-   acknowledgements close with the epoch.
-4. Never rewrites a closed epoch except for an explicitly dated factual correction.
+Pre-unified pickup/task/coordination/checkpoint history through `cp-103` lives byte-verbatim in
+`arranger-swap-legacy-frozen-cp103.md`: 310,808 bytes / 4,177 lines / SHA-256
+`c4e2068900bd74c602865c7e11ff48627d7f164b0c347d8c9407692e237b009d`. The companion is historical
+provenance, not current procedure or an active log. It is permanently immutable: never edit or
+append it. No current invariant may live only there.
 
-Neither SWAP nor CHECKPOINT requires a Git checkpoint. The live shared-tree record is authoritative
-even when uncommitted and ahead of Git. Any later commit or push follows the ordinary explicit-path
-and Coordinator-authorization rules; it is not part of this protocol.
+## Unified continuity journal
 
-## 8. Recovery and conflict rules
+### j-20260722-001 — unified work/swap journal adopted
 
-- **Missing record:** no seat may assume ownership. The Coordinator issues a fresh SWAPIN, and the
-  target creates a `RECOVERY` epoch.
-- **Ambiguous owner or conflicting directives:** freeze mutations and ask the Coordinator. Do not
-  resolve ownership by timestamp inference across separate chats.
-- **Stale-seat write:** preserve it, identify the exact diff and tool boundary, verify it first-hand,
-  and ask the Coordinator if intent is unclear. Never silently discard shared-tree work.
-- **Dirty tree:** treat it as live state. Do not clean, reset, or broadly stage it during transfer.
-- **Missing task details:** reconstruct from the full tree, activation artifacts, Git history,
-  reports supplied by the Coordinator, and exact external artifacts. Mark what remains unknown.
-- **Missed CATCHUP:** continue from the last acknowledged checkpoint plus the visible tail; never
-  pretend the inactive seat saw a checkpoint it did not acknowledge.
-- **Doctrine conflict:** record the conflict and follow the latest explicit Coordinator ruling. If
-  none resolves a consequential decision, hold that decision rather than silently choosing.
+- time: 2026-07-22T01:25:56Z
+- kind: DECISION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: Coordinator replaced parallel pickup/task/checkpoint bookkeeping with this one journal.
+  The mutex plus journal now serve both ordinary progress and seat handoff.
+- state delta: none. Authoritative live state remains in activation headers and IDQ files. Current
+  dispatchable work is op-322 [Ready]; op-319/op-320 remain [Done] on the separate confidence-8
+  threshold hold; op-202/op-203/op-279/op-280/op-305/op-308 remain [Hold].
+- evidence: method-only control change; no product/EXU/build/runtime/guest/image/privilege action.
+- blockers / decisions: op-322 correction must be accepted before PID-1 helper/image work; the
+  Validator 8-vs-9 ruling for op-320 remains Coordinator-owned.
+- next: dispatch op-322 to `rmx-explorer-rx-x64z`.
 
-## 9. Checkpoints
+### j-20260722-002 — op-007m unified-journal Oracle review authored
 
-### cp-001 — initial protocol-aware catchup point
+- time: 2026-07-22T01:35:42Z
+- kind: ISSUE
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: allocated the next meta-control ID and authored op-007m [Ready] for Oracle3 to review
+  the one-journal work/swap method, failure modes, and minimum corrected contract. The meta op does
+  not consume project op-323.
+- state delta: new meta activation `doc/activation/op-007m-activation.md` [Ready]; project ROB and
+  IDQ state unchanged.
+- evidence: method-only Oracle consult; one Oracle3-owned deliverable; Arranger/product/Ruler inputs
+  read-only; no build/runtime/guest/image/privilege/commit/push authorized.
+- blockers / decisions: Oracle findings remain advisory and require Arranger intake; L/XL findings
+  route to an independent Validator before protocol changes.
+- next: Coordinator dispatches op-007m to Oracle3.
 
-- epoch / owner: `swap-20260710T080933Z-arranger2` / Arranger2
-- timestamp: 2026-07-10T08:49:29Z
-- through: task-03
-- prior checkpoint: none
-- delta: Arranger2 SWAPIN automatically SWAPOUTed Arranger1; `arranger-swap.md` now holds the live
-  mutex, pickup snapshot, task journal, automatic-SWAPOUT rules, plus non-Git CHECKPOINT and
-  read-only CATCHUP rules. `AGENTS.md` points to this file. No project op was issued, adjudicated,
-  retired, or allocated during the epoch.
-- pickup/ROB/IDs: still `RECOVERY`; Arranger1's pre-protocol inventory, full live ROB, returned
-  gates, reservations, and next ID candidates remain unreconciled. Allocate nothing.
-- tree: `main` was 46 commits ahead of `origin/main` at swap-in inspection, with a large preserved
-  mixed tracked/untracked working set. No cleanup, commit, or push was performed.
-- requested catchup:
-  `CATCHUP Arranger1 THROUGH swap-20260710T080933Z-arranger2/cp-001`; include the task inventory held immediately before
-  SWAPOUT, last completed action, live ROB, returned gates, drafts/readies/queues/holds, reserved and
-  next IDs, pending decisions, blockers, evidence gaps, and safest next action.
-- after report: Arranger2 verifies it first-hand against the live tree, records discrepancies, and
-  changes readiness to `ACTIVE` only after reconciliation.
+### j-20260722-003 — op-007m returned; op-008m Validator gate authored
 
-### cp-002 — Arranger2 orientation prompt
+- time: 2026-07-22T02:05:49Z
+- kind: RETURN
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: consumed the explicitly reassigned Oracle op-007m return, reproduced its artifact and
+  markers, sized the method gate XL, moved op-007m to [Done] returned-only, and authored independent
+  Validator3 meta-op op-008m [Ready].
+- state delta: `doc/activation/op-007m-activation.md` [Ready] -> [Done]; new
+  `doc/activation/op-008m-activation.md` [Ready]. Project ROB and IDQ state unchanged.
+- evidence: Oracle return 31,537 bytes / 451 lines / SHA-256
+  `6defec43c73d67e7c737822f78efc52391930f6ba01a1c52ea7c1884d817dc76`; all nine markers present;
+  Oracle3 op-319 file remains SHA-256 `0f2ed556adfcbee6c542cb6d38810bda3ec1c68ecad2c6434b5ed3dc12b62d53`.
+- blockers / decisions: M1-M5/S1-S5/C1-C3 remain advisory and unapplied; op-008m must resolve
+  archive immutability, duplicate IDs, Rule-9 sequencing, and SWAP header/readiness ordering.
+- next: Coordinator dispatches op-008m to validator3.
 
-- epoch / owner: `swap-20260710T080933Z-arranger2` / Arranger2
-- timestamp: 2026-07-10T08:53:32Z
-- through: task-04
-- prior checkpoint: cp-001
-- delta: prepared a copy-paste orientation prompt covering the canonical shared tree, explicit
-  SWAPIN authority, automatic SWAPOUT, owner/epoch guards, write-ahead journal, pickup snapshot,
-  non-Git CHECKPOINT, read-only CATCHUP, recovery, and stale-write handling. The prompt is expressly
-  non-activating: only a separate Coordinator SWAPIN changes ownership.
-- project state: no op was issued, adjudicated, retired, or allocated; the live project inventory
-  remains in `RECOVERY` pending task-02.
-- requested catchup:
-  `CATCHUP Arranger1 THROUGH swap-20260710T080933Z-arranger2/cp-002`, including the pre-SWAPOUT
-  inventory requested by cp-001.
+### j-20260722-004 — corrected one-active-journal method adopted
 
-### cp-001 — Arranger1 SWAPIN + Arranger2-epoch reconciliation *(epoch `swap-20260710T091248Z-arranger1`)*
+- time: 2026-07-22T02:30:16Z
+- kind: DECISION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: consumed Validator3 op-008m at confidence 8 through the required narrow Arbiter check,
+  applied M1-M5 plus S1/S2*/S3-S5/C1/C3, dropped C2 for the frozen companion, and made the corrected
+  mutex plus one EOF-append journal the active Arranger method.
+- state delta: op-007m and op-008m retired; pre-unified history moved byte-verbatim to immutable
+  `arranger-swap-legacy-frozen-cp103.md`; project ROB and IDQ state unchanged; mutex owner/epoch and
+  readiness remain Arranger2 / `swap-20260710T234047Z-arranger2` / ACTIVE.
+- evidence: archive 310,808 bytes / 4,177 lines / SHA-256 `c4e2068900bd74c602865c7e11ff48627d7f164b0c347d8c9407692e237b009d`; protocol prefix 7,546 bytes / 126 lines / SHA-256 `be501ff1fd1c6f6a91f8c31960436a06049dc092a10b49a80be49a15c39cb07e`; `git diff --check` passed.
+- blockers / decisions: no remaining method blocker; duplicate IDs require content-identified fail-closed correction; SWAPIN work requires both entry and header ACTIVE; immutable archive never receives later epochs.
+- next: resume the project queue with Coordinator dispatch of op-322.
 
-- epoch / owner: `swap-20260710T091248Z-arranger1` / Arranger1 (Fable)
-- timestamp: 2026-07-10T09:12:48Z
-- through: task-01
-- prior checkpoint: none (checkpoint numbering reset at this SWAPIN; the cp-001/cp-002 above belong to
-  the now-closed Arranger2 epoch)
-- delta: `SWAPIN Arranger1` auto-SWAPOUTed Arranger2. The Arranger2 epoch — which never left RECOVERY —
-  is archived under Closed epochs. Its previously-unreconciled inventory is now reconciled first-hand:
-  tree parity CLEARED (`diff -qr` wip-claude↔rmx-arranger = canonical-forward only), full live ROB
-  restored (op-270..op-285, none dispatched), both stale [In-flight] ops dispositioned (op-258 =
-  FAIL-ratified, op-171 = superseded), ID high-water op-285/id-037, bonus seeds located in
-  `rmx-oracle/`. Readiness set ACTIVE. Authored SWAPOUT meta-op `op-001m` for Arranger2.
-- pickup / ROB / IDs: see the live record above. Next free: project op-286 / id-038; meta-op lane at
-  op-001m. Nothing dispatched; allocate project numbers only after the Coordinator's number-lane call.
-- tree: `main` at `ddf5663`, 46 ahead of `origin/main`, dirty (143 entries), unpushed. No
-  clean/stage/commit/push performed.
-- unresolved / safest next action: deliver `op-001m` to Arranger2, then burn down returned consults
-  from op-269. Carried Coordinator decisions: number-lane split, Validator 8-vs-9 threshold,
-  push/checkpoint, frozen-tree disposition.
+### j-20260722-005 — op-009m inactive-Arranger catchup brief authored
 
-### cp-002 — 2026-07-11 returned-doc burn-down (op-274 banked; swift-network mid-flight) *(epoch `swap-20260710T091248Z-arranger1`)*
+- time: 2026-07-22T02:42:13Z
+- kind: ACTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: authored a zero-write `CATCHUP Arranger1 THROUGH j-20260722-004` meta brief so the
+  inactive Arranger can learn the corrected unified continuity method without SWAPIN or a second
+  log.
+- state delta: op-009m is Ready for Coordinator copy/paste; project ROB, IDQ state, mutex owner,
+  epoch, and readiness are unchanged.
+- evidence: `doc/activation/op-009m-activation.md` 6,799 bytes / 141 lines / SHA-256
+  `439bf1f8aa00924f77680f78cc8b47cbdd0171897d1d61f6bb04249259afdf24`.
+- blockers / decisions: Arranger1 must return in chat only; no ACK file, journal append, ownership
+  transition, or persistent write is authorized.
+- next: Coordinator copy/pastes op-009m to Arranger1; after its read-only acknowledgement, resume project dispatch op-322.
 
-- epoch / owner: `swap-20260710T091248Z-arranger1` / Arranger1 (Fable)
-- timestamp: 2026-07-10T23:34:51Z (UTC clock; work is the 2026-07-11 TOMORROW'S-QUEUE)
-- through: task-13
-- prior checkpoint: cp-001 (this epoch)
-- delta since cp-001: the returned-consult burn-down of tasks 03–12 (op-269 banked-closure; op-273/
-  op-275/op-265/op-277 adjudicated→banked; op-284 gated + op-285 edit verified first-hand + op-291
-  authored) is already reflected in the activation headers and the task journal. NEW this checkpoint:
-  **op-274 ADJUDICATED → BANKED** (header flipped from stale `[Awaiting]`; id-012 seeded with the
-  sealed-BE/incremental-receive design option; backbone spot-verified first-hand @ alpha `778cb07`).
-  **swift-network orphan is MID-FLIGHT** — read first-hand, parent = li-9001, `id-038` earmarked but
-  NOT yet allocated; next action = F5 kTLS-constant spot-check → write id-038 → bank. **zig-cort
-  orphan (→ id-039) not started.**
-- pickup / ROB / IDs: in-flight op set unchanged from the live record (op-291 / op-289 / op-290 /
-  op-286 all `[Ready]`, pending Coordinator dispatch — activation headers authoritative). Returned
-  gates: TOMORROW'S-QUEUE now **1/3 done** (op-274), **1/3 in-flight** (swift-network/id-038),
-  **1/3 pending** (zig-cort/id-039). High-water: on-disk op-291 / id-037; **id-038 being allocated
-  now** (swift-network), **id-039 earmarked** (zig-cort); next free after = project op-292 / id-040.
-- tree: `main` at `3b8400a`, **48 ahead** of `origin/main`, unpushed. Dirty (uncommitted this
-  session): `doc/activation/op-274-activation.md` (M), `idq/id-012-release-distribution-image.md` (M),
-  `arranger-swap.md` (M, this write), `doc/marketing/` (untracked — 2 positioning briefs, non-control-
-  state). No clean/stage/commit/push performed.
-- unresolved / safest next action: finish swift-network → id-038 (spot-check + write + bank), then
-  zig-cort → id-039, then a checkpoint commit of the 2026-07-11 burn-down. Carried Coordinator
-  decisions unchanged (op-291/289/286 dispatch; number-lane split; Validator 8-vs-9 threshold;
-  push of the 48-ahead tree).
-- requested catchup: `CATCHUP Arranger2 THROUGH swap-20260710T091248Z-arranger1/cp-002`.
+### j-20260722-006 — full terminal op content made the default
 
-## 10. Closed epochs
+- time: 2026-07-22T02:57:55Z
+- kind: DECISION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: adopted the Coordinator's presentation rule that every generated, shown, prepared, or
+  next-dispatch op is returned as its complete normal-form content in one terminal/copy-paste block;
+  only an explicit Markdown-file request permits file-only delivery.
+- state delta: Arranger `AGENTS.md`, Rule 4, and `op-brief-forms.md` now state the full-content
+  default; terminal-only generation neither issues an op nor authorizes activation-file persistence;
+  compact ROB status inventories remain compact.
+- evidence: `AGENTS.md` 4,849 bytes / 73 lines / SHA-256
+  `6cc65bcfcdd8efe68363ce54b0c5fa8dc96b21b9070240213770ee9a4f07a84c`;
+  `arranger-rulebook.md` 14,275 bytes / 200 lines / SHA-256
+  `91db47ce7060efd0523adaa34d2117a6afa0b8dc3f668cfd7811935fe4585218`;
+  `op-brief-forms.md` 4,627 bytes / 71 lines / SHA-256
+  `1b679c7461fd55aeba67a39daa4a6be4944c19aa85bde8baf275afb9f4afe907`;
+  `git diff --check` passed.
+- blockers / decisions: none; an activation path, link, short normal form, or REPORT-only block may
+  accompany but never replace the full op content unless the Coordinator explicitly requests
+  Markdown-file delivery instead.
+- next: when returning to project work, show op-322's complete normal-form content in the terminal for Coordinator copy/paste.
 
-### swap-20260710T080933Z-arranger2 — CLOSED
+### j-20260722-007 — op-009m catchup accepted and retired
 
-- SWAPOUT at: 2026-07-10T09:12:48Z, superseded by `SWAPIN Arranger1` (Coordinator directive: "you as
-  arranger1 now swapin").
-- successor: Arranger1, epoch `swap-20260710T091248Z-arranger1`.
-- first-hand discrepancy notes (recorded by the incoming seat, per §7.2):
-  1. The Arranger2 epoch closed in **RECOVERY**, never reaching ACTIVE; its pickup snapshot carried
-     "NOT YET RECONCILED". The incoming Arranger1 reconciled that inventory first-hand this session —
-     no silent repair.
-  2. `doc/activation/op-258-activation.md` was edited during the RECOVERY window (an Arranger1
-     adjudication that landed across the seat boundary). It is first-hand-correct and is **RATIFIED**
-     by the incoming Arranger1, not discarded (per §8 stale-write rule: preserve + verify).
-- archived record (verbatim):
+- time: 2026-07-22T03:02:41Z
+- kind: RETURN
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: accepted Arranger1's chat-only `CATCHUP-COMPLETE` through `j-20260722-004`; the inactive
+  seat accurately acknowledged the corrected one-journal method and preserved the zero-write/no-
+  SWAPIN boundary.
+- state delta: op-009m retired; mutex owner, epoch, and readiness remain Arranger2 /
+  `swap-20260710T234047Z-arranger2` / ACTIVE; no project ROB or IDQ state changed.
+- evidence: all four `A1_OP009M_*` markers and the required REPORT were present; target identities
+  matched; visible tail was `j-20260722-005`; boundary reported read_only=1, writes=0,
+  journal_appends=0, commits=0, pushes=0.
+- blockers / decisions: the return snapshot predates `j-20260722-006`; a bounded read-only catchup
+  through j-006 is owed for the later full-terminal-op output rule, without reopening op-009m.
+- next: record the Coordinator's op-322 dispatch as its own op-state transition.
 
-#### Live mutex record
+### j-20260722-008 — op-322 dispatched to Explorer
 
-- mutex: **HELD**
-- owner: **Arranger2**
-- epoch: **swap-20260710T080933Z-arranger2**
-- readiness: **RECOVERY** — swapped in, but the pre-protocol Arranger1 epoch has no durable
-  outgoing handoff/task journal in the shared tree
-- SWAPIN authority: Coordinator directive, 2026-07-10: "you are now in charge"
-- implied SWAPOUT: **Arranger1**, at the same directive boundary
-- last updated: 2026-07-10T08:53:32Z
+- time: 2026-07-22T03:03:10Z
+- kind: ISSUE
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: consumed the Coordinator's dispatch of the full op-322 normal-form brief to
+  `rmx-explorer-rx-x64z` for the bounded op-318 PID-1 contract correction.
+- state delta: op-322 advanced Ready → Exe; op-009m remains retired; project dependencies and IDQ
+  states are unchanged.
+- evidence: Coordinator in-session directive `dispatched`; authoritative op-322 activation now
+  records the consumed dispatch and bound Explorer EXU.
+- blockers / decisions: no Implementer helper/image stage or Gatekeeper reaper cell may issue until
+  the Explorer correction returns and receives the required independent validation.
+- next: await op-322's Explorer return; meanwhile relay only the bounded j-006 delta catchup and project-seam answers to inactive Arranger1.
 
-#### Pickup snapshot
+### j-20260722-009 — Arranger1 acknowledged the j-006 method delta
 
-- last completed action: prepared the copy-paste Arranger2 swap-method orientation prompt and
-  published `cp-002`.
-- shared tree: `main` at `ddf56639efc231908b1df9993400b1e49a412dc6`, with `origin/main` an
-  ancestor and local `main` 46 commits ahead at swap-in inspection time.
-- working tree: large pre-existing mixed tracked/untracked control-state set; preserve it. No
-  cleanup, staging, commit, or push was performed during this task.
-- live ROB: **NOT YET RECONCILED** against an outgoing task list.
-- returned awaiting adjudication: **NOT YET RECONCILED**.
-- draft / ready / queued / hold: **NOT YET RECONCILED**.
-- reserved IDs / next free candidates: **NOT YET RECONCILED; allocate nothing yet**.
-- pending Coordinator decisions: none for swap doctrine; Coordinator routing is needed only to send
-  the one-time Arranger1 bootstrap CATCHUP request between sessions.
-- origin or validation blockers: not adjudicated during this process-only task.
-- known evidence gaps: the pre-protocol handoff is absent; the Validator 8-vs-9 threshold
-  contradiction remains governed by the onboarding warning and any later Coordinator ruling.
-- safest next action: route
-  `CATCHUP Arranger1 THROUGH swap-20260710T080933Z-arranger2/cp-002`, receive its pre-SWAPOUT task
-  inventory, and reconcile that report against the live tree before issuing, adjudicating, retiring,
-  or allocating project IDs.
+- time: 2026-07-22T03:07:53Z
+- kind: RETURN
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: accepted Arranger1's chat-only read-back through `j-20260722-006`; the inactive seat now
+  understands the full-terminal-op default, explicit Markdown-persistence exception, separation of
+  generation from issuance, and compact-ROB exception.
+- state delta: continuity knowledge is aligned through j-006; no op, IDQ, ROB, activation, mutex,
+  ownership, epoch, or readiness state changed.
+- evidence: Arranger1 reproduced `AGENTS.md` 4,849 bytes / 73 lines / SHA-256 `6cc65bcf…a84c`,
+  `arranger-rulebook.md` 14,275 bytes / 200 lines / `91db47ce…218`, `op-brief-forms.md` 4,627
+  bytes / 71 lines / `1b679c74…e907`, and reported j-007/j-008 as visible tail; boundary was
+  read_only=1, writes=0, journal_appends=0, mutex/activation unchanged, commits=0, pushes=0.
+- blockers / decisions: none; Arranger1 remains inactive/read-only and has no further questions.
+- next: await op-322's Explorer correction return.
 
-#### Tasks since this SWAPIN
+### j-20260722-010 — op-322 returned and split for parallel validation
 
-- task-01 **[Done]** — design and record the SWAP/SWAPIN/SWAPOUT process. Deliverable:
-  `arranger-swap.md`.
-- task-02 **[Waiting]** — obtain Arranger1's one-time read-only bootstrap CATCHUP inventory through
-  `cp-002`, or reconstruct it if Arranger1 is unavailable; verify it first-hand against the shared
-  tree, then change readiness from `RECOVERY` to `ACTIVE`.
-- task-03 **[Done]** — add non-Git CHECKPOINT and read-only CATCHUP coordination points so the
-  SWAPOUT seat can stay current without acquiring the mutex.
-- task-04 **[Done]** — prepare a copy-paste orientation prompt that teaches Arranger2 the complete
-  swap method without implicitly changing mutex ownership.
+- time: 2026-07-22T03:27:06Z
+- kind: RETURN
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: reproduced op-322's one-note local commit and complete C1-C8 marker set, sized the return
+  XL, and split downstream validation into independent staging and reaper packages so one gate no
+  longer blocks both branches.
+- state delta: op-322 advanced Exe → Done; proposed op-323 (GLM staging gate) and op-324 (DS4P
+  reaper gate) remain terminal-only draft dispatch payloads, not issued/live ops; ROB/IDQ/mutex state
+  otherwise unchanged.
+- evidence: Explorer note 41,160 bytes / 376 lines / SHA-256 `b6a08dc3…c8158`; local commit
+  `3620e5b` parent `9355ad42`, exactly one added path, tracked clean, ahead/behind `3/1`, three
+  expected untracked paths, push=0; verdict CORRECTED-CONTRACT-READY-FOR-VALIDATION confidence 9.
+- blockers / decisions: neither package is validated yet; no Implementer helper/image brief or
+  Gatekeeper reaper cell releases; Explorer findings commit is local-only, not origin/main-reachable.
+- next: Coordinator dispatches the complete op-323 and op-324 Validator briefs in parallel.
 
-#### Coordination points
+### j-20260922-001 — Coordinator redirects alpha2 regression critical path
 
-- latest checkpoint: **cp-002**, 2026-07-10T08:53:32Z, through task-04
-- latest acknowledged catchup: **none**
-- next catchup target: **Arranger1**, through
-  `swap-20260710T080933Z-arranger2/cp-002`, including its pre-protocol task inventory
+- time: 2026-09-22T00:26:59Z
+- kind: DECISION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: Coordinator approved exact-candidate cold build, bounded manual evidence review, accepted containment/staging, then a small boot/base + Mach IPC + dispatch/workqueue regression slice. Generic preflight-checker acceptance is no longer a prerequisite for that chain; its rejection remains in force.
+- state delta: no activation files changed. op-334 terminal draft is held from dispatch; if already dispatched, request a stop at the next safe boundary and preserve partial work. op-335 is a terminal-only Implementer build brief, not a persisted activation or dispatched job.
+- evidence: Coordinator chat "go with this plan"; candidate worktree independently observed clean at `15c185c038b9f5227c53e9019be8d35df328c314`; `docs/freebsd-stable15-sync-plan.md` Phase 4 and `docs/rmxos-full-rebuild-agent-handoff.md` read first-hand in wip-gpt.
+- blockers / decisions: accepted containment remains required before staging/guest execution; build evidence is manually reviewed without using the rejected checker as an acceptance authority. No real build/image/runtime acceptance is granted by this decision.
+- next: Coordinator dispatches the full op-335 build-only brief to the wip-gpt / wip-rmxos Implementer after ensuring no same-candidate cold build is already running.
+
+### j-20260722-012 — correct j-20260722-011 timestamp
+
+- time: 2026-07-22T03:35:01Z
+- kind: CORRECTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: corrects only the `time` field of `j-20260722-011`; its now-true append time is
+  `2026-07-22T03:34:12Z`, as captured by the immediately preceding owner/epoch pre-write check.
+- state delta: no op, IDQ, activation, mutex, artifact, or dispatch state changed; the original
+  complete entry remains immutable.
+- evidence: pre-write command output recorded UTC `2026-07-22T03:34:12Z`; j-011 outcome and hashes
+  remain unchanged.
+- blockers / decisions: none beyond the still-unissued op-323/op-324 Validator gates.
+- next: Coordinator dispatches the complete op-323 and op-324 Validator briefs in parallel.
+
+### j-20260722-011 — op-322 IDQ pointers reconciled
+
+- time: 2026-07-22T03:33:47Z
+- kind: ACTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: reconciled id-016/id-042 and the IDQ index with op-322's authoritative [Done]
+  activation, recording that its staging and reaper packages await independent parallel Validator
+  gates and that neither package has been issued or accepted.
+- state delta: id-016/id-042 now point at op-322 [Done], validation pending; no activation, op
+  issuance, mutex, readiness, product, helper, image, runtime, or legacy-op state changed.
+- evidence: `idq/id-000.md` 17,712 bytes / 88 lines / SHA-256 `26700337…3610`;
+  `idq/id-016-ambient-mach-bootstrap-port.md` 15,366 bytes / 167 lines / SHA-256
+  `17c0e59b…9eb4`; `idq/id-042-1.0-preview-todo.md` 14,194 bytes / 211 lines / SHA-256
+  `d87f8936…993e`; `git diff --check` passed.
+- blockers / decisions: op-323 and op-324 remain terminal-only draft dispatch payloads; no
+  Implementer helper/image authorship or Gatekeeper reaper cell is released before its relevant
+  Validator verdict.
+- next: Coordinator dispatches the complete op-323 and op-324 Validator briefs in parallel.
+
+### j-20260722-013 — correct j-011/j-012 chronology metadata
+
+- time: 2026-07-22T03:34:55Z
+- kind: CORRECTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: names and preserves both complete prior bodies while correcting their chronology:
+  `j-20260722-011` was appended at `2026-07-22T03:34:12Z`; `j-20260722-012` was appended at
+  `2026-07-22T03:34:25Z`. The latter was accidentally inserted physically before j-011 by a
+  non-unique patch anchor; canonical logical order is j-011 then j-012. Neither body is rewritten.
+- state delta: no op, IDQ, activation, mutex, artifact, or dispatch state changed; future appends
+  must anchor uniquely at the physical EOF.
+- evidence: the two immediately preceding pre-write command outputs supplied the corrected UTC
+  values; both complete entries and their terminal `next:` fields remain present.
+- blockers / decisions: the one physical-order defect is disclosed and additively corrected; the
+  still-unissued op-323/op-324 gates are otherwise unchanged.
+- next: Coordinator dispatches the complete op-323 and op-324 Validator briefs in parallel.
+
+### j-20260922-002 — locate current decision after insertion error
+
+- time: 2026-09-22T00:26:59Z
+- kind: CORRECTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: `j-20260922-001` was inadvertently inserted before historical entries by a non-unique patch anchor. It remains immutable; its logical chronology is after `j-20260722-013` and before this correction. Its decision is current: exact-candidate cold build, manual review, accepted containment/staging, then bounded guest regression; generic checker acceptance is off the critical path.
+- state delta: none beyond the decision recorded in j-20260922-001; no op activation or dispatch.
+- evidence: physical heading census of arranger-swap.md; j-20260922-001 at line 297 before historical j-20260722-012/011/013. Time records the decision timestamp, not a separately sampled correction time.
+- blockers / decisions: op-334 remains held from new dispatch; accepted containment and later explicit runtime activation remain required.
+- next: Coordinator sends op-335 to the wip-gpt / wip-rmxos Implementer; preserve any already-running work and avoid duplicate cold builds.
+
+### j-20260922-003 — Coordinator excludes NFS and Kerberos from base release
+
+- time: 2026-09-22T03:26:12Z
+- kind: DECISION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: Coordinator confirms disabling NFS and Kerberos in rmxOS base for now. Optional Samba packages may retain bundled Heimdal; preserve OpenSSH/OpenSSL and local filesystem ACL support. This is a release-profile change, not permission to delete files from preserved builds or staging evidence.
+- state delta: no activation or IDQ state changed; op-338 is a terminal-only Implementer configuration draft, not dispatched or persisted. Existing op-335/op-336 artifacts retain their original identities and coverage.
+- evidence: Coordinator chat confirmation following Samba bundled-Heimdal clarification; candidate src.opts.mk exposes KERBEROS/KERBEROS_SUPPORT, GENERIC enables NFSCL/NFSD/NFSLOCKD/NFS_ROOT, and NFS userland entries inspected in build Makefiles.
+- blockers / decisions: source/profile implementation and later fresh-build/image verification remain owed; no runtime or release acceptance, commit, push, or guest authorization follows.
+- next: Coordinator relays the full op-338 configuration-only request to the owning wip-gpt / wip-rmxos Implementer; serialize against any concurrent source writer.
+
+### j-20260925-001 — simplify Arranger instructions and bound preparation churn
+
+- time: 2026-09-25T03:23:00Z
+- kind: ACTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: Coordinator-requested AGENTS.md cleanup introduces contextual reading, outcome completion, scoped autonomy, runner reuse, and proportional review. The Arranger rulebook aligns completion, review sizing, and maintenance guidance; no other role's instructions changed.
+- state delta: documentation only; no activation, dispatch, retirement, guest budget, mutex, or publication state changed.
+- evidence: AGENTS.md and arranger-rulebook.md edits based on the supplied prompting article and repeated harness failures in Coordinator reports.
+- blockers / decisions: intervening chat operations are not reconstructed by this entry; historical journal policy is not a substitute for current Coordinator scope. No new execution authority follows from this cleanup.
+- next: Apply the revised discipline to current authorized work without opening another preparation-only op.
+
+### j-20260925-002 — apply approved Gatekeeper instruction cleanup
+
+- time: 2026-09-25T03:29:41Z
+- kind: ACTION
+- owner / epoch: Arranger2 / `swap-20260710T234047Z-arranger2`
+- outcome: Coordinator explicitly approved applying the read-only proposal to Gatekeeper AGENTS.md and aligning ONBOARDING.md. This scoped documentation edit replaces broad change ceremony and arbitrary correction counts with outcome completion, actual-path host checks, and explicit execution boundaries.
+- state delta: two Gatekeeper instruction files changed under this specific Coordinator approval; ordinary repo ownership remains unchanged. No op activation, runtime budget, acceptance, or publication state changed.
+- evidence: targeted git diff --check passed for rmx-gatekeeper/AGENTS.md and ONBOARDING.md; both files were clean before editing.
+- blockers / decisions: no guest execution or retry is authorized by these edits; unrelated files and historical runtime evidence were not modified.
+- next: Gatekeeper should read the updated instructions before continuing its currently authorized work.
