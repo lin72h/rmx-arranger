@@ -343,3 +343,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: arranger-swap.md header and protocol, arranger-rulebook.md Rule 15, and AGENTS.md reading guidance updated; no activation, IDQ, dispatch, guest budget, or publication state changed.
 - evidence: Coordinator chat directive 2026-09-28 local; prior protocol recoverable from Git history of arranger-swap.md.
 - next: Continue current authorized work under the single-seat protocol.
+
+### j-20260927-002 — workflow redesign direction adopted; hand relay retained
+
+- time / kind: 2026-09-27T22:45:51Z / DECISION
+- outcome: Coordinator accepts the proposed workflow redesign (op file per op with machine-readable header, `rob` script for board/state/checks, five-state vocabulary, risk-sized review, three state stores, critical-path `now.md`) with one change: all dispatch and report relay stays by hand through the Coordinator. Agents never read or write this repo; a brief is `draft` until the Coordinator confirms it was sent.
+- state delta: none yet; no activation, IDQ, or op state changed.
+- evidence: Coordinator chat, 2026-09-28 local.
+- next: Coordinator settles the review rule (self / one Validator / both) and the single confidence threshold (8 or 9); then step 1 aligns roles.md, the pipeline doc, and the rulebook.
