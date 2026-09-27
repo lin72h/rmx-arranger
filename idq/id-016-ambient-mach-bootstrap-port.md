@@ -1,15 +1,27 @@
 # id-016 — no ambient/system-wide Mach bootstrap port (non-launchd-child processes can't reach Mach services)
 
 - id: id-016
-- state: **DECISION (c) LOCKED + SCOPE DECIDED for the preview (catalog-as-li-005) + (a) launchd-as-PID1
-  eventual — Arranger call under Coordinator "you decide" (incl. the launch-model scope), op-127 DONE
-  2026-06-24.** Preview run-model = **launchd-job, NOT shell-launch** (decided, not just flagged). op-119
+- state: **PREVIEW SCOPE PROMOTED — Coordinator ruling 2026-07-12: launchd MUST be PID 1 for
+  1.0-preview. Option (a), the faithful PID-1 topology, replaces option (c)'s launchd-job-only
+  workaround as the ship model.** The earlier launchd-job model remains valid historical/interim
+  evidence, but it is no longer sufficient for the preview stamp. op-127 DONE 2026-06-24. op-119
   DONE (`17ee14f`, Arranger-verified) closed the
   characterize-first question: the gap is **architectural, NOT a test-model artifact** — rmxOS launchd,
   even as the real session manager, CANNOT propagate bootstrap system-wide, because it is **not PID 1**
   and the kernel primitive that would let it (`posix_spawnattr_setbport_np`) **does not exist**. Ambient
   bootstrap requires a deliberate architectural move (options a-d below); it will not emerge from running
   launchd correctly.
+  - **2026-07-12 PID-1 preview ruling:** the Coordinator closed op-317's topology fork in favor of
+    non-`-u` PID-1 launchd via `init_path`, using the op-201 `/etc/rc` chain-load hybrid as the proven
+    starting point. This promotes PID-1 productionization, root-rw/base-service closure, reaper
+    evidence, and robustness into the preview critical path. It does **not** make stale op-202,
+    op-203, or op-279 dispatchable. op-318/op-321 banked the topology/no-base/census partials;
+    op-322 has now returned the bounded helper/BOM/reaper correction at Explorer confidence 9.
+    Its XL return is awaiting two independent parallel Validator gates: staging (C1/C2/staging C8)
+    and reaper (C3-C7/reaper C8). A staging pass may release only Implementer helper/image brief
+    authorship while the reaper gate continues. Current intended sequence: accepted staging gate →
+    Implementer disposable PID-1 stage; accepted reaper gate + staged image → corrected op-279 →
+    op-280 if evidence warrants → normalized op-202 → normalized op-203 → id-042 all-up.
   - **op-127 DONE (`0232318`, Arranger-verified consistent first-hand):** resolved the mechanism hinge
     with concrete port values, BOTH paths first-hand on the staging-model guest:
     - **Shell (off `init → rc.d`):** `TASK_BOOTSTRAP_PORT = 0` (NULL) → `bootstrap_look_up(notifyd)`
@@ -18,20 +30,22 @@
     - **Launchd child:** `TASK_BOOTSTRAP_PORT = 19` (valid) → `bootstrap_look_up` `kr=0`, notifyd at
       port 21 → **FULL** round-trip (register→post→check=1).
     Corroborates op-119's init-vs-launchd characterization with measured values. truly-green for op-127.
-  - **Decision: (c) LOCKS — catalog as an li-005 known-gap for the preview + (a) launchd-as-PID1 as the
-    eventual faithful answer for full 1.0.** Avoid (b); (d) held as a narrow fallback. Rationale: the
+  - **HISTORICAL decision (superseded 2026-07-12): (c) locked as an li-005 known-gap for the preview
+    and (a) was deferred.** The evidence and rejection of (b)/(d) remain useful, but the Coordinator
+    has now promoted (a) launchd-as-PID1 into the preview gate. Original rationale: the
     design philosophy explicitly prefers **cataloging a bounded known-gap over closing it with a
     complex/risky non-faithful impl** (roadmap §"Tempo + scope stance"); a (d) rc.d bootstrap shim is a
     paper-over that risks becoming a permanent non-faithful hack, and (a) is the real fix. So we catalog.
-  - **SCOPE DECIDED (Coordinator "do decide" 2026-06-24):** the preview's documented run-model is
+  - **HISTORICAL SCOPE (superseded 2026-07-12):** the preview's documented run-model was
     **"programs run as launchd jobs"** (notifyd, syslogd, and the developer's own agent/daemon loaded via
     `launchctl load` — the macOS-native way to run a service), NOT `cc foo.c && ./foo` from an interactive
     shell. op-127 PROVES a shell-launched notify client is broken today (`port=0`). We do NOT escalate to
     (d): a bootstrap shim faking ambient-bootstrap for arbitrary shell processes is the disfavored
-    non-faithful paper-over; (a) launchd-as-PID1 is the real fix for full 1.0.
+    non-faithful paper-over; (a) launchd-as-PID1 is now the required preview fix.
   - **li-005 catalog entry (this id IS the catalog row):** "shell-launched (non-launchd-child) processes
     get `TASK_BOOTSTRAP_PORT=0` and cannot `bootstrap_look_up` notifyd; run notify programs as launchd
-    jobs. Ambient shell bootstrap arrives with launchd-as-PID1 in full 1.0 (option a)." **Non-blocking
+    jobs. Ambient shell bootstrap arrives with launchd-as-PID1 in full 1.0 (option a)." This was the
+    historical preview catalog entry; it no longer supplies the ship disposition. **Historical non-blocking
     justification:** the preview floor ("build + run a Darwin program against notify") is satisfiable via
     the launchd-job path, proven by op-127 (`port=19`, full round-trip). dispatch_async needs no bootstrap
     (op-102 9/9) so dispatch samples run from a shell unaffected.
@@ -46,6 +60,14 @@
     cataloged: `asld` crashes ungracefully on `MACH_PORT_NULL` rather than erroring — a daemon-robustness
     divergence, not worked around (observation-first).
   - **op-212 (2026-06-29, Explorer rx1, Arranger-verified first-hand @ bdd0fdc) — 3rd manifestation: the asl-native-submit "drop" IS this gap.** op-210 made asld the live logger but the ASL *native* Mach submit (asl_log/aslutil over `com.apple.system.logger`) returned `found=0`. op-212 source-traced it: the submit CLIENT ran with `bootstrap_port==0` → `asl_core.c:110 bootstrap_look_up2(bootstrap_port, ASL_SERVICE_NAME)` fails → returns MACH_PORT_NULL → `asl.c:1132` guard SKIPS the Mach send (never reaches the kernel, never crosses port-0). This is the SAME `bootstrap_port==0` gap, now hitting the asl *client-submit* plane (after notify-client op-110 and asld-daemon-checkin op-138). The recurring `ipc_entry_lookup failed on 0` (ipc_kmsg.c:1318) is a SEPARATE benign reject (MACH_SEND_INVALID_DEST on a null dest) — the op-210 correlation was a red herring; verdict `independent`, NOT debt-#21 (MACH_RECV drains a self-allocated port, xpc_connection.c:90). **Predicted-closed under PID-1 launchd / a launchd-hosted submit client (valid bootstrap → lookup succeeds → send proceeds), but NOT yet runtime-proven** — the close is the small re-test below (folds into id-011).
+  - **op-273 calendar/SIGUSR1 finding requires PID-1 activation re-census.** Current-tip source still
+    composes overdue-calendar `raise(SIGUSR1)` with init-compat `SIGUSR1→RB_HALT`, but the preview's
+    locked non-PID-1 `-u` run model cannot enter the halt path (`job_mig_reboot2` rejects
+    `!pid1_magic`) and the product ships zero interval plists. op-289/op-290 are flushed with no cell
+    or edit. The PID-1 scope promotion invalidates the old topology reason for permanent banking,
+    but does not create a live `StartCalendarInterval` consumer by itself. op-318 must census the
+    exact shipped PID-1 job set; any actionable follow-on receives a new ID/op because op-289/op-290
+    are flushed and never reused.
   - **Preview mitigation (faithful, not a shim):** the preview image ships a launchd-job runner (plist
     template + one-line `launchctl load` helper) so the documented launch-model is one command, using the
     REAL launchd path. Carried by id-015 leg-4 (op-128). Off the build critical path — blocks nothing.
@@ -116,9 +138,9 @@ op-119 supplied four options; mapped to our design philosophy + roadmap:
   non-launchd processes. A pragmatic bridge, but a **shim** (paper-over) — risks becoming a permanent
   non-faithful hack. Keep as a *tactical fallback* only if a specific preview consumer turns out blocked.
 
-**Arranger recommendation: (c) now + (a) as the eventual faithful answer.** Catalog as li-005 for the
-preview; defer launchd-as-PID1 to the full-1.0 service-usable arc. Avoid (b) outright; hold (d) as a
-narrow fallback. This is a recommendation — the architecture call is Coordinator-held.
+**Historical recommendation (superseded by Coordinator 2026-07-12): (c) then + (a) eventual.** The
+architecture call is now made: (a) launchd-as-PID1 is required for 1.0-preview. Avoid (b) outright;
+hold (d) only as a narrow fallback if the faithful hybrid is proven impossible.
 
 ## The decision hinge (what (c) actually rides on) — Coordinator-held
 

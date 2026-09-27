@@ -36,6 +36,27 @@ Make the op-225 M1 regime label a **required field** in the `mismatch_v1` compar
 ### Stream D — R0-minimal claims-ledger contract (the migrated-gate registry; Coordinator-gated by E3)
 The migrated regression gates need a registry. op-228 recommends the **minimal R0 claims-ledger contract** (`migration-m2-authority-design.md:52,:108`) as that registry — "accepted rx regression claims and hard-stop ledger." Whether to accept R0 vs a lighter registry is **E3 (Coordinator)**. Do not build until ruled.
 
+## BANKED FOUNDATION NEGATIVE-CONTROL DESIGN — op-288→op-300 (2026-07-11)
+
+Oracle2's foundation mutation atlas is banked as a validated design supplement:
+
+- content identity: 62,319 bytes / 396 lines / SHA-256
+  `f2536dcad3fda3298207ac7e33be4fc4b1658a8ff3a16c01b5a0ec7eeaa0aae2`;
+- 35 unique twelve-field claim classes, independently recounted
+  `YES=1 / PARTIAL=16 / NO=16 / UNKNOWN=2`;
+- ten-phase P0–P9 campaign, monotonic cell accounting, non-promoting result classes, four-control
+  KBC-0 pre-soak pack, and a nine-item closure ladder; and
+- Validator-GLM op-300: `VALIDATED-DESIGN`, confidence 9/10,
+  `BANK-AS-FOUNDATION-CAMPAIGN-DESIGN`.
+
+Oracle2 is non-Git, so this is a content-addressed local-only design—not origin publication. The
+atlas's central finding is that only one of 35 foundation claim classes currently has a complete
+frozen-negative→detector-rejects→known-good-replay chain. Banking does not execute the campaign,
+fetch an ID, resolve Stream D/E1–E3, change retirement doctrine, or make the preview green. Any
+closure-ladder work requires Coordinator scope and fresh role-correct ops: Explorer owns
+conformance truth/content, Implementer disposable product candidates, Gatekeeper harness/runtime/
+evidence, and Arranger registry reconciliation.
+
 ## DOCTRINE + SCOPE — Coordinator-held (op-228 escalations; Arranger flags, does not decide)
 
 - **E1 — role-boundary doctrine stamp.** op-228 D2 states: Explorer owns conformance *content*; Gatekeeper owns regression *infrastructure* + the migrated gates; Implementer owns binaries; a post-migration contract change re-opens as an Explorer op. This **reconciles** the apparent `harness_authoring_is_gatekeeper` vs "Explorer-authors-conformance" tension (content vs infrastructure, not the same axis). Needs Coordinator stamp before it governs op-splitting.
@@ -57,5 +78,7 @@ The migrated regression gates need a registry. op-228 recommends the **minimal R
 - **op-227** (engine banner) — Stream C's per-run engine evidence leans on it.
 - **li-1007 / id-007** — the integration-soak infra the migrated gates re-home onto (Gatekeeper).
 - **li-9001** — Swift toolchain; swift-testing is the post-preview 3rd authoring surface (op-228 D5).
+- **op-288 / op-300** — banked foundation known-bad/mutation campaign design and its confidence-9
+  Validator gate; design support only, not a fetched stream or runtime/release verdict.
 - feedback: `harness_authoring_is_gatekeeper` + `build_is_implementer` + `soak_is_gatekeeper` (the D2 reconciliation), `conformance_match_is_leg3_only`, `verify_signature_divergence_claims`, `dtrace_first_debugging`, `xpc_probe_pump_queue`, `no_conflate_gating_with_readiness`, `op_state_dispatch_boundary`, `artifact_identity_needs_content_check`.
 - **Ops cut (2026-07-02):** **op-229** [Done] @ 2771dbc (Stream A — park-ahead ledger + `mix oracle.parked`, the HIGH-feasibility first build) and **op-230** [Done] @ 991dae2 (Stream C — regime fields into `mismatch_v1`), both Gatekeeper (rmx-gatekeeper-rx-x64z), Arranger-verified first-hand. E2 still decides their gating severity (advisory vs retirement-blocking). **First live consumer:** op-232 (Swift-concurrency conformance corpus) uses op-229's park-ahead + op-230's regime field. **Stream B UNHELD → op-236** [Awaiting] (Gatekeeper, rmx-gatekeeper-rx-x64z): the first authority-transfer — re-homes op-232's corpus into the canonical op-229 ledger (vendor+hash-pin, supersedes rx1's duplicate). Stream D still waits on E3.

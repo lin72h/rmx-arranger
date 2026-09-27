@@ -108,6 +108,13 @@ Who actually exercises CoRT, checked against the tree (canonical `wip-gpt/wip-rm
 
 ## Zig integration — two tiers
 
+**Focused execution track:** [li-9006](../../l1i/li-9006.md) owns the generated rmxOS Dispatch
+bindings, CoRT-lite `OwnedQueue`/`BorrowedQueue` lifetime wrappers, fixed-class `std.Io.Dispatch`
+pilot, and Swift/C borrowed-queue bridge. “CoRT-lite” is a thin Zig wrapper over this co-located C
+runtime, never a new library or relocation. [id-039](../../idq/id-039-zig-io-dispatch-rmxos-cort-integration.md)
+is the decoded, WAITING audit-first seed; it authorizes no package/product work until the
+Coordinator names the Zig executor/repository and the shared `dispatch_activate` path is settled.
+
 **Tier 1 — works today, zero blocks, zero ObjC.** The dispatch C API ships function-pointer
 (`_f`) twins for essentially every block entry point — confirmed on our headers:
 `dispatch_async_f` (queue.h:133), `sync_f` (199), `after_f` (752), `apply_f` (265),

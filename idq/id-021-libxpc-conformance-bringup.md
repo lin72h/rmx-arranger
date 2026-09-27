@@ -1,6 +1,45 @@
 # id-021 — libxpc: CORE preview service (li-002) — conformance substrate + "get it right" (Coordinator 2026-06-24)
 
 - id: id-021
+- current-state (2026-07-11): **OPEN, but no longer blocked by id-029.** op-187 fixed reply
+  correlation at origin-reachable `bc0ac550`; id-029 is RETIRED after administrative reconciliation.
+  op-285 edit `778cb07` is landed, but op-291 returned `HARNESS-NOT-ACCEPTED`: one cell was consumed
+  by an invalid/incomplete probe and supplies no lifecycle acceptance. Its attempted correction also
+  exposed a separate first-hand source/binary premise: every exported `_xpc_type_*` object in the
+  accepted artifact is size zero at the same address, so public cross-type pointer equality cannot
+  discriminate types. op-306 returned local Gatekeeper commit `0ee8758`; retired op-310 plus narrow
+  Arranger conflict adjudication accepts the static ELF/source premise and op-291 correction but
+  rejects the claimed PREP-READY successor harness/validator. The physical-host dlsym record is
+  quarantined. op-304 is retired at clean origin-aligned `alpha@a52a2ef`. op-307 returned one-file
+  commit `40c8a93d`; its M-sized first-hand source/static-ABI gate is accepted locally, with sixteen
+  one-byte distinct tokens and correct PIE/non-PIE bindings. After one wrong-stage duplicate return,
+  the exact publication re-relay succeeded; op-307 is retired at clean origin-reachable
+  `alpha@40c8a93d`. op-308 [Hold] remains exact-artifact lifecycle/managed-service
+  acceptance and cannot consume `0ee8758` or rejected op-311 commit `75072c87`. op-311 returned a
+  noncommissioned C/`rc.local` design whose managed path is print-only, finalizer lifetime unsafe,
+  conservation/containment absent, terminal ownership duplicated, and Validator fail-open;
+  Arranger intake records `PREP-NOT-ACCEPTED` without spending a Validator op. The Coordinator
+  resolved the separate isolation process. Fresh op-312 returned `5fa26ee`, but direct intake also
+  records `PREP-NOT-ACCEPTED`: destructive fd census, absent Mach/fd-identity conservation,
+  nonfatal type mismatches, inoperative managed-service reachability, disconnected isolation,
+  synthetic shutdown, and a reproduced false-green Validator. No independent Validator was spent.
+  After three rejected harness-prep attempts (op-306/op-311/op-312), automatic repair-forward is
+  stopped; op-308 remains held with no accepted machinery pending Coordinator disposition or the
+  later li-1005 quality-unit review.
+  op-316 adds one separable source-validated acceptance premise: libxpc uses a fixed 8,192-byte
+  receive structure that reserves only the 8-byte minimum trailer while requesting the 52-byte
+  audit trailer. Masked admission accepts message sizes through 8,184 although full-trailer exact
+  fit is 8,140; sizes 8,141–8,184 imply a 1–44-byte boundary overrun. Current workload incidence is
+  not proven. The eventual accepted id-021 runtime mechanism must use an aligned fixture: 8,140-byte
+  message plus the 52-byte audit trailer at declared capacity 8,192 for exact fit; the same message
+  at capacity 8,191 for literal one-byte-short; and aligned message size 8,144 at capacity 8,192 for
+  the first fixed-buffer overflow point. This is explicitly fenced from post-preview
+  li-9007/id-043: it is not banked with the syscall-`MACH_RCV_LARGE` chain and does not release held
+  op-308 by itself.
+  Adjacent `_xpc_bool_true`/`_xpc_bool_false` exports also alias, and `xpc_bool_create` allocates
+  ordinary objects rather than returning those public constants; that broader singleton contract is
+  banked here and explicitly excluded from op-307.
+  Historical fetch prose below is retained as chronology.
 - **ELEVATION (Coordinator, 2026-06-24): libxpc is no longer "classification-only pre-1.0" — it is a CORE
   preview service alongside launchd/libnotify/asl, all riding {libdispatch, mach-ipc}. Directive: "make
   NextBSD's libxpc and launchd work to meet our preview quality… get it right both libxpc and launchd."
@@ -29,6 +68,12 @@
     (1) `xpc_dictionary_set_data` (`xpc/xpc.h:2094`) + `get_data` (`:2323`) DECLARED, **zero `.c` impl** —
     genuine export gap; (2) `XPC_TYPE_*` macros = `&_xpc_type_*` extern-object address (`xpc.h:41` macro,
     `xpc_type.c:42` def) → FreeBSD LLD copy-reloc from `.so` (rx built with `-fno-PIE` as corroboration).
+    **2026-07-11 strengthening from op-291 adjudication:** the accepted ELF does not merely carry a
+    copy-relocation concern; all sixteen opaque type objects are size zero and alias at `0xc440`.
+    Consequently a wrong cross-type comparison can succeed. op-306→op-310 closed the static
+    premise while rejecting prep; op-307's `40c8a93d` correction passed static correctness and is
+    origin-retired. op-311 and op-312 then failed direct intake before Validator; no accepted
+    successor harness exists and op-308 remains held without an automatic retry.
   - **DIVERGENCE CENSUS EXPANDED (Arranger first-hand 2026-06-24, full list in
     [li-007](../l1i/li-007-libxpc-core-service.md)):** diffed all 134 header decls vs 119 `.c` defs. Three
     classes — A architectural (nvlist wire; control-plane), B declared-but-zero-impl (15+ symbols:

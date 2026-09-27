@@ -1,7 +1,25 @@
 # id-032 — libxpc trivial stub fidelity: `xpc_connection_get_name` returns the literal `"unknown"` (cheap real-value fix)
 
 - id: id-032
-- state: **OPEN — VERIFIED (op-167, Arranger-confirmed first-hand 2026-06-27); fix shape DETERMINED, still bucket-2.** Scope-in Coordinator-owned.
+- state: **RETIRED — duplicate/no-op. The commissioned behavior already landed in op-197 commit
+  `4983b9137c907d8a27cf2d47c4406ffaf7da09fe`, is origin-reachable, and passed its named/anonymous
+  conformance probe; no new Implementer op is warranted.**
+
+## Arranger reconciliation — 2026-07-11
+
+The later id-032 decode was stale relative to already-completed op-197. Arranger2 rechecked the
+current origin-aligned product `alpha@ceb46edc` first-hand:
+
+- `xpc_connection_create` duplicates a non-NULL name into `conn->xc_name`;
+- `xpc_connection_create_from_endpoint` passes `NULL`, preserving anonymous/peer semantics;
+- `xpc_connection_get_name` returns `conn->xc_name`;
+- connection destruction now frees and clears `xc_name`; and
+- blame/log identify `4983b9137c907d8a27cf2d47c4406ffaf7da09fe` as the behavior change,
+  `git merge-base --is-ancestor ... origin/alpha` returns 0.
+
+The existing op-197 activation records its source gate and Zig/Elixir/DTrace conformance result:
+named connection returns its service name; anonymous returns `NULL`. id-032 therefore retires as
+already satisfied, consuming no new op and making no broader libxpc-green claim.
 
 ## op-167 VERIFY RESULT (Arranger first-hand, NextBSD-CURRENT libxpc tree)
 
@@ -50,6 +68,8 @@ class (that is bucket-3 for preview).
 ## Relations
 - **li-1011** (release-scoping principle) — minted from its bucket-2 candidate list.
 - **li-1005 / li-007** (libxpc) — Class-C census source; note the OTHER Class-C stubs stay bucket-3 (dispatch-gated).
-- **id-031** — the paired bucket-2 libxpc fidelity item (header-surface drop).
+- **id-031** — the paired bucket-2 libxpc fidelity item (header-surface drop), retired through
+  op-295.
+- **op-197 / `4983b913`** — already implemented and conformance-checked the exact id-032 behavior.
 - **id-029** — the libxpc bucket-1 solidify item (request-reply correlation); higher load-bearing than this.
 - feedback: `verify_signature_divergence_claims` (re-confirm the stub + name-retention on alpha tip first).

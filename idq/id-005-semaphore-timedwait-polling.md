@@ -1,8 +1,9 @@
 # id-005 — `_dispatch_posix_sem_timedwait` polling → proper absolute-deadline primitive
 
 - id: id-005
-- state: WAITING (not fetched) — production-hardening item, not a blocker. Cataloged from the
-  op-095V Validator reserve point, not yet scheduled.
+- state: **DEFERRED POST-1.0-PREVIEW — Coordinator scope ruling 2026-07-11.** The current
+  polling implementation is correctness-accepted; replacing it is efficiency/production hardening,
+  not a preview blocker. Retained and not fetched.
 - raised: 2026-06-22 (op-095V Validator review of the `dispatch_after` fix, commit `129ee3c`)
 - lane (when promoted): evidence-lane (behavioral claim), libdispatch userland (`semaphore.c`)
 - relation to in-flight work: none blocking. The op-096 `dispatch_after` fix retired with this

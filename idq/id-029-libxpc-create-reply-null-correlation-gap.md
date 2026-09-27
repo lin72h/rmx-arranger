@@ -1,7 +1,10 @@
 # id-029 — libxpc: `xpc_dictionary_create_reply` returns NULL at runtime → XPC request-reply correlation broken (`send_message_with_reply_sync` blocks)
 
 - id: id-029
-- state: **OPEN — REAL runtime gap, Arranger-verified first-hand (op-122 fix-back @ rmx-explorer `a41c8ce`, 2026-06-27).** Substantive (core XPC request-reply pattern), distinct from the cosmetic items already under li-1008. Likely BLOCKS libxpc truly-green (id-021/li-007) for the 1.0-preview — Coordinator owns the li-1008-split-vs-new-li cataloging call + the preview-scope impact.
+- state: **RETIRED — fixed by op-187 commit `bc0ac550dc7d` and accepted live round-trip evidence;
+  administrative OPEN drift reconciled first-hand 2026-07-11 after op-294. Commit is reachable from
+  current `origin/alpha`; current source retains `_XPC_FROM_WIRE`/SEQID reply stamping and pending
+  reply routing.**
 - raised: 2026-06-27 (op-122 rx-x64z fix-back; Arranger-verified against the committed blob + serial).
 - roadmap parent: **li-007** (libxpc core preview service); sibling defect of id-021 (libxpc conformance bring-up).
 
@@ -32,3 +35,12 @@ So: **XPC message DELIVERY works, but the reply-ROUTING/correlation mechanism is
 - **op-122** (dual-explorer libxpc plane conformance) — the carrier that found it; BOTH legs [Done]→[Retired] (rx @ `a41c8ce` found the gap, mx @ `234cd43` captured the macOS round-trip that quantifies it). op-122 is closed; the fix work lives here on id-029.
 - **op-160** (libxpc live service plane) — the plane this rides; op-160 proved delivery works, op-122 found reply-correlation does not.
 - **li-1008** (libxpc catalog) — currently holds the cosmetic XPC items; Coordinator to decide split vs fold.
+
+## Closure reconciliation — 2026-07-11
+
+op-187 already recorded `reply-fixed` and id-029 CLOSED, but this IDQ file/index remained OPEN.
+Arranger2 rechecked commit `bc0ac550dc7d` as an ancestor of `origin/alpha`, `git show --check`, and
+the current source: inbound objects receive `_XPC_FROM_WIRE` plus `XPC_SEQID`; reply construction
+requires that wire flag and copies the sequence ID; connection pending-call routing remains present.
+The accepted op-187 runtime report recorded non-NULL correlated replies and the unmodified echo
+round-trip. No new implementation or run is required; this is an administrative retirement.

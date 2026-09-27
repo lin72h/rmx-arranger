@@ -1,9 +1,10 @@
 # id-001 — Revive kernel `kevent64` (NextBSD #370), retire the userland shim
 
 - id: id-001
-- state: WAITING (not fetched into the IDQ/ROB; pre-issue) — waits on the two
-  Coordinator decisions below (strategy decision A-vs-B; placement). Recommended fetch
-  *after* op-091 closes. See index: `id-000.md`.
+- state: **DEFERRED POST-1.0-PREVIEW — Coordinator scope ruling 2026-07-11.** Preserve the
+  kernel-kevent64 revival as a long-arc parity item; it does not gate the narrow preview, which
+  ships on the proven current kqueue/libdispatch surface with this gap cataloged. When reactivated,
+  it still waits on the strategy A-vs-B and placement decisions below. Not dropped or fetched.
 - raised: 2026-06-22 (Coordinator: "it's part of NextBSD, we will revive that")
 - lane (when promoted): evidence-lane, kernel-side (`freebsd-src` rmx worktree)
 - relation to in-flight work: independent of the *pthread-attr* QoS thread (op-090V → op-091

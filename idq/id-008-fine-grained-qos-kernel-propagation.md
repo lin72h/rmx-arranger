@@ -1,10 +1,10 @@
 # id-008 — fine-grained QoS: kernel-propagated QoS (kevent_qos / workloops / voucher-carried QoS)
 
 - id: id-008
-- state: **WAITING (pending)** — the big-ticket half depends on the kernel substrate (id-001
-  kevent64 + a QoS policy engine), which is behind a Coordinator A-vs-B strategy decision. A
-  cheaper userland-only sub-item (per-QoS `rtprio_thread` ordering, see Scope) is fetchable
-  independently.
+- state: **DEFERRED POST-1.0-PREVIEW — Coordinator scope ruling 2026-07-11.** Fine-grained
+  kernel QoS is an explicitly future kernel track, not required for the preview's proven dispatch
+  floor. The big-ticket half still depends on deferred id-001 plus a QoS policy engine; retain the
+  cheaper userland-only sub-item for later independent fetch. Not dropped or fetched.
 - research note (2026-06-23): this file folds a first-hand QoS investigation (provenance of the
   workqueue, what the active path actually enforces, the FreeBSD priority substrate, and the
   cheap `rtprio_thread` route). It corrects a prior "4-band **priority**" assumption — see

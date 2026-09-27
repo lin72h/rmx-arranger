@@ -1,8 +1,9 @@
 # id-002 — QoS-attr Darwin-parity: reject `QOS_CLASS_UNSPECIFIED` on set
 
 - id: id-002
-- state: WAITING (not fetched) — low priority; a parity-hardening item, not a blocker.
-  Cataloged for overclaim-strict honesty, not yet scheduled.
+- state: **DEFERRED POST-1.0-PREVIEW — Coordinator scope ruling 2026-07-11.** Low-priority
+  parity hardening, explicitly not a preview blocker; retained for overclaim-strict honesty and
+  not fetched.
 - raised: 2026-06-21 (surfaced during op-090V Validator review of the libthr QoS-attr export)
 - lane (when promoted): evidence-lane (touches a behavioral/parity claim), libthr userland
 - relation to in-flight work: none blocking. Records a known divergence in the op-090

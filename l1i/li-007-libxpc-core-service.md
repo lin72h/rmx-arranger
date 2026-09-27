@@ -6,6 +6,26 @@
   fetches into ops (op-121 leg 1 DONE, op-122 leg 2 held, + the fill ops below).
 - raised: 2026-06-24 (Coordinator elevation: "make NextBSD's libxpc and launchd work to meet our preview
   quality… they are not optional but core… get it right both libxpc and launchd").
+- current closure delta (2026-07-11): op-291 did **not** accept the landed connection-lifecycle work;
+  its sole cell is `HARNESS-NOT-ACCEPTED`. First-hand binary inspection found a separate public
+  object-model defect: all sixteen `_xpc_type_*` tokens in accepted `libxpc.so.5` are zero-sized and
+  share one address, so cross-type equality is non-discriminating. Retired op-310 accepts that
+  static premise from `0ee8758` but rejects its successor-harness/validator readiness; the unsafe
+  physical-host dlsym record is quarantined. op-307 returned local commit `40c8a93d`; its M-sized
+  source/static-ABI gate accepts sixteen distinct one-byte tokens and correct PIE/non-PIE bindings;
+  after an exact publication re-relay it is retired at clean origin-reachable `alpha@40c8a93d`.
+  op-311 returned but failed Arranger intake before Validator: it substituted a C/`rc.local`
+  design, print-only managed path, unsafe finalizer lifetime, incomplete census/containment, and
+  fail-open Validator. Fresh op-312 returned `5fa26ee` but also failed direct intake: destructive
+  fd census, no Mach/fd-identity conservation, nonfatal type mismatches, inoperative managed
+  service path, disconnected isolation, synthetic shutdown, and another reproduced false-green
+  Validator. No independent gate was spent. The separate isolation process is Coordinator-resolved,
+  but automatic harness repair-forward is stopped after op-306/op-311/op-312; held op-308 has no
+  accepted machinery pending Coordinator or the later li-1005 quality-unit review.
+  Header initialization `type=4/refcount=1` was observed but is
+  explicitly non-promoting. The adjacent aliased `XPC_BOOL_TRUE`/`XPC_BOOL_FALSE` singleton contract
+  is banked under id-021 and excluded from op-307 because `xpc_bool_create` currently allocates
+  ordinary objects; it is not a storage-only extension of the token fix.
 
 ## What this instruction means
 
@@ -65,7 +85,9 @@ Verify file:line before acting — source moves. Three classes of divergence:
 - **`xpc_connection_set_finalizer_f`** (:330) — empty no-op (finalizer never runs).
 - **`xpc_main`** (:343) — ignores the handler, just calls `dispatch_main()`.
 - **`xpc_transaction_begin` / `end`** (:350/:356) — empty no-ops (no idle-exit transaction tracking).
-- **`xpc_connection_get_name`** (:269) — returns the literal string `"unknown"`.
+- **`xpc_connection_get_name`** — ~~returned literal `"unknown"`~~ **FILLED op-197 @ `4983b913`**:
+  retains/returns the service name for named connections and returns `NULL` for anonymous/peers;
+  conformance-checked and origin-reachable. Stale duplicate id-032 retired 2026-07-11.
 - **error/interruption delivery (behavioral):** no `XPC_ERROR_*` delivered anywhere — send-fail only
   `debugf` :373; recv-fail returns :411; no dead-name/no-senders/peer-death wiring → handler never sees
   CONNECTION_INTERRUPTED/INVALID/TERMINATION_IMMINENT.
@@ -86,13 +108,17 @@ Arranger-fetched + sha-checked):
 (grep of each Class-B/C symbol against the 802-export list — li-007 was not in the explorer repo, so the
 join was done here rather than ferried):
 
-- **Class C (7 stubs) — ALL 7 are real Apple-shipped API** → every rmxOS stub is a genuine behavioral parity
-  gap that must be filled: `xpc_connection_cancel`, `xpc_endpoint_create`, `set_finalizer_f`, `xpc_main`,
-  `xpc_transaction_begin`/`end`, `xpc_connection_get_name`.
+- **Class C (historical 7-stub census) — ALL 7 are real Apple-shipped API.** The census was valid
+  at its pin; `xpc_connection_get_name` was subsequently filled by op-197 at `4983b913` and is no
+  longer a live gap. The remaining historical entries are `xpc_connection_cancel`,
+  `xpc_endpoint_create`, `set_finalizer_f`, `xpc_main`, and `xpc_transaction_begin`/`end`, with
+  their later dispositions recorded below.
 - **Class B (33 declared/zero-impl) — 29 are real Apple API** (must implement for parity), **4 were listed as NOT in
   Apple's exported surface:** `xpc_debugger_api_misuse_info`, `xpc_object_validate`, `xpc_service_main`,
   `xpc_unreachable`. **CORRECTION (op-167 verify, 2026-06-27):** only `xpc_service_main` (`xpc.h:2441`) +
-  `xpc_debugger_api_misuse_info` (`debug.h:21`) are actually declared/zero-impl header cruft (→ id-031 drops them).
+  `xpc_debugger_api_misuse_info` (`debug.h:21`) are actually declared/zero-impl header cruft.
+  **Current-tip verification repeated at `alpha@0ccd5621`; id-031 was fetched and is now retired
+  through op-295 at origin-reachable `ceb46edc` after removing exactly these two declarations.**
   `xpc_object_validate` + `xpc_unreachable` were **census errors** — no public decl exists; only internal
   `_xpc_object_validate` (inline `xpc.h:71`) + `_xpc_unreachable` (macro `base.h:99`) → legit helpers, NOT cruft.
   So the droppable set is **2, not 4**. The other 29 (activity ×7, typed dict accessors, shmem, fd, copy,
@@ -110,7 +136,8 @@ join was done here rather than ferried):
 **Bearing on preview scope:** Class C (7 stubs) + the connection-lifecycle Class-B items are the li-007
 "get it right" core. Class D (modern session/listener) and the activity/shmem subsystems are **out of
 preview** — catalog as li-005 known gaps; Class D is the long-tail toward the Swift-modern API, not the
-developer-usable floor. The 4 non-exported Class-B symbols are candidates to drop from our headers.
+developer-usable floor. The two verified declared-but-non-exported Class-B symbols are carried by
+id-031→op-295; the other two historical names were census errors and are not public declarations.
 
 **SCOPE CALL RESOLVED → REVISED ON EVIDENCE (2026-06-29, Arranger — Coordinator-delegated "you decide,
 play safe"; op-211 demand-census then revised it).** The open op-189 question (does bucket-3 — real
@@ -218,15 +245,24 @@ Consult read the `xpc_pack`/`xpc_unpack` conversion (`xpc_misc.c`) + the array/d
 source in the release base `wip-gpt/wip-rmxos/lib/libxpc/`. The ten mapped types roundtrip faithfully (double
 bit-exact). Findings split into an immediate fix op and two banked seeds:
 
-1. **[op-283 — Implementer, wip-gpt, LOW effort / present-day value] Trivial-fix bundle.** Three
+1. **[op-283 FLUSHED → op-292 RETIRED — Implementer, wip-gpt, LOW effort / present-day value]
+   Localized-fix bundle.** Three
    independently-safe fixes: **(a) array count bookkeeping** — `xpc_array_append_value` (`xpc_array.c:78-88`)
    inserts into the TAILQ but never increments `xo_size`, so `get_count:119` returns 0, `set_value:62` refuses
-   every index, and `get_value:102` is off-by-one; add `xo->xo_size++` on append (and `xo_size--` on the
-   remove path) + change the `get_value` guard to `>=`. **(b) `xpc_unpack` null-check** — `xpc_misc.c:128-137`
+   every index, and `get_value:102` is off-by-one; add `xo->xo_size++` on append, leave count unchanged on
+   replacement, and change the `get_value` guard to `>=`. **(b) `xpc_unpack` null-check** — `xpc_misc.c:128-137`
    dereferences `nvlist_unpack`'s result with no null-check (`:134`), so malformed/truncated peer bytes crash;
    return NULL cleanly on unpack failure. **(c) printf removal** — stray `printf` at `xpc_dictionary.c:251`
    pollutes launchd children's stdout. None of the three touch the leak/aliasing lifetime, so they are safe in
-   isolation.
+   isolation. **2026-07-11 execution outcome:** op-283 applied these six exact source edits and built, but its
+   commissioned replacement check exposed reversed `TAILQ_INSERT_AFTER` operands in pre-existing
+   `xpc_array_set_value`; strict scope excluded the correction, so no commit was delivered and op-283 was
+   verified/flushed. Fresh op-292 carried the preserved three-file dirt plus the smallest complete replacement
+   contract: correct operands, retain-new/release-old, and same-object no-op. **Landed 2026-07-11 at local
+   product commit `0ccd5621`; Arranger2 M-gated first-hand.** Exact three-file commit, build identities, static
+   allocator-junk microcheck, displaced-reference survival, same-object no-op, retained-after-caller-release,
+   bounds, and count all pass. Coordinator-authorized publication made `0ccd5621` reachable from
+   `origin/alpha` on 2026-07-11; op-292 retired and left the live ROB.
 2. **[banked seed — MED effort, must-be-ONE-change] Leak + aliasing coupling.** `xpc_pack` (`xpc_misc.c:108-126`)
    never `nvlist_destroy`s the intermediate nvlist (leak) and `xpc_unpack` never destroys it either — BUT
    `nv2xpc` builds the returned xpc tree with keys/strings/data that ALIAS the nvlist's backing memory, and
@@ -239,12 +275,19 @@ bit-exact). Findings split into an immediate fix op and two banked seeds:
    send; a zero-length data value poisons the WHOLE message (nvlist rejects it → `nvlist_pack` EINVAL fails the
    entire pack, not just that value). These are a fidelity-vs-wire-format decision (error vs. carry vs.
    document-as-unsupported), not a code bug to fix on reflex — decide the contract, then implement.
+4. **[banked seed — container ownership/representation audit, surfaced during op-283 adjudication]
+   Broader array/dictionary lifetime is not op-292.** First-hand source review found the array stores values
+   through each object's single intrusive `xo_link` (so multi-container membership needs a design),
+   `xpc_array_destroy` calls `xpc_object_destroy` directly rather than dropping the array's retain, and
+   dictionary replacement overwrites `pair->value` without balanced retain/release. op-292 fixes only the
+   indexed array-replacement contract needed by its commissioned microcheck. Census consumers and design the
+   complete container-ownership correction as one later change; do not opportunistically fold it into op-292.
 
 **Scope fence (NOT a 1.0-preview gate) — consumer census, Arranger 2026-07-10.** The serialization path has no
 heavy live preview consumer: the `xpc_domain` service plane (this li's long pole) is still open, and the
 launchd control plane rides liblaunch/MIG, not xpc pack/unpack. The op-283 fixes are commissioned on
 PRESENT-DAY value (array-count breaks any local indexed array consumer; printf pollutes child stdout), not as a
-gate. Seeds 2-3 are owned by id-021/li-007's own post-preview criteria; the first heavy pack/unpack consumer is
+gate. Seeds 2-4 are owned by id-021/li-007's own post-preview criteria; the first heavy pack/unpack consumer is
 the Lane-B Swift XPC layer (post-preview).
 
 ## Solidity-consult finding #2 — connection object identity (Arranger-verified first-hand 2026-07-10)

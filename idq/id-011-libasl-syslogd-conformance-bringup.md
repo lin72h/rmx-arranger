@@ -1,6 +1,43 @@
 # id-011 — libasl + syslogd/aslmanager: conformance bring-up (li-002 next rung, li-003 real-service)
 
 - id: id-011
+- renderer adjunct (2026-07-11): op-272's seven source hypotheses passed Validator-DS4P op-303
+  `VALIDATED-SOURCE-FINDINGS` at confidence 9/10. Implementer op-304 returned local commit
+  `a52a2ef` for H1/H2/H3/H5/H6; the L-sized op-309 returned `VALIDATED-CORRECTION` at confidence
+  9/10 and retired. Arranger2 then verified the no-change publication first-hand: clean product
+  `HEAD`, tracking ref, and live remote are all `a52a2ef`; op-304 is retired. Gatekeeper op-305
+  stays held on exact staging commands and a containment-safe execution release; its source and
+  extant build identities are pinned. H4
+  fractional textual timezone and H7 empty/sparse XML remain banked post-preview. This adjunct
+  does not close or substitute for leg 4.
+- current-state (2026-07-11, Arranger2 first-hand): **LEGS 1-3 GREEN; LEG-4 STILL OPEN.** op-293
+  returned after 2/2 consumed cells, but its Cell-B verdict is `HARNESS-NOT-ACCEPTED`, not the
+  reported scheduler-premise result: both reported serial hashes are host hashes; Cell A's
+  56→48-KiB TTL deletion is a useful partial control but never establishes the required >500-KiB
+  size premise; Cell B truncates at tick 1710 before the second 900-second window with no verdict,
+  terminal, final inventory, or clean shutdown. op-296 committed all six raw logs and the accurate
+  additive correction at `a66e3b7`, but its manifest self-entry and fail-closed validator gate
+  failed first-hand. op-297 partially repaired the record but left scope/digest/shutdown/counter/
+  fd and checker/run-record gaps. op-298 returned another partial: its scope is hard-coded and
+  omits its own records, no new tests/command records landed, and malformed/no-shutdown/fd inputs
+  still false-green. op-299 also returned partial: its committed checker/tests/command records
+  self-report failure while its attestation claims green, and structural false accepts remain.
+  The bounded host-only repair has stopped: op-301 returned useful partial semantics at `8c1f269`
+  but failed Stage A because its manifest checker stayed fixed-list, its negative test was vacuous,
+  stderr was not captured/frozen, punctuation-suffixed numeric tokens still false-green, and the
+  report called four failures “excluded.” op-302 was never dispatched and is [Flushed] under the
+  two-return fail-stop rule. The record gate remains open; no automatic repair op is authorized.
+  Source adjudication also
+  corrects the proposed cause: launchd reports named jobs managed, and aslmanager's explicit
+  managed branch creates its XPC listener then enters `dispatch_main`; the op-257 interval plist
+  therefore selected intentional server mode, not a mysterious library constructor or proven
+  StartInterval defect. The Coordinator has now decoupled product work from the failed record
+  repair and selected id-040's explicit bounded one-shot preview mode. Implementer **op-314
+  [Retired]** returned commit `26655e67`; Arranger2's M-sized correctness gate accepted the
+  source/static/build contract, and its S-sized publication gate verified clean local/tracking/live
+  origin on 2026-07-12.
+  Runtime periodicity/reclaim remains unproven. Direct
+  rc.local invocation remains a control/soak mechanism only, not a shipped scheduling substitute.
 - state: **LEG-4 (SOAK) PARTIAL — op-163 FLAGGED, Arranger-verified first-hand 2026-06-27 (serial sha
   `74515b0a…`). asl is NOT truly-green yet.** Crash/PID/degrade durability GREEN over 4h/7234 iters (no crash,
   no restart, no degradation — first-hand confirmed: 259 crashbar HBs all crashes=0, 0 PID_CHANGE, matrix_fails=0

@@ -1,8 +1,8 @@
 # id-004 — non-NORMAL QoS dispatch timers: XNU `NOTE_CRITICAL`/`NOTE_BACKGROUND` fflags
 
 - id: id-004
-- state: WAITING (not fetched) — latent parity-hardening item, not a blocker. Cataloged for
-  overclaim-strict honesty, not yet scheduled.
+- state: **DEFERRED POST-1.0-PREVIEW — Coordinator scope ruling 2026-07-11.** Latent
+  non-NORMAL-QoS parity hardening, explicitly not a preview blocker; retained and not fetched.
 - raised: 2026-06-22 (surfaced while closing `dispatch_after`, op-093/op-094/op-096)
 - lane (when promoted): evidence-lane (behavioral/parity claim), libdispatch userland +
   kernel `filt_timer` validate path

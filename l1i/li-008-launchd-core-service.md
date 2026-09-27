@@ -28,11 +28,20 @@ launchd straddles two planes, and only ONE is the open work:
 
 ## Known state
 
+- **PID-1 is now a preview requirement (Coordinator 2026-07-12).** The earlier non-PID-1 `-u`
+  launchd-job model remains historical/interim evidence, not the ship topology. op-200 proved
+  launchd comes up as PID 1; op-201 proved the minimal hybrid can chain-load `/etc/rc` and propagate
+  the system bootstrap to a non-launchd descendant. Root-rw/getty residuals, exact current-tip
+  staging/containment, reaper evidence, productionization, and PID-1 robustness remain open through
+  id-016/id-042. op-318 is the exact zero-cell contract preflight; no stale PID-1 op is released by
+  this scope decision alone.
+
 - **lifecycle spine ✅** — li-003 closed the D23 spine on fixtures (load→start→observe→restart→remove→reload);
   now driving *real* daemons (notifyd hardened harness op-131; asld harness op-133) is in flight.
-- **bootstrap gap (id-016):** launchd is NOT PID 1 on the staging-model image; a shell-launched client gets
-  `bootstrap_port = 0` (FAIL). The working preview run-model is **launchd-job** (child inherits the port).
-  Ambient-bootstrap (c) is proven; PID-1 launchd is the remaining hardening.
+- **bootstrap gap (id-016):** the current staging-model image still does not make launchd PID 1;
+  shell-launched clients get `bootstrap_port = 0`. The launchd-job path proves the services, while
+  op-201 proves PID-1 closes ambient bootstrap through the rc-chain. The latter is now the required
+  preview topology, not optional hardening.
 - **cold-boot auto-start ✅ (op-134 DONE, `d245948`, Arranger-verified):** notifyd now comes up on a clean
   boot of the staging image and notify round-trips green WITHOUT a notifyd-specific harness prop. Mechanism =
   a **generic boot-load** of `/etc/launchd.d/*.plist` (`KeepAlive:true`), shipped as an `rc.local`. This closed
@@ -95,9 +104,22 @@ default), Q4 remove/cancel/free with in-batch event pruning all SOLID. Seeds:
    returns NULL where Apple blocked respawn while a machservice port lingered) — crash a checked-in mach job,
    verify the respawn re-checks-in cleanly.
 
+## op-273 calendar self-heal / SIGUSR1 collision — banked pending PID-1 activation census
+
+The source defect remains at origin-reachable `alpha@40c8a93d`: an overdue calendar head raises
+`SIGUSR1`, while init-compat interprets that signal as `RB_HALT`. First-hand closure census on
+The 2026-07-11 census found no live consumer under the then-locked non-PID-1 `-u` preview model.
+The 2026-07-12 PID-1 promotion removes that topology argument, but does not itself add a
+`StartCalendarInterval` consumer. op-318 must census the exact candidate job set and PID-1-only
+branches. op-289/op-290 remain flushed and never revive; any actionable result receives new IDs.
+
 ## Truly-green criterion
 
 - launchd boots and hosts the core daemons (notifyd, asld, own) — they auto-start on clean boot;
+- launchd is PID 1, non-`-u`, through the accepted boot configuration; the `/etc/rc` hybrid brings
+  base services up with root read-write and ambient bootstrap reaches non-launchd descendants;
+- PID-1 reaping, shutdown/reboot, single-user transition, and crash floor pass their contained,
+  fail-closed runtime gates;
 - the full li-003 lifecycle spine runs against those **real services** (not fixtures) and they survive
   restart/reload;
 - the `xpc_domain` service plane is live end-to-end over nvlist (not stubbed);
