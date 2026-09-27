@@ -1,3 +1,10 @@
+---
+id: op-237
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-237 — Implementer: branch-cleanup feedback + the one salvage — premise-check the archived fd-backed dead-name uref fix against alpha, cherry-pick ONLY on a proven gap
 
 op-237 | role: **Implementer** (source dive + conditional product-write) | EXU: **wip-gpt (Implementer seat)** | state: **[Done — no live gap, branch (a); salvage retired no-op, 2026-07-02]** — premise-check returned NEGATIVE; no cherry-pick, no build. Arranger-verified at source (light provenance check, Rule 11). | parent id: id-035 (→ li-1014 → li-1001 dead-name invariant) | L1i: li-1014 / li-1001 | cost: 30 (code-reasoned dive; conditional small cherry-pick) | authored 2026-07-02 (Arranger seat, model Opus 4)

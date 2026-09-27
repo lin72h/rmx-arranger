@@ -1,3 +1,10 @@
+---
+id: op-183
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-183 — Implementer: PUBLISH the op-149 certified preview image to the soak-consume handoff path (deliver the artifact to the Gatekeeper) — unblocks op-168
 
 op-183 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done]** — `image-published` 2026-06-28; sha re-verified first-hand on the landed copy (`707936a6…ba8a` at `/Users/me/wip-mach/vm/runs/op149-preview-uefi-v3.img`, 17179869184 B logical / ~826M sparse). op-168 image precondition met; consume path `NXPLATFORM_VM_IMAGE=/Users/me/wip-mach/vm/runs/op149-preview-uefi-v3.img`. | parent id: id-026 | L1i: li-1009 / li-1012 | authored 2026-06-28 (Arranger seat, model Opus 4)

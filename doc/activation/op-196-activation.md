@@ -1,3 +1,10 @@
+---
+id: op-196
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-196 — Implementer: wire aslmanager (binary + com.apple.aslmanager.plist + /etc/asl.conf) into a bootable image → unblock the asl leg-4 store-bound re-soak
 
 op-196 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — artifacts staged on a published image; but the JOB IS NOT WIRED TO RUN (inert plist) — see CAVEAT]** (2026-06-29 Arranger adjudication, first-hand). Produced: image `vm/runs/op196-aslmanager-wired-v3.img` sha `5deefecb…`; binary `/usr/sbin/aslmanager` sha `42dc12e7…`; plist `/etc/launchd.d/com.apple.aslmanager.plist` (StartCalendarInterval Minute=0, no KeepAlive/MachServices); `/etc/asl.conf` store_ttl 7 + max_store_size 25600000. ABSENCE_ROOT benign = stale base image (op163-soak predated the installworld that ships aslmanager; the certified world HAS it). **CAVEAT (load-bearing, carried to the re-soak): the plist is INERT.** launchd does NOT auto-scan `/etc/launchd.d/` (proven first-hand op-145: "launchd -u doesn't auto-load /etc/launchd.d/ — asld never loaded"; siblings are started by EXPLICIT `launchctl load+start` in rc.local, see op150-rc.local). The Implementer mirrored the plist LOCATION but not the LOAD mechanism — no `launchctl load`/`start` was added to the harness rc.local. Booted as-is, aslmanager never schedules → repeats the op-163 null result. The image is a USABLE BASE (binary+config staged); the job-load wiring is the re-soak harness's job (Gatekeeper, harness_authoring_is_gatekeeper) — folded into the downstream soak brief, NOT a re-dispatch of op-196. | parent id: id-011 (li-1004 asl, leg-4) | L1i: li-1004 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

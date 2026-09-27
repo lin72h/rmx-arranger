@@ -1,3 +1,10 @@
+---
+id: op-146
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: DONE
+reset: j-20260927-004
+---
 # op-146 — Gatekeeper: validate op-124 asl leg-1 lifecycle
 
 op-146 | role: Gatekeeper — **rmx-gatekeeper**, FREE | state: **DONE/RETIRED 2026-06-25 (Arranger-verified first-hand @ 864a107)** | parent id: id-011 | authored 2026-06-25 (Fable)

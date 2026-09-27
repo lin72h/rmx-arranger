@@ -1,3 +1,10 @@
+---
+id: op-221
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-221 — Implementer: rebuild the id-015 UEFI image from CANONICAL lineage (kernel + mach.ko same-lineage, narg=8) — abandon the stale op-217 `f712` snapshot whose generated sysproto.h registers `mach_msg_overwrite_trap` at 9 register slots → re-stage → hand to op-220 for the edk2 re-boot oracle
 
 op-221 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — FIXED, Arranger-verified first-hand 2026-06-30].** Canonical-lineage UEFI image rebuilt, narg=8 restored, f712 abandoned. VERIFIED: (1) revert landed — canonical HEAD `32f21706606f Revert "mach: enable LP64 syscall arg munging"` atop `483073c`; (2) narg=8 BY CONTENT — generated sysproto.h view 64/8, `mach_module.o` (`e0eed686…`, byte-identical to op-166 + op-219_current) `osx_syscalls[21].sy_narg=8`; (3) same-lineage — kernel `c526a91d` is the op-182 li-1012 clean-cert MACHDEBUGDEBUG kernel (canonical baseline, NOT f712), mach.ko `ffc67eda` is canonical narg=8 AND == op-215's gated module (carries the 12b349 ipc_entry_lookup de-spam gate too); (4) in-image content confirmed first-hand (`op221-usb-content-proof.txt`) — `/boot/kernel/kernel`+`/boot/MACHDEBUGDEBUG/kernel`=`c526a91d`, `/boot/modules/mach.ko`=`ffc67eda`; (5) UEFI form — GPT-only ESP+UFS no-BIOS, ISO `et_system=efi`. Artifacts: USB `106a373c…` (3.1GB), ISO `218554…` (6.2GB). NOTE: reused loader.conf has stale `kernel=` blocks (TWQDEBUG/MACHDEBUG) above MACHDEBUGDEBUG — last-wins boots MACHDEBUGDEBUG+`mach_load=YES` correctly, op-220 confirms at banner. NOT boot-certified here → op-220. | parent id: id-015 | L1i: li-006 (image/boot logistics) | cost: 30 | authored 2026-06-30 (Arranger seat, model Opus 4)

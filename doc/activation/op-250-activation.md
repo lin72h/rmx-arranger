@@ -1,3 +1,10 @@
+---
+id: op-250
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-250 — Gatekeeper: fix the notify-soak oracle self-exit (the `tick-Ns`/profile hang op-248 found) and re-host the notify soak on the WITNESS cert image to a CAPTURED green (fails=0 actually printed) — the real li-1013 M2 notify green
 
 op-250 | role: **Gatekeeper** (harness authoring + dry-run validation + run the soak; NO product-write, NO kernel build) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — CAPTURED GREEN, Arranger-verified first-hand. `notifyd_soak_iterations=263 notifyd_soak_fails=0 notifyd_soak_duration=300` PRINTED (op250-serial.log:1243) on the MACHDEBUGDEBUG/WITNESS/INVARIANTS cert kernel — the real li-1013 M2 notify green. Self-exit root-caused (DTrace profile `tick-Ns` never fires on bhyve) and bypassed (inlined loop + explicit oracle kill). Commit a5106d7, 2026-07-03]** | parent id: id-000 (li-1013 M2 notify half) / op-248 (harness-artifact verdict) | L1i: li-1003 (notify legs) / li-1013 Item 1 M2 / li-1007 (notifyd exposure) | cost: 0 (Gatekeeper, free) | authored 2026-07-03 (Arranger seat, model Opus 4)

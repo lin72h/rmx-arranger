@@ -1,3 +1,10 @@
+---
+id: op-182
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Queued
+reset: j-20260927-004
+---
 # op-182 — Implementer: the li-1012 DO-IT-ONCE clobbered build from c14e0904 — clean-obj world + MACHDEBUGDEBUG kernel + mach.ko, the certified artifact source for the 1.0-preview image
 
 op-182 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Queued]** — overnight batch (long clobbered build; build EXU only) | parent id: id-026 | L1i: **li-1012 P0 (the cert itself)** | authored 2026-06-28 (Arranger seat, model Opus 4)

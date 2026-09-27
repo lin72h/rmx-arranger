@@ -1,3 +1,10 @@
+---
+id: op-285
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-285 — Implementer: give libxpc connections a real object identity + a connection-specific destructor (one coordinated lifecycle correction) — RESERVED, gated on op-284 evidence
 
 op-285 | role: **Implementer** | EXU: **wip-gpt** | state: **[Done — edit commit `778cb07442e61cdd8fb3e766b91676f2e9a261b8` is Arranger-verified and origin-reachable as of 2026-07-11; op-307 is retired at origin-reachable `40c8a93d`, while op-291 remains HARNESS-NOT-ACCEPTED and both op-311/op-312 failed harness intake; op-308 runtime acceptance remains held with no accepted successor machinery, so this op is not retired]** | parent id: id-021 (libxpc conformance bring-up) | L1i: li-007 (libxpc core service) | cost: implementer (med — object-model + destructor in a core service, evidence-first) | authored 2026-07-10 (Arranger seat, model Opus 4)

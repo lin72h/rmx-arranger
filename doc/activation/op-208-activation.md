@@ -1,3 +1,10 @@
+---
+id: op-208
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-208 — Implementer: produce a UEFI-bootable USB smoke image from the certified v3 preview image (op149-preview-uefi-v3 / 707936a6) + OVMF pre-flight → de-risk the Rocket Lake metal-boot axis before the dogfood preview
 
 op-208 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — smoke-image-ready, Arranger-verified first-hand @ no-source-edit]** — USB `op208-rocketlake-live-usb.img` (sha 102149a2…, 16G) staged; OVMF/EDK2 preflight reached root login over serial + clean shutdown (serial log verified first-hand: BdsDxe→BOOTX64.EFI→kernel `op-171-x86-64-v3-alpha…c14e0904` → ufs root → `login: root`); bring-up checklist delivered. Caveats: USB is certified bits with ONE overlay edit (rc.local auto-shutdown disabled, preserved in-image) → sha≠707936a6 by design; OVMF CPU was a Broadwell Xeon (soak-host VM) NOT Rocket Lake — OVMF predicts, the user confirms on metal. asld SIGSEGV NOT hit (line 161 `Starting syslogd` — asld dormant/unwired, matches op-207/op-210). **Hand-off: the user dd's the image + boots the Rocket Lake box; a confirmed physical boot is the remaining gate for op-209.** The "Build-1 hardware-smoke" — produces a burn-ready USB from the ALREADY-CERTIFIED v3 image + OVMF-preflights it, so the user can boot it on the Rocket Lake workstation. Independent of the dogfood gates (op-185 / op-198 v5 / a fixed-binary rebuild) — this de-risks the orthogonal HARDWARE axis in parallel. | parent id: id-026 (x86-64-v3 baseline) + preview hardware bring-up | L1i: 10preview_gate | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

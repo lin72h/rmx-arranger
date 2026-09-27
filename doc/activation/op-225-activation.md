@@ -1,3 +1,10 @@
+---
+id: op-225
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-225 — Oracle: evidence-regime review — grade what our 1.0-preview foundation greens ACTUALLY prove, and design the acceptance bar (evidence matrix + release-representative soak)
 
 op-225 | role: **Oracle** (consult) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — CONSULT DELIVERED 2026-07-02, Arranger-verified first-hand].** Crux verified at source: (1) preview SHIP kernel = **MACHDEBUGDEBUG** (op-182-activation.md:9-10 "Coordinator chose the DEBUG (MACHDEBUGDEBUG) KERNCONF for 1.0-preview" + :25-26 artifacts = op-149 image source) → asserts armed + twq reachable ON THE SHIP IMAGE, materially de-escalating the caveat; (2) harness/doc default = **MACHDEBUG** (stage-guest.sh:74 `NXPLATFORM_KERNEL_CONF:-MACHDEBUG`; machdebug-scaffold.md:25 `KERNCONF=MACHDEBUG`) → historical un-overridden soaks booted the weaker regime, so the ship conf ≠ the greens' conf; (3) opt-shape (mach.ko -O0, DISPATCH_DEBUG=1) is **Makefile-owned** (Makefile:10/:18), so NO kernconf reaches release shape — the Oracle's correction stands. Consult sound; limits honestly self-labeled (date-branch engine bounds, "undetermined" not inferred, no runs). Extends op-223 E1 into **M1/M2 (musts) + C1-C4 (Coordinator calls)** — surfaced to Coordinator, held. | parent id: id-000 (1.0-preview roadmap consult) | L1i: li-1000 (relates li-1012, li-9003 Item 2) | cost: **oracle-tier (highest; consult-only, no product-write)** | authored 2026-07-02 (Arranger seat, model Opus 4)

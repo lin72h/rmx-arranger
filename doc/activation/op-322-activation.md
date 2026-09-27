@@ -1,3 +1,10 @@
+---
+id: op-322
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-322 — Explorer: correct the op-318 PID-1 containment and reaper contract after op-321
 
 op-322 | role: **Explorer — bounded contract correction only** | EXU:

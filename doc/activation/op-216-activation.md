@@ -1,3 +1,10 @@
+---
+id: op-216
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-216 — Explorer: asl NATIVE-submit launchd-context re-test → close the last asl-green leg by proving `asl_log`/aslutil over `com.apple.system.logger` lands in the asld store when the client holds a valid bootstrap
 
 op-216 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Done — `native-green`, Arranger SOURCE-verified first-hand @ f2e4b45 (a823526..f2e4b45)].** D1 bootstrap-OK: harness ran as a launchd child (run-as-launchd-job.sh, inherited bootstrap) → asl_open PASS ⟹ `bootstrap_look_up2(com.apple.system.logger)` resolved non-null. D2 native-lands: all 9 cases PASS (matrix_fails=0); asl_log + asl_search_roundtrip PASS; store file `/var/log/asl/2026.06.29.G80.asl` (1665B) carries the submitted msg. **NATIVE-vs-SOCKET CONFIRMED AT SOURCE (the brief's no_conflate trap):** `asl.c:1132` gates the whole send on `_asl_global.server_port != MACH_PORT_NULL`; the only send in-block is `:1163 _asl_server_message(server_port,…)` — the Mach RPC to com.apple.system.logger; there is NO socket fallback in the asl_log path. So the op-210 `found=0`→op-216 `found>0` flip IS the `:1132` guard flipping null→non-null server_port (exactly op-212's trace), and a landed msg necessarily went native-Mach, NOT the `/var/run/syslog` BSD socket. **NOTE (no baseline reversal):** asl_search_roundtrip PASS here ≠ overturning the id-011 leg-3 shared-FAIL (that was an in-process 200ms write→search race vs a not-yet-flushed fixture; op-216 reads back from the LIVE asld on-disk store with time to persist — different setup, both true). asl's last native-submit leg CLOSED. | parent id: id-011 (asl, native-submit leg) + id-016 (ambient-bootstrap) | L1i: li-1004 (asl) | cost: free | authored 2026-06-29 (Arranger seat, model Opus 4)

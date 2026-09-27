@@ -1,3 +1,10 @@
+---
+id: op-171
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: In-flight
+reset: j-20260927-004
+---
 # op-171 — Implementer: make the v3 buildworld ELEGANT — strip with the toolchain that BUILDS (LLVM binutils), retire the host-binary objcopy/strip override, fold in the 2-line mach_debug staging fix → one clean-obj image for op-168
 
 op-171 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[In-flight]** — dispatched 2026-06-27 (overnight batch; parallel to soak host; build EXU only) | parent id: id-026 | L1i: li-1009 / li-1012 P0 | authored 2026-06-27, REVISED 2026-06-27 (Arranger seat, model Opus 4 — root cause now VERIFIED first-hand, supersedes the transient-race / cherry-pick framing)

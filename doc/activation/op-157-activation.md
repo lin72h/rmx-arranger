@@ -1,3 +1,10 @@
+---
+id: op-157
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-157 — Validator-GLM: exhaustive inspection gate on the op-156 fix (port-to-pset lost-wakeup)
 
 op-157 | role: **Validator-GLM** (FREE — GLM model) | state: READY dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Fable)

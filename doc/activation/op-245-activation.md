@@ -1,3 +1,10 @@
+---
+id: op-245
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 # op-245 — Oracle: libnotify + asl paired subsystem quality review — 1.0-preview health read of the two notification/logging core services on the shared mach-IPC/libxpc substrate
 
 op-245 | role: **Oracle** (consult; highest-tier, consult-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Awaiting]** | parent id: id-000 (1.0-preview core-service quality) | L1i: li-1003 (notify) / li-1007 (notifyd/asld integration) / li-1011 (release-scoping) | cost: oracle-tier (highest) | authored 2026-07-02 (Arranger seat, model Opus 4)

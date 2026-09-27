@@ -1,3 +1,10 @@
+---
+id: op-236
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-236 — Gatekeeper: register the op-232 concurrency corpus in the CANONICAL op-229 parked-ledger (the id-033 Stream B authority-transfer, first real case) — de-dup rx1's drift
 
 op-236 | role: **Gatekeeper** (harness-authoring; Stream B migration) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — committed 8f783e9, Arranger-verified 2026-07-02]** — first id-033 Stream B authority-transfer landed correctly in the CANONICAL repo. | parent id: id-033 Stream B (Explorer→Gatekeeper migration) + op-232 (the corpus) | L1i: li-1000 (li-1007/id-007 soak infra) / li-9001 | cost: gatekeeper-tier (free role; harness-authoring) | authored 2026-07-02 (Arranger seat, model Opus 4)

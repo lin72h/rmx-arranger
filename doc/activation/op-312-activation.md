@@ -1,3 +1,10 @@
+---
+id: op-312
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-312 — Gatekeeper: rebuild the libxpc lifecycle acceptance machinery after op-311 fail-fast rejection
 
 op-312 | role: **Gatekeeper Ruler** (harness/evidence owner; no product write) | EXU:

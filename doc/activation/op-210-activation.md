@@ -1,3 +1,10 @@
+---
+id: op-210
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-210 — Implementer: wire asld as the preview system logger (replace FreeBSD syslogd) + boot-load the op-207 fixed binary → make asl the live logger for the dogfood
 
 op-210 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — asld-is-logger, Arranger-verified first-hand @ b7e470c2].** Product: `usr.sbin/asl/com.apple.syslogd.plist` ProgramArguments → `/usr/sbin/asld` (macOS-faithful: MachServices com.apple.system.logger + BSDSystemLogger /var/run/syslog preserved). Image `op210-asld-live-logger.img` sha fb388eb3; final serial (sha 0a97c9bb) VERIFIED first-hand: asld is the live com.apple.syslogd job (pid 874), booted asld DYNAMIC (libdispatch.so.5), FreeBSD syslogd absent before+after, crash-clean, and a unique-token message ROUND-TRIPPED into the store via asld (serial line 145 shows the actual stored line, token op210-store-proof-15…). asld now replaces FreeBSD syslogd as the live system logger. **TWO CARVE-OUTS (do NOT fail op-210, but asl is NOT fully truly-green):** (1) the ASL *native* Mach submit path drops messages — `OP210_ASLUTIL_QUERY found=0`; the green rode the BSD /var/run/syslog socket, NOT the asl_log/aslutil Mach submit over com.apple.system.logger. (2) Correlated: `ipc_entry_lookup failed on 0 … compat/mach/ipc/ipc_kmsg.c:1318` recurs through the boot incl. around the ASL submit — a credible (unproven) root for the Mach-path drop. → next asl item (investigate ASL-Mach submit + the port-0 kmsg failure). Handoff binary confirmed first-hand earlier: `build/op207-asl-dynamic-link/asld.op207` sha 0c2fe9d. Decodes the user's 2026-06-29 call: "use asld, I don't need FreeBSD's counterpart" → asl becomes the live system logger, FreeBSD syslogd dropped. | parent id: id-011 (asl, leg — live logger) | L1i: li-1004 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

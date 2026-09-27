@@ -1,3 +1,10 @@
+---
+id: op-189
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-189 — Explorer: inventory the libxpc Class-C "bucket-3" fill surface (cancel / error-interruption / finalizer / transaction + typed-dict) — scopes the post-op-187 libxpc op
 
 op-189 | role: **Explorer** (free) | EXU: **rmx-explorer** (rx1) | state: **[Done]** — `inventory-complete`, pushed @ `5439bbc`; Arranger-verified first-hand 2026-06-28. Matrix: 9 STUB + 1 PARTIAL + 6 IMPLEMENTED. Load-bearing = cancel + error-delivery; rest catalog. KEY FINDING (verified): cancel is empty `{}` in BOTH canonical AND donor `nx/NextBSD`, error-delivery machinery is ABSENT in both, and no XNU libxpc ref exists on host → the bucket-3 fill is design-from-behavioral-spec, NOT a port (donor-first does not apply to this slice). Couples to op-187's `xc_pending` (cancel must invalidate in-flight reply waiters). Next: capture macOS cancel/error contract (op-190) before the Implementer fill; Coordinator owns whether bucket-3 gates preview. | parent id: id-021 | L1i: li-007 | authored 2026-06-28 (Arranger seat, model Opus 4)

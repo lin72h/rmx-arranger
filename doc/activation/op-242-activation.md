@@ -1,3 +1,10 @@
+---
+id: op-242
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-242 — Implementer: root-cause + fix the kernel NULL-`io_lock` panic on the MACH_RECV dispatch-source receive-error path (id-036 / debt #21) — TRACE the mechanism before any fix
 
 op-242 | role: **Implementer** (kernel Mach-IPC dive + mach.ko fix) | EXU: **wip-gpt (Implementer seat)** | state: **[Done — FIX DELIVERED, root cause Arranger-verified first-hand; fix UNPROVEN at runtime → gated to Validator+Gatekeeper. Commit d70062591073, mach.ko f0f10008, 2026-07-02]** — see OUTCOME. | parent: op-241 (Explorer premise-check — LIVE GAP 9/10, panic confirmed first-hand) / id-036 (the defect record) | L1i: li-1002 (libdispatch/IPC substrate hardening) / li-1001 (substrate invariant) / li-1007 (core-service exposure) | cost: 30 (kernel trace-confirm + targeted fix + mach.ko build) | authored 2026-07-02 (Arranger seat, model Opus 4)

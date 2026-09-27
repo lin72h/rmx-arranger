@@ -1,3 +1,10 @@
+---
+id: op-219
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-219 — Implementer: fix the `mach_msg_overwrite_trap` narg=9 panic — define `CONFIG_REQUIRES_U32_MUNGING` for the mach build so the trap arg structs use proper LP64 slotting (narg≤8) → rebuild mach.ko → re-stage into the op-217 UEFI image → hand to op-220 for the re-boot oracle
 
 op-219 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — WALLED; root cause CORRECTED, Arranger-verified first-hand 2026-06-30].** The munging define is a proven **no-op** for the registered arg count, and my op-218/op-219 mechanism was WRONG. PROOF (Implementer first-hand, Arranger re-verified): `mach_module.c:35` includes `<sys/sysproto.h>` — `SYSCALL_INIT_HELPER`'s `sizeof(struct mach_msg_overwrite_trap_args)` resolves to the **generated `sysproto.h`** struct, NOT the hand-written `mach_traps.h`/`PAD_ARG_8` one I diagnosed. `CONFIG_REQUIRES_U32_MUNGING` only gates mach_traps.h, so it changes nothing: the rebuilt mach_module.o is **byte-identical** (`e0eed686…`) to op-166's, both `sy_narg=8`. The narg-probe is invariant to the flag (current 64/8 with AND without; f712 72/9 with AND without). **NOT a latent tree-wide defect** (op-218 overclaim retracted): current canonical = narg **8**, op-166 `9c7706a3` = narg **8**; **only the op-217 `f712` build snapshot = narg 9** (its *generated* sysproto.h carries a 9th register slot vs canonical's corrected 8-field struct). Real root cause = op-217 was built from a **stale/divergent f712 snapshot**, not a source-macro gap. The committed flag `483073c69646` ("mach: enable LP64 syscall arg munging") is a no-op whose message overclaims → revert under the corrected op. FIX → **op-221** (rebuild the id-015 UEFI image from CANONICAL lineage — same-lineage kernel+mach.ko, narg=8 — abandoning f712; NOT a cross-lineage module swap). | parent id: id-015 | L1i: li-006 (image/boot logistics) | cost: 30 | authored 2026-06-30 (Arranger seat, model Opus 4)

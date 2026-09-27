@@ -1,3 +1,10 @@
+---
+id: op-211
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-211 — Explorer: libxpc connection-lifecycle preview-demand census — is launchd's xpc_domain path live-over-nvlist or stubbed, and which preview-path consumers actually depend on cancel + XPC_ERROR_* delivery → ground the bucket-3 gating call in evidence
 
 op-211 | role: **Explorer** (FREE) | EXU: **rmx-explorer** (rx1) | state: **[Done — challenges-gate, Arranger-verified first-hand @ 7fb01ab; ONE classification corrected].** Verdict HELD on corrected grounds → bucket-3 SOFTENED to li-005 post-preview (see li-007 resolution). First-hand checks: cancel is a REAL impl (xpc_connection.c:301-310, op-191 — op-189's "empty {} stub" stale), sole caller `aslmanager.c:179` is the ONLY bucket-3 consumer outside libxpc. **CORRECTION:** rx1 classified aslmanager "not shipped + crashes" — WRONG (op-204 made it run; it's the op-198-v5 asl-reclaim tool); the true "no demand" basis is that the call sits in `noreturn xpc_server_exit()` teardown-before-exit (aslmanager.c:176-183), not a semantic dependency. Verdict right, reasoning wrong — verify-first catch. Read-only source census, NON-CONTENDING (no soak host, no asld lane) — ran parallel to op-185/op-210 without touching them. | parent id: id-021 (libxpc/li-007) | L1i: li-007 | cost: free | authored 2026-06-29 (Arranger seat, model Opus 4)

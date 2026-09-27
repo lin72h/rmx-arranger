@@ -1,3 +1,10 @@
+---
+id: op-217
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-217 — Implementer: build the UEFI-only id-015 live image — repackage the proven staged tree as a pure-UEFI GPT image (USB + liveCD/ISO, UFS root UNCHANGED) + ABI-match the op-215 de-spam mach.ko to id-015's kernel → hand off to op-218 for the independent edk2 boot proof
 
 op-217 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — `built`, Arranger artifact-verified first-hand 2026-06-29].** D1 UEFI image: USB (`op217-id015-uefi-usb.img`, sha `bda7e45c…`) **content-verified pure-UEFI GPT** — GPT hdr `EFI PART` @ LBA1; part-1 type GUID `C12A7328…` = EFI System Partition (`op217-esp`); part-2 `516E7CB6…` = freebsd-ufs (`op217-rootfs`); NO freebsd-boot GUID; protective-MBR bootstrap area all-zero (no BIOS bootcode). UFS root = the op-128 `s2a` payload, only `/boot/modules/mach.ko` swapped. ISO (`op217-id015-uefi.iso`, sha `061abcbf…`) UEFI El Torito `et_system=efi`. D2 mach.ko (sha `3989d601…`): gate present by `nm` (`mach_ipc_entry_lookup_failed_log` + `sysctl___debug_mach_ipc_entry_lookup_failed_log` + `debug.mach` node — op-215 patch genuinely applied), rebuilt from `f71260cf4c9e` source line (the stale op-196-base `ffc67eda` correctly NOT reused); in-image kernel `/boot/MACHDEBUGDEBUG/kernel` (sha `39031adb…`) is the same f71260cf line → ABI provenance matches. Handoff manifest `OP217-HANDOFF.md`. **Open for op-218 (by design):** definitive ABI-load (kldload into running kernel w/o version mismatch) + edk2 firmware boot + de-spam runtime — proven only by the actual boot. | parent id: id-015 (developer-preview staging-model image) | L1i: li-006 (image/boot logistics) | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

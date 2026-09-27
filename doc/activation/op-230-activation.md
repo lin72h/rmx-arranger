@@ -1,3 +1,10 @@
+---
+id: op-230
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-230 — Gatekeeper: make the op-225 M1 regime label a REQUIRED field in the comparison record (`mismatch_v1`) — no green/diff lands without naming its regime
 
 op-230 | role: **Gatekeeper** (harness-authoring) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — COMPLETE 2026-07-02 @ 991dae2, Arranger-verified first-hand]** | parent id: id-033 (Stream C) | L1i: li-1000 (li-1013 Item 1 / op-225 M1) | cost: gatekeeper-tier (free role; harness-authoring) | authored 2026-07-02 (Arranger seat, model Opus 4)

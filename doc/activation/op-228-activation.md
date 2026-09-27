@@ -1,3 +1,10 @@
+---
+id: op-228
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-228 — Oracle: testing-strategy review — design the conformance-first, macOS-as-truth test pipeline (Explorer authors ahead / parks not-yet-passable / migrates to Gatekeeper regression) and grade + improve the existing test posture
 
 op-228 | role: **Oracle** (consult) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — CONSULT DELIVERED 2026-07-02, Arranger-verified]** — D1-D6 delivered; staged at rmx-oracle/op-228-testing-strategy-review.md; seeded **id-033** (test-strategy pipeline, four-stream decode of E4); escalations E1-E4 Coordinator-held. | parent id: id-000 (1.0-preview roadmap consult; seeded test-strategy id-033 per Oracle output) | L1i: li-1000 (relates li-1007 integration soak / id-007 soak infra; the parity-explorer macOS-as-truth loop) | cost: **oracle-tier (highest; consult-only, no product-write)** | authored 2026-07-02 (Arranger seat, model Opus 4)

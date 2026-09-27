@@ -1,3 +1,10 @@
+---
+id: op-320
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-320 — Validator3: gate Oracle3 op-319 foundation delta, evidence classifications, and id-042 minimum bar
 
 op-320 | role: **Validator — independent XL source/evidence/scope gate** | EXU:

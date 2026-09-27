@@ -1,3 +1,10 @@
+---
+id: op-256
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 # op-256 — Oracle: how libdispatch's pthread_workqueue SPI/API should be EXPOSED (op-252 macOS-27 recon folded in) — split out of op-255
 
 op-256 | role: **Oracle** (consult; highest-tier, consult-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Awaiting — split out of op-255 on 2026-07-03 so the IPC reliability review (op-255, refusal-risk) and this benign SPI-exposure design proceed independently. op-252 macOS-27 recon folded in (Arranger-verified f8006a3, sha 221fb872…: keep 2017 SPI internal; os_workgroup = op-251 governor concern). Ready for dispatch. Coordinator dispatches.]** | parent id: id-000 (post-preview runtime-substrate initiative) | L1i: li-1000 (substrate registry) | cost: oracle-tier (highest ~90/100) | authored 2026-07-03 (Arranger seat, model Opus 4)

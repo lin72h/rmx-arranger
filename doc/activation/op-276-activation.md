@@ -1,3 +1,10 @@
+---
+id: op-276
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Draft
+reset: j-20260927-004
+---
 # op-276 — Oracle2: ASL UTF-8-only encoding-model simplification design
 
 op-276 | role: **Oracle** (consult-only; no product or control write) | EXU:

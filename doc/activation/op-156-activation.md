@@ -1,3 +1,10 @@
+---
+id: op-156
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Ready
+reset: j-20260927-004
+---
 # op-156 — Implementer: code-reasoned id-025 dive — map the Mach-IPC wait-path lock discipline, NAME the inversion/lost-wakeup, propose the fix (fix-on-inspection, NO live repro required)
 
 op-156 | role: **Implementer** (cost-30) | EXU: **wip-gpt (Implementer seat)** | state: **[Ready]** (merge-eligible per the ARRANGER-SEAT MERGE DECISION below; remaining Implementer unit = build-wall provenance triage → then merge) | parent id: id-025 | authored 2026-06-26 (Fable)

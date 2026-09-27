@@ -1,3 +1,10 @@
+---
+id: op-271
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-271 — Oracle: confirm the correctness of libxpc's value serialization roundtrip (xpc object ↔ serialized form) — one feature, one file pair
 
 op-271 | role: **Oracle** (consult; advise-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — returned by oracle1 as `rmx-oracle/op-271-xpc-serialization-findings.md`, ACCEPTED as a grounded consult 2026-07-10, and its findings routed to op-283 (fix) + li-007 seeds (banked). Arranger VERIFIED FIRST-HAND in the RELEASE BASE `wip-gpt/wip-rmxos/lib/libxpc/`. FINDINGS (verified at source, not relayed):**

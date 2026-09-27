@@ -1,3 +1,10 @@
+---
+id: op-149
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 # op-149 — Explorer: x86-64-v3 base buildworld/kernel tryout (li-1009 P1)
 
 op-149 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting] — RE-SCOPED 2026-06-28: the v3 buildworld/kernel goal is FULFILLED + li-1012-CERTIFIED by op-182 (clobbered clean-obj from c14e0904: v3 world + MACHDEBUGDEBUG kernel + mach.ko, all rc=0). op-149 now = ASSEMBLE the 1.0-preview bootable UEFI x86-64-v3 image FROM op-182's certified artifacts. See CURRENT SCOPE banner. Released to wip-gpt.** | parent id: id-026 | L1i: li-1009 / li-1012 | authored 2026-06-25 (Fable), revived + re-pointed 2026-06-27, base-switch confirmed 2026-06-27, RE-SCOPED to image-assembly 2026-06-28

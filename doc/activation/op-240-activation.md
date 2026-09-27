@@ -1,3 +1,10 @@
+---
+id: op-240
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-240 — Implementer: fix the twq serial-queue drain-liveness defect — the handoff must not push `dq_running > dq_width` on a serial queue mid-drain (op-238's product-divergence requirement)
 
 op-240 | role: **Implementer** (twq/libdispatch source dive + product fix) | EXU: **wip-gpt (Implementer seat)** | state: **[Done — PREMISE REFUTED, no product change; Arranger-verified first-hand 2026-07-02]** — the DTrace-confirm gate caught it: op-238's `dq_running>dq_width` mechanism did NOT fire; op-235 churn was a harness measurement artifact. No commit; alpha clean @ 106f9d7fd160. | parent: op-238 (DS4P (b) product-divergence, 9/10 — now REFUTED) → op-235 churn → op-231 D3 layer 1 | L1i: li-1002 (libdispatch hardening) / li-1001 (substrate invariant — serial-queue completion under load) | cost: 30 (code-reasoned dive + targeted DTrace confirm + product fix) | authored 2026-07-02 (Arranger seat, model Opus 4)

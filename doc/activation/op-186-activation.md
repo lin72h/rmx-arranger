@@ -1,3 +1,10 @@
+---
+id: op-186
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-186 — Explorer: inventory the integration-soak probe/harness surface (readiness matrix) — scopes the held op-185
 
 op-186 | role: **Explorer** (free) | EXU: **rmx-explorer** (rx1) | state: **[Done]** — inventory complete, pushed to main @ `0b0a25b` (2026-06-28). 5-row matrix: notify/asl/mach-IPC-oracle RUNNABLE (artifact-level); libdispatch NEEDS-BUILD; libxpc NEEDS-BUILD (gated on op-187); orchestrator NEEDS-AUTHORING. Long pole = libdispatch-churn + orchestrator → carried into op-188. | parent id: id-026 | L1i: li-1007 | authored 2026-06-28 (Arranger seat, model Opus 4)

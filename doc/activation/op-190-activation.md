@@ -1,3 +1,10 @@
+---
+id: op-190
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-190 — Explorer (parity / macOS-truth): capture the macOS XPC cancel + error-delivery behavioral contract — the truth target for the bucket-3 fill (post-op-189)
 
 op-190 | role: **Explorer** (free) | EXU: **mx-a64z** (macOS parity) | state: **[Done]** — `contract-captured`, pushed `7ef3b9a`; adjudicated 2026-06-28. macOS contract: local cancel→`XPC_ERROR_CONNECTION_INVALID`; remote death→`XPC_ERROR_CONNECTION_INTERRUPTED`; cancel-during-`_with_reply_sync`→waiter RETURNS `XPC_TYPE_ERROR` (invalidated, not dropped)+handler INVALID; errors = shared singletons (`xpc_equal`), `XPC_TYPE_ERROR`, dict_count=1. Artifact `op190-macos-cancel-truth.log` sha `7ba521d1…` (macOS 27.0 arm64 M4). KEY: op-122's cancel "(no event)" was a TEST artifact (main-thread sleep never pumped the queue) — macOS DOES fire it with serial-queue+semaphore pumping; does NOT shrink rmxOS scope (op-189 confirmed rmxOS cancel is an empty stub). Both bucket-3 precursors now closed → fill authorable (op-191). | parent id: id-021 | L1i: li-007 | authored 2026-06-28 (Arranger seat, model Opus 4)

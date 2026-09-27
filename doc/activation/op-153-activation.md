@@ -1,3 +1,10 @@
+---
+id: op-153
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-153 — Explorer: hypervisor-level (bhyve -G / kgdb) capture of the id-025 deadlock stack + confirm identity
 
 op-153 | role: Explorer — **rmx-explorer / `explorer-rx` (rx1)**, FREE | state: READY dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Fable)

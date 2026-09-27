@@ -1,3 +1,10 @@
+---
+id: op-213
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-213 — Explorer: op-198 v5 reclaim PRE-FLIGHT SMOKE — confirm the op-204 fixed-aslmanager image boots + aslmanager-reclaim ARMS and FIRES once, so the Gatekeeper's scarce hours-scale soak slot runs one-pass (not a wasted night on a setup bug)
 
 op-213 | role: **Explorer** (FREE) | EXU: **rmx-explorer** (rx1) | state: **[Done — `soak-cleared` (attempt-2 @ a823526, 3752123..a823526), Arranger-verified first-hand].** D1: booted aslmanager sha `301bfb1d` / NEEDED `libdispatch.so.5` (the dynamic op-204 fix, verified on disk last turn) → `aslmanager starting`→`finished` rc=0, reaches main, no pre-main core. D2: reclaim ARMS + FIRES — pre-aged 600KB `2026.06.28.asl` + 200KB `BB.2026.06.28.asl` = 819200B; `-size 500K` → all_max=512000; 819200 > 512000 → FIRED → both files removed (store→0). **TTL ruled out** (files 1-day-old vs `store_ttl 7`) → the removal IS the `all_max` SIZE trigger under test. Verdict `soak-cleared` ACCEPTED: op-198 v5 can run one-pass. **TWO CARRY-FORWARDS for op-198 v5 (not smoke blockers — riders the soak MUST add to be complete-once):** (1) **debug_log capture** — the briefed markers (`Data Store Size > all_max` / `Additional YMD Scan` / `remove`) went to SYSLOG not stderr (because asld-is-logger/op-210 is live — the debug flowed through the asl stack), so the smoke proved the OUTCOME not the PATH; the soak harness must route `aslmanager_debug` to a captured file. (2) **trim-vs-purge semantics** — size-reclaim removed the WHOLE store (→0), not trimmed to just-under-500K; the soak must characterize whether full-purge is intended (bounded-store vs sawtooth-purge-to-0). | parent id: id-011 (asl) + id-025 (reclaim regression) | L1i: li-1004 (asl) | cost: free | authored 2026-06-29 (Arranger seat, model Opus 4)

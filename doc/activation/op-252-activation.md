@@ -1,3 +1,10 @@
+---
+id: op-252
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-252 — Explorer-mx (macOS-side recon): map how macOS 27 exposes pthread_workqueue / the kernel-managed thread pool to PUBLIC API and SPI — so we can mimic the seam and save design effort
 
 op-252 | role: **Explorer** (discovery/source-read recon; NO product-write, NO build) | EXU: **mx-a64z (macOS parity explorer)** | state: **[Done — RECON CAPTURED, Arranger-verified first-hand 2026-07-03. Fetched origin/main f8006a3; recon note `findings/mx-a64z/op252-threadpool-governor-seam-recon.md` sha256 221fb872…f7b00 (matches the report); cited symbols confirmed present in the artifact. MIMIC TARGET IDENTIFIED: macOS 27 (XNU 13361, mm4/M4 seat) did NOT replace the pthread_workqueue SPI — it kept the 2017-era SPI as the INTERNAL mechanism (19 `_pthread_workqueue_*` still exported in libsystem_pthread.tbd; our ported baseline matches) and LAYERED a PUBLIC width-sizing face on top: `os_workgroup_parallel_create` + join/leave + `os_workgroup_max_parallel_threads` (workgroup_object.h:329-336, API_AVAILABLE macos(11.0), hardware-aware recommended-concurrency query). Width signal is BIDIRECTIONAL (public max_parallel_threads pull + private add_cooperativethreads/should_narrow push). `os_workgroup_interval` is ORTHOGONAL (scheduling deadlines, NOT width) — not the mimic target. Precedent: Swift concurrency (OS_REFINED_FOR_SWIFT) consumes os_workgroup as a GOVERNOR. Findings are HYPOTHESES (macOS-header cites) — source-verify before any edit (`verify_signature_divergence_claims`). Feeds op-256 (libdispatch pthread_workqueue SPI exposure slice: keep 2017 SPI internal — split out of op-255 on 2026-07-03) + deferred op-251 SCOPE-6 (governor slice: os_workgroup_parallel public shape).]** | parent id: id-000 (post-preview runtime-substrate initiative) | L1i: li-1000 (substrate registry) | cost: 0 (Explorer, free) | authored 2026-07-03 (Arranger seat, model Opus 4)

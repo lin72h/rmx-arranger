@@ -1,3 +1,10 @@
+---
+id: op-234
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-234 — Gatekeeper: validate the op-227 concurrency-engine banner across all three matrix cells — the per-run engine-attribution unlock
 
 op-234 | role: **Gatekeeper** (harness run) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — banner VALIDATED 2/3 cells @ d541cd1, Arranger-adjudicated 2026-07-02; 2 caveats carried (SHA reconciliation + cell-1)]** | parent: op-231 D2 Sequence step 1 | L1i: li-9001 / li-1002 / li-1013 (op-225 M1 regime) | cost: gatekeeper-tier (free role; guest run + log read) | authored 2026-07-02 (Arranger seat, model Opus 4)

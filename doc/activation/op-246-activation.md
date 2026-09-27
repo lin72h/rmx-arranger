@@ -1,3 +1,10 @@
+---
+id: op-246
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-246 — Validator (GLM): kernel-semantics gate on the op-242 MACH_RECV flag-collision fix (ipc_pset.c filt_machport_direct_receive) — confirm it fixes the panic path AND does not regress internal direct-receive
 
 op-246 | role: **Validator (GLM)** (falsification-primary, kernel-semantics) | EXU: **GLM validator seat — reads wip-gpt/wip-rmxos @ d70062591073 (source, read-only) + op-242 trace artifacts (rmx build/op242-mach-recv/)** | state: **[Done — SPINE PASSES, confidence 9/10; op-242 fix confirmed REGRESSION-SAFE + semantically correct first-hand (Q2 verified by Arranger); op-247 RELEASED. Q1 "flag collision is the SOLE corruption vector" is OVER-BROAD — refuted by op-244 R1 (GLM lacked op-244); sufficiency remains UNPROVEN → op-247 A/B settles it. 2026-07-02]** | parent: op-242 (the L/XL fix delegation) / id-036 (defect) | L1i: li-1002 (IPC substrate) / li-1001 (invariant) / li-1007 (exposure) | cost: 0 (GLM, free) | authored 2026-07-02 (Arranger seat, model Opus 4)

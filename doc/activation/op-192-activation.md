@@ -1,3 +1,10 @@
+---
+id: op-192
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-192 — Explorer: diagnose the recurring `ipc_entry_lookup failed on 0` mach-IPC console spam surfaced by the op-168 soak — benign null-port path vs a dropped port right
 
 op-192 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Done]** — `benign-noise`, adjudicated 2026-06-29 (Arranger, verified first-hand). Pushed `814febf`. CONFIRMED first-hand: canonical `ipc_kmsg.c:1318` = `printf("ipc_entry_lookup failed on %d %s:%d\n", dest_name,…)`, fires when `ipc_entry_lookup(space, dest_name)` returns `IE_NULL` (dest_name=0=`MACH_PORT_NULL`) → `goto invalid_dest` → `MACH_SEND_INVALID_DEST` = CORRECT rejection of a null-dest send (in `ipc_kmsg_copyin_header`). Donor `nx/NextBSD` has the BYTE-IDENTICAL printf at the same line 1318 → donor-inherited diagnostic, NOT rmxOS-local, NOT a defect. Startup burst attributed to procs starting without a bootstrap port (bl-016, launchd-domain — not chased; op-168 ran clean); shutdown burst = teardown sends. DISPOSITION: printf-gate is cosmetic serial-noise only → RESERVED as a cheap rider on the NEXT kernel rebuild, NOT a dedicated cost-30 (role_costs); does not gate preview. PRIOR state: [Awaiting] — released 2026-06-28. | parent id: id-026 | L1i: li-1009 (adoption-gate hygiene) | cost: free | authored 2026-06-28 (Arranger seat, model Opus 4)

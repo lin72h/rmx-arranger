@@ -1,3 +1,10 @@
+---
+id: op-260
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-260 — Oracle: confirm the correctness of the ASL on-disk store write + read-back path (asl_store/asl_file) — one feature, one file pair
 
 op-260 | role: **Oracle** (consult; highest-tier, consult-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — findings returned + ACCEPTED as a grounded consult 2026-07-03. First narrow-single-feature Oracle op to CLEAR the classifier (confirms: userland-service scope + no interface-mapping = accepted; kernel-mach-ipc = still blocked). Arranger VERIFIED FIRST-HAND the two flagship claims at their exact cited lines: (Q1) the record-body `fwrite`/`fflush` return is unchecked at `asl_file.c:1133-1134` (while the pointer-publish writes :1147/:1156 ARE checked — finding is precise); (2) `trigger_aslmanager()` body is `#if 0`'d dead at `usr.sbin/asl/daemon.c:853-881`. Provenance (byte-identical-to-donor) + the aslmanager.c:974-981 size-pressure claim taken as Oracle-verified, not yet Arranger-read. All findings are hypotheses (not gating; asl post-preview-floor). ROUTED: SCOPE-5 instrumentation + same-second-roll-clobber / ACL'd-unlink / unchecked-write folded into op-258 (SCOPE-4/5/6); the in-daemon-trigger-dead confirmation folded into op-257 (validates the external-StartInterval approach); unchecked-write fix RESERVED as op-266, GATED on op-258's ENOSPC leg.]** | parent id: id-011 (libasl/asld) | L1i: li-1004 (asl) | cost: oracle-tier (highest ~90/100) | authored 2026-07-03 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-166
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-166 — Implementer: stage the op-156-patched leg-4 soak image (graft patched `mach.ko` onto the op-123 leg-4 base) — the build that unblocks op-165 (notify leg-4)
 
 op-166 | role: **Implementer** | EXU: **wip-gpt (Implementer seat)** | state: **[Done] → [Retired]** (2026-06-27) — patched leg-4 image staged + Arranger-verified first-hand (`leg4-soak-op156.img` SHA `6aa7d184…`, mach.ko `9c7706a3…` carries `ipc_pset_port_changed`, no static pre-empt, harness intact); ran on the BUILD host parallel to op-163's soak. Deliverable produced, no residual in stage scope (running-load KBI = op-165's gate) | parent id: id-010 (notify leg-4) + id-025 (op-156 fix carrier) | authored 2026-06-27 (Arranger seat, model Opus 4)

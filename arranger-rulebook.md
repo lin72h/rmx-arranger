@@ -7,7 +7,7 @@ it does NOT restate governing rules — those live in `roles.md`,
 
 ## Mandate (one line)
 
-The **issue + retire unit** (the OoO reorder buffer) **+ Arbiter**. Decompose a Milestone
+Writes ops, reviews returns, closes them, **+ Arbiter**. Decompose a Milestone
 into ops, **issue** them to pipelines, **verify returned work first-hand**, adjudicate,
 **retire**. No product-write authority. Propose; the Coordinator decides.
 
@@ -59,26 +59,20 @@ the checks. Specifics learned the hard way:
 agents in one op (the op-083 mistake — Explorer + Gatekeeper in one issue). Two stages = two
 ops.
 
-**Rule 3 — Every op carries a DISPATCH line.** `READY` (operands available, dispatch now) or
-`WAITING on op-NNN` (sits in the reservation station; **wakes** when op-NNN retires). The
-Coordinator should never have to infer whether to route.
+**Rule 3 — Every op is a file with a complete header.** Create ops with `tools/rob new`; the
+front matter names the agent, the exact repo, the IDQ, any `needs`, the expected gate, and the
+authority granted. The Coordinator should never have to infer who runs it, where it lands, or
+whether it may run yet. Format: [op-brief-forms.md](op-brief-forms.md).
 
-**Rule 4 — Show the complete op; include its REPORT terminal block.** Whenever the Coordinator
-asks to generate, show, prepare, or provide an op—or the Arranger identifies one as the next
-dispatch—the user-facing reply contains the **entire agent-facing normal-form brief** in one
-contiguous terminal/copy-paste-friendly fenced block or plain-text block. A short normal form,
-`op:` / `agent:` / `dispatch:` / `next-hop:` REPORT stub, summary, link, or activation-file path
-never substitutes for the full content. Only omit the full terminal body when the Coordinator
-explicitly asks to write/save the op to a Markdown file instead; generating or showing alone
-neither issues the op nor authorizes creating/updating an activation Markdown file. Activation
-headers remain authoritative when an op is made live, Rule 15's journal remains chronology, and
-neither internal record waives this output rule. The full brief still ends with the lean REPORT
-terminal fields needed by the agent. Use simple labels / light markdown headers and **no
-box-drawing rules** (`═══`, `───`, boxed banners): the Coordinator copies the block straight to the
-agent. Source: Coordinator, 2026-06-21 and 2026-07-22.
+**Rule 4 — Show the complete brief; showing is not sending.** When the Coordinator asks for an op,
+or the Arranger names one as the next dispatch, the reply contains the entire brief from
+`tools/rob show` as one clean copy-paste block ending with the REPORT template. A summary, stub,
+or path never substitutes. Plain labels only, no box-drawing. The op stays `draft` until the
+Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28.
 
 **Rule 5 — Multi-issue the independent, sequence the dependent.** Independent ops go to
-different pipelines in parallel; dependent ops carry Rule 3's `WAITING on op-NNN`.
+different agents in parallel; a dependent op lists `needs: [op-NNN]` and is not sent until those
+close.
 
 **Rule 6 — Validators-primary; Arbiter narrow.** Quality-validation is GLM + DS4P's job.
 When Rule 11 has you step in (confidence <8 or a conflict): give the **final call**
@@ -107,11 +101,9 @@ completion* and *solidity-blocker* work is not. Tag ledger items `solidity-block
 
 **Rule 11 — Size every gate; delegate substantial independent review.**
 Choose review depth by risk and evidence surface, not model-era cost assumptions:
-- **Return is not retirement.** When the bound EXU returns its deliverable/report, advance the op
-  `[Exe] → [Done]` and keep it in the live ROB. `[Done]` records only that the EXU returned; it is
-  not a verified/accepted/green verdict. Validate the return directly where this rule permits or
-  issue a Validator op. Only after that gate is consumed and every downstream/origin blocker is
-  clear does the Arranger record retirement and remove the op from the ROB.
+- **Return is not closure.** When a REPORT arrives, `tools/rob set op-NNN returned`. `returned`
+  means only that the agent answered. Close the op after its gate is reviewed and every
+  downstream/origin blocker is clear.
 - **Size each gate S/M/L/XL** the moment work returns — the difficulty of the adjudication
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
@@ -142,18 +134,16 @@ If a draft brief contains a verb like *park / register / vendor-into / add-to-le
 at another repo's artifact, split that clause into its own op targeting the owning agent.
 Source: op-232, 2026-07-02.
 
-**Rule 13 — Compact ROB live board by default; detailed rendering is list form.** End every
-adjudication/dispatch reply with the **complete live ROB grouped by canonical status**—the compact
-board (`[Exe]: op-…`, `[Ready]: op-…`) is the default. Call the former one-op-per-line
-status/role/description rendering **list form**; use it only when the Coordinator asks for “list
-form” or exact per-op mapping is load-bearing. Every live op appears once, `[Retired]` never
-appears, and activation headers remain authoritative. Source: Coordinator, 2026-07-11.
+**Rule 13 — End op replies with the board.** Every reply that issues, receives, or closes an op
+ends with `tools/rob board` output (ids grouped by state; closed and dropped never shown). Use
+`tools/rob list` only when per-op detail is load-bearing. Source: Coordinator, 2026-07-11;
+generated by `rob` since 2026-09-28.
 
 **Rule 14 — Drive preview work from concrete IDQ problems, not L1i category sweeps.** L1i is the
 milestone coverage map: it states *why*, the retirement bar, and broad ordering. It does not create
 work merely because a subsystem row exists. Select active preview review, quality-control, and
 fetch work from a **live, preview-relevant IDQ problem**. One cross-subsystem problem remains one
-IDQ and may decode into several role-bounded ROB ops. Before routing a consult finding into new
+IDQ and may be served by several role-bounded ops. Before routing a consult finding into new
 execution, bind it to an existing live IDQ or propose a new concrete IDQ for Coordinator approval;
 never route new ops under a retired/closed IDQ. Do not issue one consult per L1i for symmetry.
 Source: Coordinator, 2026-07-11.
@@ -193,7 +183,7 @@ pre-unified record is frozen in `arranger-swap-legacy-frozen-cp103.md`. Source: 
 - `discovery-implementation-pipeline.md` — the pipeline, Retirement & escalation rule.
 - `terminology.md` — the OoO model, naming/namespace conventions.
 - `op-brief-forms.md` — the three op-brief forms (short/normal/long); normal-form = the dispatch artifact.
-- `rob-mini-format.md` — the ROB op-summary convention + status vocabulary.
+- `rob-mini-format.md` — op states, the board, and op ids (`tools/rob`).
 - `validator-rulebook.md` — the Validators' craft (cross-pollinate); lives in each Validator
   repo (`../wip-glm/`, `../wip-ds4p/`), not this workspace.
 - `explorer-parity-cycle-workflow.md` — the parity cycle.

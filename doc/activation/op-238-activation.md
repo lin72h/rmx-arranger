@@ -1,3 +1,10 @@
+---
+id: op-238
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-238 — Validator: settle op-235's churn result — does our libdispatch port RETAIN the target queue across `dispatch_group_async_f`/`dispatch_async_f` submission? (harness-bug vs product-divergence disambiguator)
 
 op-238 | role: **Validator (DS4P)** (falsification-primary source read) | EXU: **DS4P validator seat — reads wip-gpt/wip-rmxos libdispatch source (read-only) + rmx-gatekeeper `build/op235/op235-substrate.c` @ db9a65c** | state: **[Done — verdict (b) SUBSEQUENTLY REFUTED by op-240's DTrace, 2026-07-02]** — this op's 9/10 "product divergence" mechanism did NOT survive empirical confirmation (see REFUTATION block below). The `dq_running>dq_width` serial strand it hypothesized never fired (`OP240_SERIAL_OVERRUN=0`); op-235's churn low-count is a **harness measurement artifact**. Cited lines were real; the causal mechanism was wrong. | parent: op-235 (churn INCONCLUSIVE) → op-231 D3 layer 1 | L1i: li-1002 (libdispatch hardening) / li-9001 | cost: 4 (DS4P) | authored 2026-07-02 (Arranger seat, model Opus 4)

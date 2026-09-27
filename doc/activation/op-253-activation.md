@@ -1,3 +1,10 @@
+---
+id: op-253
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-253 — Gatekeeper: fresh acceptance of the op-249 MACH_RECV TOO_LARGE fix — probe A (undersized) must be NO-PANIC and probe B (trailer-sized, owed from op-247) must be CLEAN on the op-249 mach.ko, plus a notifyd/libxpc no-regress glance
 
 op-253 | role: **Gatekeeper** (independent acceptance soak; NO product-write, NO build) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — ACCEPTANCE PASS, Arranger-verified first-hand 2026-07-03; id-036 CLOSES]** | parent id: id-036 (the MACH_RECV null-io_lock panic — CLOSED by this pass) | L1i: li-1002 (IPC substrate) / li-1007 (exposure) / li-1013 C6 | cost: 0 (Gatekeeper, free) | authored 2026-07-03 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-293
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-293 — Gatekeeper: repair op-286 evidence and discriminate aslmanager scheduling from helper reclaim
 
 op-293 | role: **Gatekeeper Ruler** (runtime/evidence owner; no product write) | EXU:

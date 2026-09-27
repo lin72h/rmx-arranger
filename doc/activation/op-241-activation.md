@@ -1,3 +1,10 @@
+---
+id: op-241
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-241 — Explorer: premise-check + scope sub-fix #2 (MACH_RECV dispatch-source servicing, completion-debt #21) — is the mach-backed source ACTUALLY dark/pool-fallen-back on the certified alpha today, or is the "dark" label stale?
 
 op-241 | role: **Explorer** (premise-verify + source read + targeted DTrace probe on the alpha) | EXU: **rmx-explorer (rx1)** | state: **[Done — LIVE GAP confirmed (premise, 9/10 accepted); root-cause REFINED, proposed fix REFUTED; pushed 4c96652, Arranger-verified first-hand 2026-07-02]** — MACH_RECV dispatch-source round-trip panics the kernel; debt #21 is real, not stale. But the report's "insert_right didn't init io_lock_data" fix is contradicted by its own evidence — servicing routed to op-242 premise-gated (trace before fix). See OUTCOME. | id: id-036 (the kernel defect record). | parent: sub-fix #2 servicing gap (swift-rmxos-integration-plan.md:545 completion-debt #21) / id-003 [DROPPED — kernel filter works] | L1i: li-1002 (libdispatch hardening) / li-008 (launchd), li-1007 (notifyd/asld integration exposure) | cost: explorer-tier (free role; source read + guest DTrace) | authored 2026-07-02 (Arranger seat, model Opus 4)

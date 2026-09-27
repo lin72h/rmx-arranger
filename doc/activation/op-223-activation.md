@@ -1,3 +1,10 @@
+---
+id: op-223
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-223 — Oracle: architecture + code-quality review of the rmxOS 1.0-preview foundation — LEG A (Mach IPC + libdispatch), kernel-integration first; grade maturity + split near-term vs long-term engineering work
 
 op-223 | role: **Oracle** (consult) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — LEG A REVIEW DELIVERED 2026-07-02, Arranger-verified first-hand].** Consult returned a file:line-grounded review of the Mach IPC + libdispatch foundation @ tree 32f21706606f. Arranger re-read the load-bearing, product-driving claims at source: **N1 live bug CONFIRMED end-to-end** (mach_traps.c:253/266-267 unpaired `task_deallocate`; current_task() no-ref thread.h:632-637; task_deallocate decrements+frees-at-0 kern/task.c:268-279; anti-pattern isolated — only 1 deallocate in the file) → seeded **op-224** (Implementer). **Trailer-identity premise CONFIRMED** (unconditional KERNEL tokens kern/task.c:215-216) → N3 proposal. **Engine-selection/evidence-provenance CONFIRMED** (MACHDEBUG = GENERIC+COMPAT_MACH, NO THRWORKQ; MACHDEBUGDEBUG has `options THRWORKQ`) → E1 is a real Coordinator acceptance-bar call. Remaining findings honestly self-labeled INFERRED by the Oracle; not independently re-run. Downstream: op-224 issued now; N2/N3/N4/N6 held as Coordinator-scoped proposals; E1/E2/E3 escalated (below). | parent id: id-000 (1.0-preview roadmap consult) | L1i: li-1000 | cost: **oracle-tier (highest; consult-only, no product-write)** | authored 2026-07-02 (Arranger seat, model Opus 4)

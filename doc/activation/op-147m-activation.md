@@ -1,3 +1,10 @@
+---
+id: op-147m
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: DONE
+reset: j-20260927-004
+---
 # op-147m — META op: write tests/harnesses in Elixir + Zig only (no shell)
 
 - op: op-147m   (the `m` suffix = this op retools the TARGET AGENT's own working

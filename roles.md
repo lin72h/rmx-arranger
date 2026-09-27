@@ -9,7 +9,7 @@ home. (Onboarding narrative is separate: `role-model-onboarding.md`.)
 ```
 Coordinator (human owner: doctrine, acceptance, routing, scope, appeals, Milestones)
 ├── Oracle (more powerful consult-agent; the Arranger escalates to it when stuck)
-└── Arranger (+ Arbiter seat): the issue + retire unit
+└── Arranger (+ Arbiter seat): writes ops, reviews returns, closes them
     ├── Implementer ............ execution pipeline (sole product-write authority)
     ├── Rulers
     │   ├── Explorer ........... discovery pipeline
@@ -17,12 +17,26 @@ Coordinator (human owner: doctrine, acceptance, routing, scope, appeals, Milesto
     └── Validators GLM + DS4P .. PRE-retirement correctness gate (superscalar)
 ```
 
-## How an op flows (CPU out-of-order model)
+## How an op flows
 
-The Arranger **issues** an op → a pipeline **executes** it → **Validators** gate retirement
-on correctness → the op **retires** → the **Gatekeeper** guards the retired state against
-macOS-truth. Pipelines run in parallel; ops may **retire out of issue order**. (Terms:
-`terminology.md §6`.)
+The Arranger writes an op (one agent, one repo) → the **Coordinator relays it by hand** → the
+agent executes and returns a REPORT → the Coordinator relays the REPORT back → the op is reviewed
+at its risk size (Arranger, one Validator, or both) → the Arranger **closes** it → the
+**Gatekeeper** guards the closed state against macOS-truth. Ops for different agents run in
+parallel and may close in any order. States and format: `rob-mini-format.md`,
+`op-brief-forms.md`; critical path: `now.md`.
+
+## Edges (who may send what to whom)
+
+| From | To | Carries | Via |
+|---|---|---|---|
+| Arranger | any agent | brief (op) | Coordinator, by hand |
+| any agent | Arranger | REPORT | Coordinator, by hand |
+| Arranger | Validator | review brief for a returned op | Coordinator, by hand |
+| Arranger | Oracle | consult question | Coordinator, by hand |
+| Explorer | Gatekeeper | evidence, read-only across the repo boundary | Gatekeeper reads it |
+
+Writes: each agent writes only its own repo; the Implementer alone writes product source.
 
 ## Definitions
 
@@ -33,7 +47,7 @@ macOS-truth. Pipelines run in parallel; ops may **retire out of issue order**. (
   problem itself (escalation/consultation resource, Coordinator-mediated). Repurposed
   2026-06-20 from the retired "Composer" placeholder. **NOT** the old explorer+gatekeeper
   "Oracle" — that union is now the **Rulers**.
-- **Arranger** — the **issue + retire unit** (the OoO reorder buffer). Decomposes a
+- **Arranger** — writes ops, reviews what comes back, and closes them. Decomposes a
   Milestone into ops, issues them to pipelines, reviews returned work, sequences. Holds the
   **Arbiter** seat. No product-write authority.
 - **Arbiter** (held by the Arranger) — steps in **only** when a Validator is <8/10 or two

@@ -1,3 +1,10 @@
+---
+id: op-150
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: DONE-RAN
+reset: j-20260927-004
+---
 # op-150 — Gatekeeper: notify leg-4 re-run with the op-148 id-025 watchpoint attached
 
 op-150 | role: Gatekeeper — **rmx-gatekeeper**, FREE | state: **DONE-RAN / OBJECTIVE-MISSED 2026-06-25 (Arranger-verified first-hand @ rmx-gatekeeper 6697a4a)** — the OP ran to verdict; it did NOT meet its goal (capture freeze stacks). DONE = op lifecycle terminal, NOT "system OK": id-025 freeze is OPEN/unexplained, watchpoint capture FAILED. Work continues in op-151. | parent id: id-025 (relates id-010 leg-4) | authored 2026-06-25 (Fable)

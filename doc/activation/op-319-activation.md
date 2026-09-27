@@ -1,3 +1,10 @@
+---
+id: op-319
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-319 — Oracle3: round-2 1.0-preview foundation review — low-level Mach IPC + libdispatch, with an explicit delta from op-223
 
 op-319 | role: **Oracle consult — architecture/quality synthesis only** | EXU: **Oracle3 session,

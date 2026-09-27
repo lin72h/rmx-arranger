@@ -1,3 +1,10 @@
+---
+id: op-235
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-235 — Gatekeeper: layer-1 substrate stress shapes (fan-out / churn / chain) at dispatch-API level, across the 3 engine cells — the pre-Swift acceptance test for sub-fix #1
 
 op-235 | role: **Gatekeeper** (harness-authoring + run) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — PARTIAL, committed db9a65c, Arranger-verified at source 2026-07-02]** — fan_out + chain PASS on twq; churn INCONCLUSIVE (self-diagnosed "harness bug" NOT accepted — see below); cells 1&3 + macOS self-check unrun. Gate substantively advanced, NOT closed. Follow-up → op-238. | parent: op-231 D3 layer 1 (E4 seat resolved → Gatekeeper) | L1i: li-1002 (libdispatch hardening — serves this regardless of Swift schedule) / li-9001 | cost: gatekeeper-tier (free role; harness-authoring + guest run) | authored 2026-07-02 (Arranger seat, model Opus 4)

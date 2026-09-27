@@ -1,3 +1,10 @@
+---
+id: op-229
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-229 — Gatekeeper: build the park-ahead OOO mechanism + pending-gate ledger (the non-stall crux) — parked/xfail tags + committed ledger + `mix oracle.parked` diff task
 
 op-229 | role: **Gatekeeper** (harness-authoring) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — COMPLETE 2026-07-02 @ 2771dbc, Arranger-verified first-hand]** | parent id: id-033 (Stream A) | L1i: li-1000 (relates li-1007 / id-007 soak infra; the parity-explorer loop) | cost: gatekeeper-tier (free role; harness-authoring) | authored 2026-07-02 (Arranger seat, model Opus 4)

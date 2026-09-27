@@ -1,3 +1,10 @@
+---
+id: op-158
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-158 — Validator-DS4P: falsify the op-156 fix (port-to-pset lost-wakeup)
 
 op-158 | role: **Validator-DS4P** (cost-4 — falsification) | state: READY dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Fable)

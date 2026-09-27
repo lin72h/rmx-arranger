@@ -1,3 +1,10 @@
+---
+id: op-169
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-169 — Explorer: enumerate the baseline-buildworld header-staging walls in `freebsd-src-official-stable-15` UP FRONT (batch-audit for op-149), + pin the right build-base tree
 
 op-169 | role: **Explorer** (FREE) | EXU: **rx-x64z** (rmx-explorer / rx1) | state: **[Done] → [Retired]** (reported `5b47fe8`; Arranger-verified first-hand 2026-06-27 — switch-base instinct CONFIRMED, but TARGET corrected NextBSD → wip-rmxos) | parent id: id-026 | L1i: li-1009 | cost: free | authored + resolved 2026-06-27 (Arranger seat, model Opus 4)

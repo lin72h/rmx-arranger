@@ -1,3 +1,10 @@
+---
+id: op-161
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-161 — Validator-DS4P: falsify the op-160 deferral scope (is the xpc service-plane spine truly buildable with Class-D/activity/shmem/fd deferred?)
 
 op-161 | role: **Validator-DS4P** (cost-4 — falsification) | state: READY dispatch (authorized) | parent ids: id-021 + id-016 | authored 2026-06-26 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-311
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-311 — Gatekeeper: replace the rejected libxpc lifecycle successor harness
 
 op-311 | role: **Gatekeeper Ruler** (harness/evidence owner; no product write) | EXU:

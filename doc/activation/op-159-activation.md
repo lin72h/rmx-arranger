@@ -1,3 +1,10 @@
+---
+id: op-159
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-159 — Gatekeeper: deterministic reachability watchpoint for id-025 (precondition-fires detector on the real notifyd soak)
 
 op-159 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** (soak host — base/pre-fix kernel boot) | state: **[Done] → [Retired]** (delivered: NECESSARY-condition reachability PROVEN, 2-of-3; A.4-specificity NOT certified → remainder spun to **op-164**, NOT held open here) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)

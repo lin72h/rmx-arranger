@@ -1,3 +1,10 @@
+---
+id: op-254
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-254 — Validator gate (GLM + DS4P): correctness review of the op-224 insert-right task-refcount fix — confirm removing the unbalanced task_deallocate is correct and regression-safe → retire op-224
 
 op-254 | role: **Validator** (correctness gate; NO product-write) | EXU: **GLM (primary, cost 0) + DS4P (concurrence, cost 5)** | state: **[Done — CONCURRING RETIRE, Arranger-adjudicated 2026-07-03. GLM 9/10 RETIRE + DS4P 9/10 RETIRE — both ≥8 AND agree ⇒ op-224 RETIRES on concurrence (Rule 11, no Arbiter needed). Both independently source-read the same anchors: current_task() no-ref (thread.h), task_deallocate unbalanced decrement (task.c), removed guard trivially dead (task=current_task() ⇒ task!=current_task() always false), zero remaining task_deallocate in mach_traps.c, fix isolated to one trap, XNU borrowed-pointer intent matched. Both reserved 1pt only on the regression serial — Arranger-verified first-hand (op224-regression-serial.log:143-146). Arranger re-confirmed thread.h/task.c anchors first-hand.]** | parent id: id-000 (op-223 N1) | L1i: li-1000 | cost: 5 (DS4P leg; GLM free) | authored 2026-07-03 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-231
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-231 — Oracle: consult on the libdispatch↔Swift-concurrency join (P1) — grade the behavior-ready gate + design the test-first (macOS-27-truth) conformance plan for the first Swift integration feature
 
 op-231 | role: **Oracle** (consult) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — consult DELIVERED 2026-07-02 @ rmx-oracle/op-231-swift-dispatch-join-review.md; Arranger spine-verified first-hand; full-claim verification DELEGATED to op-233 (L gate, Rule 11)]** | parent id: li-9001 (Swift toolchain long-arc) + the cross-project swift-rmxos-integration-plan; relates id-033 (test pipeline) | L1i: li-9001 / li-1002 (libdispatch) / li-1000 (relates the foundation TWQ blocker) | cost: **oracle-tier (highest; consult-only, no product-write)** | authored 2026-07-02 (Arranger seat, model Opus 4)

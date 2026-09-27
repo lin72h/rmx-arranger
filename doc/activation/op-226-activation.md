@@ -1,3 +1,10 @@
+---
+id: op-226
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-226 — Gatekeeper: one-off INVARIANTS soak of the standing li-1002/li-1003 foundation greens on the op-182 MACHDEBUGDEBUG image (run the never-run assert corpus)
 
 op-226 | role: **Gatekeeper** (regression soak) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — li-1002 PASS under INVARIANTS (M2 progress on the SHIP binary); committed 7f11896, Arranger-verified first-hand 2026-07-02]** — 3 carries surfaced (report under-weighted them): (1) MACH_RECV cross-op tension → op-242/C6; (2) ship-binary provenance gap; (3) notify hang UNRESOLVED + syslogd-confounded. See OUTCOME. | parent id: id-000 (op-223 LEG A synthesis, improvement N6) | parent id: id-000 (op-223 LEG A synthesis, improvement N6) | L1i: li-1000 (li-1013 Item 1 / op-225 M2, cheap subset) | cost: gatekeeper-tier (free role; machine-hours) | authored 2026-07-02 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-301
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-301 — Gatekeeper Stage A: repair op-299 validator semantics, checker tests, and exit-code capture truth
 
 op-301 | role: **Gatekeeper Ruler** (validator/evidence owner; no product write) | EXU:

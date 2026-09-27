@@ -1,3 +1,10 @@
+---
+id: op-306
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-306 — Gatekeeper: zero-cell repair of the op-291 libxpc acceptance harness and type-token premise gate
 
 op-306 | role: **Gatekeeper Ruler** (host-only harness/premise owner; no product write) | EXU:

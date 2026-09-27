@@ -1,3 +1,10 @@
+---
+id: op-220
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-220 — Gatekeeper: re-boot op-219's narg=8 re-staged UEFI image via edk2 firmware, drive the op-104 oracle to the completion op-218 couldn't finish, confirm op-215 de-spam, verdict uefi-green
 
 op-220 | role: **Gatekeeper** (cost-0) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — UEFI-GREEN 2026-06-30, commit 3b43f9d, Arranger-confirmed first-hand].** Genuine edk2 (BdsDxe / FreeBSD EFI loader / EFI Firmware BHYVE rev 1.00 / \EFI\BOOT\BOOTX64.EFI / efirtc0 — NOT the bhyveload userboot path op-222 used, so the false-green is genuinely avoided). D1: panic GONE (0 `panic`/`Too many syscall arguments` — op-221 narg=8 mach.ko ffc67eda holds at runtime), 18 libs status=0, BLOCK078_NOTIFYD_ROUNDTRIP status=0 via the launchd-child bootstrap path (PATH 2: bootstrap_look_up kr=0, register rc=0, post rc=0, check rc=0 check=1; PATH 1 shell-context rc=1000000 is the expected op-127 limitation), BLOCK078_TERMINAL status=0. D2: 0 ipc_entry_lookup — definitive de-spam (op-218 couldn't measure past the panic). D3: uefi-green. REAL-HW Rocket Lake UEFI smoke STILL OWED (bhyve+edk2 is a strong proxy, not literal silicon) — the final step before dogfooding. (was: [Awaiting — gate CLEARED 2026-06-30: op-221 FIXED + Arranger-verified]) Boot op-221's canonical-lineage UEFI image: USB `106a373c…` / ISO `218554692b…`; in-image kernel `c526a91d` (op-182 clean-cert MACHDEBUGDEBUG), mach.ko `ffc67eda` (canonical narg=8 + op-215 de-spam gate — so D2 de-spam is on the SAME module, no separate fold-in). **Sequenced AFTER op-198 v6 soak** (preview-first holds the host overnight); op-220 takes the host after. At boot, CONFIRM the banner shows the INVARIANTS MACHDEBUGDEBUG kernel loaded (loader.conf has stale TWQDEBUG/MACHDEBUG `kernel=` blocks above it — last-wins should pick MACHDEBUGDEBUG, verify don't assume). | parent id: id-015 | L1i: li-006 (image/boot logistics) | cost: 0 | authored 2026-06-30 (Arranger seat, model Opus 4)

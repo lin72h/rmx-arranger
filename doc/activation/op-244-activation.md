@@ -1,3 +1,10 @@
+---
+id: op-244
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-244 — Oracle: cort (os_object) lifetime review — retain/release/dispose correctness on the libdispatch+libxpc refcount base, scoped to feed op-242's MACH_RECV UAF trace
 
 op-244 | role: **Oracle** (consult; highest-tier, consult-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Done — CONSULT DELIVERED, high-grade; Arranger-verified R1 first-hand. Reframes op-242: cort CLEARED, panic trigger is receive-ERROR path (undersized probe buffer), not the filter. Staged rmx-oracle/op-244-cort-lifetime-findings.md, 2026-07-02]** — see OUTCOME. | parent id: id-036 (MACH_RECV NULL-lock panic, UAF/double-servicing suspect) | L1i: li-1002 (libdispatch/IPC substrate) / subsystem-cort | cost: oracle-tier (highest) | authored 2026-07-02 (Arranger seat, model Opus 4)

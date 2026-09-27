@@ -1,3 +1,10 @@
+---
+id: op-185
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-185 — Gatekeeper: li-1007 hours-scale 4-plane integration soak (oracle + notify + asl + dispatch concurrent) on the op-188-proven compose harness → preview integration-confidence gate
 
 op-185 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — `integration-green` (with characterized caveats), Arranger-verified first-hand @ 596d42a; result `findings/op185-integration-soak-result.txt`, serial sha af765a7f].** First hours-scale 4-plane soak on rmxOS: 4h, 16/16 heartbeats, **ZERO crashes across all PIDs + daemons** (no panic/signal-11/SIGSEGV; bhyve clean shutdown), dispatch plane **22,084 iters fails=0 full-window**, **past the id-025 freeze point by 60+ min** (priors ~99m/~6-8m) → id-025 stays CLOSED, now corroborated under heaviest combined load. **D2 PARTIAL not full:** port-leak invariant proven flat (delta 0-4, 75 checkpoints) only for the first **75 min** — oracle dtrace STARVED out after t=75m under the IPC flood (in-guest-dtrace-starvation); "no Mach IPC leak" holds for 75min, NOT the full 4h. Integration-green stands on the crash-bar + dispatch full-window; the 75min port-slope is supporting, not complete. **Caveats route to their own legs, NOT op-185 gates:** notify all-fails (notifyd registration gap → op-165's leg), asld RSS 6→880MB (the op-214 `-u launchd` id-016 flood artifact — NOT op-163, NOT a new defect; survives 4h, no OOM). **CONTROLLED CROSS-CHECK (settles the op-198 v5 asld dispute):** op-185 = flood + healthy FS → asld 880MB SURVIVES 4h; op-198 v5 = SAME flood + FULL FS → asld 1.43GB OOM in 3min. Same flood, one changed variable (FS) → **op-185 PROVES the flood alone does not OOM asld**; the v5 crash is FS-full drain-stall, not "OOM under IPC flood" and not op-163. No NEW cross-interference failure mode — li-1007 integration confidence earned. | parent id: id-026 | L1i: li-1007 (integration soak) | cost: free | authored 2026-06-29 (Arranger seat, model Opus 4)

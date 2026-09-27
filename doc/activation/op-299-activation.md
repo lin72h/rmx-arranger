@@ -1,3 +1,10 @@
+---
+id: op-299
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-299 — Gatekeeper: replace op-298’s hard-coded scope and false-green validator with a complete dynamic record gate
 
 op-299 | role: **Gatekeeper Ruler** (evidence/validator owner; no product write) | EXU:

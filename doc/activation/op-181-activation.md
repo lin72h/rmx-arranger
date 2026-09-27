@@ -1,3 +1,10 @@
+---
+id: op-181
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 # op-181 — Implementer: build `mach.ko` in the clean-env world via the PROVEN standalone recipe (no KERNBUILDDIR opt-symlink) — completes the cold-build artifact set (world + kernel + mach.ko)
 
 op-181 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Awaiting]** — released for dispatch (build EXU only; overnight batch ok) | parent id: id-026 | L1i: li-1012 P0 | authored 2026-06-28 (Arranger seat, model Opus 4 — root cause VERIFIED first-hand from the op-180 mach-module log)

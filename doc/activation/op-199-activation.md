@@ -1,3 +1,10 @@
+---
+id: op-199
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-199 — Implementer: implement `launchctl unload` (currently absent → rc=64) → first li-008 launchd fill off the op-195 calibration
 
 op-199 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — unload-live, Arranger source+runtime verified first-hand @ 647a26e6aaa5]** (2026-06-29). cmd_unload registered in the command table (launchctl.c) next to load/remove; composes a refactored-shared `read_job_file` (load's plist/JSON parse) + `launchd_job_command` issuing LAUNCH_KEY_STOPJOB then LAUNCH_KEY_REMOVEJOB over launch_msg — pure liblaunch control plane, NO libxpc servicing pulled in (correctly tranched). Faithful to macOS unload(plist)=stop+unregister; EX_USAGE only on bad args. Runtime DARK→LIVE proven on a booted image (serial sha 86612dc8…, matches report): OP199_LIST_BEFORE label=com.apple.notifyd → OP199_UNLOAD rc=0 → OP199_LIST_AFTER label_absent=com.apple.notifyd + OP199_NOTIFYD_STOPPED. Honest base-record (real pre-change HEAD 501a1ef, not the stale brief d4a9946). li-008 ledger: unload moves DARK→LIVE (was 1 of 4 DARK). | parent id: id-016 (launchd bootstrap) | L1i: li-008 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-148
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: DONE
+reset: j-20260927-004
+---
 # op-148 — Explorer: id-025 race-candidate analysis + standing `.d` watchpoint
 
 op-148 | role: Explorer — **rmx-explorer / `explorer-rx` (rx1)**, FREE | state: **DONE 2026-06-25 (Arranger-verified)** | parent id: id-025 | authored 2026-06-25 (Fable)

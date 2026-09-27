@@ -1,3 +1,10 @@
+---
+id: op-248
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-248 — Explorer (discovery + trace): resolve the INVARIANTS notify-hang — bisect the op-165-vs-op-243 harness delta, and if it reproduces, DTrace the stall to a named mechanism (harness-artifact vs real WITNESS/notify-path liveness)
 
 op-248 | role: **Explorer** (discovery soak + DTrace root-cause; NO product-write, NO build) | EXU: **wip-gpt discovery seat (GPT-5.5 backend) — direct source-read + bhyve + DTrace on the op-182 image** | state: **[Done — VERDICT ACCEPTED: HARNESS ARTIFACT (confidence 8), op-243's premature-(b) REFUTED. The hang is the DTrace oracle's tick-Ns self-exit blocking `wait $DTRACE_PID` (driver line 55), NOT a notify/kernel liveness defect — Arranger-verified first-hand (driver structure + serial logs + benign-flood provenance). TWO corrections: (1) "notify HEALTHY" overstates — the 300s churn loop ran without hang/panic, but fails=0 was NEVER captured (summary eaten by the hang) → notify is NOT-YET captured-green; (2) Explorer omitted a 553-line `ipc_entry_lookup failed on 0` kernel flood (benign/pre-existing, verified). Commit 206b5a3, 2026-07-03]** | parent id: id-000 (op-243 open question) | L1i: li-1003 (notify legs) / li-1013 Item 1 M2 (notify = not-yet-green half) / li-1007 (notifyd exposure) | cost: 0 (discovery role; free) | authored 2026-07-02 (Arranger seat, model Opus 4)

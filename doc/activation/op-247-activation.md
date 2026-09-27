@@ -1,3 +1,10 @@
+---
+id: op-247
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-247 — Gatekeeper: acceptance rerun of the op-242 MACH_RECV fix on the fixed mach.ko — A/B the original undersized probe vs a trailer-sized-buffer variant to a no-panic verdict, and settle fix-sufficiency (op-244 R1)
 
 op-247 | role: **Gatekeeper** (acceptance boot + reproducer rerun; NO product-write, NO fix) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — VERDICT: op-242 fix NECESSARY-BUT-NOT-SUFFICIENT. Probe A (undersized, 28B) STILL PANICS on fixed mach.ko f0f10008 at ipc_kmsg.c:2853 via mach_msg_overwrite_trap→syscall (NOT filt_machport) — op-244 R1 CONFIRMED at runtime, trigger is filter-independent. id-036 does NOT close → error-path-hardening Implementer op-249 authored (premise-gated). Commit 117e718, 2026-07-03]** | parent: op-242 (fix under test) / op-246 (semantics spine PASSED 9/10, released this) / id-036 (defect) | L1i: li-1002 (IPC substrate) / li-1007 (exposure) / li-1013 C6 (preview-severity) | cost: 0 (Gatekeeper, free) | authored 2026-07-02 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-297
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-297 — Gatekeeper: finish op-296 manifest and real-log validator fail-closed coverage host-only
 
 op-297 | role: **Gatekeeper Ruler** (evidence/validator owner; no product write) | EXU:

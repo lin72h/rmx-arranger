@@ -1,3 +1,10 @@
+---
+id: op-296
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-296 — Gatekeeper: repair and freeze the op-293 evidence record host-only
 
 op-296 | role: **Gatekeeper Ruler** (evidence owner; no product write) | EXU:

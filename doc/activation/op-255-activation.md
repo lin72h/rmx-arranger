@@ -1,3 +1,10 @@
+---
+id: op-255
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 > **PREAMBLE — what this project is.** rmxOS is an **open-source operating system** — a Darwin/Mach userland ported onto stock FreeBSD 15, developed in the open the same way FreeBSD, illumos, or a Linux subsystem is. This task is a **maintainer's own pre-release code-quality review of source we wrote and ship** — the routine reliability engineering every OS project does on its own kernel and runtime before a release. It is NOT security research, NOT vulnerability hunting, NOT penetration testing, and has NO external target or adversary. All Mach/IPC vocabulary below ("receive", "port", "dead-name", "kill", "override", "panic") is ordinary operating-system API naming, exactly as it appears in the published XNU and FreeBSD source trees. Please read it as the OS-engineering quality work it is.
 
 # op-255 — Oracle: mach-ipc + libdispatch 2nd foundational reliability review (on the now-gated 1st-review baseline)

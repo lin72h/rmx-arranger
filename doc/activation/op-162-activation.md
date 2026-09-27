@@ -1,3 +1,10 @@
+---
+id: op-162
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-162 — Explorer: asl leg-2 (TRACED conformance) — run the 9-case asl workload against launchd-hosted asld under DTrace crash/signal observation, author the traced artifact
 
 op-162 | role: **Explorer** (FREE — rx1/rmx-explorer) | state: READY dispatch (authorized) | parent id: id-011 (li-1004 asl) | authored 2026-06-26 (Arranger seat, model Opus 4)

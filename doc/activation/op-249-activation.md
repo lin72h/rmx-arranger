@@ -1,3 +1,10 @@
+---
+id: op-249
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-249 — Implementer (premise-gated): harden the Mach receive TOO_LARGE error path so `ipc_kmsg_copyout_dest` never `io_lock`s a stale/invalid `dest` — trace the UAF first (op-244 R2/R3 bars on the op-247 core), fix at root, build fixed mach.ko
 
 op-249 | role: **Implementer** (product-write; sole builder) | EXU: **wip-gpt (Implementer seat)** | state: **[Done — FIX DELIVERED, premise-gate satisfied, Arranger-verified first-hand. Trace verdict: DEQUEUE-STALE / uninitialized caller-local kmsg (NOT port-UAF) — reproduced probe A under live DDB (op249-ddb-serial.log:159-189, panic at ipc_kmsg.c:2853 as expected), and the fix diff corroborates decisively (mach_msg.c had an UNINITIALIZED `kmsg`). Fix at named layer: ipc_mqueue.c:774-792 routes dequeued TOO_LARGE through rx_done (keeps IKM_NULL keep-on-queue); mach_msg.c:326 `kmsg=IKM_NULL`; mach_msg.c:380 guards `msg_receive_error` on kmsg!=IKM_NULL. mach.ko b62883c0…6ff6561, commit 59fe7b30. NOT self-gated → op-253 fresh Gatekeeper acceptance authored. id-036 STAYS OPEN until op-253 PASSES. 2026-07-03]** | parent id: id-036 (the MACH_RECV null-io_lock panic) | L1i: li-1002 (IPC substrate) / li-1001 (invariant) / li-1007 (exposure) / li-1013 C6 | cost: 30 (Implementer) | authored 2026-07-03 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-204
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-204 — Implementer: fix the aslmanager startup SIGSEGV (static libdispatch ctor derefs NULL __elf_aux_vector before main) → unblock asl leg-4 reclaim
 
 op-204 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — aslmanager-runs @ 15696df; Arranger verified first-hand]** (2026-06-29). Fix = exactly the diagnosed one: `usr.sbin/aslmanager/Makefile` now dynamic-links the Darwin runtime (LIBADD libdispatch/libthr/libmach/… shared) instead of the static `--start-group` archives (+ removed obsolete MK_PIE=no). VERIFIED: handoff binary `aslmanager.op204` sha `301bfb1d…` NEEDED now carries libdispatch.so.5/libthr.so.3/libsys.so.7 (mirrors notifyd) and the local static `__elf_aux_vector`/`dl_init_phdr_info`/`__init_elf_aux_vector` symbols are GONE → the 0x309b7b NULL-deref root is structurally eliminated. Guest serial (sha `7880fa7f…`): `aslmanager starting` line PRESENT (reached main), OP204_HELP rc=0 + OP204_STORE rc=0 (`-h` and `-s -size 500K -d` both ≠139), zero signal-11, no core. Correctly did NOT run the reclaim soak (soak_is_gatekeeper → op-198 v5). | parent id: id-011 (asl, leg-4) | L1i: li-1004 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

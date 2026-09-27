@@ -1,3 +1,10 @@
+---
+id: op-154
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-154 — Explorer: COMPLETE capture of the daemon-startup freeze — resolve mach.ko symbols + walk BLOCKED threads (allproc/core), settle id-025 identity
 
 op-154 | role: Explorer — **rmx-explorer / `explorer-rx` (rx1)**, FREE | state: **[Done]** (Fable-verified first-hand @ rmx-explorer f2f2d76, 2026-06-26) | parent id: id-025 | authored 2026-06-26 (Fable)

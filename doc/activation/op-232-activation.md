@@ -1,3 +1,10 @@
+---
+id: op-232
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Partial
+reset: j-20260927-004
+---
 # op-232 — Explorer (explorer-nx): author the libdispatch-concurrency conformance corpus TEST-FIRST — capture macOS-27 semantics as truth, park ahead of the Swift executor join, ready rx to match
 
 op-232 | role: **Explorer** (conformance authoring) | EXU: **explorer-mx (mx-a64z, macOS-27 truth)** + **explorer-rx (rx1 / rmx-explorer, rx-x64z)** — collectively explorer-nx | state: **[Partial — content DONE + Arranger-adjudicated 2026-07-02; park-REGISTRATION mis-assigned (Arranger brief defect) → handed to op-236 (Gatekeeper Stream B). rx1 duplicate-infra quarantined; macOS truth human-checkpoint pending (Coordinator).]** | parent id: li-9001 + id-033 (Stream: first real conformance corpus through the pipeline) | L1i: li-1002 (libdispatch) / li-9001 (Swift) | cost: explorer-tier (free role; conformance authoring) | authored 2026-07-02 (Arranger seat, model Opus 4)

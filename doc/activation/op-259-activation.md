@@ -1,3 +1,10 @@
+---
+id: op-259
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: Awaiting
+reset: j-20260927-004
+---
 # op-259 — Oracle: full implementation-quality review of libnotify/notifyd + libasl/asld — is the code well-built enough to build higher-level features on?
 
 op-259 | role: **Oracle** (consult; highest-tier, consult-only, no product-write) | EXU: **rmx-oracle-rx-x64z** | state: **[Awaiting — bundled implementation-quality review of BOTH Darwin userland daemons in one Oracle pass (shared libdispatch + IPC substrate, same harness template, sibling IDs — one resource-read covers both, per the Oracle-efficiency bundling preference). Benign userland notification + logging code review; OSS-framed. Coordinator dispatches. op-257/op-258 (asl aslmanager wire-up + re-soak) are the concrete leg-4 mechanics in parallel; this is the code-quality review above them.]** | parent id: id-010 (libnotify/notifyd) + id-011 (libasl/asld) | L1i: li-1003 (notify) / li-1004 (asl) | cost: oracle-tier (highest ~90/100) | authored 2026-07-03 (Arranger seat, model Opus 4)

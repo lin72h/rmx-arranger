@@ -1,3 +1,10 @@
+---
+id: op-243
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-243 — Gatekeeper: disambiguate the op-226 li-1003 notify HANG — re-run the notify soak on the op-182 MACHDEBUGDEBUG image WITHOUT syslogd (isolate the syslogd confound)
 
 op-243 | role: **Gatekeeper** (regression soak, disambiguation) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — syslogd RULED OUT (clean single-variable result); but the report's verdict (b) "real notify-path liveness issue" is PREMATURE — op-165 2h-clean baseline leans harness-artifact; 3 confounds remain → op-248 bisects. Commit 18107c8, 2026-07-02]** — see OUTCOME. | parent id: id-000 (op-226 carry 3) | L1i: li-1003 (notify legs 1-3) / li-1013 Item 1 M2 (notify not-yet-re-hosted-green on ship conf) | cost: gatekeeper-tier (free role; machine-hours) | authored 2026-07-02 (Arranger seat, model Opus 4)

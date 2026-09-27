@@ -1,3 +1,10 @@
+---
+id: op-167
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-167 — libxpc bucket-2 verify-FIRST sweep (id-031 header-surface + id-032 get_name stub) on the alpha tip
 
 - op: op-167

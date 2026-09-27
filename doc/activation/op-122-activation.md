@@ -1,3 +1,10 @@
+---
+id: op-122
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-122 — Dual-Explorer lockstep: libxpc SERVICE-PLANE conformance MATCH (rx-x64z vs mx-a64z) over the op-160 live send→reply→cancel→error plane
 
 op-122 | role: **Explorer ×2 dual-lockstep** (FREE — mx-a64z macOS-truth + rx-x64z/rx1 rmxOS) | EXU: **rx-x64z (rmxOS side, DONE) + mx-a64z (macOS-truth, pending)** | state: **[Done]** (rx side delivered + Arranger-verified first-hand; mx-a64z macOS-truth capture + final diff pending) | parent id: id-021 (libxpc / li-1005) | authored 2026-06-26 (Arranger seat, model Opus 4)

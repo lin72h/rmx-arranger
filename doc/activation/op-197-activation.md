@@ -1,3 +1,10 @@
+---
+id: op-197
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-197 — Implementer: fill the pure-userland xpc_dictionary completeness gaps (set_data/get_data/set_double/get_double + get_name) → first depth-first fill off the op-194 id-021 ledger
 
 op-197 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — accessors-green @ 4983b9137c90; Arranger source-verified first-hand]** (2026-06-29). D1: all 4 accessors landed in xpc_dictionary.c (set_data/get_data w/ `size_t *length`, set_double/get_double); DOUBLE serialized via a REAL private `NV_TYPE_DOUBLE` wire type (nv.h/subr_nvlist.c/subr_nvpair.c), NOT crammed into int64; get_double/get_data return the documented sentinel on type-mismatch; round-trips xpc2nv↔nv2xpc both ways. D2 get_name: CORRECTLY subject-verified as `xpc_connection_get_name` (connection name, not dict key-name) — replaced `return("unknown") /* ??? */` with strdup'd service name on creation → real name for named services + NULL for anonymous, macOS-contract-faithful (honors verify_signature_divergence_claims: no wrong-symbol fix). D3: conformance probe (Zig+Elixir+`.d`, rc=0) — the `op197-probe-stubbed.out` artifact is a STANDALONE userland probe, the correct conformance surface for this pure-userland tranche (rides no Mach plane); leg-3 conformance-match, NOT the integration soak (op-185). li-007 ledger: 5 of the op-194 13-item census now filled (4 accessors + get_name); create_reply PARTIAL = separate small follow-on; the 7 launchd-join items REMAIN HELD behind op-195 → libxpc NOT yet full-surface-green. | parent id: id-021 | L1i: li-007 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

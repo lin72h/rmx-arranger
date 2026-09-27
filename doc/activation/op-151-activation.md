@@ -1,3 +1,10 @@
+---
+id: op-151
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: AWAITING
+reset: j-20260927-004
+---
 # op-151 — Explorer: confirm the op-150 fast-freeze repro + re-architect id-025 watchpoint for freeze-surviving capture
 
 op-151 | role: Explorer — **rmx-explorer / `explorer-rx` (rx1)**, FREE | state: AWAITING dispatch (authorized) | parent id: id-025 | authored 2026-06-25 (Fable)

@@ -1,3 +1,10 @@
+---
+id: op-239
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-239 — Gatekeeper: correct the op-235 churn harness measurement bug (group the global half), then re-run churn across all 3 engine cells + macOS-27 self-check — the corrected layer-1 acceptance re-run for sub-fix #1
 
 op-239 | role: **Gatekeeper** (harness-fix + re-run) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — CHURN LEG CLOSED, committed f7f50a8, Arranger-verified first-hand 2026-07-02]** — harness fix confirmed at source (:103 now grouped) + result logs confirmed: twq 1000/1000 ×2, pool 1000/1000 ×2, banner-labeled. Layer-1 substrate gate for sub-fix #1 CLOSED (fan_out+chain+churn all PASS on twq). See OUTCOME. | parent: op-240 (premise refuted — churn low-count is a harness artifact) → op-238 (verdict (b) refuted) → op-235 churn INCONCLUSIVE → op-231 D3 layer 1 | L1i: li-1002 (libdispatch hardening) / li-1013 Item 2 (RESOLVED) / li-1013 Item 1 / op-225 C2 (pool-arm evidence — churn arm supplied via cell 3) | cost: gatekeeper-tier (free role; harness edit + guest runs) | authored 2026-07-02 (Arranger seat, model Opus 4)

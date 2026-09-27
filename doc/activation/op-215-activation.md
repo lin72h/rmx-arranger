@@ -1,3 +1,10 @@
+---
+id: op-215
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-215 — Implementer: gate the benign `ipc_entry_lookup failed on 0` console printf (ipc_kmsg.c:1318) → kill the 1,127/s id-016 null-bootstrap flood that balloons asld + the host log
 
 op-215 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — `gated-clean`, Arranger SOURCE-verified first-hand @ 12b3495].** D1: printf at ipc_kmsg.c:1324 wrapped `if (mach_ipc_entry_lookup_failed_log) printf(...)`; the `dest_entry==IE_NULL` test + `goto invalid_dest` UNCHANGED (unconditional) → MACH_SEND_INVALID_DEST semantics intact (diff = 10 ins/1 del; only the printf is conditional). Gate = `static int mach_ipc_entry_lookup_failed_log` default-0 + `SYSCTL_INT(_debug_mach, ipc_entry_lookup_failed_log, CTLFLAG_RWTUN, …)` (sysctl + loader-tunable, silent-by-default/opt-in-loud). OUR overlay by construction (stock FB15 has no `sys/compat/mach`). D2: A/B smoke `default_count=0 / knob_count=10` (same boot — gate provably SUPPRESSES real events, not just a rate-drop); IPC health via ASL/syslog round-trip OK (reject path intact). mach.ko artifact sha `ffc67eda…` at `build/op215-ipc-entry-lookup-gate/.../mach.ko`. **ADOPTION PENDING (downstream):** images must pick up this mach.ko to benefit — de-noises every `-u launchd` image + removes the op-214 asld-balloon harness artifact (the flood that fed it is now silenced) → de-risks future integration soaks. Not a preview gate (quality fix). | parent id: id-016 (ambient-bootstrap gap — this is its runtime symptom) | L1i: li-001 (Mach IPC) | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

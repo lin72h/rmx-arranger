@@ -1,3 +1,10 @@
+---
+id: op-206
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-206 — Implementer: libxpc object-model fill — endpoint_create UB-stub + uuid/date typed dict accessors → advance li-007 past 5/13 (UNGATED object-model surface only)
 
 op-206 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — fill-green @ 7a02d29; Arranger verified first-hand]** (2026-06-29). Verified at source: `xpc_endpoint_create` (xpc_connection.c:382) UB no-return KILLED → returns a real `_XPC_TYPE_ENDPOINT` from `xc_local_port`; PAIRED FIX `xpc_connection_create_from_endpoint` corrected (was the bogus `(mach_port_t)endpoint` pointer-as-port cast → now type-checks `_XPC_TYPE_ENDPOINT` + reads `xo->xo_port`, the necessary consume-side half); `set/get_date` added + the `_XPC_TYPE_DATE` serialization (previously a silent-drop empty `break;` at :180) now round-trips via `nvlist_add_date`/`NV_TYPE_DATE`; `set/get_uuid` accessors added (uuid WIRE serialization pre-existed at nv2xpc:119 / xpc2nv:195 — that's why `uuid_match=1` holds with no serialize-path diff). Build rc=0, Zig object-model probe rc=0 (date_match=1 uuid_match=1 count_match=1). Non-blocking: get_date/get_uuid skip the missing-key null-check — family-consistent with get_double/get_data, separate hardening item not an op-206 gate. Free of the op-185 soak seat; ran parallel to the overnight batch. **Scope deliberately EXCLUDES the dispatch-gated connection-lifecycle stubs** (cancel / error-interruption delivery / finalizer / transaction) — those are gated on the libdispatch MACH_RECV servicing sub-fix (li-007 §critical-convergence, debt #21) and must sequence AFTER it. This op fills only the OBJECT-MODEL surface, which is ungated. | parent id: id-021 (libxpc conformance bring-up) | L1i: li-007 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

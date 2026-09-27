@@ -1,3 +1,10 @@
+---
+id: op-207
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-207 — Implementer: dynamic-link the static-libdispatch ASL tools (asld + aslutil) → close the op-205 census-found latent-SIGSEGV class
 
 op-207 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — tools-run @ 986be5d; Arranger verified first-hand]** (2026-06-29). Both Makefiles now dynamic-link the Darwin runtime; verified `readelf -d` on the handoff binaries: **asld.op207** (sha 0c2fe9d) + **aslutil.op207** (sha 78266c3) NEEDED now carries libdispatch.so.5/libthr.so.3/libmach.so.5/libsys.so.7 (mirrors notifyd/op-204) and **zero** local `__elf_aux_vector`/`dl_init_phdr_info`/`__init_elf_aux_vector` symbols → the 0x309b7b NULL-deref root is structurally eliminated on both. asld rc=1 is the clean post-main launchd-checkin exit (reaches main + starting line, fails `LAUNCH_KEY_CHECKIN` run bare, exits cleanly — NOT the SIGSEGV; OP207_NO_CORE), aslutil rc=0. **op-205 latent-SIGSEGV class CLOSED** (aslmanager op-204 + asld/aslutil op-207 = all 3 fixed). **WIRING (Implementer-checked, D3): asld is staged-but-NOT-boot-wired in the current preview lineage** — `com.apple.syslogd.plist` points at FreeBSD `/usr/sbin/syslogd`, boot log runs FreeBSD rc syslogd → asld's crash was LATENT (not loaded), would NOT have crashed the current boot. SOURCE fixed for all 3; a future image rebuilt from HEAD carries the fixed binaries (the current 707936a6 image still holds the old static asld, harmless because unwired). Follow-on finding (track, not this op): asl is NOT the active system logger in the preview — FreeBSD syslogd is; bears on asl core-service readiness (id-011/li-1004). | parent id: id-011 (asl, leg-4) | L1i: li-1004 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)

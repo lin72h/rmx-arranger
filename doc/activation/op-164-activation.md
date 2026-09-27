@@ -1,3 +1,10 @@
+---
+id: op-164
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-164 — Gatekeeper: id-025 cond-3 close — identify the `thr_acts` (parked-receiver) offset, re-interpret op-159 fire=1, upgrade necessary-condition → full A.4 precondition FROM DATA ALREADY CAPTURED (no re-soak)
 
 op-164 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done] → [Retired]** (delivered: thr_acts@0x20 identified + op-159 fire=1 re-interpreted → cond-3 NOT evidenced; verdict NECESSARY-ONLY-CONFIRMED) | parent id: id-025 | authored 2026-06-26 (Arranger seat, model Opus 4)

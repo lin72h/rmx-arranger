@@ -1,3 +1,10 @@
+---
+id: op-286
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-286 — Gatekeeper: premise-gated ASL leg-4 reclaim and durability re-soak
 
 op-286 | role: **Gatekeeper Ruler** (soak/evidence owner; no product write) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — Gatekeeper returned Attempt 1; Arranger M-gate reclassifies it HARNESS-NOT-ACCEPTED; 1/2 consumed, Attempt 2 not released; raw-evidence/origin blockers remain; fresh diagnostic is op-293]** | parent: **id-011** (libasl/asld) | L1i: **li-1004** (ASL) | authored: **2026-07-10; normalized/adjudicated 2026-07-11 by Arranger2**

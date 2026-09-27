@@ -1,3 +1,10 @@
+---
+id: op-155
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-155 — Explorer: capture the REAL freeze — fix the detector (HB-silence, iter≈400 gate), then allproc-walk WITH per-blocked-thread backtraces to settle id-025
 
 op-155 | role: Explorer — **rmx-explorer / `explorer-rx` (rx1)**, FREE | state: READY dispatch (authorized) | parent id: id-025 | authored 2026-06-26 (Fable)

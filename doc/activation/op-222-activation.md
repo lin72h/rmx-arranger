@@ -1,3 +1,10 @@
+---
+id: op-222
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-222 — Gatekeeper: isolate the aslmanager all_max SIZE pass from TTL aging with today-dated oversize files → close op-198 leg-4 honestly
 
 op-222 | role: **Gatekeeper** (cost-0) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — SIZE-RECLAIM-PROVEN 2026-06-30, commit 8692d74, Arranger-confirmed first-hand].** The op-198 v6 FLAG (size-pass not isolated from TTL; RIDER-1 path-markers empty) is RESOLVED here by test design, not marker capture. VERIFIED from the committed host log: `OP222_TTL_CONFIG = store_ttl 7` (TTL=7d, in-guest), 3× `2026.06.30.G80*.asl` files @ 4,885,270 b each, mtime `Jun 30 09:38` (today, 0-day), store_before=14504kb; `aslmanager -s /var/log/asl -size 500K -d L5` rc=0 → store_after=8kb, all three today-dated files purged (only StoreData 12 b remains). A 0-day file cannot be removed by a 7-day TTL/YMD sweep → the `all_max` SIZE pass is isolated BY CONSTRUCTION. aslmanager identity sha `301bfb1d` confirmed in-guest. | parent id: id-011 (li-1004 asl, leg-4) | L1i: li-1004 | cost: 0 | authored 2026-06-30 (Arranger seat, model Opus 4)

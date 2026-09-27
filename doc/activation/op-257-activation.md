@@ -1,3 +1,10 @@
+---
+id: op-257
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-257 — Implementer: wire aslmanager into the asl soak image's launchd + force a reclaim cycle (closes op-170 `aslmanager-not-wired`)
 
 op-257 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Done — aslmanager-wired image delivered + ACCEPTED 2026-07-04. Arranger VERIFIED FIRST-HAND at `wip-gpt/build/op257-aslmanager-soak/`: (image) `op257-aslmanager-soak.img` SHA256 `3f6d73dffae04f146cc6533f79a659829b0cf24002e15d5321f3ab7be613e040` — matches report; (SCOPE-1) `com.apple.aslmanager.plist` = Label com.apple.aslmanager, `-s /var/log/asl -size 500K -d`, RunAtLoad + StartInterval=900, AND `rc.local:75-86` does `launchctl load`+`start` the plist after asld bringup — closes `launchd_no_autoscan` (plist is NOT left inert); (SCOPE-2) `asl.conf` lowers `max_store_size` 25600000→500000, keeps `store_ttl=7`, delta documented as test-image-only in the build note (stock tree untouched — honors the boundary); (SCOPE-3) `op257-reclaim-watch.d` emits OP257_RECLAIM_UNLINK/RENAME/WATCH_END keyed on `execname==\"aslmanager\"` unlink*/rename* — no product printf; (SCOPE-4) both asld+aslmanager dynamic w/ libdispatch.so.5+libmach.so.5+libthr.so.3+libsys.so.7, `syslogd_enable=\"NO\"`. Implementer did NOT boot the soak (correct — that's op-258). **LINEAGE FLAG carried to op-258:** image base = op-210 asld-live-logger + op-207 dynamic asld (`0c2fe9d2…`) + op-204 aslmanager (`301bfb1d…`), NOT op-163's op-162 Apple asld — a defensible current-canonical choice but it makes op-258 the FIRST durability observation of this asld+aslmanager combo; op-258 must re-establish durability from its own evidence, NOT assume op-163 GREEN transfers. Artifact accepted; hand to op-258.]** | parent id: id-011 (asl li-002/li-003) | L1i: li-1004 (asl) | cost: 30 | authored 2026-07-03 (Arranger seat, model Opus 4)

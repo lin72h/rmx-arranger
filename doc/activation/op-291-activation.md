@@ -1,3 +1,10 @@
+---
+id: op-291
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-291 — Gatekeeper: provenance-gated runtime acceptance of libxpc connection lifecycle
 
 op-291 | role: **Gatekeeper Ruler** (runtime/evidence owner; no product write) | EXU:

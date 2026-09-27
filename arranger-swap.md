@@ -359,3 +359,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: rule text aligned in discovery-implementation-pipeline.md (single home), roles.md, role-model-onboarding.md, arranger-rulebook.md Rules 6/11, AGENTS.md; no op, IDQ, or activation state changed.
 - evidence: this commit's diff.
 - next: Redesign step 2 — rob script, five-state op headers, and legacy [Done] triage proposal.
+
+### j-20260927-004 — clean-start reset; workflow docs rewritten; agent alignment briefs drafted
+
+- time / kind: 2026-09-27T22:56:39Z / ACTION
+- outcome: Under the Coordinator's delegation ("you decide … new starting point"), all 102 returned ops were closed and 18 stale draft/issued ops dropped as a reset, not an adjudication; each keeps its legacy tag and `reset: j-20260927-004`. The 9 hold ops stay. Open problems remain in their IDQ files, and now.md holds the critical path. rob-mini-format.md, op-brief-forms.md, terminology.md §6, roles.md, and rulebook Rules 3/4/5/11/13 now describe the six-state, rob-driven, hand-relayed workflow. Six alignment briefs were drafted, one per agent/repo: op-339 Implementer, op-340 Explorer, op-341 Gatekeeper, op-342 Oracle, op-343 GLM, op-344 DS4P.
+- state delta: 102 → closed, 18 → dropped, op-339…op-344 created as draft; no product, guest, or other-repo change.
+- evidence: `tools/rob board`, `tools/rob check` (181 ops, 0 problems); this commit.
+- next: Coordinator relays op-339…op-344 and answers whether op-335/op-338/op-323/op-324 were ever sent (now.md).

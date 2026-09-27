@@ -1,3 +1,10 @@
+---
+id: op-163
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-163 — Gatekeeper: asl leg-4 (SOAK) — sustained launchd-hosted asld stability over the 9-case asl churn; the last bar to li-1004 truly-green
 
 op-163 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** (soak host — boot the asld/launchd image, NOT the base kernel) | state: **[Done] — FLAGGED (bar 3 RSS), Arranger-verified first-hand 2026-06-27 (serial sha `74515b0a…` matches). Crash/PID/degrade bars CLEAN; resource bar FLAGGED + UNDER-INSTRUMENTED. asl NOT truly-green — leg-4 PARTIAL. Drives op-170 (aslmanager-reclaim wiring audit) → re-soak.** | parent id: id-011 (li-1004 asl) | authored 2026-06-26 (Arranger seat, model Opus 4)

@@ -1,3 +1,10 @@
+---
+id: op-298
+state: closed
+updated: 2026-09-27T22:54Z
+legacy-state: Done
+reset: j-20260927-004
+---
 # op-298 — Gatekeeper: close op-297 scope/digest/shutdown/counter/fd record gaps host-only
 
 op-298 | role: **Gatekeeper Ruler** (evidence/validator owner; no product write) | EXU:

@@ -1,3 +1,10 @@
+---
+id: op-160
+state: dropped
+updated: 2026-09-27T22:54Z
+legacy-state: READY
+reset: j-20260927-004
+---
 # op-160 — Implementer: bring the xpc_domain ↔ xpc_connection SERVICE PLANE live end-to-end over nvlist, launchd-hosted (li-1005 + li-1006 joint long pole)
 
 op-160 | role: **Implementer** (cost-30) | state: READY dispatch (authorized — Coordinator "finish launchd+libxpc together") | parent ids: id-021 (libxpc/li-1005/li-007) + id-016 (launchd bootstrap/li-1006/li-008) | authored 2026-06-26 (Arranger seat, model Opus 4)
