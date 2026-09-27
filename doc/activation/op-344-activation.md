@@ -4,15 +4,16 @@ state: draft
 agent: validator ds4p
 repo: wip-ds4p
 idq: none (workflow)
+needs: op-343
 gate: self
 authority: file edit only (not a git repo)
-updated: 2026-09-27T22:56Z
+updated: 2026-09-27T23:08Z
 ---
-# op-344 — Validator DS4P: output contract and single-reviewer mode
+# op-344 — Validator DS4P: output contract, single-reviewer mode, rulebook sync
 
 ## Outcome
 
-wip-ds4p/AGENTS.md states the REPORT output with score and verdict, and one line on single-reviewer mode: at an L gate your score alone closes the op at >=8, so your confidence ceilings carry full weight. Do not edit validator-rulebook.md; the Arranger syncs it from GLM's copy.
+wip-ds4p/AGENTS.md states the REPORT output with score and verdict, and one line on single-reviewer mode: at an L gate your score alone closes the op at >=8, so your confidence ceilings carry full weight. After op-343 returns, make wip-ds4p/validator-rulebook.md byte-identical to wip-glm/validator-rulebook.md by copying GLM's file (read GLM's; write only your own) and report both SHA-256 values.
 
 The Arranger workflow was simplified on 2026-09-28. What changes for you:
 - Every brief now ends with a REPORT template. Return exactly that block (format below).
@@ -39,6 +40,8 @@ REPORT format to adopt (Validators add `score: <n>/10` and `verdict: CLOSE | DO-
 ## Inputs
 
 - /Users/me/wip-mach/wip-ds4p/AGENTS.md
+- /Users/me/wip-mach/wip-ds4p/validator-rulebook.md
+- Read-only: /Users/me/wip-mach/wip-glm/validator-rulebook.md (source for the copy)
 
 ## Do / don't
 

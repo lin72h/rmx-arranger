@@ -1,63 +1,23 @@
 # Terminology & Naming Conventions (rmxOS revival)
 
-Status: Arranger reference (workspace, living). The canonical glossary for roles, ruler
-agents, repos, and namespaces on our side. Mirrors the wip-gpt `docs/terminology.md`
-discipline (current terms only; record old→new maps; never accrete). Cross-refs:
-`role-model-onboarding.md`, `explorer-parity-cycle-workflow.md`,
+Status: Arranger reference (living). Names, namespaces, hosts, repos, and the workflow vocabulary.
+Role definitions live in [roles.md](roles.md); this file does not restate them. Current terms
+only; old terms are mapped once, in §9. Cross-refs: `explorer-parity-cycle-workflow.md`,
 `test-pillar-partition.md`, `swift-rmxos-integration-plan.md`.
 
 ## 1. Roles
 
-**Executor** (the precise term, 2026-06-26) — an autonomous executing entity = **harness + LM (language
-model) + Tool(s)**. This is what we used to loosely call an "agent": the harness drives the loop, the LM
-reasons, the tools act. Every non-human role below (Arranger, Implementer, Explorer, Gatekeeper, Validators,
-Oracle) is an **Executor**; only the **Coordinator** is human. Use "Executor" where precision matters; "agent"
-persists only as informal shorthand and in baked-in names (repo dirs, `cross-agent`).
+Definitions, repos, and the review rule: [roles.md](roles.md). Naming notes only:
 
-**Shorthand (2026-06-26):**
-- **EXU** = **Executor Unit** — the compact tag for one Executor. This deliberately collides with the CPU OoO
-  term **EXU = Execution Unit**: an Executor IS our execution unit, so we use **EXU** for both senses and drop
-  "pipeline"/"backend" as the OoO-counterpart word (the EXU replaces "pipeline" in §6). One EXU = one execution
-  lane.
-- **Ex** = **Execution / Executing** — the short prefix/adjective form (e.g. an op is "in Ex" = executing,
-  matching the `[Exe]` ROB tag).
-
-| Current term | Meaning |
-|---|---|
-| **Coordinator** | Human owner. Sets milestones, accepts/authorizes spends, owns cross-Executor routing. |
-| **Oracle** | A more powerful agent the Arranger CONSULTS when it cannot resolve a problem itself — the Arranger's escalation/consultation resource. Coordinator-mediated. (Repurposed 2026-06-20 from the retired "Composer" placeholder term.) NOT the old explorer+gatekeeper "Oracle" (that union is now **Ruler**), and NOT the lowercase "test oracle / macOS source-of-truth" sense. |
-| **Arranger** | Decomposes Milestone → `block-NNN`, targets agents, reviews first-hand. (Fable.) |
-| **Arbiter** | Conflict-resolution + adjudication seat. Held by the Arranger (Fable holds both). NEVER a Validator. |
-| **Implementer** | Makes the product changes; closes blocks. |
-| **Ruler** | Role-term for the union of **Explorer + Gatekeeper** — each is "a ruler" (a ruler *measures* rmxOS against macOS truth). Dedicated agents, own repos. |
-| **Explorer** (a Ruler) | Authors parity probes, captures `mx-*`/`rx` behavior vectors, owns the mismatch ledger. Reference = real macOS, not our markers. |
-| **Gatekeeper** (a Ruler) | Evidence discipline, spend-gating, dispositions. Consumes Explorer evidence read-only across the repo boundary. |
-| **Validators** | GLM (enumeration/completeness) + DS4P (falsification/forward-instinct). Review legs; routed assignee-neutral. |
-
-### Retired / renamed (old → new; older records keep old terms with this map)
-- **agent → Executor** (2026-06-26): the loose role-sense of "agent" is now the precise **Executor**
-  (= harness + LM + tool). "agent" stays only as informal shorthand + in baked-in names (`cross-agent`,
-  the `Agent repos` dir grouping in §4). Shorthand: **EXU** (Executor Unit), **Ex** (Execution/Executing).
-- **pipeline → EXU** (2026-06-26): the OoO execution-lane word is now **EXU** (Execution Unit), which
-  doubles as **Executor Unit**. "pipeline"/"backend" retired as the lane term.
-- **Maestro → Coordinator** (2026-06-13).
-- **Conductor → Arranger** (2026-06-13).
-- **Oracle (OLD meaning = the Explorer+Gatekeeper union) → that union is now "Ruler"**
-  (2026-06-20). The old role-meaning of "Oracle" is gone.
-- **Composer → Oracle** (2026-06-20). The "Composer" placeholder term is RETIRED; the word
-  "Oracle" is REPURPOSED to a NEW meaning: the more powerful agent the Arranger consults
-  when stuck (see Roles §1). Net: "Oracle" no longer means explorer+gatekeeper (= Ruler) and
-  no longer means the milestone-Composer; it means the Arranger's consult-agent.
-- Disambiguation: the capital-O **Oracle** ROLE (consult-agent) is distinct from the
-  lowercase "test oracle" / "real macOS is the oracle" usage in the parity docs (a generic
-  source-of-truth term) and from "oracle" inside legacy artifact names (§4).
-
-### Role tree
-`Coordinator (human owner; holds Milestones/strategy) → Arranger (+Arbiter) → { Implementer,
-Rulers {Explorer, Gatekeeper}, Validators {GLM, DS4P} }`
-The Arranger **consults the Oracle** (a more powerful agent, Coordinator-mediated) when it
-cannot resolve a problem itself. Milestones stay Coordinator-held (the former Composer slot
-was never staffed; its term is now repurposed to the consult-Oracle).
+- **agent** — one autonomous worker: a harness, a model, and its tools. Each non-human role is
+  held by one or more agents; only the Coordinator is human.
+- **Oracle** (capital O) is the consult role. It is distinct from the lowercase "test oracle" /
+  "real macOS is the oracle" sense in parity docs, and from "oracle" inside legacy artifact names
+  (§4).
+- **Ruler** — naming family for Explorer and Gatekeeper instances (§2); each measures rmxOS
+  against macOS truth. Not a separate role.
+- **Arbiter** — the Arranger's seat for final calls on sub-threshold or conflicting reviews.
+  Never a Validator.
 
 ## 2. Ruler naming convention
 
@@ -100,19 +60,26 @@ unambiguous: `rmx-explorer-mx-a64z` vs `swift-rx-explorer-mx-a64z`.
 | `rx` guest | rmxOS-Mach bhyve guest (system-under-test). |
 | (`mx-x64z`) | Intel macOS reference, optional. |
 
-## 4. Agent repos (split 2026-06-20: Oracle → dedicated rulers)
+## 4. Agent repos
+
+Each agent writes only its own repo. Paths are under `/Users/me/wip-mach/`.
 
 | Local workspace | Upstream | Role |
 |---|---|---|
-| `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | foundation Explorer ruler |
-| `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | foundation Gatekeeper ruler |
-| `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI) — name retained as artifact id |
-| `swift-rx-explorer` | (swift-rx upstream) | Swift Explorer ruler |
-| `swift-rx-gatekeeper` | (swift-rx upstream) | Swift Gatekeeper ruler |
+| `rmx-arranger` | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
+| `wip-gpt` (product source in `wip-gpt/wip-rmxos`) | `git@github.com:lin72h/project-rmx.git` | Implementer |
+| `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
+| `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper |
+| `wip-glm` | none (not a Git repo) | Validator GLM |
+| `wip-ds4p` | none (not a Git repo) | Validator DS4P |
+| `rmx-oracle` | none (not a Git repo) | Oracle |
+| `rmx-validator3` | none (not a Git repo) | third Validator; status unconfirmed |
+| `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
+| `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
 
-"oracle" persists only here as baked-in artifact identifiers: the `mach-oracle.git` remote,
-the `wip-gpt-oracle` dir, and the `macos-oracle.v1` / `nx-r64z.macos-oracle` schema. These
-are NOT role terms and stay unless separately renamed.
+"oracle" persists in baked-in artifact identifiers only: the `mach-oracle.git` remote, the
+`wip-gpt-oracle` dir, and the `macos-oracle.v1` / `nx-r64z.macos-oracle` schema. These are not
+role terms.
 
 ## 5. Namespaces (two kinds — keep distinct)
 
@@ -152,31 +119,22 @@ by visiting every L1i row (Coordinator, 2026-07-11). The current critical path i
 [now.md](now.md).
 
 **Op states, board, and ids:** [rob-mini-format.md](rob-mini-format.md). **Brief and REPORT
-format:** [op-brief-forms.md](op-brief-forms.md). **Review rule:**
-[discovery-implementation-pipeline.md](discovery-implementation-pipeline.md) § Retirement &
-escalation.
+format:** [op-brief-forms.md](op-brief-forms.md). **Review rule:** [roles.md](roles.md) § Review
+and closure. Old workflow terms: §9.
 
 **L1i numbering:** `li-MNNN`, where M is the milestone (1 = 1.0-preview, index
 [l1i/li-1000.md](l1i/li-1000.md); 2 = service-usable 1.0; 9 = infrastructure) and `li-M000` is the
 milestone index. Filenames are number-only. The older flat `li-001…li-008` map into this scheme
 via li-1000. A milestone closes when its truly-green criterion holds on first-hand evidence.
 
-**Retired workflow terms** (older records keep them; read with this map):
-
-| Old | Current |
-|---|---|
-| ROB, reorder buffer, live ROB board | the board (`tools/rob board`) |
-| EXU, pipeline, backend | agent |
-| issue / dispatch / fetch | create the op / Coordinator sends it |
-| `[Draft]` `[Ready]` `[Awaiting]` | `draft` |
-| `[Exe]` `[In-flight]` `[Air]` `[Queued]` | `issued` |
-| `[Done]` | `returned` |
-| `[Hold]` `[Held]` | `hold` |
-| `[Retired]`, retire | `closed`, close |
-| `[Flushed]`, flush | `dropped`, drop |
-| `op-NNNm` (meta lane) | plain `op-NNN` for new work |
-| `block-NNN` | `op-NNN` |
-| DISPATCH line, `WAITING on op-NNN` | `needs:` in the op header |
+## 7. Other standing terms (pointers, defined elsewhere)
+- **Lane A / Lane B** — risk-tiered Swift sequencing (does it ride the unproven core?).
+  See `swift-rmxos-integration-plan.md`.
+- **Three test pillars** — Zig (low/ABI) + Elixir (orchestration spine) + swift-testing
+  (high Swift/C++/macOS-API, later). See `test-pillar-partition.md`.
+- **`op-NNN`** — the work-unit id; see §6 and `rob-mini-format.md`.
+- **Parity cycle** — input → author → macOS (spec + human checkpoint) → rmxOS → match/ledger
+  → close. See `explorer-parity-cycle-workflow.md`.
 
 ## 8. Test/evidence vocabulary — soak-testing & chaos-testing (2026-06-23)
 
@@ -201,11 +159,36 @@ addition we add later. Do **not** retroactively relabel soak as chaos.
 `sys/`) — ready for injection points in the mach-ipc paths; DTrace destructive actions
 (`chill`/`raise`/`stop`, via fasttrap) give timing perturbation consistent with DTrace-first.
 
-## 7. Other standing terms (pointers, defined elsewhere)
-- **Lane A / Lane B** — risk-tiered Swift sequencing (does it ride the unproven core?).
-  See `swift-rmxos-integration-plan.md`.
-- **Three test pillars** — Zig (low/ABI) + Elixir (orchestration spine) + swift-testing
-  (high Swift/C++/macOS-API, later). See `test-pillar-partition.md`.
-- **`op-NNN`** — the work-unit ID (was `block-NNN`); see §6.
-- **Parity cycle** — input → author → macOS (spec + human checkpoint) → rmxOS → match/ledger
-  → close. See `explorer-parity-cycle-workflow.md`.
+## 9. Retired terms
+
+Older records keep their original words; read them with these maps.
+
+**Roles**
+
+| Old | Current | Since |
+|---|---|---|
+| Maestro | Coordinator | 2026-06-13 |
+| Conductor | Arranger | 2026-06-13 |
+| Oracle (Explorer + Gatekeeper union) | Explorer and Gatekeeper (naming family "ruler") | 2026-06-20 |
+| Composer | Oracle (consult role) | 2026-06-20 |
+| Executor, EXU, Ex | agent | 2026-09-28 (introduced 2026-06-26) |
+| Arranger1 / Arranger2, SWAP, mutex, epoch | single Arranger seat | 2026-09-27 |
+
+**Workflow**
+
+| Old | Current |
+|---|---|
+| ROB, reorder buffer, live ROB board | the board (`tools/rob board`) |
+| EXU, pipeline, backend | agent |
+| issue / dispatch / fetch | create the op / Coordinator sends it |
+| `[Draft]` `[Ready]` `[Awaiting]` | `draft` |
+| `[Exe]` `[In-flight]` `[Air]` `[Queued]` | `issued` |
+| `[Done]` | `returned` |
+| `[Hold]` `[Held]` | `hold` |
+| `[Retired]`, retire | `closed`, close |
+| `[Flushed]`, flush | `dropped`, drop |
+| `op-NNNm` (meta lane) | plain `op-NNN` for new work |
+| `block-NNN` | `op-NNN` |
+| DISPATCH line, `WAITING on op-NNN` | `needs:` in the op header |
+| IDQ **FETCHED** / **RETIRED** | IDQ **IN WORK** / **CLOSED** |
+| "Retirement & escalation rule" (`discovery-implementation-pipeline.md`) | `roles.md` § Review and closure |

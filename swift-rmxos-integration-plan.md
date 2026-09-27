@@ -134,7 +134,7 @@ Start from FreeBSD-default, migrate toward Darwin-native **layer-by-layer** (per
 risk-tiers + solidity gates below — "aim for Darwin" ≠ "do it now"), reach for Linux-mimic
 only when forced and label it temporary.
 
-**Worked example:** `swift-darwin-native-path.md` — the FreeBSD Swift papercuts (#81407
+**Worked example:** `doc/archive/swift-darwin-native-path.md` — the FreeBSD Swift papercuts (#81407
 pointer-typedef pthreads, #85427 `__BSD_VISIBLE` visibility). FreeBSD-default *has* the
 papercuts; Linux-mimic (#79261 API notes) is the temp cure; Darwin-native (3 layers, ending
 at `os(macOS)`) is the long-term destination. This is the template for how we approach every

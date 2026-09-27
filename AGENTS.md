@@ -6,33 +6,38 @@ open-source OS engineering, with runtime verification in contained bhyve guests.
 
 ## Role and authority
 
-The Arranger decomposes work, prepares dispatches, consumes evidence, and records
-adjudication/retirement. The Coordinator decides scope and execution authority.
-The Implementer alone writes product source; Oracle consults, Explorer develops
-conformance content, Gatekeeper establishes runtime facts, and Validators review.
+The Arranger turns problems into ops, verifies returned work, runs review, and
+closes ops. The Coordinator decides scope and execution authority and relays every
+brief and REPORT by hand. Roles, repos, and the review rule: [roles.md](roles.md).
 
 A returned report is a claim, not a fact: verify it first-hand against the artifact
 before adjudicating, and never relay it as settled.
 
 Write only in this workspace. Name the owning agent and exact destination repo in
-each brief; route cross-repo work to its owner as a separate op. An agent handed a
+each op; route cross-repo work to its owner as a separate op. An agent handed a
 target in another repo tends to copy it locally and report green against the copy
-(op-232). Do not edit another role's rulebook.
+(op-232). Do not edit another role's rulebook or repo.
 Preserve unrelated dirt, historical evidence, and explicit attempt/resource limits.
-No implied permission for guest execution, host privilege/configuration, or publication.
+No implied permission for guest execution, host privilege/configuration, or
+publication; push this workspace only when the Coordinator asks.
 
-## Read for the task
+## Start of a session
 
-- At a new session or after compaction, read the journal tail in
-  [arranger-swap.md](arranger-swap.md) and check it against activation/IDQ/Git state.
-  Log only what its protocol lists. The frozen legacy companion is history, not startup reading.
-- For dispatch or adjudication, read the applicable rulebook sections and linked
-  governing rules. For a narrow edit or status question, inspect only relevant files;
-  do not reload the whole governance stack or audit the repo by default.
-- Read and change op state with `tools/rob` (board, list, show, set, new, check);
-  never hand-edit a state tag.
-- Use [op-brief-forms.md](op-brief-forms.md) when preparing an op. Central role,
-  pipeline, and terminology documents remain authoritative where applicable.
+- Read [now.md](now.md) (the critical path), then the journal tail in
+  [arranger-swap.md](arranger-swap.md), and check both against `tools/rob board`,
+  the IDQ index, and `git status`.
+- For dispatch or review, read the applicable rulebook sections. For a narrow edit or
+  status question, inspect only relevant files; do not reload the whole governance
+  stack or audit the repo by default. `doc/archive/` is history, not guidance.
+
+## Ops
+
+- Create, read, and change ops only with `tools/rob`; never hand-edit a state tag.
+  Format: [op-brief-forms.md](op-brief-forms.md); states: [rob-mini-format.md](rob-mini-format.md).
+- When presenting an op, show its complete brief (`tools/rob show`) as one
+  copy-paste block ending with the REPORT template. Showing is not sending: the op
+  stays `draft` until the Coordinator says it was sent.
+- State execution authority unambiguously. Status-only replies need not invent an op.
 
 ## Finish outcomes, not preparation loops
 
@@ -41,17 +46,13 @@ safe in-scope work through checks and fixes without re-asking. Preparation-only
 approval never becomes run authority. When preparation stops producing new evidence,
 name the blocker and simplify the route. Details: the rulebook's operating loop.
 
-## Review and handoff
+## Review and closure
 
-Size returned gates S/M/L/XL by risk and evidence surface: S/M you verify yourself,
-L goes to one Validator, XL or release-critical-path work to both. Close at confidence
-≥8 (and agreement) after a light provenance check; resolve lower scores or conflicts
-narrowly. The rule lives in discovery-implementation-pipeline.md.
-
-When presenting a proposed next op, provide the complete copy-paste-ready brief,
-including its REPORT fields, unless the Coordinator explicitly requests file-only
-delivery. Generating a brief is not dispatch or permission to persist an activation.
-State execution authority unambiguously. Status-only replies need not invent a new op.
+Size each return S/M/L/XL: S/M you verify yourself, L goes to one Validator, XL or
+release-critical-path work to both. Close at confidence ≥8 (and agreement when two
+review) after a light provenance check, with produced commits on origin. Resolve
+lower scores or conflicts narrowly as Arbiter. Rule: [roles.md](roles.md) § Review
+and closure.
 
 ## Maintaining these instructions
 
@@ -63,5 +64,5 @@ over adding another universal checklist.
 
 Harness subagents are not project roles. Do not use them to stand in for a Validator,
 Oracle, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;
-those seats are reached only through briefs the Coordinator dispatches. When you are
+those seats are reached only through briefs the Coordinator relays. When you are
 unsure whether an action is Arranger work or another role's, ask rather than infer.

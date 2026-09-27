@@ -6,13 +6,18 @@ front-matter block; a legacy file carries its state in the prose header (`state:
 which rob maps onto the current vocabulary. `rob set` converts a legacy file by prepending
 front matter and leaves the original header untouched below it.
 
-  rob board                 live ops grouped by state (the Rule-13 board)
-  rob list [STATE...]       one line per op, optionally filtered
-  rob show OP               print the op file (the brief to relay)
-  rob set OP STATE [k=v..]  change state (and optional fields), converting if needed
-  rob new TITLE agent=.. repo=.. [k=v..]   create a draft op with the next free id
-  rob next-id               next free project op number
-  rob check                 unknown states, dangling needs, missing fields
+  rob board                   live ops grouped by state (the Rule-13 board)
+  rob list [STATE...]         one line per op, optionally filtered by state
+  rob show OP [--raw]         the brief, ready to relay (--raw: the file as stored)
+  rob set OP STATE [k=v...] [--force]
+                              change state and optional fields; --force skips the
+                              transition check (corrections only)
+  rob new TITLE agent=.. repo=.. [k=v...]
+                              create a draft op with the next free id
+  rob next-id                 next free project op number
+  rob check                   unknown states, dangling needs/idq, stale issued/returned ops
+
+States and transitions: rob-mini-format.md. Brief format: op-brief-forms.md.
 """
 import datetime as dt
 import pathlib
@@ -21,10 +26,19 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OPS = ROOT / "doc" / "activation"
-SCAN_FOR_IDS = [ROOT / "arranger-swap.md", *sorted((ROOT / "idq").glob("*.md")), *sorted(OPS.glob("*.md"))]
+IDQ = ROOT / "idq"
 
 STATES = ["draft", "issued", "returned", "hold", "closed", "dropped"]
 LIVE = ["issued", "returned", "draft", "hold"]
+NEXT = {
+    "draft": {"issued", "hold", "dropped"},
+    "issued": {"returned", "dropped"},
+    "returned": {"closed", "dropped"},
+    "hold": {"draft", "dropped"},
+    "closed": set(),
+    "dropped": set(),
+}
+STALE_DAYS = {"issued": 14, "returned": 7}
 FIELDS = ["id", "state", "agent", "repo", "idq", "needs", "gate", "authority", "updated"]
 
 # Legacy header tags -> current state. Unknown tags are reported by `rob check`.
@@ -36,6 +50,10 @@ LEGACY = {
     "retired": "closed", "closed": "closed",
     "flushed": "dropped", "void": "dropped", "rejected": "dropped",
 }
+
+FM_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+LEGACY_RE = re.compile(r"state:\s*\**\s*\[?([A-Za-z-]+)")
+FILE_RE = re.compile(r"op-(\d{3,})(m?)-activation\.md$")
 
 BRIEF_TEMPLATE = """## Outcome
 
@@ -62,13 +80,17 @@ next:       <single smallest next action>
 ```
 """
 
-FM_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
-LEGACY_RE = re.compile(r"state:\s*\**\s*\[?([A-Za-z-]+)")
-ID_RE = re.compile(r"op-(\d{3,})(m?)-activation\.md$")
-
 
 def die(msg):
     sys.exit(f"rob: {msg}")
+
+
+def now():
+    return dt.datetime.now(dt.timezone.utc)
+
+
+def stamp():
+    return now().strftime("%Y-%m-%dT%H:%MZ")
 
 
 def op_key(name):
@@ -79,7 +101,7 @@ def op_key(name):
 class Op:
     def __init__(self, path):
         self.path = path
-        m = ID_RE.search(path.name)
+        m = FILE_RE.search(path.name)
         self.id = f"op-{m.group(1)}{m.group(2)}"
         self.text = path.read_text()
         self.fields = {}
@@ -92,23 +114,32 @@ class Op:
                     self.fields[k.strip()] = v.strip()
             self.state = self.fields.get("state", "")
             self.raw = self.state
+            self.body = self.text[fm.end():]
         else:
             lm = LEGACY_RE.search("\n".join(self.text.splitlines()[:15]))
             self.raw = lm.group(1) if lm else ""
-            raw = self.raw.lower()
-            self.state = LEGACY.get(raw) or LEGACY.get(raw.split("-")[0], "")
-        title = next((l for l in self.text.splitlines() if l.startswith("# ")), "# " + self.id)
+            key = self.raw.lower()
+            self.state = LEGACY.get(key) or LEGACY.get(key.split("-")[0], "")
+            self.body = self.text
+        title = next((l for l in self.body.splitlines() if l.startswith("# ")), "# " + self.id)
         self.title = title[2:].split(" — ", 1)[-1].strip()
 
     def needs(self):
         v = self.fields.get("needs", "").strip("[] ")
         return [x.strip() for x in v.split(",") if x.strip()]
 
+    def age_days(self):
+        try:
+            t = dt.datetime.strptime(self.fields["updated"], "%Y-%m-%dT%H:%MZ")
+        except (KeyError, ValueError):
+            return None
+        return (now() - t.replace(tzinfo=dt.timezone.utc)).days
+
 
 def load():
     ops = {}
     for p in OPS.glob("op-*-activation.md"):
-        if ID_RE.search(p.name):
+        if FILE_RE.search(p.name):
             op = Op(p)
             ops[op.id] = op
     return ops
@@ -119,6 +150,16 @@ def get(ops, name):
     if name not in ops:
         die(f"no such op: {name}")
     return ops[name]
+
+
+def parse_kv(args):
+    out = {}
+    for a in args:
+        if "=" not in a:
+            die(f"expected key=value, got {a!r}")
+        k, v = a.split("=", 1)
+        out[k] = v
+    return out
 
 
 def render_fm(fields):
@@ -132,11 +173,16 @@ def cmd_board(ops, _):
     unknown = []
     for op in ops.values():
         (groups[op.state] if op.state in groups else unknown).append(op.id)
+    shown = False
     for s in LIVE:
         if groups[s]:
-            print(f"[{s}]: " + ", ".join(sorted(groups[s], key=op_key)))
+            print(f"- [{s}]: " + ", ".join(sorted(groups[s], key=op_key)))
+            shown = True
     if unknown:
-        print("[unknown]: " + ", ".join(sorted(unknown, key=op_key)) + "  (rob check)")
+        print("- [unknown]: " + ", ".join(sorted(unknown, key=op_key)) + "  (run rob check)")
+        shown = True
+    if not shown:
+        print("(no live ops)")
 
 
 def cmd_list(ops, args):
@@ -145,47 +191,64 @@ def cmd_list(ops, args):
         if want and op.state not in want:
             continue
         legacy = "" if op.converted else f" (legacy [{op.raw or '?'}])"
-        print(f"{op.id} [{op.state or 'unknown'}]{legacy} {op.fields.get('agent', '')} — {op.title[:90]}")
+        agent = f" {op.fields['agent']}" if "agent" in op.fields else ""
+        print(f"{op.id} [{op.state or 'unknown'}]{legacy}{agent} — {op.title[:90]}")
 
 
 def cmd_show(ops, args):
+    raw = "--raw" in args
+    args = [a for a in args if a != "--raw"]
     if len(args) != 1:
-        die("usage: rob show OP")
-    sys.stdout.write(get(ops, args[0]).text)
-
-
-def parse_kv(args):
-    out = {}
-    for a in args:
-        if "=" not in a:
-            die(f"expected key=value, got {a!r}")
-        k, v = a.split("=", 1)
-        out[k] = v
-    return out
+        die("usage: rob show OP [--raw]")
+    op = get(ops, args[0])
+    if raw or not op.converted:
+        sys.stdout.write(op.text)
+        return
+    f = op.fields
+    head = [f"agent: {f.get('agent', '?')}", f"repo: {f.get('repo', '?')}"]
+    for k in ("idq", "needs", "authority"):
+        if f.get(k):
+            head.append(f"{k}: {f[k]}")
+    body = op.body.splitlines(keepends=True)
+    title = next((i for i, l in enumerate(body) if l.startswith("# ")), None)
+    if title is None:
+        sys.stdout.write(" | ".join(head) + "\n\n" + op.body)
+    else:
+        sys.stdout.write("".join(body[:title + 1]) + " | ".join(head) + "\n" + "".join(body[title + 1:]))
 
 
 def cmd_set(ops, args):
+    force = "--force" in args
+    args = [a for a in args if a != "--force"]
     if len(args) < 2:
-        die("usage: rob set OP STATE [key=value ...]")
+        die("usage: rob set OP STATE [key=value ...] [--force]")
     op, state = get(ops, args[0]), args[1]
     if state not in STATES:
         die(f"state must be one of {', '.join(STATES)}")
+    if not force and state != op.state:
+        allowed = NEXT.get(op.state)
+        if allowed is None:
+            die(f"{op.id} has unknown state [{op.raw or 'none'}]; use --force to set it")
+        if state not in allowed:
+            nxt = ", ".join(sorted(allowed)) or "nothing (terminal)"
+            die(f"{op.id}: {op.state} -> {state} is not allowed (next: {nxt}); --force for corrections")
     fields = dict(op.fields) if op.converted else {"id": op.id}
     if not op.converted and op.raw:
         fields["legacy-state"] = op.raw
     fields.update(parse_kv(args[2:]))
     fields["state"] = state
-    fields["updated"] = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
-    body = FM_RE.sub("", op.text, count=1) if op.converted else op.text
-    op.path.write_text(render_fm(fields) + body)
-    print(f"{op.id}: {op.raw or 'unknown'} -> {state}")
+    fields["updated"] = stamp()
+    op.path.write_text(render_fm(fields) + op.body)
+    print(f"{op.id}: {op.state or op.raw or 'unknown'} -> {state}")
 
 
 def next_id():
     hi = 0
-    for p in SCAN_FOR_IDS:
-        for m in re.finditer(r"\bop-(\d{3,})\b(?!m)", p.read_text(errors="replace")):
-            hi = max(hi, int(m.group(1)))
+    scan = [ROOT / "arranger-swap.md", ROOT / "now.md", *IDQ.glob("*.md"), *OPS.glob("*.md")]
+    for p in scan:
+        if p.exists():
+            for m in re.finditer(r"\bop-(\d{3,})\b", p.read_text(errors="replace")):
+                hi = max(hi, int(m.group(1)))
     return hi + 1
 
 
@@ -199,15 +262,19 @@ def cmd_new(_ops, args):
     title, kv = args[0], parse_kv(args[1:])
     for k in ("agent", "repo"):
         if k not in kv:
-            die(f"{k}= is required (name the owning agent and exact repo)")
+            die(f"{k}= is required (name the owning agent and the exact repo)")
     oid = f"op-{next_id():03d}"
     path = OPS / f"{oid}-activation.md"
     if path.exists():
         die(f"{path} exists")
-    fields = {"id": oid, "state": "draft", **kv,
-              "updated": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")}
+    fields = {"id": oid, "state": "draft", **kv, "updated": stamp()}
     path.write_text(render_fm(fields) + f"# {oid} — {title}\n\n" + BRIEF_TEMPLATE.format(oid=oid))
     print(path.relative_to(ROOT))
+
+
+def idq_exists(ref):
+    m = re.match(r"(id-\d{3,})\b", ref)
+    return bool(m) and any(IDQ.glob(f"{m.group(1)}*.md"))
 
 
 def cmd_check(ops, _):
@@ -219,12 +286,19 @@ def cmd_check(ops, _):
         elif op.converted and op.state not in STATES:
             issues.append(f"invalid state {op.state!r}")
         if op.converted:
-            for k in ("agent", "repo"):
-                if k not in op.fields and op.state in ("draft", "issued"):
-                    issues.append(f"missing {k}")
+            if op.state in ("draft", "issued"):
+                issues += [f"missing {k}" for k in ("agent", "repo") if k not in op.fields]
             for n in op.needs():
                 if n not in ops:
                     issues.append(f"needs unknown {n}")
+                elif ops[n].state == "dropped" and op.state in LIVE:
+                    issues.append(f"needs dropped {n}")
+            ref = op.fields.get("idq", "")
+            if ref and not ref.startswith("none") and not idq_exists(ref):
+                issues.append(f"idq {ref} has no file")
+            age, limit = op.age_days(), STALE_DAYS.get(op.state)
+            if limit is not None and age is not None and age > limit:
+                issues.append(f"{op.state} {age} days ago with no progress")
         if issues:
             problems += 1
             print(f"{op.id}: " + "; ".join(issues))

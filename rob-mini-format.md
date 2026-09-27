@@ -15,9 +15,8 @@ never hand-edit a state tag. (Rewritten 2026-09-28; the older CPU-style tags are
 | `dropped` | did not work out or was superseded; redo work gets a new op number | — |
 
 Transitions happen when the fact happens: `issued` when you say "sent", `returned` when you paste
-the REPORT back, `closed` only after the review in
-[discovery-implementation-pipeline.md](discovery-implementation-pipeline.md) § Retirement &
-escalation. A dependent op lists `needs: [op-NNN]` in its header instead of a separate waiting state.
+the REPORT back, `closed` only after the review in [roles.md](roles.md) § Review and closure. A dependent op lists
+`needs: [op-NNN]` in its header instead of using a separate waiting state.
 
 ## The board
 

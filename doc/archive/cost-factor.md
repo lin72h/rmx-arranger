@@ -2,8 +2,8 @@
 
 Status: Arranger reference (workspace, living). The canonical cost map the Arranger weights when
 planning ops — specifically when hunting **multi-issue** (parallel-pipeline) opportunities.
-Cross-refs: [terminology.md](../terminology.md) §1 (roles) + §6 (issue/multi-issue/pipeline),
-[idq/id-000.md](../idq/id-000.md).
+Cross-refs: [terminology.md](../../terminology.md) §1 (roles) + §6 (issue/multi-issue/pipeline),
+[idq/id-000.md](../../idq/id-000.md).
 
 ## Why this exists
 

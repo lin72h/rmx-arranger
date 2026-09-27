@@ -7,7 +7,7 @@
 - decision: **CLASSIFICATION-ONLY (pre-1.0)** — source assessment to steer XPC strategy, NOT
   an implementation commitment. Base is credible; the serialization fork is still open.
 - index: [subsystem.md](subsystem.md). Deep first-hand assessment:
-  [xpc-libxpc-assessment.md](../../xpc-libxpc-assessment.md).
+  [xpc-libxpc-assessment.md](../archive/xpc-libxpc-assessment.md).
   Verify file:line against the tree before acting.
 
 ## Why this exists

@@ -5,7 +5,7 @@
 - decision: **ACCEPTED (Coordinator, 2026-06-22)** — stay on this base; do NOT adopt
   swift-corelibs-libdispatch or apple-oss-distributions/libdispatch.
 - index: [subsystem.md](subsystem.md). Deep first-hand evidence also in
-  [libdispatch-assessment.md](../../libdispatch-assessment.md).
+  [libdispatch-assessment.md](../archive/libdispatch-assessment.md).
   Verify file:line against the tree before acting (source moves).
 
 ## Why this exists

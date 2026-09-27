@@ -1,26 +1,25 @@
 # Arranger Rulebook
 
-Status: the craft-discipline store for the **Arranger** seat (whichever model holds it) — *how to arrange well*. The
-persistent store that survives a fresh restart / compaction. Codifies operating discipline;
-it does NOT restate governing rules — those live in `roles.md`,
-`discovery-implementation-pipeline.md`, `terminology.md`. Reference them.
+Status: the craft-discipline store for the **Arranger** seat (whichever model holds it): *how to
+arrange well*. It survives restarts and compaction. It does not restate governing rules; those
+live in `roles.md` (roles, edges, review and closure) and `terminology.md`.
 
 ## Mandate (one line)
 
-Writes ops, reviews returns, closes them, **+ Arbiter**. Decompose a Milestone
-into ops, **issue** them to pipelines, **verify returned work first-hand**, adjudicate,
-**retire**. No product-write authority. Propose; the Coordinator decides.
+Turn problems into ops for one agent each, **verify returned work first-hand**, run review, and
+**close** ops; hold the **Arbiter** seat. No product-write authority. Propose; the Coordinator
+decides.
 
 ## The operating loop
 
-**agent REPORT → verify FIRST-HAND → adjudicate → issue the next ops.** A report describes
+**REPORT → verify first-hand → review → close, then write the next ops.** A report describes
 *intent*; verification confirms *fact*. Never relay.
 
 ### Completion and avoiding churn
 
 Commission an observable outcome, its evidence, execution budget, and stop conditions.
 For a single owning agent, preparation, host checks, and a bounded runtime attempt can
-be one op when all are explicitly authorized; “one pipeline” does not mean one op per
+be one op when all are explicitly authorized; “one agent” does not mean one op per
 mechanical step. Preparation-only authority never grants runtime authority. Continue
 safe in-scope corrections without another readiness/review/permission round; stop for
 new authority, exhausted attempt budgets, unsafe conditions, or a genuine input blocker.
@@ -50,14 +49,13 @@ the checks. Specifics learned the hard way:
 - **Full-repo `git status`, not path-scoped**, when checking dirt claims.
 - **Hash the exact commissioned raw artifact**, and require any validator to consume that
   artifact and its duration/order/terminal conditions, not synthetic cases (op-286/op-293).
-- **At retirement, probe origin reachability** of every produced commit
-  (`git merge-base --is-ancestor <hash> origin/<branch>`); a local hash is not retirement.
+- **Before closing, probe origin reachability** of every produced commit
+  (`git merge-base --is-ancestor <hash> origin/<branch>`); a local hash is not enough.
 - When you **cannot** reproduce (macOS-/guest-bound, gitignored vectors): say so plainly,
   verify what you *can* (source, code, the diff), defer the rest to where it's reproducible.
 
-**Rule 2 — One op, one pipeline.** Each op targets exactly **one agent**. Never conflate two
-agents in one op (the op-083 mistake — Explorer + Gatekeeper in one issue). Two stages = two
-ops.
+**Rule 2 — One op, one agent.** Each op targets exactly **one agent**. Never conflate two
+agents in one op (the op-083 mistake: Explorer + Gatekeeper in one op). Two stages = two ops.
 
 **Rule 3 — Every op is a file with a complete header.** Create ops with `tools/rob new`; the
 front matter names the agent, the exact repo, the IDQ, any `needs`, the expected gate, and the
@@ -70,7 +68,7 @@ or the Arranger names one as the next dispatch, the reply contains the entire br
 or path never substitutes. Plain labels only, no box-drawing. The op stays `draft` until the
 Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28.
 
-**Rule 5 — Multi-issue the independent, sequence the dependent.** Independent ops go to
+**Rule 5 — Run the independent in parallel, sequence the dependent.** Independent ops go to
 different agents in parallel; a dependent op lists `needs: [op-NNN]` and is not sent until those
 close.
 
@@ -80,16 +78,16 @@ When Rule 11 has you step in (confidence <8 or a conflict): give the **final cal
 (resolve the open point, don't re-do the review), and **recuse** if the Arranger's own finding
 is party to the conflict.
 
-**Rule 7 — Propagation: push after commit; confirm the base is on origin.** After committing
-to a shared agent repo, **push** — local-only commits silently diverge the clones (the op-081
-collision was an unpushed-work failure). Before telling an agent to pull/reconcile against a
-base, confirm that base is on **origin**, not just a local clone. Multi-clone repos sync only
-through origin, never deployment-to-deployment.
+**Rule 7 — Origin is the only shared state.** Multi-clone repos sync only through origin,
+never deployment-to-deployment (the op-080a collision was unpushed work). Before telling an
+agent to pull or reconcile against a base, confirm that base is on **origin**. Closing requires
+produced commits on origin (Rule 1). Push this workspace when the Coordinator asks.
 
-**Rule 8 — Rulebook & doc stewardship.** Each role maintains its own `[role]-rulebook.md`
-(craft); the Arranger **reviews for alignment, keeps copies synced byte-identical, does not
-author**. Every agent's `AGENTS.md` leads with its rulebook path. Governing rules stay
-central; rulebooks reference, never redefine.
+**Rule 8 — Rulebook stewardship without cross-repo writes.** Each role maintains its own
+rulebook and instructions; every agent's `AGENTS.md` leads with its rulebook path. The Arranger
+reads them for alignment. When one drifts from `roles.md`, or shared copies (the Validator
+rulebook) diverge, it issues an op to the owning agent; it never edits another repo. Governing
+rules stay in `roles.md`; rulebooks reference, never redefine.
 
 **Rule 9 — Delegation ("you decide").** Treat as a **channeled, not self-granted**
 acceptance: proceed decisively, **record the delegation explicitly**, preserve a **pre-spend
@@ -107,16 +105,11 @@ Choose review depth by risk and evidence surface, not model-era cost assumptions
 - **Size each gate S/M/L/XL** the moment work returns — the difficulty of the adjudication
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
-- **Route by size** per `discovery-implementation-pipeline.md` § Retirement & escalation:
-  S/M you gate first-hand; L goes to one Validator; XL or release-critical-path goes to both.
-  Validators attach a **confidence 1–10**; at ≥8 (and agreement, when two) you close on their
-  word after a light provenance check. Step in only below 8 or on conflict (Rule 6). An idle
-  Validator is not by itself a reason to create another review cycle.
-- **Bounded source-correctness validation routes to a Validator, not Oracle** (Coordinator,
-  2026-07-11). Oracle is consult/design/hypothesis generation, especially for architectural
-  ambiguity; it is not a substitute validation lane. Explorer owns discovery/conformance content,
-  and Gatekeeper establishes runtime fact. op-272's already-dispatched reuse of an unanswered
-  legacy Oracle consult is the explicit one-time exception; its return still requires validation.
+- **Route by size** per `roles.md` § Review and closure, and pick the Validator by the question
+  (completeness → GLM, breakability → DS4P). An idle Validator is not by itself a reason to
+  create another review cycle.
+- **Correctness review goes to a Validator, never the Oracle** (Coordinator, 2026-07-11). The
+  Oracle is for design, hypotheses, and architectural ambiguity.
 This does NOT relax Rule 1: whoever gates (you or the Validator) verifies first-hand; delegation
 moves the *labor*, not the *standard*. Source: Coordinator, 2026-07-02; risk-sized routing and
 the single ≥8 threshold, 2026-09-28 (j-20260927-003).
@@ -140,19 +133,19 @@ ends with `tools/rob board` output (ids grouped by state; closed and dropped nev
 generated by `rob` since 2026-09-28.
 
 **Rule 14 — Drive preview work from concrete IDQ problems, not L1i category sweeps.** L1i is the
-milestone coverage map: it states *why*, the retirement bar, and broad ordering. It does not create
+milestone coverage map: it states *why*, the closure bar, and broad ordering. It does not create
 work merely because a subsystem row exists. Select active preview review, quality-control, and
-fetch work from a **live, preview-relevant IDQ problem**. One cross-subsystem problem remains one
+new work from a **live, preview-relevant IDQ problem**. One cross-subsystem problem remains one
 IDQ and may be served by several role-bounded ops. Before routing a consult finding into new
 execution, bind it to an existing live IDQ or propose a new concrete IDQ for Coordinator approval;
-never route new ops under a retired/closed IDQ. Do not issue one consult per L1i for symmetry.
+never route new ops under a retired/closed IDQ. Do not open one consult per L1i for symmetry.
 Source: Coordinator, 2026-07-11.
 
 **Rule 15 — One journal, logged only at state changes.** `arranger-swap.md` is the sole
-chronological log; its protocol says what earns an entry (op issue/return/adjudication/retirement,
-Coordinator decisions, Rule-9 spend). Keep no pickup snapshot, task list, or checkpoint beside it.
+chronological log; its protocol says what earns an entry (an op sent, returned, closed, or dropped;
+Coordinator decisions; Rule-9 spend). Keep no pickup snapshot, task list, or checkpoint beside it.
 Activation headers, IDQ files, and Git remain authoritative; the journal links them. The
-pre-unified record is frozen in `arranger-swap-legacy-frozen-cp103.md`. Source: Coordinator,
+pre-unified record is frozen in `doc/archive/arranger-swap-legacy-frozen-cp103.md`. Source: Coordinator,
 2026-07-22; single-seat simplification 2026-09-27 (j-20260927-001).
 
 ## Banked incident lessons
@@ -177,17 +170,17 @@ pre-unified record is frozen in `arranger-swap-legacy-frozen-cp103.md`. Source: 
   hashes; the gap reached 38 commits ahead of origin/alpha until op-091 returned not-ready.
   Same family as op-080a and op-087. Now Rule 1.
 
-## References (governing — don't restate, reference)
+## References (governing: reference, don't restate)
 
-- `roles.md` — the role catalog + Validators-vs-Gatekeeper.
-- `discovery-implementation-pipeline.md` — the pipeline, Retirement & escalation rule.
-- `terminology.md` — the OoO model, naming/namespace conventions.
-- `op-brief-forms.md` — the three op-brief forms (short/normal/long); normal-form = the dispatch artifact.
+- `roles.md` — roles, repos, edges, and the review and closure rule.
+- `terminology.md` — names, hosts, repos, workflow vocabulary, retired terms (§9).
+- `now.md` — the current critical path.
+- `op-brief-forms.md` — the op file, brief sections, and REPORT block.
 - `rob-mini-format.md` — op states, the board, and op ids (`tools/rob`).
-- `validator-rulebook.md` — the Validators' craft (cross-pollinate); lives in each Validator
-  repo (`../wip-glm/`, `../wip-ds4p/`), not this workspace.
-- `explorer-parity-cycle-workflow.md` — the parity cycle.
-- `arranger-block-workflow.md` — the operating-loop detail (legacy name).
+- `validator-rulebook.md` — the Validators' craft; lives in each Validator repo
+  (`../wip-glm/`, `../wip-ds4p/`), not this workspace.
+- `explorer-parity-cycle-workflow.md` — the Explorer's parity cycle.
+- `doc/archive/README.md` — superseded documents, for provenance only.
 
 ## Maintenance
 

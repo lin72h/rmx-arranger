@@ -1,32 +1,44 @@
 # Roles
 
-Status: the canonical role catalog for the rmxOS-revival workflow — *who* the roles are and
-*what* each does. Process mechanics live in the referenced docs; this is the definitions
-home. (Onboarding narrative is separate: `role-model-onboarding.md`.)
+Status: canonical for the workflow: who the roles are, what may pass between them, and how
+returned work is reviewed and closed. Terms: [terminology.md](terminology.md). Op states and the
+board: [rob-mini-format.md](rob-mini-format.md). Brief and REPORT format:
+[op-brief-forms.md](op-brief-forms.md). Current critical path: [now.md](now.md).
+`wip-gpt/docs/role-governance.md` is being aligned to this file (op-339); where they differ, this
+file wins.
 
-## Role tree
+## Roles
 
-```
-Coordinator (human owner: doctrine, acceptance, routing, scope, appeals, Milestones)
-├── Oracle (more powerful consult-agent; the Arranger escalates to it when stuck)
-└── Arranger (+ Arbiter seat): writes ops, reviews returns, closes them
-    ├── Implementer ............ execution pipeline (sole product-write authority)
-    ├── Rulers
-    │   ├── Explorer ........... discovery pipeline
-    │   └── Gatekeeper ......... POST-retirement final guard
-    └── Validators GLM + DS4P .. PRE-retirement correctness gate (superscalar)
-```
+| Role | Repo | Does | Does not |
+|---|---|---|---|
+| **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
+| **Arranger** (single seat; holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops | write product source or any other repo |
+| **Implementer** | `wip-gpt` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
+| **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
+| **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
+| **Validators**: GLM, DS4P | `wip-glm`, `wip-ds4p` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
+| **Oracle** | `rmx-oracle` | consult: design, hypotheses, architectural ambiguity | validate or close ops |
 
-## How an op flows
+Explorer and Gatekeeper instances are named on the "ruler" grammar in terminology §2 (for example
+`rmx-explorer-rx-x64z`). The Coordinator decides; the Arranger proposes.
 
-The Arranger writes an op (one agent, one repo) → the **Coordinator relays it by hand** → the
-agent executes and returns a REPORT → the Coordinator relays the REPORT back → the op is reviewed
-at its risk size (Arranger, one Validator, or both) → the Arranger **closes** it → the
-**Gatekeeper** guards the closed state against macOS-truth. Ops for different agents run in
-parallel and may close in any order. States and format: `rob-mini-format.md`,
-`op-brief-forms.md`; critical path: `now.md`.
+## How work flows
 
-## Edges (who may send what to whom)
+1. A problem lives in an IDQ file (`idq/id-NNN`). The milestone's critical path is in `now.md`.
+2. The Arranger writes an op for **one agent in one repo** (`tools/rob new`). For discovered
+   defects: the Explorer finds an observable divergence from macOS; the Arranger triages it as
+   solidity-blocker or cosmetic (rulebook Rule 10); the fix op carries the Explorer's macOS
+   reference as its acceptance criterion; the Implementer implements to it and the Gatekeeper
+   validates against it. Non-observable internals (races, invariants, performance) the
+   Implementer diagnoses itself.
+3. The Coordinator relays the brief (`issued`) and later relays the REPORT back (`returned`).
+4. The return is reviewed at its size (below). The Arranger then closes the op, or drops it and
+   writes a new one.
+5. The Gatekeeper guards closed work against macOS-truth and regression.
+
+Ops for different agents run in parallel and may close in any order.
+
+## Edges
 
 | From | To | Carries | Via |
 |---|---|---|---|
@@ -34,76 +46,45 @@ parallel and may close in any order. States and format: `rob-mini-format.md`,
 | any agent | Arranger | REPORT | Coordinator, by hand |
 | Arranger | Validator | review brief for a returned op | Coordinator, by hand |
 | Arranger | Oracle | consult question | Coordinator, by hand |
-| Explorer | Gatekeeper | evidence, read-only across the repo boundary | Gatekeeper reads it |
+| Explorer | Gatekeeper | evidence | Gatekeeper reads it |
 
-Writes: each agent writes only its own repo; the Implementer alone writes product source.
+Each agent writes only its own repo. Reading another repo is allowed when a brief names the path;
+reading never grants write authority. Cross-repo work is a separate op for the owning agent.
 
-## Definitions
+## Review and closure
 
-- **Coordinator** — the human owner. All authority delegates from here; acceptance of
-  evidence/claims, scope changes, doctrine changes, and appeals terminate here. Holds the
-  Milestones. The Arranger proposes; the Coordinator decides.
-- **Oracle** — a more powerful agent the Arranger **consults** when it cannot resolve a
-  problem itself (escalation/consultation resource, Coordinator-mediated). Repurposed
-  2026-06-20 from the retired "Composer" placeholder. **NOT** the old explorer+gatekeeper
-  "Oracle" — that union is now the **Rulers**.
-- **Arranger** — writes ops, reviews what comes back, and closes them. Decomposes a
-  Milestone into ops, issues them to pipelines, reviews returned work, sequences. Holds the
-  **Arbiter** seat. No product-write authority.
-- **Arbiter** (held by the Arranger) — steps in **only** when a Validator is <8/10 or two
-  conflict; gives the **final call** (Coordinator-override aside); verifies the decisive
-  evidence **first-hand**; narrow (resolves the open point, doesn't re-do the review).
-  Recuses to the Coordinator if the Arranger's own finding is party to the conflict.
-- **Implementer** — the **execution pipeline**; **sole** product/source write authority
-  (commits, scaffolds, records). Executes issued ops (the implementation). Does **not**
-  self-grade — the Validators retire its op.
-- **Rulers** — Explorer + Gatekeeper, two **dedicated agents** (the ex-"Oracle" union; own
-  repos `rmx-explorer` / `rmx-gatekeeper`, not modes of one agent):
-  - **Explorer** (discovery pipeline) — authors macOS-parity probes, captures behavior
-    vectors on both targets, owns the mismatch ledger (`findings/nx-r64z`). Reference =
-    **real macOS**, not our markers. Vocabulary "ready / not-ready / smallest-requirement".
-    Does not gate the Implementer.
-  - **Gatekeeper** (**POST-retirement final guard**) — validates the *retired* result
-    against macOS-truth: catches regression / behavioral divergence in already-retired
-    changes. Owns evidence dispositions (accepted / not-accepted / consumed) + the evidence
-    discipline (raw-evidence-immutable, spend-gating). Consumes Explorer evidence read-only
-    across the repo boundary.
-- **Validators (GLM + DS4P)** — the **PRE-retirement correctness gate.** Independent,
-  **superscalar** reviewers of the Implementer's op: *"is it correctly implemented?"*
-  (soundness, evidence-validity). **GLM** = enumeration/completeness; **DS4P** =
-  falsification/forward-instinct. Review is risk-sized (S/M Arranger, L one Validator, XL/critical-path
-  both); close at ≥8/10 (and agreement when two review); below threshold or conflict → the Arbiter.
-  Rule: `discovery-implementation-pipeline.md` § Retirement & escalation. No write authority, no dispositions. Maintain the
-  shared `validator-rulebook.md`.
+Source: Coordinator 2026-06-20; risk-sized and single threshold 2026-09-28 (j-20260927-003).
 
-## Validators vs Gatekeeper — two stages, two standards (need both)
+Size each return when it arrives, by the difficulty of adjudicating it (evidence to re-verify,
+cross-repo reach, doctrine tension), not by the size of the original op:
 
-| | **Validators (GLM + DS4P)** | **Gatekeeper** |
+| Size | Reviewer | Closes when |
 |---|---|---|
-| Stage | PRE-retirement | POST-retirement |
-| Asks | "Is this op *correctly implemented*?" | "Does the retired result *behave like macOS* — and did it *regress*?" |
-| Standard | correctness (internal) | macOS-truth + regression (external) |
-| Prevents | a wrong implementation from retiring | a regression slipping into already-retired changes |
-| Scope | this op | the retired state vs macOS-truth |
+| S / M | Arranger, first-hand | the Arranger verifies it |
+| L | one Validator, chosen by the question (completeness → GLM, breakability → DS4P) | confidence ≥8/10 |
+| XL, or on the release critical path | both Validators | both ≥8/10 **and** they agree |
 
-An op can pass the Validators (code is sound) yet fail the Gatekeeper (behavior diverges
-from macOS / regressed something), and the reverse. Full treatment +
-OoO analogy: `discovery-implementation-pipeline.md`.
+- The Arranger may raise a gate one level, never lower it.
+- Whoever reviews verifies first-hand. At ≥8 the Arranger closes on the Validator's word after a
+  light provenance check, not a second review.
+- Below 8, or when Validators conflict, the **Arbiter** (the Arranger) makes the final call:
+  close, do-not-close, or remediate with a new op. Only the Arbiter does this, subject to
+  Coordinator override; how to arbitrate is rulebook Rule 6.
+- Closing also requires every produced commit to be reachable on origin.
 
-## Retired / renamed terms
+**Validators and Gatekeeper are two different checks; both are needed.**
 
-- **Maestro → Coordinator**, **Conductor → Arranger** (2026-06-13).
-- **Oracle (old = explorer+gatekeeper union) → Ruler**; **Composer → Oracle** (consult-agent)
-  (2026-06-20).
-- **block-NNN → op-NNN**; "dispatch" → "issue"; "accept/done" → "retire" (2026-06-20).
-- Frozen/committed records keep the old terms (historical); live work uses the new.
+| | Validators | Gatekeeper |
+|---|---|---|
+| When | before closure | after closure |
+| Asks | is this op correctly implemented? | does the closed result behave like macOS, and did anything regress? |
+| Standard | internal correctness, evidence validity | macOS behavior and regression |
+| Scope | this op | the accumulated closed state |
 
-## References
+An op can pass the Validators yet fail the Gatekeeper, and the reverse.
 
-- `discovery-implementation-pipeline.md` — the pipeline, the Validators-vs-Gatekeeper
-  detail, the Retirement & escalation rule.
-- `terminology.md` — the OoO model, naming/namespace conventions.
-- `validator-rulebook.md` — the Validators' craft-discipline.
-- `explorer-parity-cycle-workflow.md` — the Explorer's per-feature parity cycle.
-- Canonical doctrine surface (authoritative, product repo): `wip-gpt/docs/role-governance.md`
-  — *currently stale on the recent role evolution; sync is a tracked Implementer op.*
+## History
+
+Old role and workflow names (Maestro, Conductor, Composer, Ruler-as-Oracle, block, ROB, EXU,
+retire) are mapped in terminology §9. The June design of this flow is in
+`doc/archive/discovery-implementation-pipeline.md`.

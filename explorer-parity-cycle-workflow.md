@@ -3,7 +3,7 @@
 Status: Arranger doctrine (workspace, living). The operational workflow for the
 **macOS-parity Explorer** lane. Real macOS is the behavioral source of truth;
 rmxOS converges toward it over time, least-intrusive-first, without blocking 1.0.
-Lean by design — supersedes the heavier framing in `parity-explorer-strategy.md`
+Lean by design — supersedes the heavier framing in `doc/archive/parity-explorer-strategy.md`
 (kept only as a principles reference).
 
 ## Purpose

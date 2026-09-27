@@ -25,6 +25,12 @@ j-20260922-003 (no NFS/Kerberos in base; keep OpenSSH/OpenSSL and filesystem ACL
 - Were op-335, op-338, op-323 or op-324 sent, and did anything come back? None has an op file.
   Once answered, record each with `tools/rob new` or re-issue it under a fresh number.
 
+## Workflow alignment (in progress)
+
+One op per agent brings each repo's instructions in line with `roles.md` and the REPORT block:
+op-339 Implementer, op-340 Explorer, op-341 Gatekeeper, op-342 Oracle, op-343 GLM, op-344 DS4P
+(after op-343). The Coordinator is taking these repo by repo.
+
 ## Off the path (backlog, not live)
 
 Open problems stay in their IDQ files: id-011 (asl leg 4), id-016 (PID-1 launchd; op-322's

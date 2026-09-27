@@ -25,18 +25,15 @@ the strategic fork, and how settled the decision is. Index: [subsystem/subsystem
 | [testing/testing-dtrace.md](testing/testing-dtrace.md) | DTrace-first observability — observe, don't perturb | shared baseline · all roles | ACTIVE |
 | _testing/testing-gatekeeper.md_ | Gatekeeper parity/regression tracker | role-specific · Gatekeeper | PLANNED (to author) |
 
-## Top-level docs (no subtree)
+## archive/ — point-in-time documents
 
-Single-file references that live directly under `doc/`.
-
-| doc | title | scope | state |
-|---|---|---|---|
-| [cost-factor.md](cost-factor.md) | Per-role cost factors for op-planning | Arranger reference · multi-issue weighting | ACTIVE (living) |
+Superseded process docs, one-time onboarding packages, and June reviews/assessments, kept for
+provenance. Index: [archive/README.md](archive/README.md).
 
 ## Related indices (other trees)
 
-- [idq/id-000.md](../idq/id-000.md) — IDQ (`id-NNN`): decoded work queued, not yet
-  fetched into the ROB. "What we build *next*."
+- [idq/id-000.md](../idq/id-000.md) — IDQ (`id-NNN`): open problems and why they matter. "What
+  we build *next*."
 
 ## Maintenance
 

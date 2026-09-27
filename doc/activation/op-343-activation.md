@@ -39,7 +39,7 @@ REPORT format to adopt (Validators add `score: <n>/10` and `verdict: CLOSE | DO-
 ## Inputs
 
 - /Users/me/wip-mach/wip-glm/AGENTS.md
-- /Users/me/wip-mach/wip-glm/validator-rulebook.md (shared text; after this op the Arranger syncs the DS4P copy byte-identical)
+- /Users/me/wip-mach/wip-glm/validator-rulebook.md (shared text; DS4P copies your final version in op-344)
 
 ## Do / don't
 

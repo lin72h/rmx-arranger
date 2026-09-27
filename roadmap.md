@@ -1,11 +1,10 @@
 # roadmap — rmxOS (NextBSD revive) to a usable 1.0
 
-- tier: **L1i** — the **most abstract** tier in the work hierarchy `L1i → IDQ → ROB` (see
-  [terminology.md](terminology.md) §6). The roadmap is the L1 i-cache: each milestone is an
-  instruction (`li-NNN`) naming *what usable 1.0 means and in what order we get there*. The **IDQ**
-  ([idq/id-000.md](idq/id-000.md), `id-NNN`) holds decoded items queued for fetch; a **ROB** entry
-  (`op-NNN`) is an in-flight work unit. **Promotion chain:** an L1i instruction (`li-NNN`) is
-  *decoded* into IDQ item(s) (`id-NNN`); an IDQ item is *fetched* into ROB entr(ies) (`op-NNN`).
+- tier: **L1i**, the most abstract tier of the work hierarchy L1i → IDQ → op (see
+  [terminology.md](terminology.md) §6). Each milestone (`li-NNN`) names *what usable 1.0 means
+  and in what order we get there*. Concrete open problems live in the **IDQ**
+  ([idq/id-000.md](idq/id-000.md), `id-NNN`); work on them is done in ops (`op-NNN`, via
+  `tools/rob`). The current critical path is in [now.md](now.md).
 - status: living (Arranger-held; Coordinator owns the milestone/usability target).
 - discipline: **truly-green, not paper-green.** An `li-NNN` **retires** only on first-hand evidence
   that its truly-green criterion holds — never on an agent's say-so (overclaim-strict). "Usable 1.0"
@@ -92,7 +91,7 @@ paper-greened. The "can afford to be slow" quality arc continues *after* the pre
 
 The milestones are the L1i instructions `li-001`…`li-008` (li-007/li-008 added 2026-06-24). Each **retires** when its
 **truly-green** criterion holds (so "finished" can't mean paper-green). Each entry records: whether
-it is a **runtime** test, its retirement criterion, and the IDQ item / ROB entry that carries it.
+it is a **runtime** test, its closure criterion, and the IDQ item / op that carries it.
 
 ### li-001 — mach-ipc invariants green under load  *(runtime)*
 Promote the op-099 fbt probe library from *tracers* to *assertions*: `mach_msg` send/receive

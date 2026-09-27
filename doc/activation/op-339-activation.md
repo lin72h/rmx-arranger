@@ -12,7 +12,7 @@ updated: 2026-09-27T22:56Z
 
 ## Outcome
 
-wip-gpt/docs/role-governance.md states the current workflow (op states, risk-sized review with the single >=8 threshold, hand relay, REPORT format), and wip-gpt/AGENTS.md tells the Implementer to return the REPORT block.
+wip-gpt/docs/role-governance.md agrees with rmx-arranger/roles.md, which is now canonical for roles, edges, and the review rule; where they differ, roles.md wins. The simplest compliant form is a short pointer to roles.md plus only the rules specific to the product repo. wip-gpt/AGENTS.md tells the Implementer to return the REPORT block.
 
 The Arranger workflow was simplified on 2026-09-28. What changes for you:
 - Every brief now ends with a REPORT template. Return exactly that block (format below).
@@ -40,7 +40,7 @@ REPORT format to adopt (Validators add `score: <n>/10` and `verdict: CLOSE | DO-
 
 - /Users/me/wip-mach/wip-gpt/docs/role-governance.md (canonical doctrine; marked stale on role evolution)
 - /Users/me/wip-mach/wip-gpt/AGENTS.md
-- Reference, read-only: /Users/me/wip-mach/rmx-arranger/discovery-implementation-pipeline.md § Retirement & escalation, rob-mini-format.md, op-brief-forms.md
+- Reference, read-only: /Users/me/wip-mach/rmx-arranger/roles.md (canonical), rob-mini-format.md, op-brief-forms.md
 
 ## Do / don't
 

@@ -1,9 +1,9 @@
-# Arranger swap protocol
+# Arranger journal
 
 Status: Coordinator-governed **sole continuity log** for the Arranger. Since 2026-09-27 the
 workspace runs a **single Arranger seat**, so the two-seat mutex, epoch fence, and SWAP/CATCHUP
-handoff are retired. The file keeps its name because many records link to it. Pre-unified history
-is frozen in `arranger-swap-legacy-frozen-cp103.md`.
+handoff are retired. The file keeps the name `arranger-swap.md` because many records link to it.
+Pre-unified history is frozen in `doc/archive/arranger-swap-legacy-frozen-cp103.md`.
 
 Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 
@@ -19,16 +19,17 @@ Canonical workspace: `/Users/me/wip-mach/rmx-arranger/`
 ### 1. Authorities
 
 - `arranger-swap.md` is the **only chronological Arranger log**.
-- `doc/activation/op-NNN-activation.md` headers are authoritative op state.
+- Op files (`doc/activation/op-NNN-activation.md`, read and changed with `tools/rob`) are
+  authoritative op state.
 - `idq/id-000.md` and individual IDQ files are authoritative problem state.
 - Git and content hashes are authoritative artifact state.
-- The journal links those records; it does not duplicate them. Rule-13 chat ROBs are renderings
-  of activation-header state, not a log. On conflict, the authoritative record wins; append a
+- The journal links those records; it does not duplicate them. The Rule-13 board is a rendering
+  of op state (`tools/rob board`), not a log. On conflict, the authoritative record wins; append a
   `CORRECTION`.
 
 ### 2. When to log
 
-Append one entry at EOF when an op is issued, returns, is adjudicated, or retires; when a
+Append one entry at EOF when an op is sent, returns, closes, or is dropped; when a
 Coordinator decision is consumed; or when a Rule-9 spend is authorized (log the authorization
 before the spend and the result separately after). Related edits for one outcome share one entry.
 Reads, drafts, and documentation edits that change no op/IDQ state need no entry; the commit
@@ -50,13 +51,13 @@ owner/epoch fields.
 ### 3. New session or compaction recovery
 
 Read the journal tail back to the most recent `DECISION` (at least the last five entries), then
-confirm it against activation headers, the IDQ index, and `git status`. Journal text is a
+confirm it against `now.md`, `tools/rob board`, the IDQ index, and `git status`. Journal text is a
 hypothesis until checked; record any divergence as a `CORRECTION`.
 
 ### 4. Frozen legacy archive
 
 Pre-unified pickup/task/coordination/checkpoint history through `cp-103` lives byte-verbatim in
-`arranger-swap-legacy-frozen-cp103.md`: 310,808 bytes / 4,177 lines / SHA-256
+`doc/archive/arranger-swap-legacy-frozen-cp103.md`: 310,808 bytes / 4,177 lines / SHA-256
 `c4e2068900bd74c602865c7e11ff48627d7f164b0c347d8c9407692e237b009d`. It is historical
 provenance, not current procedure. Never edit or append it.
 
@@ -367,3 +368,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: 102 → closed, 18 → dropped, op-339…op-344 created as draft; no product, guest, or other-repo change.
 - evidence: `tools/rob board`, `tools/rob check` (181 ops, 0 problems); this commit.
 - next: Coordinator relays op-339…op-344 and answers whether op-335/op-338/op-323/op-324 were ever sent (now.md).
+
+### j-20260927-005 — correct j-20260927-002 on repo access
+
+- time / kind: 2026-09-27T23:09:15Z / CORRECTION
+- outcome: j-20260927-002 said "Agents never read or write this repo", which overstates the Coordinator's decision. The decision was hand relay: agents never pick up or return ops through this repo. Reading its documents is allowed when a brief names the path; writing never is. roles.md § Edges states this.
+- state delta: none.
+- evidence: Coordinator chat ("I do want relay by hand"); roles.md § Edges.
+- next: none beyond j-20260927-006.
+
+### j-20260927-006 — roles.md made the canonical workflow doctrine; historical docs archived
+
+- time / kind: 2026-09-27T23:09:15Z / DECISION
+- outcome: Under the Coordinator's delegation ("you decide … restructure other agents accordingly"; Rule 9, recorded here), rmx-arranger/roles.md is canonical for roles, repos, edges, and the review and closure rule, and supersedes wip-gpt/docs/role-governance.md where they differ (op-339 aligns that file). The review rule moved there from discovery-implementation-pipeline.md, which was archived with 25 other point-in-time documents under doc/archive/ (index: doc/archive/README.md; frozen cp-103 archive SHA-256 re-verified after the move). tools/rob now enforces state transitions and flags stale issued/returned ops.
+- state delta: no op or IDQ state changed; op-339/op-343/op-344 drafts revised (op-344 now needs op-343 and copies GLM's Validator rulebook itself instead of an Arranger cross-repo sync).
+- evidence: this commit; `python3 -B tools/test_rob.py` (11 tests pass); `tools/rob check` (0 problems).
+- next: Coordinator takes the agent repos one by one, starting with any of op-339…op-343.
