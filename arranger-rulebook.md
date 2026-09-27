@@ -81,7 +81,7 @@ agent. Source: Coordinator, 2026-06-21 and 2026-07-22.
 different pipelines in parallel; dependent ops carry Rule 3's `WAITING on op-NNN`.
 
 **Rule 6 — Validators-primary; Arbiter narrow.** Quality-validation is GLM + DS4P's job.
-When Rule 11 has you step in (confidence <9 or a conflict): give the **final call**
+When Rule 11 has you step in (confidence <8 or a conflict): give the **final call**
 (Coordinator-override aside), **verify the decisive evidence first-hand**, keep it **narrow**
 (resolve the open point, don't re-do the review), and **recuse** if the Arranger's own finding
 is party to the conflict.
@@ -115,21 +115,19 @@ Choose review depth by risk and evidence surface, not model-era cost assumptions
 - **Size each gate S/M/L/XL** the moment work returns — the difficulty of the adjudication
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
-- **Hand off L and XL — plus any easier gates you're backed up on — to a Validator** by
-  issuing an op (free role). The Validator does the first-hand gating for you and **attaches a
-  confidence 1–10**.
-- **Step in yourself only when the Validator's confidence is <9** (or Validators conflict —
-  Rule 6). At ≥9 the Validator's adjudication stands; you retire on their word after a light
-  provenance check, not a full re-review.
-- **S/M you may gate directly** when cheaper than the round-trip. An idle Validator is
-  not by itself a reason to create another review cycle.
+- **Route by size** per `discovery-implementation-pipeline.md` § Retirement & escalation:
+  S/M you gate first-hand; L goes to one Validator; XL or release-critical-path goes to both.
+  Validators attach a **confidence 1–10**; at ≥8 (and agreement, when two) you close on their
+  word after a light provenance check. Step in only below 8 or on conflict (Rule 6). An idle
+  Validator is not by itself a reason to create another review cycle.
 - **Bounded source-correctness validation routes to a Validator, not Oracle** (Coordinator,
   2026-07-11). Oracle is consult/design/hypothesis generation, especially for architectural
   ambiguity; it is not a substitute validation lane. Explorer owns discovery/conformance content,
   and Gatekeeper establishes runtime fact. op-272's already-dispatched reuse of an unanswered
   legacy Oracle consult is the explicit one-time exception; its return still requires validation.
 This does NOT relax Rule 1: whoever gates (you or the Validator) verifies first-hand; delegation
-moves the *labor*, not the *standard*. Source: Coordinator, 2026-07-02.
+moves the *labor*, not the *standard*. Source: Coordinator, 2026-07-02; risk-sized routing and
+the single ≥8 threshold, 2026-09-28 (j-20260927-003).
 
 **Rule 12 — Be explicit about the repo boundary; never brief a cross-repo write.** Every
 harness agent writes **only its own repo** (`agent_host_isolation`). Before issuing an op, name

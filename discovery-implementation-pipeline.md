@@ -112,8 +112,8 @@ Both validate, but at *different stages* against *different standards* — you n
 | Scope | this op | the retired state (recent changes) vs macOS-truth |
 | When | gates retirement | the **final guard**, after retirement |
 
-**Flow:** execute (Implementer) → **Validators** gate retirement (correctness; ≥8/10 +
-agree) → **RETIRE** → **Gatekeeper** guards the retired state against macOS-truth.
+**Flow:** execute (Implementer) → **Validators** gate retirement (correctness; sized by
+risk — see the Retirement & escalation rule) → **RETIRE** → **Gatekeeper** guards the retired state against macOS-truth.
 
 **Why both — they catch different classes.** An op can pass the Validators (the code *is
 correct*) yet fail the Gatekeeper (the *behavior* diverges from macOS, or it regressed
@@ -126,12 +126,22 @@ it's wrong/faulted); the Gatekeeper is the post-commit guard that verifies the c
 architectural state against the golden reference (real macOS) and catches mis-speculation /
 regression after the fact.
 
-## Retirement & escalation rule (GOVERNING, Coordinator 2026-06-20)
+## Retirement & escalation rule (GOVERNING; Coordinator 2026-06-20, risk-sized 2026-09-28)
 
-An op flowing through the Validator pipelines (GLM + DS4P, superscalar) **retires ONLY if
-both ≥8/10 AND they agree.** Otherwise:
+This section is the single home of the review rule; other documents link here.
 
-- **If either Validator is <8/10, OR they conflict → the Arbiter (Arranger) steps in — and
+**Review is sized by the returned gate's risk** (S/M/L/XL — the difficulty of adjudicating the
+return, not the size of the original op):
+
+| Gate | Reviewer | Closes when |
+|---|---|---|
+| S / M | Arranger, first-hand | the Arranger verifies it |
+| L | one Validator (GLM or DS4P) | confidence ≥8/10 |
+| XL, or on the release critical path | both Validators | both ≥8/10 **and** they agree |
+
+The Arranger may escalate any gate one level; it never lowers one. Otherwise:
+
+- **If a Validator is <8/10, OR two Validators conflict → the Arbiter (Arranger) steps in — and
   ONLY the Arbiter.** No other pipeline adjudicates.
 - **The Arbiter gives the FINAL call** (subject only to Coordinator override). When stepping
   in, the Arbiter **verifies the decisive evidence first-hand**, then rules one of:
@@ -139,6 +149,8 @@ both ≥8/10 AND they agree.** Otherwise:
 - The Arbiter's step-in is **narrow**: resolve the specific sub-threshold/conflict question,
   not re-do the whole review. The Validators' ≥8 findings stand; the Arbiter only adjudicates
   the open point.
+- Whoever gates verifies first-hand; at ≥8 the Arranger closes on the Validator's word after a
+  light provenance check, not a second review.
 
 Why "only the Arbiter": a single, accountable final-call point prevents adjudication drift
 and keeps the Validators as parallel reviewers, not competing deciders. First exercised on

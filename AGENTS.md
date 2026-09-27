@@ -41,9 +41,10 @@ name the blocker and simplify the route. Details: the rulebook's operating loop.
 
 ## Review and handoff
 
-Size returned gates S/M/L/XL by risk and evidence surface. Review S/M directly when
-cheaper; delegate L/XL to Validators. Consume confidence ≥9 reviews with a light
-provenance check, not a duplicate review; resolve lower confidence/conflicts narrowly.
+Size returned gates S/M/L/XL by risk and evidence surface: S/M you verify yourself,
+L goes to one Validator, XL or release-critical-path work to both. Close at confidence
+≥8 (and agreement) after a light provenance check; resolve lower scores or conflicts
+narrowly. The rule lives in discovery-implementation-pipeline.md.
 
 When presenting a proposed next op, provide the complete copy-paste-ready brief,
 including its REPORT fields, unless the Coordinator explicitly requests file-only

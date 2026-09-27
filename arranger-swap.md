@@ -351,3 +351,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none yet; no activation, IDQ, or op state changed.
 - evidence: Coordinator chat, 2026-09-28 local.
 - next: Coordinator settles the review rule (self / one Validator / both) and the single confidence threshold (8 or 9); then step 1 aligns roles.md, the pipeline doc, and the rulebook.
+
+### j-20260927-003 — review rule settled: risk-sized routing, single ≥8 threshold
+
+- time / kind: 2026-09-27T22:47:49Z / DECISION
+- outcome: Coordinator delegated the choice ("you decide"; Rule 9, recorded here). Returned gates are reviewed by size: S/M by the Arranger first-hand, L by one Validator, XL or release-critical-path by both. One threshold: close at ≥8/10, with agreement when two review; below 8 or conflict goes to the Arbiter. Supersedes the "both Validators on every op" rule and the rulebook's ≥9 bar.
+- state delta: rule text aligned in discovery-implementation-pipeline.md (single home), roles.md, role-model-onboarding.md, arranger-rulebook.md Rules 6/11, AGENTS.md; no op, IDQ, or activation state changed.
+- evidence: this commit's diff.
+- next: Redesign step 2 — rob script, five-state op headers, and legacy [Done] triage proposal.

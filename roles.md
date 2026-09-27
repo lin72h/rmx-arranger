@@ -36,8 +36,8 @@ macOS-truth. Pipelines run in parallel; ops may **retire out of issue order**. (
 - **Arranger** — the **issue + retire unit** (the OoO reorder buffer). Decomposes a
   Milestone into ops, issues them to pipelines, reviews returned work, sequences. Holds the
   **Arbiter** seat. No product-write authority.
-- **Arbiter** (held by the Arranger) — steps in **only** when a Validator is <8/10 or the
-  two conflict; gives the **final call** (Coordinator-override aside); verifies the decisive
+- **Arbiter** (held by the Arranger) — steps in **only** when a Validator is <8/10 or two
+  conflict; gives the **final call** (Coordinator-override aside); verifies the decisive
   evidence **first-hand**; narrow (resolves the open point, doesn't re-do the review).
   Recuses to the Coordinator if the Arranger's own finding is party to the conflict.
 - **Implementer** — the **execution pipeline**; **sole** product/source write authority
@@ -57,8 +57,9 @@ macOS-truth. Pipelines run in parallel; ops may **retire out of issue order**. (
 - **Validators (GLM + DS4P)** — the **PRE-retirement correctness gate.** Independent,
   **superscalar** reviewers of the Implementer's op: *"is it correctly implemented?"*
   (soundness, evidence-validity). **GLM** = enumeration/completeness; **DS4P** =
-  falsification/forward-instinct. An op retires only if **both ≥8/10 and they agree**; below
-  threshold or conflict → the Arbiter. No write authority, no dispositions. Maintain the
+  falsification/forward-instinct. Review is risk-sized (S/M Arranger, L one Validator, XL/critical-path
+  both); close at ≥8/10 (and agreement when two review); below threshold or conflict → the Arbiter.
+  Rule: `discovery-implementation-pipeline.md` § Retirement & escalation. No write authority, no dispositions. Maintain the
   shared `validator-rulebook.md`.
 
 ## Validators vs Gatekeeper — two stages, two standards (need both)

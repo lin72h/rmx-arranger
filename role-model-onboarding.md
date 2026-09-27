@@ -66,8 +66,9 @@ conflict `roles.md` wins):
     discipline. Consumes Explorer evidence read-only.
 - **Validators (GLM + DS4P)** — the **PRE-retirement correctness gate.** Independent
   superscalar reviewers of the Implementer's op: *"is it correctly implemented?"* (soundness,
-  evidence-validity, falsification). An op retires only if **both ≥8/10 and they agree**;
-  below threshold or conflict → the Arbiter. No write authority, no dispositions.
+  evidence-validity, falsification). Review is risk-sized (S/M Arranger, L one Validator,
+  XL/critical-path both, closing at ≥8/10); below threshold or conflict → the Arbiter. Rule:
+  `discovery-implementation-pipeline.md` § Retirement & escalation. No write authority, no dispositions.
 - **Validators vs Gatekeeper (two validation stages, two standards — need both):**
   Validators gate **retirement** on *correctness* (pre-retirement, per-op, internal — "is
   it right?"); the Gatekeeper guards the **retired state** on *macOS-parity + regression*
