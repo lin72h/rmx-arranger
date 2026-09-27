@@ -1,15 +1,15 @@
 # op-280 — Implementer: fix op-264 Finding A — serialize/relocate the `waitpid_loop` cross-thread reaper (RESERVED, gated on op-279 evidence)
 
-op-280 | role: **Implementer** | EXU: **wip-gpt** | state: **[RESERVED — NOT dispatchable until op-279 returns runtime evidence sizing Finding A. This is pid-1 supervision code; the exact fix (and whether it is even warranted at preview) depends on which hazard modes op-279 confirms. Held so the fix intent is banked, not lost, but blocked from edit until evidence lands. Coordinator gates.]** | parent id: id-016 (bootstrap/launchd) | L1i: li-008 (launchd core service) | cost: implementer (small/med — pid-1 code, evidence-first) | authored 2026-07-07 (Arranger seat, model Opus 4)
+op-280 | role: **Implementer** | EXU: **wip-gpt / wip-rmxos** | state: **[Hold — PID-1 is preview scope, but no edit is authorized until corrected op-279 runtime evidence sizes Finding A. WAITING on op-318→disposable-stage→op-279; exact fix remains evidence-selected.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: implementer (small/med — pid-1 code, evidence-first) | authored 2026-07-07; scope promoted 2026-07-12 by Coordinator ruling
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own service manager (launchd). rmxOS = Darwin/Mach userland on FreeBSD 15. A reliability fix to our own pid-1 reaper path. No target, no adversary.
 
 ## WHY (one line)
-op-264 Finding A found (Arranger-verified at source) that launchd's detached `waitpid_loop` reaper walks + mutates the job tables with no serialization against the main thread — the one structural hazard on the supervision path the preview daemons (notifyd/asld) actually ride.
+op-264 Finding A found (Arranger-verified at source) that launchd's detached `waitpid_loop` reaper walks + mutates the job tables with no serialization against the main thread. The Coordinator now requires launchd to run as PID 1 in preview, so the path is preview-relevant; runtime incidence still selects whether and how it is fixed.
 
 ## PRECONDITION (why this op is RESERVED, not live)
-This edits **pid-1** code where an abort = system down. Per the executing-actions-with-care rule, high-blast-radius changes get evidence first. op-279 (Gatekeeper) sizes which of the three hazard modes (a abort / b stolen-zombie / c busy-spin) are real. This op is held until that evidence lands and the Coordinator confirms the fix is warranted at preview scope — the fix SHAPE is chosen from the evidence, so specifying it now would be premature.
+This edits **pid-1** code where an abort = system down. Per the executing-actions-with-care rule, high-blast-radius changes get evidence first. Corrected op-279 evidence sizes which of the three hazard modes (a abort / b stolen-zombie / c managed-exit hot loop) are real. Preview relevance is settled; the fix SHAPE is not, so specifying or dispatching it now would be premature.
 
 ## INTENT (the banked fix direction — to be finalized against op-279 evidence)
 Per the op-264 consult PROPOSAL: route unknown-pid reaping through the main runloop — an `EVFILT_SIGNAL` SIGCHLD source on the main kqueue drives a main-thread `WNOHANG` drain that skips pids present in the job hashes (leaving managed-job reaping to the existing main-thread path), so orphan reaping no longer races the main thread's LIST_INSERT/REMOVE/free. Minimal fallback if the runloop route proves too invasive for preview: serialize `jobmgr_reap_pid` against the job-table mutations. Final choice is set from op-279's severity sizing — e.g. if only hazard (c) busy-spin is confirmed, a narrower fix may suffice.

@@ -1,6 +1,27 @@
 # op-279 — Gatekeeper: size op-264 Finding A — runtime-check the `waitpid_loop` cross-thread reaper (idle-boot CPU watch + kill-storm soak on a KeepAlive job) BEFORE any pid-1 patch
 
-op-279 | role: **Gatekeeper** (soak/runtime-evidence owner; no product-write to the fix itself) | EXU: **rmx-gatekeeper** | state: **[Reserved — evidence-first gate for op-264 Finding A. Sizes severity of the `waitpid_loop` hazard with runtime measurement BEFORE op-280 (the pid-1 fix) is allowed to touch code. Coordinator dispatches after op-278 (Finding B) lands so the launchd build under test already carries the trivial cleanup.]** | parent id: id-016 (bootstrap/launchd) | L1i: li-008 (launchd core service) | cost: gatekeeper (soak) | authored 2026-07-07 (Arranger seat, model Opus 4)
+op-279 | role: **Gatekeeper** (runtime-evidence owner; no product write) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Hold — PID-1 IS NOW 1.0-PREVIEW SCOPE, resolving op-317's topology fork. Still NOT dispatchable: WAITING on op-318's exact current-tip disposable image/BOM/staging/containment and a corrected fail-closed normal form. Runtime still precedes op-280.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: gatekeeper | authored 2026-07-07; scope resolved 2026-07-12 by Coordinator ruling
+
+## COORDINATOR SCOPE RULING — 2026-07-12
+
+The preview topology is non-`-u` **PID-1 launchd**. The prior branch toward a replacement `-u`
+premise is closed. op-279 is preview-relevant, but its existing test method is not released:
+idle CPU cannot falsify the managed-zombie hot loop, the workload/evidence grammar is incomplete,
+and no exact contained image stage exists. op-318 owns the replacement contract; this op remains
+held and will be normalized only after that return is independently accepted.
+
+## HOLD UPDATE — 2026-07-11
+
+The original op-278 dependency is satisfied and the exact accepted launchd binary remains readable
+at SHA-256 `bcdc0e5e...`. That alone does not make this runtime op dispatchable: the existing
+op-286/op-293 images do not have an accepted record proving their in-image `/sbin/launchd` equals
+that artifact, and this card's non-`-u` requirement now explicitly means the preview's PID-1
+`init_path` topology, not the ordinary `rc.local` child model. Post-incident host/guest containment
+is still not pinned.
+
+op-315 owns a zero-cell read/source/evidence preflight for those facts. Keep op-279 held until its
+return is verified and the exact artifact/image/topology/staging/cell annotation is added. Do not
+interpret op-315 dispatch as runtime authorization.
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own service manager (launchd). rmxOS = Darwin/Mach userland on FreeBSD 15. This is a reliability measurement of our own pid-1 supervision path — no target, no adversary. The point is to gather runtime evidence that sizes a hypothesized hazard before we decide whether/how to patch pid-1 code.

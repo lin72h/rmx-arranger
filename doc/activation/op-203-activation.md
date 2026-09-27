@@ -1,6 +1,14 @@
 # op-203 — Gatekeeper: PID-1 launchd robustness soak (orphan reaping + shutdown/reboot + pid1 crash floor) → harden the op-201/op-202 hybrid against the highest bar (pid1 crash == kernel panic)
 
-op-203 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Held — POST-PREVIEW; gated on op-202]** — authored off op-201 D3; do NOT dispatch until (a) the 1.0-preview gate is closed AND (b) op-202 produces the productionized shipped hybrid image. | parent id: id-016 (launchd bootstrap) | L1i: li-008 | cost: free | authored 2026-06-29 (Arranger seat, model Opus 4)
+op-203 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Hold — PROMOTED TO 1.0-PREVIEW; gated on op-318, the corrected op-279→op-280 evidence chain, and normalized op-202. Legacy soak body must be repinned and made fail-closed before dispatch.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: free | authored 2026-06-29; scope promoted 2026-07-12 by Coordinator ruling
+
+## COORDINATOR SCOPE PROMOTION — 2026-07-12
+
+PID-1 robustness is now a preview ship gate. The historical post-preview exclusion below is
+superseded. The runtime objective remains useful, but this old card lacks current artifact/image
+pins, bounded attempts and duration, known-good/known-bad controls, complete evidence grammar, and
+the post-incident staging/host-integrity boundary. Keep held until op-318 defines the exact chain,
+op-202 supplies the accepted productionized candidate, and the card is normalized.
 
 ## WHY (one line)
 
@@ -32,7 +40,8 @@ op-201 proved the hybrid boots base services LIVE and bl-016 closes at runtime, 
 - Gatekeeper regression soak, FIXED bar (reaping bounded + clean shutdown + crash-clean) — not discovery (soak_is_gatekeeper). Authoring the orphan-churn driver + shutdown harness + orchestrator is in-role (harness_authoring_is_gatekeeper).
 - Consume the op-202 shipped image read-only; stage in the gatekeeper owned dir (agent_host_isolation). Do NOT rebuild the image — if the hybrid config is wrong, REPORT back to op-202, don't re-stage.
 - Verify first-hand — a clean `shutdown` exit code or a launchctl-list line is a claim; show zombies actually reaped (count over time) + the serial down-sequence + the proc signal-clear floor (background_exit_code_hygiene; no_conflate_gating_with_readiness).
-- POST-PREVIEW fidelity/dogfood arc — must not pre-empt the 1.0-preview gate (4 core services green under `-u` launchd). The pid1-as-init robustness bar is for the dogfood real-boot, not the preview.
+- **PREVIEW-GATING:** launchd-as-PID-1 robustness is required before the 1.0-preview ship stamp.
+  Scope promotion does not authorize this stale harness or any guest cell.
 
 ## MARKERS
 ```

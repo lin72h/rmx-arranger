@@ -1,6 +1,15 @@
 # op-281 — Gatekeeper: size the op-261 MACH_RCV_LARGE oversized-receive contract gap — does any live preview consumer actually drive an oversized LARGE receive on the syscall path? (evidence-first, BEFORE any kernel patch)
 
-op-281 | role: **Gatekeeper** (soak/runtime-evidence owner; no product-write to the fix itself) | EXU: **rmx-gatekeeper** | state: **[Reserved — evidence-first gate for the op-261 wider finding (the `mach_msg.c:372` option-mask that kills MACH_RCV_LARGE keep-on-queue). Arranger verified the DEFECT first-hand end-to-end in the release base; what is unproven is whether any live preview consumer ever exceeds its receive buffer on a LARGE receive at runtime (it works green today because buffers are sized generously). Sizes severity BEFORE op-282 is allowed to touch kernel mach-ipc code. Coordinator dispatches.]** | parent id: id-036 (CLOSED — op-249 lives here) + id-000 | L1i: li-1001 (mach-ipc substrate) | cost: gatekeeper (soak) | authored 2026-07-10 (Arranger seat, model Opus 4)
+op-281 | role: **Gatekeeper** (soak/runtime-evidence owner; no product-write to the fix itself) | EXU: **rmx-gatekeeper** | state: **[Flushed — never dispatched; Coordinator excluded external/public syscall-`LARGE` callers from 1.0-preview after op-316 found no activated in-tree preview consumer; future premise is re-decomposed from li-9007]** | parent id: id-036 (CLOSED — op-249 lives here) + id-000 | L1i: li-9007 (post-preview; formerly li-1001 preview relation) | cost: gatekeeper (soak) | authored 2026-07-10 (Arranger seat, model Opus 4)
+
+## ROUTING UPDATE — 2026-07-11
+
+op-316 validates the build-aware census: the built libdispatch syscall-`LARGE` implementation has
+no activated in-tree preview consumer. The Coordinator then explicitly excluded external/public
+callers from preview scope. This legacy brief is flushed and must never be dispatched or reused.
+li-9007 preserves a future evidence-first premise with corrected reachability, result-copyout,
+wake-state, trailer, OOL-lifetime, and same-message-retry controls. The separate libxpc trailer
+premise remains under id-021.
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own kernel mach-ipc layer. rmxOS = Darwin/Mach userland on FreeBSD 15. This is a reliability measurement of our own message-receive path — no target, no adversary. The point is runtime evidence that sizes a verified-but-latent contract gap before we decide whether/how to patch kernel code.

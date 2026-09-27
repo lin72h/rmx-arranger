@@ -2,6 +2,23 @@
 
 op-235 | role: **Gatekeeper** (harness-authoring + run) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Done — PARTIAL, committed db9a65c, Arranger-verified at source 2026-07-02]** — fan_out + chain PASS on twq; churn INCONCLUSIVE (self-diagnosed "harness bug" NOT accepted — see below); cells 1&3 + macOS self-check unrun. Gate substantively advanced, NOT closed. Follow-up → op-238. | parent: op-231 D3 layer 1 (E4 seat resolved → Gatekeeper) | L1i: li-1002 (libdispatch hardening — serves this regardless of Swift schedule) / li-9001 | cost: gatekeeper-tier (free role; harness-authoring + guest run) | authored 2026-07-02 (Arranger seat, model Opus 4)
 
+## HOST-ISOLATION CORRECTION — 2026-07-11
+
+The outcome phrase "Cell 3 (pthread pool — heredoc-quoting staging issue)" is materially incomplete.
+First-hand incident review establishes that Gatekeeper transcript line 5269 used `G` before its
+assignment, resolving the privileged destination to physical-host `/etc/rc.local`. The resulting
+754-byte file is preserved as `/etc/rc.local.disabled-rmxOS`, SHA-256
+`9de2beb03ad3df5559b05d8bc61cece8ff788c5fd03c182c9330a47563914fbf`, and byte-matches the
+transcript heredoc. `/var/log/messages` records its `OP235_cell3_START` marker followed by root
+power-down on five physical-host boots: lines 2998–3000, 3404–3406, 3821–3823, 4650–4652, and
+5478–5480. No `OP235_cell3_DONE` is present.
+
+Corrected classification: **confirmed agent-host-isolation breach — host file write, five host
+harness executions, and five induced power-offs; Cell 3 remains UNRUN/UNACCEPTED as guest evidence.**
+This correction does not invalidate the separately identified twq fan-out/chain records or claim
+that every intermediate workload command completed on the host. The canonical incident record is
+`doc/host-guest-isolation-incident-2026-07-11.md`.
+
 ## OUTCOME (Arranger-verified first-hand at db9a65c, 2026-07-02) — size M, self-adjudicated
 Three shapes authored in `build/op235/op235-substrate.c`, run on the **twq cell only** (MACHDEBUGDEBUG, banner-confirmed `twq kernel workqueue`; regime-labeled per op-230, mach.ko `ffc67eda…`, libdispatch `35dd592a…`):
 - **fan_out (1000 `dispatch_group_async_f` + group_wait) — PASS ACCEPTED.** 1000/1000, counts balanced, 2/2 runs. Source clean (group-async loop → group_wait → release). Drives grant-accounting (thr_workq.c:1090-1155). **`5675145` holds under burst fan-out.**

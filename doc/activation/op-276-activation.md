@@ -1,6 +1,23 @@
-<!-- ROB tracking (not part of the paste): op-276 | role: Oracle (consult-only) | EXU: oracle2 | state: [Awaiting — RE-ISSUED to the oracle2 seat 2026-07-10 after oracle1 did NOT return this consult (one of op-270/272/276, the three oracle1 no-returns; re-dispatched rather than left dangling). Content unchanged from the 2026-07-04 design/simplification form; the GROUND ALREADY SET section carries the Arranger first-hand finding (asl uses NO iconv/locale — it carries its own UTF-8 validator + byte-level encode modes) so the consult spends on the design call, not rediscovery. oracle1-internal op-lineage softened out of the body for the fresh seat; file:line citations kept. Distinct from the asl render-FIDELITY read (op-272) — this reads the charset/encoding MODEL + its simplification. Coordinator dispatches on oracle2 ack.] | parent id-011 (libasl/asld) | L1i li-1004 (asl) | cost oracle-tier | authored 2026-07-04, re-issued 2026-07-10 (Arranger seat, model Opus 4). Paste from the "#" title line down. -->
+# op-276 — Oracle2: ASL UTF-8-only encoding-model simplification design
 
-# asl's text-encoding model — does it lean on libiconv/locale, and does a UTF-8-only commitment let it simplify? — one subsystem, one question
+op-276 | role: **Oracle** (consult-only; no product or control write) | EXU:
+**Oracle2 / rmx-oracle2** | state: **[Draft — op-304 is retired; legacy consult remains
+non-dispatchable pending current-source repin/normalization and preview-scope decision]** |
+parent: **id-011** | L1i: **li-1004** | related: **op-272 / op-303 / op-304 / op-305** |
+authored: **2026-07-04; reissued 2026-07-10; ROB status reconciled 2026-07-11 by Arranger2**
+
+## ROB CLEANUP — 2026-07-11
+
+The former legacy `[Awaiting]` tracking state is superseded by the canonical header. op-304 is now
+retired at origin-reachable `a52a2ef51560943f7af4fe0b38e27f83508fd9b6`, so that dependency is
+clear. Do not dispatch this 2026-07-04 card as-is: the Arranger must still re-pin its exact current
+source/artifact identities, normalize the Oracle2 deliverable/markers and boundaries, and decide
+whether any residual simplification is preview-relevant or should be banked. Until then this op is
+`[Draft]`, not `[Ready]`/`[Awaiting]`.
+
+## LEGACY DESIGN BODY — NOT A DISPATCH ARTIFACT
+
+### asl's text-encoding model — does it lean on libiconv/locale, and does a UTF-8-only commitment let it simplify? — one subsystem, one question
 
 ## WHAT THIS IS
 Forward-looking simplification design on OUR OWN system logger. The question a maintainer is asking: our ASL text handling — does it lean on FreeBSD's kernel **libiconv** and the **locale** subsystem for character encoding, and if rmxOS commits to **UTF-8 only**, can the whole text-encoding path be simplified? rmxOS is an open-source Darwin/Mach userland on stock FreeBSD 15; ASL is its system logger, and its store/render path assumes a byte-string message model. This consult confirms the encoding model across the whole asl surface and answers the simplification question — what a UTF-8-only commitment lets us drop, collapse, or keep. Ordinary code-quality engineering on our own source — no target, no adversary.

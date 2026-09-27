@@ -1,6 +1,53 @@
 # op-289 — Gatekeeper: runtime premise-check Finding A (launchd calendar self-heal raises SIGUSR1, which the donor repurposed as init-compat HALT) — does an overdue calendar head actually drive the SIGUSR1→RB_HALT path on a live pid-1 guest? (evidence-first, GATES op-290)
 
-op-289 | role: **Gatekeeper** (runtime evidence; no product-write) | EXU: **rmx-gatekeeper** | state: **[Ready / DISPATCH-RECOMMENDED — authored 2026-07-10 (Arranger1 seat) from op-273's first-hand-adjudicated Finding A. Source composition VERIFIED first-hand at wip-gpt/wip-rmxos @ alpha `dd6e7a8` (raise(SIGUSR1)@core.c:5882 in calendarinterval_sanity_check; SIGUSR1→RB_HALT in runtime.c sighandler_init_compat via job_mig_reboot2(root_jobmgr,…); sanity_check called at core.c:3521, last line of job_mig_destructor = every MIG completion; Makefile:37 silences the job_t/jobmgr_t type confusion). This op measures whether the deterministic source path MANIFESTS as an observable halt / dead-calendar-plane on a live pid-1 guest BEFORE the fix (op-290) is warranted. Coordinator dispatches.]** | parent id: id-016 (bootstrap/launchd) | L1i: li-008 (launchd core service) | cost: gatekeeper (small pid-1 boot probe + clock-step drive) | authored 2026-07-10 (Arranger seat, model Opus 4)
+op-289 | role: **Gatekeeper** (runtime evidence; no product write) | EXU:
+**rmx-gatekeeper-rx-x64z** | state: **[Flushed — never dispatched; the 2026-07-11 census was valid
+for the then-current non-PID-1 image. Coordinator's 2026-07-12 PID-1 preview ruling requires a new
+candidate consumer census under op-318, but this ID stays flushed and is never revived.]** | parent: **id-016** | L1i: **li-008** | formerly gated: **op-290** | authored:
+**2026-07-10; ROB status reconciled 2026-07-11 by Arranger2**
+
+## ARRANGER BANKED CLOSURE — 2026-07-11
+
+**2026-07-12 follow-up:** PID-1 is now preview scope, so the old topology basis is superseded.
+No `StartCalendarInterval` consumer has thereby been proven. op-318 owns the new exact-config
+census; any runtime premise receives a new op number.
+
+Arranger2 re-verified the source composition at clean, origin-reachable
+`alpha@40c8a93d4b3fec707b2e6ecd7762a1b20948e6e3`:
+
+- `sbin/launchd/core.c` blob `e9ac1dca60aabe416a7bada98320384da622cc80` still has
+  `calendarinterval_sanity_check()` calling `raise(SIGUSR1)` for an overdue head;
+- `sbin/launchd/runtime.c` blob `d87e749eb96e940cadabea33609c018687f5c2b1` still maps
+  `SIGUSR1` to `RB_HALT`; and
+- `job_mig_reboot2()` immediately returns `BOOTSTRAP_NOT_PRIVILEGED` when `pid1_magic` is false,
+  while `pid1_magic` becomes true only when `getpid() == 1`.
+
+The first-hand preview-consumer census closes the commissioned runtime premise:
+
+- the canonical preview run model is the already-decided non-PID-1 launchd `-u` model under
+  id-016; PID-1 productionization/robustness are explicitly post-preview op-202→op-203;
+- `-u` force-start behavior makes calendar cadence/heal evidence nonrepresentative; and
+- a product-wide `*.plist` census at `40c8a93d` finds zero packaged `StartCalendarInterval` or
+  `StartInterval` consumers.
+
+Therefore the source collision is real but cannot produce the commissioned preview system-down
+outcome in the shipped run model. **Verdict: BANKED POST-PREVIEW / NO LIVE PREVIEW CONSUMER.** This
+is the explicit action-or-closure end of the op-273 consult loop. op-289 is flushed without a cell;
+op-290 is also flushed. When op-202 makes PID-1 launchd a live product target, re-fetch new op IDs
+with a current image and evidence-first PID-1 runtime gate; do not reuse op-289/op-290.
+
+## PRIOR ROB CLEANUP — 2026-07-11
+
+Do not dispatch this legacy card as-is. First-hand current-tip inspection confirms the load-bearing
+composition still exists—`job_mig_destructor` calls `calendarinterval_sanity_check`, the overdue
+head raises `SIGUSR1`, and `sighandler_init_compat` maps `SIGUSR1` to `RB_HALT`—but the card remains
+pinned to `alpha@dd6e7a8` and lacks the current normal-form execution contract.
+
+After op-306 frees Gatekeeper, normalize/re-pin the then-current Gatekeeper commit, product source
+blobs, exact disposable image/BOM/kernel configuration, staging commands, one-cell boundary,
+observer, fail-closed validator/controls, raw evidence paths, terminal markers, and classification.
+Target this for the first Gatekeeper slot after op-306. Until that normalization is complete it is
+`[Draft]`, not `[Ready]` or `[Queued]`.
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own service manager. rmxOS = Darwin/Mach userland on FreeBSD 15. launchd is a 1.0-preview core service (li-008). This measures whether a source-confirmed self-heal/signal collision actually halts a live pid-1 guest, BEFORE we edit the heal path. No target, no adversary.
@@ -24,11 +71,11 @@ On a pid-1 rmxOS guest, under a crash/serial observer:
 A short staged evidence note (rmx-gatekeeper dir): per the three items, OBSERVED behavior with the known-good control, characterized **reproduces / does-not-reproduce / unreachable-in-preview-config**. State plainly whether a LIVE preview pid-1 config trips the halt, or whether it is present-but-dormant (e.g. `-u`/non-pid1 gates it). This sizes op-290 and tells the Coordinator whether the fix is warranted at preview scope. Commit the raw serial + harness (not a multi-GB image). Not a product edit, not a release decision.
 
 ## BOUNDARIES
-- Read/measure + report only; no product edits (the fix is op-290, RESERVED, gated on this).
+- Read/measure + report only; no product edits (the fix is op-290, `[Hold]`, gated on this).
 - Scope is EXACTLY the Finding A halt/dead-calendar premise-check — do NOT expand into the KeepAlive/restart path (op-264), the on-demand/socket plane, or launchctl/MIG interface work.
 - Keep the observer alive for the full drive; an observer dying early is a FAIL, not a caveat.
 - Under `-u` dev mode every dispatch pass force-starts idle jobs — cadence/heal measurements under `-u` are vacuous; soak on a real pid-1 boot.
 - Does not decide milestone placement or release timing.
 
 ## RELATIONS
-op-273 (the Oracle consult whose Finding A this sizes; Arranger-verified first-hand at `core.c:5882/3521/5875-5884`, `runtime.c init_compat_signals/sighandler_init_compat`, `Makefile:37`) / op-290 (the RESERVED decouple-fix this GATES) / op-264 (KeepAlive/restart sibling on the SAME core.c) / op-284→op-285 (the same evidence-first-then-reserved-fix pattern for high-blast-radius code) / id-016 (bootstrap/launchd) / li-008 (launchd core service). feedback: oss_engineering_framing, code_reasoned_verdict_is_hypothesis, no_conflate_gating_with_readiness, verify_signature_divergence_claims, agent_host_isolation, op_state_dispatch_boundary.
+op-273 (the Oracle consult whose Finding A this sizes; Arranger-verified first-hand at `core.c:5882/3521/5875-5884`, `runtime.c init_compat_signals/sighandler_init_compat`, `Makefile:37`) / op-290 (the held decouple-fix this GATES) / op-264 (KeepAlive/restart sibling on the SAME core.c) / op-284→op-285 (the same evidence-first-then-held-fix pattern for high-blast-radius code) / id-016 (bootstrap/launchd) / li-008 (launchd core service). feedback: oss_engineering_framing, code_reasoned_verdict_is_hypothesis, no_conflate_gating_with_readiness, verify_signature_divergence_claims, agent_host_isolation, op_state_dispatch_boundary.

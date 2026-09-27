@@ -1,6 +1,14 @@
 # op-282 — Implementer: fix the op-261 MACH_RCV_LARGE oversized-receive contract gap — plumb LARGE/trailer bits into the mqueue keep-on-queue decision AND make the blocked path honor LARGE-retain (RESERVED, gated on op-281 evidence)
 
-op-282 | role: **Implementer** | EXU: **wip-gpt** | state: **[RESERVED — NOT dispatchable until op-281 returns runtime evidence sizing the gap. This edits kernel mach-ipc code where the receive contract is load-bearing for every hosted service; the exact fix (and whether it is warranted at preview vs a post-preview li-1001 seed) depends on what op-281 measures. Held so the fix intent is banked, not lost, but blocked from edit until evidence lands. Coordinator gates.]** | parent id: id-036 (CLOSED — op-249 lives here) + id-000 | L1i: li-1001 (mach-ipc substrate) | cost: implementer (small/med — kernel mach-ipc, evidence-first) | authored 2026-07-10 (Arranger seat, model Opus 4)
+op-282 | role: **Implementer** | EXU: **wip-gpt** | state: **[Flushed — never dispatched; Coordinator excluded external/public syscall-`LARGE` callers from 1.0-preview, and op-316 confirmed this brief was incomplete; any future fix receives a new ID/op from li-9007 after evidence]** | parent id: id-036 (CLOSED — op-249 lives here) + id-000 | L1i: li-9007 (post-preview; formerly li-1001 preview relation) | cost: implementer (small/med — kernel mach-ipc, evidence-first) | authored 2026-07-10 (Arranger seat, model Opus 4)
+
+## ROUTING UPDATE — 2026-07-11
+
+op-316 confirms this brief is materially incomplete: it does not bind
+`mach_msg_receive_results_error` size/identity copyout or the synchronous blocked wake/result state.
+The Coordinator excluded external/public syscall-`LARGE` callers from preview scope, so this op is
+flushed without edit and must never be dispatched or reused. li-9007 owns future re-decomposition;
+the separate libxpc trailer-admission boundary remains under id-021.
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own kernel mach-ipc layer. rmxOS = Darwin/Mach userland on FreeBSD 15. A correctness fix to our own message-receive contract. No target, no adversary.

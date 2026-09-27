@@ -1,6 +1,16 @@
 # op-202 — Implementer: productionize the op-201 hybrid PID-1 boot (init_path + rc-chainload plist) into the SHIPPED image's real-boot config + close the root-rw remount residual
 
-op-202 | role: **Implementer** (cost-30) | EXU: **wip-gpt** | state: **[Held — POST-PREVIEW]** — authored off op-201 D3; do NOT dispatch until the 1.0-preview gate (4 core services green under `-u` launchd) is closed. This is dogfood-fidelity, not a preview gate. | parent id: id-016 (launchd bootstrap) | L1i: li-008 | cost: 30 | authored 2026-06-29 (Arranger seat, model Opus 4)
+op-202 | role: **Implementer** (cost-30) | EXU: **wip-gpt / wip-rmxos** | state: **[Hold — PROMOTED TO 1.0-PREVIEW, but this legacy brief is NOT dispatchable. WAITING on op-318's exact PID-1 topology/image/BOM/containment contract, the disposable-image reaper premise, and any warranted op-280 correction before normalization.]** | parent id: id-016 (launchd bootstrap) + id-042 (preview ship gate) | L1i: li-1006 / li-008 | cost: 30 | authored 2026-06-29; scope promoted 2026-07-12 by Coordinator ruling
+
+## COORDINATOR SCOPE PROMOTION — 2026-07-12
+
+The Coordinator requires **launchd to be PID 1 in 1.0-preview**. This supersedes this card's
+historical post-preview classification; it does not waive the missing execution contract. op-202
+remains held because its old body mixes Implementer staging with guest runtime acceptance and does
+not name an exact current-tip base image, component BOM, approved staging helper, or post-incident
+containment controls. op-318 must close those facts first. After the evidence-first disposable PID-1
+reaper chain is adjudicated, this card is normalized into an Implementer-only production/config/image
+stage; Gatekeeper owns runtime acceptance.
 
 ## WHY (one line)
 
@@ -40,6 +50,7 @@ OP202_TERMINAL
 ## RELATIONS
 - UPSTREAM: op-201 [Retired — hybrid-live @ 06d4df6] (proved the hybrid on a throwaway; this productionizes it + closes the root_rw residual); op-200 [Retired] (PID-1 LIVE, /etc/rc DARK under launchd.d-only).
 - DOWNSTREAM: op-203 (Gatekeeper pid1-robustness soak) consumes the productionized shipped image. bl-016 stays runtime-CLOSED if D3 re-confirms the non-null bootstrap on the shipped config.
-- PEER: none on the wip-gpt seat for this arc (post-preview); serialize behind any preview-gate Implementer work (op-197 libxpc fill takes seat priority — preview-gating).
-- feedback: no_conflate_gating_with_readiness (root_rw + bootstrap must FIRE, not config-present), launchd_plist_macos_fidelity, userland_port_no_buildinfra_changes (init_path + plist are config; a source need = finding), build_is_implementer, soak_is_gatekeeper, agent_host_isolation. project: launchd_no_autoscan (confirm the load dir first-hand), 10preview_gate (POST-preview — must not pre-empt the 4-core gate).
+- PEER: this is now preview-gating, but remains sequenced behind op-318 plus the disposable PID-1
+  reaper premise/fix decision. Do not infer dispatch from scope promotion.
+- feedback: no_conflate_gating_with_readiness (root_rw + bootstrap must FIRE, not config-present), launchd_plist_macos_fidelity, userland_port_no_buildinfra_changes (init_path + plist are config; a source need = finding), build_is_implementer, soak_is_gatekeeper, agent_host_isolation, artifact_identity_needs_content_check. project: launchd_no_autoscan, 10preview_gate (PID-1 is now a required preview property).
 ```

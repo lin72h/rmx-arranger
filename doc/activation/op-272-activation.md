@@ -1,30 +1,188 @@
-<!-- ROB tracking (not part of the paste): op-272 | role: Oracle (consult-only) | EXU: oracle2 | state: [Awaiting — RE-ISSUED to the oracle2 seat 2026-07-10 after oracle1 did NOT return this consult (one of op-270/272/276, the three oracle1 no-returns; re-dispatched rather than left dangling). Content unchanged from the 2026-07-04 single-feature form; oracle1-internal op-lineage softened out of the body for the fresh seat, file:line citations kept. Sibling to the asl query-MATCH read (op-269, already returned) — this is the RENDER path. Coordinator dispatches on oracle2 ack.] | parent id-011 (libasl/asld) | L1i li-1004 (asl) | cost oracle-tier | authored 2026-07-04, re-issued 2026-07-10 (Arranger seat, model Opus 4). Paste from the "#" title line down. -->
+# op-272 — Oracle2: verify ASL stored-record → rendered-line correctness
 
-# Confirm the correctness of the ASL message rendering path (how a stored record becomes a formatted log line) — one feature, one file
+op-272 | role: **Oracle** (consult-only; no product or control write) | EXU:
+**Oracle2 / rmx-oracle2** | state: **[Retired — exact consult passed op-303
+VALIDATED-SOURCE-FINDINGS at confidence 9/10; H1/H2/H3/H5/H6 route to op-304→op-305,
+H4/H7 bank post-preview; consult loop closed 2026-07-11]** | parent: **id-011** | L1i: **li-1004** | related:
+**op-260 / op-269 / op-276** | authored: **2026-07-04; reissued 2026-07-10; normalized
+2026-07-11 by Arranger2**
 
-## PREAMBLE — what this project is
-rmxOS is an **open-source operating system** — a Darwin/Mach userland ported onto stock FreeBSD 15, developed in the open like FreeBSD or illumos. This is a **maintainer's own code-quality check of ONE feature of our system logger** — how a stored log message is turned into a formatted text line for a log file or a `syslog` display. Ordinary pre-release engineering on our own source — the goal is simply to confirm this one path is well-built for our own users. No target, no adversary, nothing to exploit.
+## RETURN INTAKE — 2026-07-11
 
-## THE ONE FEATURE (this is the whole scope)
-The ASL **message rendering** path — `asl_format_message` (`lib/libasl/asl_msg.c:126` decl; body + helpers around `:1916`) plus the format helpers it calls: given a message, a format name or template (`std` / `bsd` / `xml` / `msg` / `raw`, or a custom `$((Key))`-style template), a time format, and a text-encoding option, produce the text line a log sink writes. Confirm this one render path produces the right line — nothing wider.
+- deliverable: `/Users/me/wip-mach/rmx-oracle2/op-272-asl-message-rendering-findings.md`;
+- identity: 27,694 bytes / 419 lines / SHA-256
+  `02a431709085027ed989a0f8e98b271f20d8eab8ad2e0df15dd0fda5568a96ca`;
+- product/source pin reproduced clean and live-origin-aligned at
+  `alpha@ceb46edc5f910660d4fa7ecd9e90501ebd86b1ba`; `asl_msg.c` identity reproduced exactly;
+- all eight commissioned markers and `CONSULT-COMPLETE` are present; and
+- boundary intake is coherent: read-only note, no build, guest cell, product write, or control write.
 
-## CONTEXT
-Rendering is the last step before a message reaches a human-readable log: pick the fields the format calls for, lay them out in the documented order, format the timestamp, and render any control or non-printable bytes in a readable form. It is easy for a formatter to quietly emit the wrong field, drop a value on an absent key, or mis-size the output string — bugs that flat conformance lines rarely surface. This is the render companion to a prior store-framing read and a prior query-match read: store it, find it, and now render it. Plain software-engineering framing: format selection, field substitution, time formatting, and text-encoding fidelity.
+The return advances `[Exe]→[Done]` only. Its seven actionable claims are Oracle hypotheses, not
+verified facts. The cross-file/contract/caller review is sized **L** and delegated to
+Validator-DS4P under op-303 before any ID seed, Implementer fix, Gatekeeper vector, or retirement.
 
-## THE QUESTIONS (all about this one path)
-1. **Format selection.** Does each built-in format (`std`, `bsd`, `xml`, `msg`/`raw`) and a custom template render the documented fields in the documented layout — no format that emits the wrong field, mislabels one, or produces an empty line where a record was present?
-2. **Field substitution.** For a template referencing a key that is present versus absent in the message, is the result consistent (an absent key yields the documented empty/placeholder rather than a stray dereference), and do repeated or positional key references resolve correctly?
-3. **Time formatting.** Does the timestamp render per the requested time format (raw seconds, UTC, local) consistently — including any sub-second and timezone handling — always producing a well-formed timestamp field?
-4. **Text-encoding fidelity.** Does the text-encoding pass that renders control characters and non-printable bytes in a readable form leave ordinary text unchanged, render unusual bytes deterministically, and always return a complete NUL-terminated string whose reported length matches its contents?
+## RETIREMENT — 2026-07-11
+
+Validator-DS4P op-303 returned `VALIDATED-SOURCE-FINDINGS`, confidence 9/10, confirming all seven
+hypotheses, the normal-path model, and the exact 4-live/1-tool/3-dormant caller census. Arranger2
+reproduced the unchanged note/source/product identities and consumed the confidence-9 gate without
+re-review. Preview-relevant H1/H2/H3/H5/H6 are fetched as Implementer op-304 with held Gatekeeper
+vectors op-305. H4 fractional textual timezone and H7 empty/sparse XML are confirmed but banked as
+post-preview residuals under id-011. The consult therefore ends in product action plus explicit
+banked closure and retires.
+
+## DISPATCH BOUNDARY
+
+DISPATCHED by the Coordinator to **Oracle2 / rmx-oracle2** on 2026-07-11. Oracle2 may write exactly one
+commissioned deliverable:
+
+`/Users/me/wip-mach/rmx-oracle2/op-272-asl-message-rendering-findings.md`
+
+The product, Arranger, Explorer, Gatekeeper, and Oracle1 repositories are read-only. Do not build,
+boot a guest, execute a runtime probe, modify evidence, allocate an ID/op, choose milestone scope,
+or make a release decision.
+
+## REQUIRED SOURCE IDENTITY
+
+Review the clean, origin-aligned product tree:
+
+- repository: `/Users/me/wip-mach/wip-gpt/wip-rmxos/`;
+- branch/commit: `alpha@ceb46edc5f910660d4fa7ecd9e90501ebd86b1ba`;
+- source: `lib/libasl/asl_msg.c`;
+- source identity: 68,621 bytes / 3,045 lines / SHA-256
+  `6f80ea731ca3d696b29e9bf335ff5c08411a31368b1bfe5ed865a4b0c4f91651` / Git blob
+  `99b0e830c78f01e2bed71c2aecc7fa96957f4799`;
+- primary function: `asl_format_message` at `asl_msg.c:2544`; and
+- relevant formatting/encoding helpers begin around the comment at `asl_msg.c:1916`.
+
+Verify identity before reasoning. On mismatch, stop with `BLOCKED SOURCE-DRIFT` and report the
+observed branch/commit/file identity; do not silently repin, clone, fetch, or use a deprecated
+Arranger tree.
+
+## OBJECTIVE — ONE FEATURE ONLY
+
+Determine whether the ASL message-rendering path correctly converts one stored `asl_msg_t` into
+the complete human-readable line returned to a log sink. Scope is `asl_format_message` plus only
+the format, template, time, string-encoding, and length helpers it directly uses.
+
+This is the RENDER sibling of the already-banked query/predicate read op-269 and the earlier store
+framing read op-260: store a record, find it, then render it. It is not permission to reopen either
+of those paths.
+
+## QUESTIONS
+
+### Q1 — Built-in format selection and layout
+
+Read every selected branch for `raw`, `std`, `bsd`, `xml`, and `msg`, including suffixed format
+names. Establish whether each branch emits the intended fields, separators, newline, and fallback
+values without selecting the wrong format or returning an empty line for a present record.
+
+Identify the in-tree source of the expected layout (header, man page, comments, or established
+caller contract). Do not infer correctness solely because the code compiles.
+
+### Q2 — Custom-template substitution
+
+Read the complete custom `$Key`, `$(Key)`, and `$((Key)(Format))` parser and the helper bodies it
+calls. Check present versus absent keys, repeated/positional references, escaped dollar signs,
+malformed or unterminated templates, key-buffer bounds, and deterministic placeholder behavior.
+
+Do not claim a parser or bounds defect from a signature or isolated line; trace the complete
+branch and surrounding state first.
+
+### Q3 — Time formatting
+
+Trace the raw-seconds, UTC, and local-time selections, including format suffixes, nanoseconds,
+timezone handling, missing/invalid time fields, allocation ownership, and fallback output.
+Determine whether every accepted selection yields a well-formed, deterministic timestamp field.
+
+### Q4 — Text encoding, termination, and returned length
+
+Trace ordinary text, control/non-printable bytes, XML string-versus-base64 handling, and each
+accepted `text_encoding` mode. Establish whether ordinary text is preserved, unusual bytes are
+rendered deterministically, the returned buffer is complete and NUL-terminated, and `*len`
+matches the documented convention—including the trailing NUL where promised.
+
+## BOUNDED CALL-SITE CENSUS
+
+List every in-tree direct caller of `asl_format_message` and classify whether it is a live
+preview consumer, a tool/test, or dormant. This census is for routing only: do not expand into
+the caller's wider submit, query, storage, or service behavior.
+
+For any actionable finding, state whether a live preview consumer reaches it and name the
+smallest owner-correct next step. If source reasoning cannot settle behavior, specify one minimal
+runtime microcheck and its exact expected observation; do not execute it.
 
 ## DELIVERABLE
-A short staged note in your own consult dir: for each of the 4 questions, a finding characterized **solid / uncertain / needs-runtime-check**, each a hypothesis with an `asl_msg.c` file:line citation. Anything uncertain, bucket by effort/risk. Every finding is a hypothesis the maintainers route to verification or a milestone seed — not a product edit, not a release decision.
 
-## BOUNDARIES
-- Read + advise only; propose, do not edit; stage the note in your own dir.
-- Scope is EXACTLY the render path (`asl_format_message` + its format/time/encoding helpers) — do NOT expand into the query-MATCH function `asl_msg_cmp` (a separate read covered it), the store write/read-back framing, the message submit path, or the client API matrix. No interface-shape or cross-platform comparison work.
-- Treat every observation as a hypothesis to confirm at source before it drives an edit; read the actual helper body before asserting a field is mishandled (a couple of prior asl reviews produced signature claims that turned out already-correct-by-design once the body was read — verify at source).
-- Does not decide release timing or milestone placement.
+Write the exact commissioned note and return a concise report. For Q1–Q4 provide:
+
+- `SOLID`, `UNCERTAIN`, or `NEEDS-RUNTIME-CHECK`;
+- exact source/body citations and the expected contract used;
+- the reasoning chain, not only a conclusion;
+- any bounded defect or ambiguity, its consumer exposure, and effort/risk; and
+- one smallest verification or product-action recommendation, or an explicit banked-closure
+  recommendation supported by the call-site census.
+
+Include exact file size/SHA-256 for the deliverable and the observed source identity. All Oracle
+findings remain hypotheses until Arranger verification; do not label them accepted facts.
+
+Return exactly one terminal outcome:
+
+- `CONSULT-COMPLETE`; or
+- `BLOCKED <reason>`.
+
+## BOUNDARIES / EXCLUSIONS
+
+- Read and advise only; write only the one Oracle2 deliverable.
+- Do not edit or build product source and do not run a guest or host probe.
+- Do not expand into `asl_msg_cmp`, store write/read-back framing, submit transport, aslmanager
+  scheduling/reclaim, the broad client API matrix, interface-shape work, or cross-platform/macOS
+  runtime comparison.
+- Do not turn op-276's charset-model/simplification question into part of this renderer review.
+- Do not decide preview scope, release readiness, ID state, or follow-on dispatch.
+- Preserve source fact, code inference, documented contract, and runtime unknown as distinct.
+
+## REPORT FORM
+
+```text
+REPORT
+op:                 op-272
+oracle:             Oracle2
+source_identity:    <branch / commit / size / lines / sha256 / blob>
+deliverable:        <path / size / sha256>
+q1_format:          SOLID | UNCERTAIN | NEEDS-RUNTIME-CHECK — <one line>
+q2_template:        SOLID | UNCERTAIN | NEEDS-RUNTIME-CHECK — <one line>
+q3_time:            SOLID | UNCERTAIN | NEEDS-RUNTIME-CHECK — <one line>
+q4_encoding_length: SOLID | UNCERTAIN | NEEDS-RUNTIME-CHECK — <one line>
+callers:            <live preview / tool-test / dormant census>
+actionable:         <findings + smallest next steps, or explicit closure recommendation>
+boundary:           read_only=1 builds=0 guest_cells=0 product_writes=0 control_writes=0
+terminal:           CONSULT-COMPLETE | BLOCKED <reason>
+```
+
+## MARKERS
+
+`O2_OP272_SOURCE_IDENTITY`
+
+`O2_OP272_Q1_FORMAT_SELECTION`
+
+`O2_OP272_Q2_TEMPLATE_SUBSTITUTION`
+
+`O2_OP272_Q3_TIME_FORMATTING`
+
+`O2_OP272_Q4_ENCODING_LENGTH`
+
+`O2_OP272_CALLSITE_CENSUS`
+
+`O2_OP272_ACTIONABLE_ROUTING`
+
+`O2_OP272_TERMINAL`
 
 ## RELATIONS
-The prior asl store write/read-back framing read + the query-MATCH `asl_msg_cmp` read in the same file (this is the RENDER sibling, fenced off from the matcher) / the same narrow single-feature consult style as our recent asl-store and launchd-supervision reviews / the asl subsystem milestone (li-1004). Every finding is a hypothesis the maintainers verify at source before it drives any edit.
+
+op-260 (store framing) / op-269 (query match, banked closure) / op-276 (encoding-model design,
+separately Ready) / id-011 / li-1004.
+
+feedback: `oss_engineering_framing`, `code_reasoned_verdict_is_hypothesis`,
+`verify_signature_divergence_claims`, `agent_host_isolation`,
+`no_conflate_gating_with_readiness`, `op_state_dispatch_boundary`.

@@ -1,6 +1,22 @@
-# op-290 — Implementer: decouple launchd's calendar self-heal from SIGUSR1 (kill the halt collision) + re-arm the global calendar timer on head-delete — RESERVED, gated on op-289 evidence
+# op-290 — Implementer: decouple launchd's calendar self-heal from SIGUSR1 and re-arm the global calendar timer
 
-op-290 | role: **Implementer** | EXU: **wip-gpt** | state: **[RESERVED — gated on op-289 runtime evidence + a Coordinator init-compat-signal-ownership decision. This op existing does NOT authorize the edit. Fix shape banked from op-273's first-hand-adjudicated Finding A (system-DOWN failure mode); to be finalized against op-289's observed manifestation.]** | parent id: id-016 (bootstrap/launchd) | L1i: li-008 (launchd core service) | cost: implementer (small — 1-to-3-line class fix in a core service, but HIGH blast radius; evidence-first) | authored 2026-07-10 (Arranger seat, model Opus 4)
+op-290 | role: **Implementer** (sole product writer) | EXU: **wip-gpt / wip-rmxos** | state:
+**[Flushed — never dispatched; op-289's old non-PID-1 no-consumer basis must be re-censused under
+the new PID-1 preview topology, but this speculative fix ID stays closed. Any warranted fix receives
+a new op after op-318 and fresh runtime evidence.]** | parent: **id-016 / op-289** | L1i: **li-008** |
+authored: **2026-07-10; ROB status reconciled 2026-07-11 by Arranger2**
+
+## ARRANGER CLOSURE — 2026-07-11
+
+**2026-07-12 follow-up:** Coordinator promoted PID-1 into preview. That changes the topology but
+does not authorize this edit or prove a configured calendar consumer. op-318 performs the new
+census; op-290 remains flushed.
+
+No product edit was authorized or performed. The source collision remains banked, but op-289's
+current-tip census proves it is dormant in the preview's non-PID-1 `-u` run model and has no
+packaged interval consumer. op-290 is therefore flushed rather than held indefinitely. If the
+post-preview op-202 PID-1 image lands, re-fetch the runtime premise and any resulting fix with new
+op IDs and a fresh Coordinator signal-ownership decision.
 
 ## CONTEXT (engineering framing)
 Ordinary open-source OS engineering on our own service manager. rmxOS = Darwin/Mach userland on FreeBSD 15. A correctness fix to launchd's calendar-schedule self-heal path. No target, no adversary.
@@ -8,7 +24,7 @@ Ordinary open-source OS engineering on our own service manager. rmxOS = Darwin/M
 ## WHY (one line)
 op-273 found (Arranger-verified first-hand) that launchd's calendar self-heal `raise(SIGUSR1)` (`core.c:5882`) shares the signal the donor repurposed as init-compat HALT (`runtime.c sighandler_init_compat` → `job_mig_reboot2(root_jobmgr, RB_HALT)`), and the heal is reachable on every MIG completion (`job_mig_destructor:3521`) — so the overdue-calendar recovery can halt the machine. This op decouples the heal from the signal.
 
-## PRECONDITION (why RESERVED, not live)
+## PRECONDITION (why HOLD, not live)
 This edits the recovery path of a preview-gating core service with a system-down failure mode. Per the executing-actions-with-care rule, high-blast-radius changes get evidence first. op-289 characterizes whether a live pid-1 preview config actually trips the halt / dead-calendar funnel and what the observed failure is. Held until that evidence lands and the Coordinator (a) confirms the fix is warranted at preview scope and (b) rules the init-compat SIGUSR1 signal-ownership question (below), which the fix shape depends on.
 
 ## INTENT (banked fix direction — to be finalized against op-289 evidence)
@@ -28,4 +44,4 @@ Preserve the verified-SOLID behavior — StartInterval kernel-periodic re-arm, c
 - Does not decide milestone placement or release timing.
 
 ## RELATIONS
-op-289 (the Gatekeeper premise-check that GATES this op — sizes the fix + confirms warrant) / op-273 (the Oracle consult, Finding A — the defect this resolves; Arranger-verified first-hand) / op-264 (KeepAlive/restart sibling on the SAME core.c) / op-284→op-285 (the same reserved-fix-gated-on-evidence pattern) / id-016 (bootstrap/launchd) / li-008 (launchd core service). feedback: oss_engineering_framing, build_is_implementer, code_reasoned_verdict_is_hypothesis, no_conflate_gating_with_readiness, agent_host_isolation, op_state_dispatch_boundary.
+op-289 (the Gatekeeper premise-check that GATES this op — sizes the fix + confirms warrant) / op-273 (the Oracle consult, Finding A — the defect this resolves; Arranger-verified first-hand) / op-264 (KeepAlive/restart sibling on the SAME core.c) / op-284→op-285 (the same held-fix-gated-on-evidence pattern) / id-016 (bootstrap/launchd) / li-008 (launchd core service). feedback: oss_engineering_framing, build_is_implementer, code_reasoned_verdict_is_hypothesis, no_conflate_gating_with_readiness, agent_host_isolation, op_state_dispatch_boundary.

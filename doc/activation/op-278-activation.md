@@ -1,32 +1,134 @@
-# op-278 — Implementer: fix op-264 Finding B — compile out launchd's two Darwin-only `kev->data` exit-bit tests on FreeBSD (spurious fpfail/jettisoned)
+# op-278 — Implementer: compile out Darwin-only launchd exit-detail tests on FreeBSD
 
-op-278 | role: **Implementer** | EXU: **wip-gpt** | state: **[Awaiting — trivial mechanical fix resolving op-264 Finding B (Arranger-verified first-hand). ONE small guarded edit in `sbin/launchd/core.c`, no behavior change on the working path. Coordinator dispatches.]** | parent id: id-016 (bootstrap/launchd) | L1i: li-008 (launchd core service) | cost: implementer (trivial) | authored 2026-07-07 (Arranger seat, model Opus 4)
+op-278 | role: **Implementer** (sole product writer) | EXU: **wip-gpt / wip-rmxos** | state: **[Retired — Arranger2 S-gate accepted commit `7291ad2a722b65661ff096ef09357b8756eb108f` first-hand; Coordinator-authorized fast-forward made it reachable from `origin/alpha` on 2026-07-11; no blockers remain, so it leaves the live ROB]** | parent: **id-016** (bootstrap/launchd) | L1i: **li-008** (launchd core service) | authored: **2026-07-07; normalized/retired 2026-07-11 by Arranger2**
 
-## CONTEXT (engineering framing)
-Ordinary open-source OS engineering on our own service manager (launchd). rmxOS = Darwin/Mach userland on FreeBSD 15. This is a small correctness cleanup — not security work, no target.
+## DISPATCH BOUNDARY
 
-## WHY (one line)
-op-264's supervision consult found (Arranger-verified) that launchd tests two **Darwin-only** exit-note bits against `kev->data`, but on FreeBSD `kev->data` on `NOTE_EXIT` carries the **unmasked wait status** — so an ordinary exit code with bit 16/17 set spuriously flips job flags.
+DISPATCHED to the Implementer only. Edit and build in
+`/Users/me/wip-mach/wip-gpt/wip-rmxos/`. This op authorizes no Arranger, Gatekeeper, Oracle, or
+Explorer repository write and no product push.
 
-## THE DEFECT (verified first-hand in the release base `wip-gpt/wip-rmxos`)
-- `Makefile:45` force-defines `NOTE_EXIT_DECRYPTFAIL=0x00010000` (bit 16) and `NOTE_EXIT_MEMORY=0x00020000` (bit 17) — Darwin constants FreeBSD's kernel does not deliver as `NOTE_*` hint bits (`filt_proc` only matches `NOTE_PCTRLMASK` 0xf0000000).
-- `core.c:4203-4210` on `NOTE_EXIT` tests `kev->data & NOTE_EXIT_DECRYPTFAIL` (→ `j->fpfail=true`, :4204-4206) and `else if kev->data & NOTE_EXIT_MEMORY` (→ `j->jettisoned=true`, :4207-4209).
-- On FreeBSD the kernel puts `KW_EXITCODE(p_xexit, p_xsig)` in `kn_data` and `sys_exit` does NOT mask `rval` — so a job that exits with a status carrying bit 16 or 17 (e.g. large `_exit` codes) sets `fpfail`/`jettisoned` spuriously → log noise ("FairPlay decryption failed" / "killed due to memory pressure") + wrong `LASTEXITSTATUS` export (:1107-1110) + a stale `jettisoned` flag for the run.
-- Both flags are Darwin-only concepts (FairPlay decryption; jetsam memory pressure) that do not exist on FreeBSD, so neither should ever be set from `kev->data` here.
-- Restart decision itself is UNAFFECTED (`job_keepalive` consumes the properly masked `WIFEXITED`/`WEXITSTATUS`) — this is a flag/logging correctness fix, not a supervision fix.
+## OBJECTIVE
 
-## SCOPE (the whole change)
-1. Guard the two `kev->data` bit tests at `core.c:4203-4210` so they compile out on FreeBSD — wrap the `if (kev->data & NOTE_EXIT_DECRYPTFAIL) {…} else if (kev->data & NOTE_EXIT_MEMORY) {…}` block in `#if !defined(__FreeBSD__)` (leave `job_reap(j)` at :4212 and everything below unconditional). Preferred over deleting so the Darwin lineage stays legible; match the existing `__FreeBSD__` convention already used in this file (e.g. the `execvpe` branch at job_start_child).
-2. Do NOT touch the `Makefile:44-45` force-defines (the other two — `NOTE_EXITSTATUS`/`NOTE_EXIT_DETAIL` — are inert per op-264, requested only in fflags; leave them).
-3. Build launchd; confirm the guarded block is excluded on FreeBSD and the file still compiles + links. No functional soak needed for this op (that's op-279's separate scope).
+On FreeBSD, prevent launchd from interpreting bits in `kevent.data`'s wait status as Darwin-only
+`NOTE_EXIT_DECRYPTFAIL` or `NOTE_EXIT_MEMORY` flags. Preserve Darwin behavior and leave the normal
+`NOTE_EXIT` reap path unconditional.
+
+## REQUIRED BASE CHECK
+
+- Product repo: `/Users/me/wip-mach/wip-gpt/wip-rmxos/`
+- Expected branch/base at dispatch: `alpha@778cb07442e61cdd8fb3e766b91676f2e9a261b8`
+- Expected initial tree: clean, `alpha` one commit ahead of `origin/alpha`.
+- Run full-repository `git status --short --branch` and verify HEAD before editing. If branch, HEAD,
+  or cleanliness differs, stop and return the exact discrepancy; do not overwrite or absorb another
+  op's work.
+
+## VERIFIED DEFECT
+
+At the required base, `sbin/launchd/core.c:4203-4212` has:
+
+- an outer `if (fflags & NOTE_EXIT)`;
+- unguarded tests of `kev->data & NOTE_EXIT_DECRYPTFAIL` and
+  `kev->data & NOTE_EXIT_MEMORY`, setting `j->fpfail` or `j->jettisoned`; and
+- unconditional `job_reap(j)` immediately afterward.
+
+`sbin/launchd/Makefile:45` defines those Darwin constants as bits 16 and 17 for donor-source
+compilation. FreeBSD supplies an unmasked wait status in `kevent.data` for `NOTE_EXIT`; those bits
+are not Darwin exit-detail hints there. Large exit values can therefore produce false FairPlay or
+memory-pressure state and logs. Restart selection remains outside this defect and is not part of
+this op.
+
+## EXACT EDIT
+
+Edit only `sbin/launchd/core.c`:
+
+1. Inside `if (fflags & NOTE_EXIT)`, wrap the complete
+   `NOTE_EXIT_DECRYPTFAIL` / `NOTE_EXIT_MEMORY` `if`–`else if` block in:
+
+   `#if !defined(__FreeBSD__)`
+
+   `#endif`
+
+2. Keep the outer `NOTE_EXIT` condition, `job_reap(j)`, and every line below the guarded block
+   unconditional and otherwise unchanged.
+3. Preserve the existing Darwin branch byte-for-byte except for the added guard.
+4. Do not edit `sbin/launchd/Makefile`; its `NOTE_*` compatibility definitions are outside this
+   fix.
+
+Expected shape:
+
+```c
+if (fflags & NOTE_EXIT) {
+#if !defined(__FreeBSD__)
+        if (kev->data & NOTE_EXIT_DECRYPTFAIL) {
+                ...existing body...
+        } else if (kev->data & NOTE_EXIT_MEMORY) {
+                ...existing body...
+        }
+#endif
+
+        job_reap(j);
+        ...existing path...
+}
+```
+
+Follow the file's existing formatting; do not mechanically replace the illustrative indentation.
+
+## BUILD AND SELF-CHECK
+
+1. Run `git diff --check`.
+2. Build the launchd target with the repository's existing FreeBSD build procedure. Report the
+   exact command, environment/target, exit code, output binary path, size, and SHA-256.
+3. Show the focused diff and confirm only `sbin/launchd/core.c` changed.
+4. Confirm preprocessing on the FreeBSD target excludes both assignments while retaining the call
+   to `job_reap(j)`. Source/preprocessor evidence is sufficient; no guest or soak is commissioned.
+5. Re-run full-repository `git status --short --branch`.
 
 ## DELIVERABLE
-The one-line-guarded diff + a built launchd confirming compile/link on the FreeBSD target. Report the exact edited span and the build result for first-hand Arranger verification (diff read at source).
+
+After the edit and successful build, create one focused local product commit containing only
+`sbin/launchd/core.c`. Do not push. Return:
+
+- base and resulting commit SHA, parent SHA, and subject;
+- exact changed span/diff;
+- build command, target, exit code, binary path, size, and SHA-256;
+- FreeBSD exclusion / unconditional-`job_reap` evidence;
+- full final repository status; and
+- the markers below.
 
 ## BOUNDARIES
-- EXACTLY this guard — do NOT refactor the surrounding `job_callback_proc`, do NOT touch Finding A's `waitpid_loop` (that is op-279's runtime-check + a RESERVED separate fix op — pid-1 code, evidence-first).
-- Implementer owns the edit + build; the runtime behavior confirmation is op-279 (Gatekeeper), not this op.
-- Does not decide milestone placement.
+
+- Exactly one source guard in `sbin/launchd/core.c`; no refactor or adjacent cleanup.
+- Do not touch `Makefile`, `job_reap`, wait-status interpretation, KeepAlive/restart policy,
+  `waitpid_loop`, or op-264 Finding A. Finding A belongs to op-279→op-280.
+- Do not run or modify Gatekeeper harnesses, images, or runtime evidence.
+- Do not push. A local product commit cannot retire until separately verified and made reachable
+  from the relevant origin branch.
+- Building proves compile/link only; it does not establish runtime or milestone readiness.
+
+## VERDICT
+
+- `DONE <commit>` — exact guard landed, launchd built successfully, focused local commit created.
+- `BLOCKED <reason>` — base mismatch, unrelated dirt, build failure, or inability to prove the
+  FreeBSD exclusion. Preserve all evidence and do not expand scope.
+
+## MARKERS
+
+`IMPL_OP278_BASE_IDENTITY`
+
+`IMPL_OP278_GUARD`
+
+`IMPL_OP278_BUILD`
+
+`IMPL_OP278_COMMIT`
+
+`IMPL_OP278_TERMINAL`
 
 ## RELATIONS
-op-264 (the supervision consult — this resolves its Finding B; Arranger-verified at `core.c:4203-4210` + `Makefile:45`) / op-279 (Gatekeeper runtime-check for op-264 Finding A — the sibling, higher-stakes resolution) / li-008 (launchd core service) / id-016. feedback: oss_engineering_framing, build_is_implementer, verify_signature_divergence_claims, agent_host_isolation, op_state_dispatch_boundary.
+
+op-264 Finding B (source finding this resolves) / op-279 (separate Gatekeeper evidence gate for
+Finding A) / op-280 (held Finding-A fix) / id-016 / li-008.
+
+feedback: `oss_engineering_framing`, `build_is_implementer`,
+`verify_signature_divergence_claims`, `no_conflate_gating_with_readiness`,
+`agent_host_isolation`, `op_state_dispatch_boundary`.
