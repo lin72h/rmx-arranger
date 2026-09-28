@@ -520,3 +520,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-367 issued → returned → closed.
 - evidence: REPORT op-367; the re-computed hashes above.
 - next: Paste the op-365 REPORT; then apply the held Validator template changes; then op-364's REPORT.
+
+### j-20260927-024 — op-365 closed: validator1 onboarded; calibration feedback applied to validator0
+
+- time / kind: 2026-09-28T01:30:13Z / RETURN
+- outcome: validator1 (GLM) returned the op-363 calibration review: claims 1 and 2 hold, claim 3 fails, verdict REMEDIATE, score 9. I verified first-hand its two findings that no one else had: five more scripts still use `${workspace_root}/wip-gpt/…` (asl-a3 and four verify-phase07), and mach-send pins mach.ko `49ac3d89…` (line 61, guard at lines 231-232) while the objdir holds `9c7706a3…`. Its proposed fix is fragile; validator2's is the one to use. With all three calibrations back, the held feedback was applied to rmx-validator0 (`cc3ff9b`): idq and needs defined, the review op's own number used for REPORTs and notes, evidence forms for source reviews, a solo-review provision in Rule 3, and three falsification patterns promoted from the Validators' LOCAL.md. Validators re-rendered: `d2f2e4e`, `cc3a826`, `1beb054`. Their sessions are still open, so each gets a NOTICE to re-read OPS.md and the rulebook. Routing: validator1 + validator2 stays the default pair. The follow-up Implementer op now covers the five extra scripts and reports the pin mismatch (LOCAL.md).
+- state delta: op-365 issued → returned → closed.
+- evidence: rmx-validator1 `577411c` (LOCAL.md and reviews/op-365/notes.md only); the script lines above; `tools/roles check` reports 4 instances, 0 needing attention.
+- next: Relay the Validator NOTICE; paste op-364's REPORT.

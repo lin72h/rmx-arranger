@@ -1,12 +1,12 @@
 ---
 id: op-365
-state: draft
+state: closed
 agent: validator1
 repo: rmx-validator1
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T00:46Z
+updated: 2026-09-28T01:29Z
 ---
 # op-365 — Validator 1: onboarding with a calibration review of op-363
 
