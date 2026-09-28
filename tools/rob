@@ -60,7 +60,7 @@ defmodule Rob do
   ## Outcome
 
 
-  Before you start, re-read OPS.md in your repo: it holds the defaults and the REPORT block.
+  Re-read OPS.md first: defaults and the REPORT block.
   """
 
   @fm_re ~r/\A---\n(.*?)\n---\n/s

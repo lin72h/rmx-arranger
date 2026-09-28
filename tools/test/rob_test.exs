@@ -72,7 +72,7 @@ defmodule RobTest do
     assert out =~ "op-361-activation.md"
     text = read_op(ctx, "op-361")
     assert String.starts_with?(text, "---\nid: op-361\nstate: draft\n")
-    assert text =~ "OPS.md in your repo"
+    assert text =~ "Re-read OPS.md first"
     refute text =~ "REPORT op-"
     assert elem(rob(ctx, ["board"]), 0) =~ "[draft]: op-361"
   end
