@@ -21,7 +21,7 @@ REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form con
 id: op-NNN
 state: draft
 agent: <instance id: implementer for a singleton, validator2 for a numbered instance>
-repo: <the exact repo the deliverable lands in, e.g. rmx-implementer; the agent must own it>
+repo: <the exact repo the deliverable lands in, e.g. rmx-implementer, or host:/path on another host; the agent must own it>
 idq: <id-NNN this op serves>
 needs: [<op-NNN>, ...]        # optional
 gate: self | validator | both  # expected review size; S/M self, L one, XL/critical-path both

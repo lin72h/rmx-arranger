@@ -78,12 +78,14 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
   `rmx-<role>N` with ids `<role>N`: `rmx-validator0` and `rmx-validator1` to `rmx-validator3`.
 - **Growing a singleton**: move `<role>0/` out to `rmx-<role>0`, rename the repo `rmx-<role>1`,
   and add `rmx-<role>2`.
-- **An instance on another host** (the Gatekeeper's and Explorer's Mac instances on mm4) has
-  `"remote": "host:/path"` in its `instance.json`; its folder here is the Arranger's mirror.
-  Render into the mirror, then `tools/roles sync` copies the rendered files over SSH, and copies
-  the class template (without `.git`) beside the instance so the remote agent can read the shared
-  role definition. Sync never overwrites the remote `LOCAL.md` and refuses to overwrite a
-  rendered file or template copy edited there.
+- **An instance on another host** (the Gatekeeper's and Explorer's Mac instances on mm4) exists
+  only there, and ops name its repo as `host:/path`. The Arranger keeps no copy and works on it
+  over SSH; the Coordinator relays to its agent the same way. A plain copy of its class template
+  (no `.git`) sits beside it for reading; replace it when the template changes. To re-render the
+  instance, copy its `instance.json`, `.rendered.lock`, `LOCAL.md`, and rendered files into a
+  temporary workspace that links `rmx-role0` and the class template, run
+  `ROLES_WORKSPACE=<that workspace> tools/roles render <instance>`, and copy the rendered files
+  and lock back. `tools/roles check` covers only this host.
 
 Every instance repo holds:
 

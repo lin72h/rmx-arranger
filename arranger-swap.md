@@ -576,3 +576,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-370 and op-371 draft → issued.
 - evidence: Coordinator message in chat.
 - next: Wait for the op-368, op-369, op-370, and op-371 REPORTs.
+
+### j-20260928-001 — gatekeeper2 lives only on mm4; roles sync and the local mirror removed
+
+- time / kind: 2026-09-28T02:35:51Z / DECISION
+- outcome: Coordinator direction: keep remote instances simple. gatekeeper2 exists only on mm4, beside a plain copy of rmx-gatekeeper0; the Arranger reaches it over SSH, and the Coordinator relays to its Codex CLI agent the same way. Removed `roles sync`, the "remote" handling, the sync record, and ROLES_SSH_OPTS from tools/roles (6 tests dropped; 1 added: an instance kept elsewhere renders in a temporary workspace that links the templates). The local mirror `rmx-gatekeeper2` (`ac7e002`, `17e25a7`) left the workspace (moved to the session scratchpad); its five instance files were byte-identical to mm4's. The re-render route was verified read-only against mm4: its instance.json, lock, LOCAL.md, and two rendered files, fetched into a temporary workspace, rendered "up to date" with an unchanged lock. rob check no longer looks for a repo written host:/path; op-371's repo is now `mm4:/Users/linz/Local/wip-mach/rmx-gatekeeper2`. Updated roles.md, terminology.md, op-brief-forms.md, now.md, and the rmx-gatekeeper0 README. Nothing on mm4 changed, because op-371 is in flight there (a Codex session was running).
+- state delta: op-371 repo field only (still issued).
+- evidence: roles tests 12 pass; rob tests 15 pass; `tools/roles check` 5 instances, 0 need attention; `tools/rob check` 0 with problems; sha256 local vs mm4 identical (5 instance files, 4 template files).
+- next: After op-371 returns, replace the rmx-gatekeeper0 copy on mm4 (README changed) and drop "remote" and the mirror comment from gatekeeper2's instance.json there. No NOTICE: nothing the agent relies on changes.

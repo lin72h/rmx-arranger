@@ -17,7 +17,7 @@ Validators use `rmx-validator0` plus numbered instances.
 | Role | Repo | Status |
 |---|---|---|
 | Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368/op-369 return, so nothing moves under a review |
-| Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (mm4) | converted; onboarding ops to relay |
+| Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | converted; op-370 and op-371 in flight. After op-371 returns: replace the `rmx-gatekeeper0` copy on mm4 (README changed) and drop the old `"remote"` key and mirror comment from gatekeeper2's `instance.json` there |
 | Explorer | `rmx-explorer` (here and on mm4) | pending |
 | Oracle | `rmx-oracle` | pending |
 | Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | onboarded and calibrated (op-365, op-366, op-367 closed) |
@@ -25,6 +25,9 @@ Validators use `rmx-validator0` plus numbered instances.
 Old folder names stay as symlinks while anything references them: `wip-gpt`, `wip-glm`, `wip-ds4p`,
 `rmx-arranger1`. Until op-364 returns, the Implementer's real folder is `rmx-implementer1` and
 `rmx-implementer` is the symlink; that swaps back afterwards.
+
+mm4 is reached over SSH. This host does not resolve `mm4.local`, so until the SSH config names a
+stable address use `ssh -o HostName=192.168.4.47 -o HostKeyAlias=mm4 mm4`.
 
 ## Critical path
 

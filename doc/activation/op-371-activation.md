@@ -2,11 +2,11 @@
 id: op-371
 state: issued
 agent: gatekeeper2
-repo: rmx-gatekeeper2 (on mm4)
+repo: mm4:/Users/linz/Local/wip-mach/rmx-gatekeeper2
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T02:16Z
+updated: 2026-09-28T02:34Z
 ---
 # op-371 — Gatekeeper 2: onboarding and baseline from disk
 

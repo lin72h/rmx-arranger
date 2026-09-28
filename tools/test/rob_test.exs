@@ -124,6 +124,11 @@ defmodule RobTest do
     assert elem(rob(ctx, ["check"], ok: false), 0) =~ "repo rmx-nowhere not found"
   end
 
+  test "check does not look for a repo on another host", ctx do
+    rob(ctx, ["new", "t", "agent=a", "repo=mm4:/Users/x/rmx-far", "idq=id-042"])
+    assert elem(rob(ctx, ["check"]), 0) =~ "0 with problems"
+  end
+
   test "check passes on a clean workspace", ctx do
     File.mkdir_p!(Path.join(ctx.ws, "r"))
     rob(ctx, ["new", "t", "agent=a", "repo=r", "idq=id-042"])

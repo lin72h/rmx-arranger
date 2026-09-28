@@ -123,76 +123,21 @@ defmodule RolesTest do
     assert read(ctx, "rmx-thing1/where.md") =~ "template ../rmx-thing0/"
   end
 
+  test "an instance kept on another host renders in a workspace that links the templates", ctx do
+    tmp = Path.join(ctx.ws, "tmp-ws")
+    File.mkdir_p!(tmp)
+    for t <- ["rmx-role0", "rmx-thing0"], do: File.ln_s!(Path.join(ctx.ws, t), Path.join(tmp, t))
+    put(ctx, "rmx-thing0/files/where.md", "template {{template}}\n")
+    put(ctx, "tmp-ws/rmx-thing2/instance.json", ~s({"class": "thing0"}))
+    roles(%{ctx | ws: tmp}, ["render", "rmx-thing2"])
+    assert read(ctx, "tmp-ws/rmx-thing2/AGENTS.md") =~ "NOTICE rule for thing2."
+    assert read(ctx, "tmp-ws/rmx-thing2/where.md") =~ "template ../rmx-thing0/"
+    assert read(ctx, "tmp-ws/rmx-thing2/.rendered.lock") =~ ~s("template": "rmx-thing0")
+  end
+
   test "a template in two places is an error", ctx do
     put(ctx, "rmx-thing/thing0/template.json", ~s({"parent": "role0"}))
     assert elem(roles(ctx, ["render", "rmx-thing1"], ok: false), 0) =~ "more than one place"
-  end
-
-  defp remote_instance(ctx) do
-    remote = Path.join(ctx.ws, "far-host/rmx-thing2")
-    put(ctx, "rmx-thing2/instance.json", ~s({"class": "thing0", "remote": "#{remote}"}))
-    roles(ctx, ["render", "rmx-thing2"])
-    remote
-  end
-
-  test "sync copies a remote instance's files and creates LOCAL.md only once", ctx do
-    remote = remote_instance(ctx)
-    assert elem(roles(ctx, ["sync", "rmx-thing2"]), 0) =~ "(LOCAL.md created)"
-    assert File.read!(Path.join(remote, "AGENTS.md")) == read(ctx, "rmx-thing2/AGENTS.md")
-    assert File.regular?(Path.join(remote, "instance.json"))
-    File.write!(Path.join(remote, "LOCAL.md"), "remote notes\n")
-    roles(ctx, ["sync", "rmx-thing2"])
-    assert File.read!(Path.join(remote, "LOCAL.md")) == "remote notes\n"
-  end
-
-  test "sync refuses to overwrite a rendered file edited on the remote", ctx do
-    remote = remote_instance(ctx)
-    roles(ctx, ["sync", "rmx-thing2"])
-    File.write!(Path.join(remote, "AGENTS.md"), "edited over there\n")
-    assert elem(roles(ctx, ["sync", "rmx-thing2"], ok: false), 0) =~ "edited on"
-    assert File.read!(Path.join(remote, "AGENTS.md")) == "edited over there\n"
-    roles(ctx, ["sync", "rmx-thing2", "--force"])
-    assert File.read!(Path.join(remote, "AGENTS.md")) =~ "Thing 2"
-  end
-
-  test "sync copies the class template beside the remote instance, without .git", ctx do
-    remote_instance(ctx)
-    File.mkdir_p!(Path.join(ctx.ws, "rmx-thing0/.git"))
-    File.write!(Path.join(ctx.ws, "rmx-thing0/.git/HEAD"), "ref: refs/heads/main\n")
-    assert elem(roles(ctx, ["sync", "rmx-thing2"]), 0) =~ "template rmx-thing0"
-    copy = Path.join(ctx.ws, "far-host/rmx-thing0")
-    assert File.read!(Path.join(copy, "template.json")) == read(ctx, "rmx-thing0/template.json")
-    assert File.regular?(Path.join(copy, "files/AGENTS.md"))
-    refute File.exists?(Path.join(copy, ".git"))
-  end
-
-  test "sync refuses to overwrite an edited template copy on the remote", ctx do
-    remote_instance(ctx)
-    roles(ctx, ["sync", "rmx-thing2"])
-    File.write!(Path.join(ctx.ws, "far-host/rmx-thing0/files/AGENTS.md"), "edited copy\n")
-    assert elem(roles(ctx, ["sync", "rmx-thing2"], ok: false), 0) =~ "template copy on the remote differs"
-    roles(ctx, ["sync", "rmx-thing2", "--force"])
-    assert File.read!(Path.join(ctx.ws, "far-host/rmx-thing0/files/AGENTS.md")) == read(ctx, "rmx-thing0/files/AGENTS.md")
-  end
-
-  test "a template change leaves the remote copy unsynced until the next sync", ctx do
-    remote_instance(ctx)
-    roles(ctx, ["render", "rmx-thing1"])
-    roles(ctx, ["sync", "rmx-thing2"])
-    put(ctx, "rmx-thing0/partials/extra.md", "unused partial\n")
-    assert elem(roles(ctx, ["check"], ok: false), 0) =~ "not synced: rmx-thing0/partials/extra.md"
-    roles(ctx, ["sync", "rmx-thing2"])
-    assert elem(roles(ctx, ["check"]), 0) =~ "0 need attention"
-  end
-
-  test "check reports a mirror rendered but not synced", ctx do
-    remote_instance(ctx)
-    roles(ctx, ["render", "rmx-thing1"])
-    {out, code} = roles(ctx, ["check"], ok: false)
-    assert code == 1
-    assert out =~ "rmx-thing2: not synced"
-    roles(ctx, ["sync", "rmx-thing2"])
-    assert elem(roles(ctx, ["check"]), 0) =~ "0 need attention"
   end
 
   test "symlinked instance folders are not listed twice", ctx do

@@ -351,8 +351,10 @@ defmodule Rob do
 
     repo = (fget(f, "repo") || "") |> String.split(" ") |> hd()
 
+    # A repo on another host is written host:/path and is not checked from here.
     repo_issue =
-      if repo != "" and active and not File.exists?(Path.join(workspace(), repo)),
+      if repo != "" and active and not String.match?(repo, ~r/^[^\/:]+:\//) and
+           not File.exists?(Path.join(workspace(), repo)),
         do: ["repo #{repo} not found in #{workspace()}"],
         else: []
 

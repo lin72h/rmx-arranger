@@ -74,7 +74,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
 | `rmx-gatekeeper1` (`rmx-gatekeeper` is a transitional symlink) | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper 1 (rx-x64z) |
-| `rmx-gatekeeper2` here: the Arranger's mirror; live on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink) | `git@github.com:lin72h/mach-oracle.git` (on mm4) | Gatekeeper 2 (mx-a64z) |
+| `rmx-gatekeeper2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink; a copy of `rmx-gatekeeper0` sits beside it) | `git@github.com:lin72h/mach-oracle.git` (on mm4) | Gatekeeper 2 (mx-a64z) |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
 | `rmx-oracle` | none (not a Git repo) | Oracle |
