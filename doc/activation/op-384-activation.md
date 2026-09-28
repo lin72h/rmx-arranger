@@ -7,7 +7,7 @@ idq: id-042
 needs: op-387
 gate: self
 authority: none
-updated: 2026-09-28T06:18Z
+updated: 2026-09-28T07:07Z
 ---
 # op-384 — Advisor 2: libnotify and notifyd review at alpha2
 

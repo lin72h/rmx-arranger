@@ -165,3 +165,7 @@ Discovery-only, no source edits. Resolves whether decision (c) covers the previe
 
 - a process spawned by system `init` (NOT a launchd child) can `notify_post`/`notify_register` and
   reach notifyd — i.e. bootstrap is genuinely ambient — verified first-hand, matching macOS.
+
+## op-383 consult (2026-09-28)
+
+advisor2 op-383 consult `rmx-advisor2/op-383-mach-kernel-alpha2-integration-consult.md` (433838e), risk R4 and proposal P3: demonstrate the bootstrap lineage. Show the right PID 1 installs, inherited through fork, recovered after exec, used for lookup, and kept across daemon restart, plus a deliberately unrelated process to establish how processes outside the lineage join or are excluded. Tie extract-right reachability to the real preview launch path before choosing work.

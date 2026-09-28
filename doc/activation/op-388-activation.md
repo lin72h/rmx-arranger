@@ -1,12 +1,12 @@
 ---
 id: op-388
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: validator
 authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in /Users/me/wip-mach/stage; no guest runs; push rmx-implementer main
-updated: 2026-09-28T06:46Z
+updated: 2026-09-28T07:07Z
 ---
 # op-388 — Implementer: fix the helper's host inventory, then stage the PID-1 premise image (re-issue of op-382)
 

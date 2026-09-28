@@ -1,12 +1,12 @@
 ---
 id: op-383
-state: issued
+state: closed
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T06:45Z
+updated: 2026-09-28T07:07Z
 ---
 # op-383 — Advisor 2: Mach kernel review at alpha2 — Mach IPC and its FreeBSD integration
 

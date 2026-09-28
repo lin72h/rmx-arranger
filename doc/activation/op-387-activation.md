@@ -1,13 +1,13 @@
 ---
 id: op-387
-state: hold
+state: draft
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
 needs: op-383
 gate: self
 authority: none
-updated: 2026-09-28T06:18Z
+updated: 2026-09-28T07:07Z
 ---
 # op-387 — Advisor 2: libdispatch review at alpha2
 

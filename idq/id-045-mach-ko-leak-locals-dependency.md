@@ -31,3 +31,7 @@ tunable change would break Mach at boot, and nothing in the tree records the dep
 
 The Arranger's proposal: 1 now, 2 when Mach work resumes after the preview; 3 is not needed if
 2 happens.
+
+## op-383 consult (2026-09-28)
+
+advisor2 op-383 consult `rmx-advisor2/op-383-mach-kernel-alpha2-integration-consult.md` (433838e) ranks this R1, the top Mach risk. Its proposal P1: option B, a narrow kernel-owned activation interface, instead of pinning the setting (option A) or redesigning around native knote APIs (option C). Making the symbol global is not enough. Retire only with a boot at leak_locals=0 plus readiness, direct receive, and concurrent teardown checks. The Implementer owns the code, and the Validators its review.

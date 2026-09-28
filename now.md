@@ -66,8 +66,8 @@ contract requires (j-20260928-035).
 ## In parallel
 
 Advisor review round (Coordinator, 2026-09-28): does July's status hold at alpha2, and what are
-the top preview risks? One seat, in sequence (Advisors are expensive): advisor2 runs op-383 (Mach
-kernel: IPC and FreeBSD integration), op-387 (libdispatch), op-384 (libnotify), op-385 (launchd). advisor4
+the top preview risks? One seat, in sequence (Advisors are expensive): advisor2 ran op-383 (Mach
+kernel: IPC and FreeBSD integration; closed, findings bound to id-045, id-016, id-042), then op-387 (libdispatch), op-384 (libnotify), op-385 (launchd). advisor4
 runs op-386 (libxpc against macOS 27) on mm4. Findings bind to IDQ entries before any follow-on op.
 
 ## Off the path (backlog, not live)

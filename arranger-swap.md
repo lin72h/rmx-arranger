@@ -888,3 +888,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-383 draft → issued; op-382 issued → returned → dropped; op-388 created as draft.
 - evidence: sha256 of host-before.json and host-after.json; the diff; back-to-back `mtree -c` on this host; `find -newermt`.
 - next: Present op-388.
+
+### j-20260928-040 — op-388 sent; op-383 consumed (Mach kernel consult); op-387 released
+
+- time / kind: 2026-09-28T07:07:37Z / RETURN
+- outcome: op-388 relayed. advisor2 returned op-383: an 821-line consult (rmx-advisor2 433838e) with July checklist dispositions, integration traces from both sides, seven ranked risks, and six proposals. Arranger checks: its cited hashes for mach_module.c and kern_event.c at 2884304b match; syscalls.master shows native pdopenpid at 603, below Mach's 610 block (R5); mach_module.c:266-273 returns EINVAL after syscall registration with no unwind (R7). The findings bind to existing entries, so no new ones are needed: P1 (option B, a narrow kernel activation interface) to id-045; P3 (bootstrap lineage) to id-016; P2, P4, P5, and P6 (Mach replay, integration manifest, usable-Mach ledger, init and failure ownership) to id-042. Closed (gate self; local repo, no origin). Released op-387 (libdispatch) as advisor2's next batch.
+- state delta: op-388 draft → issued; op-383 issued → returned → closed; op-387 hold → draft.
+- evidence: rmx-advisor2 433838e; `git show 2884304b` of syscalls.master and mach_module.c; sha256 of the two cited files.
+- next: Present op-387.
