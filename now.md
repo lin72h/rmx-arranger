@@ -26,8 +26,9 @@ Old folder names stay as symlinks while anything references them: `wip-gpt`, `wi
 `rmx-arranger1`. Until op-364 returns, the Implementer's real folder is `rmx-implementer1` and
 `rmx-implementer` is the symlink; that swaps back afterwards.
 
-mm4 is reached over SSH. This host does not resolve `mm4.local`, so until the SSH config names a
-stable address use `ssh -o HostName=192.168.4.47 -o HostKeyAlias=mm4 mm4`.
+mm4 is reached as `ssh mm4`: the SSH config pins 192.168.4.47 with `HostKeyAlias mm4`, so if
+mm4's address changes only `HostName` needs updating. Resolving `mm4.local` from this host (mDNS)
+is deferred (j-20260928-002).
 
 ## Critical path
 

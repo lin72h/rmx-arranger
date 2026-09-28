@@ -584,3 +584,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-371 repo field only (still issued).
 - evidence: roles tests 12 pass; rob tests 15 pass; `tools/roles check` 5 instances, 0 need attention; `tools/rob check` 0 with problems; sha256 local vs mm4 identical (5 instance files, 4 template files).
 - next: After op-371 returns, replace the rmx-gatekeeper0 copy on mm4 (README changed) and drop "remote" and the mirror comment from gatekeeper2's instance.json there. No NOTICE: nothing the agent relies on changes.
+
+### j-20260928-002 — ssh mm4 pinned to 192.168.4.47; mDNS deferred
+
+- time / kind: 2026-09-28T02:40:23Z / ACTION
+- outcome: Coordinator direction: set mm4's IP in the SSH config and solve mDNS completely later. In ~/.ssh/config, Host mm4 now has HostName 192.168.4.47 (was mm4.local) and HostKeyAlias mm4, so the host keys recorded under mm4 (ed25519, rsa, ecdsa) still match and an address change only touches HostName. Plain `ssh mm4` works from this host with BatchMode (answered hostname mm4.local, macOS 27.0). File mode stays 600. mDNS for mm4.local on this host is deferred; mdnsd from the earlier one-time start is still running (not enabled at boot, so it ends at reboot).
+- state delta: none.
+- evidence: `ssh -o BatchMode=yes mm4 'hostname; sw_vers -productVersion'` → `mm4.local`, `27.0`; the previous config is backed up in the session scratchpad.
+- next: none; mDNS when the Coordinator takes it up.
