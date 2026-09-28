@@ -1,12 +1,12 @@
 ---
 id: op-366
-state: draft
+state: closed
 agent: validator2
 repo: rmx-validator2
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T00:46Z
+updated: 2026-09-28T01:25Z
 ---
 # op-366 — Validator 2: onboarding with a calibration review of op-363
 

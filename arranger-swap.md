@@ -504,3 +504,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: Coordinator messages in chat; roles.md, terminology.md, arranger0/files/arranger-rulebook.md.
 - next: Relay op-365, op-366, op-367 (seat validator3 at the tier expected for real reviews); paste op-364's REPORT.
+
+### j-20260927-022 — op-366 closed: validator2 onboarded; calibration exceeded the key
+
+- time / kind: 2026-09-28T01:25:45Z / RETURN
+- outcome: validator2 (DS4P) read its instructions and returned the op-363 calibration review: claims 1 and 2 hold, claim 3 fails for two of the three invocation names, verdict REMEDIATE, score 9. I verified it first-hand: kernel_path and mach_module_path are concatenated without canonicalization (lines 75-76) while the source-tree check canonicalizes (physical_dir, lines 102 and 130-134), and both objdir trees are keyed only by `wip-gpt`. The review exceeded my pre-registered key: `pwd -P` is not a fix, and verify-phase1 has the same issue. It also shows my S gate on op-363 was too lenient; the cause was my op-363 brief. validator2's instruction feedback and lessons are held in LOCAL.md until op-365 and op-367 return, to avoid editing under a live review or leaking the answer. A follow-up Implementer op is queued after op-364.
+- state delta: op-366 issued → returned → closed.
+- evidence: rmx-validator2 `5961a5e` (LOCAL.md and reviews/op-366/op-363-calibration-review.md only); `tools/roles check` clean; the script lines and objdir listings above.
+- next: Paste the op-365 and op-367 REPORTs; then op-364's.
