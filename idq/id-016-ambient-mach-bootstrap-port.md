@@ -175,3 +175,9 @@ advisor2 op-383 consult `rmx-advisor2/op-383-mach-kernel-alpha2-integration-cons
 launchd trusts the audit token in each Mach message's trailer, and rmxOS sets that token only at
 fork. Jobs that drop privileges after fork appear to launchd as root. The PID-1 preview's service
 trust depends on the fix (id-046).
+
+## Mach timebase and task ports (2026-09-29, id-046 op-393 N1, N5)
+
+launchd's respawn throttle runs about 53 times too fast (N1): a crashing job respawns after about
+0.19 s instead of 10 s. launchd's post-fork task-port calls act on launchd itself rather than
+the child (N5). Both bear on PID-1 behavior and on reading op-391's results.

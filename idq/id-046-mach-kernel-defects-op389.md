@@ -1,4 +1,4 @@
-# id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392)
+# id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392, op-393)
 
 - id: **id-046**
 - state: **WAITING — Coordinator: schedule an Implementer fix batch, and decide whether it gates the preview**
@@ -109,3 +109,35 @@ above.
 
 **What the comparison shows:** two strong independent reviews overlapped on about five items, and
 each found roughly half of the union. One review is far from complete.
+
+## advisor1 op-393: the areas op-392 did not reach (rmx-advisor1 cd7b08c, 2026-09-29)
+
+`/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md` (212 lines).
+Arranger first-hand at `2884304b`: N1 and N5 hold as written.
+- **N1** The timebase trap returns 4000000000/75189611 (`mach_clock.c:117-119`), but libmach's
+  `mach_absolute_time` already counts nanoseconds (`mach_misc.c:188-196`). launchd converts with
+  the ratio (`runtime.c:1511-1514`), so its 10 s respawn throttle (`core.c:4476-4478`) is about
+  0.19 s and crashing jobs respawn back to back. `CLOCK_REALTIME` is also not monotonic.
+- **N2** A kernel MIG reply is parked on the sending thread, not queued to its reply port. It
+  reaches that thread's next receive on any port, or the thread that reuses the slot.
+- **N3** Receive on a dead name dereferences a NULL object (`ipc_mqueue.c:515-517`).
+- **N4** A lock shortcut compares against uninitialized variables at 17 call sites, so a lock can
+  be skipped and a mutex released that the thread does not hold.
+- **N5** `convert_port_to_task` returns `current_task()` before its real body (`ipc_tt.c:877-878`),
+  so every task_* kernel call acts on the caller. launchd's post-fork handling sets exception and
+  special ports on launchd itself instead of the child.
+- Lower: a duplicate name for one send right; notifications dropped under memory pressure;
+  `clock_sleep` 10x too long for its sub-second part; `clock_get_time` and the VM attribute call
+  always fail; traps that report errors as -1/errno instead of kern_return_t.
+- Firm-ups: **S1**: the logged `ETAP_IPC_RPC` → `ETAP_IPC_IS` reversal matches NextBSD's old
+  `ipc_object_copyout` order, which rmxOS fixed in 60e5e76e5add (2026-04-17). Either those logs
+  predate the fix, or the log's "1st … @ file:line" names a path not yet found; that line is the
+  open check. **S2**: the ipc zones are not type-stable, so a write after free should panic
+  "Memory modified after free". **F2** stands, and its teardown must land before N5's fix makes
+  the stale ports reachable. **The op-392 §3 workqueue item is retracted.**
+- Cleared: MIG request validation is compiled in; the clock code has no callouts; semaphores are
+  unused stubs; the 7- and 8-argument traps fit amd64.
+- Not reached: the host_priv and mach_host routine bodies, task_info/task_threads, and the other
+  vm_map server routines.
+- advisor1's proposal: fix N3, N4 and the `clock_sleep` divisor now; N1 together with the libmach
+  clock change; N2 as a design fix; F2 teardown before N5.

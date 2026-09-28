@@ -1003,3 +1003,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (op-393 draft amended).
 - evidence: `grep -i "lock order reversal"` over the serial-log list in the session scratchpad.
 - next: Present op-393; after it returns, advisor2 continues with libdispatch (op-387).
+
+### j-20260929-001 — op-393 consumed: advisor1 finishes the Mach review (N1–N5)
+
+- time / kind: 2026-09-29T00:30:00Z / RETURN
+- outcome: advisor1 returned op-393 (rmx-advisor1 cd7b08c, 212 lines, plus its LOCAL.md build note). It reports 5 main findings, lower items, 3 firm-ups and 1 retraction (op-392's workqueue item). Arranger first-hand at 2884304b:
+  - N1: the timebase trap returns 4000000000/75189611 while libmach's `mach_absolute_time` returns CLOCK_REALTIME_FAST nanoseconds. launchd scales by the ratio before its respawn throttle, so crashing jobs respawn after about 0.19 s instead of 10 s.
+  - N5: `convert_port_to_task` returns `current_task()` before its real body, so every task_* kernel call acts on the caller.
+  Recorded in id-046 (with the proposal: N3, N4 and the clock_sleep divisor now; N1 with the libmach clock; N2 as design; F2 teardown before N5). N1 and N5 also noted in id-016, since both matter for PID-1 and for reading op-391. kernel-reviews.md updated. S1's open check is the file:line of the logged reversal's first lock, left open per the Coordinator. Closed op-393 (gate self; local repo).
+- state delta: op-393 draft → issued → returned → closed.
+- evidence: `git show 2884304b` of mach_clock.c:112-121, mach_misc.c:186-197, runtime.c:1508-1515, core.c:4474-4479 and ipc_tt.c:870-882.
+- next: advisor2 resumes op-387 (libdispatch) when its account is back.

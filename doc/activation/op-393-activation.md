@@ -1,12 +1,13 @@
 ---
 id: op-393
-state: draft
+state: closed
 agent: advisor1
 repo: rmx-advisor1
 idq: id-046
 needs: op-392
+gate: self
 authority: none
-updated: 2026-09-28T10:29Z
+updated: 2026-09-28T11:06Z
 ---
 # op-393 — Advisor 1: finish the Mach review — the areas op-392 did not reach
 

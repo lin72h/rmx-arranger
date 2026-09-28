@@ -27,7 +27,12 @@ the 12→15 question directly; gave the design classes; fewer confirmed findings
 complement each other. advisor1 shares the Arranger's model, so its important claims also go to a
 Validator on a different model.
 
-**Not reached by either:** `mach_clock.c` and `clock_server.c`, `mach_semaphore.c`,
+**op-393 (advisor1, 2026-09-29)** covered most of the unreached areas: 5 new main findings
+(N1-N5, including launchd's 53x timebase and task calls acting on the caller), 3 firm-ups and 1
+retraction. Still not reached: the host_priv and mach_host routine bodies, task_info/task_threads,
+and the other vm_map server routines.
+
+**Originally not reached by either:** `mach_clock.c` and `clock_server.c`, `mach_semaphore.c`,
 `ipc_kobject.c` and the MIG dispatch, `ipc_space.c`, `ipc_notify.c`, and the trap argument path.
 
 ## Decision: another round after the fixes, shaped differently
