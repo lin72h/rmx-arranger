@@ -12,8 +12,8 @@ promote a lesson into the template so every instance gets it.
   path, and `expected_freebsd_src` and the kernel/module paths are built from it. Invoked through
   `/Users/me/wip-mach/wip-gpt/…`, the paths point into
   `build/wip-rmxos-alpha-obj/Users/me/wip-mach/wip-gpt/wip-rmxos/…`, the only objdir tree that
-  exists. Invoked through `rmx-implementer1` (real) or `rmx-implementer` (symlink), they point at
-  trees that do not exist. So the result depends on how the script is invoked.
+  exists. Invoked through `rmx-implementer` or `rmx-implementer1`, whichever is real at the
+  time, they point at trees that do not exist. So the result depends on how the script is invoked.
 - Distinguishing question: is `repo_root` logical or physical, and which objdir trees exist under
   `build/wip-rmxos-alpha-obj/Users/me/wip-mach/`?
 - Expected verdict: REMEDIATE (`pwd -P`, plus a rebuild or `NXPLATFORM_*` overrides before reuse),
