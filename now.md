@@ -17,14 +17,15 @@ Validators use `rmx-validator0` plus numbered instances.
 | Role | Repo | Status |
 |---|---|---|
 | Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368 returns, so nothing moves under a review |
-| Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | gatekeeper2 onboarded (op-371 closed); gatekeeper1's op-370 in flight |
+| Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | both onboarded (op-370, op-371 closed) |
 | Explorer | `rmx-explorer` (here and on mm4) | pending |
 | Oracle | `rmx-oracle` | pending |
 | Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | onboarded and calibrated (op-365, op-366, op-367 closed) |
 
-Old folder names stay as symlinks while anything references them: `wip-gpt`, `wip-glm`, `wip-ds4p`,
-`rmx-arranger1`. Until op-364 returns, the Implementer's real folder is `rmx-implementer1` and
-`rmx-implementer` is the symlink; that swaps back afterwards.
+Old folder names stay as symlinks while anything references them: `wip-gpt` (also named by
+gatekeeper1's op360 runner and the id-044 preflights), `wip-glm`, `wip-ds4p`, `rmx-arranger1`.
+Until op-368 returns, the Implementer's real folder is `rmx-implementer1` and `rmx-implementer`
+is the symlink; that swaps back afterwards.
 
 mm4 is reached as `ssh mm4`: the SSH config pins 192.168.4.47 with `HostKeyAlias mm4`, so if
 mm4's address changes only `HostName` needs updating. Resolving `mm4.local` from this host (mDNS)
@@ -42,9 +43,11 @@ backup remote); whether to push it is open.
 Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
 image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
 the op-343 kernel and `mach.ko` loaded at boot by `loader.conf`. Composition succeeded (makefs
-and mkimg rc 0; extracted partition byte-for-byte equal). Image hashes re-verified first-hand (j-20260927-011). It has never been mounted or booted.
-`mach.ko` compatibility is static only, and module and kernel toolchains differ (clang 19.1.7 vs
-clang/LLD 21.1.8).
+and mkimg rc 0; extracted partition byte-for-byte equal). Image hashes re-verified first-hand (j-20260927-011). Correction (op-370, verified first-hand): the image *was* booted. The Gatekeeper's op359 and
+op360 ran it on 2026-09-25, and op360's third attempt loaded `mach.ko`, passed the bounded Mach
+(4/4) and dispatch (4/4) probes, and shut down cleanly. TWQ attribution was untested, and this is
+not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against the clang/LLD
+21.1.8 kernel; op-364 rebuilt it with the kernel's toolchain.
 
 | # | Step | Owner | Status |
 |---|---|---|---|
@@ -58,9 +61,16 @@ clang/LLD 21.1.8).
 
 Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which
 resolves only through leak-locals (`debug.link_elf_leak_locals=1`, the default) and the symbol
-table the loader passes. The boot must record whether it loads; a failure reads `symbol
-knote_enqueue undefined`. This is not an op-364 regression, because op-343's module had the same
-dependency.
+table the loader passes. op360 already saw the op-358 module, which has the same dependency, load
+at boot on this kernel and loader. The op-364 boot must still record it; a failure reads
+`symbol knote_enqueue undefined`.
+
+For steps 6–7 (op-370): reuse gatekeeper1's op360 runner (`build/op360/run-op360-r2.sh` with its
+Expect plan). It pins the op-358 image through `wip-gpt` paths, so a run brief must re-pin it to
+op-364's image (`8f546a93…`). It enforces 2 vCPUs, 4 GiB, one virtio disk, serial console, no
+network, shares, or passthrough, and a fresh verified disk copy per attempt. No formal containment
+disposition exists (op345 recorded the approved `vmm` load), and `vmm` is not loaded now, so a run
+needs authority to load it. The host is `bdw-fx15-x64z` (the rx-x64z seat).
 
 ## Off the path (backlog, not live)
 

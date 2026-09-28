@@ -86,12 +86,17 @@ is ready to send.
 - op-364: I counted mach.ko's 112 undefined symbols as "present in the kernel" by `.symtab`. That
   does not prove they resolve: `knote_enqueue` is LOCAL and resolves only through leak-locals
   (validator2, op-369). For a module, name the resolution path.
+- op-361: I accepted "never mounted or booted" for the op-358 image from the Implementer's disk
+  alone, but the Gatekeeper's op359/op360 had booted it (op-370). For "never booted/staged"
+  claims, check the Gatekeeper's records too.
 
 ## Pending for rmx-role0 (render with the next batch, when no instance has an op in flight)
 
 - report partial: `commits:` lists the commits this op made, or none. In op-371, gatekeeper2
   listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure
   condition.
+- Same batch, gatekeeper1's `instance.json`: `host_desc` should name the host `bdw-fx15-x64z`
+  and call rx-x64z the seat. Its logs name the host, and gatekeeper1 flagged the mismatch in op-370.
 
 ## mm4 access
 

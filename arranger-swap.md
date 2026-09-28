@@ -624,3 +624,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-369 issued → returned → closed. op-364 stays returned until op-368 (validator1) returns and agrees.
 - evidence: sha256 of the 14 cited files (all OK); `git log`/`show --stat` of rmx-validator2 d401250; now.md boot-test note.
 - next: Wait for op-368. Closing op-364 then needs rmx-implementer 39b2f89 and alpha2 2884304b on origin, or the Coordinator's waiver.
+
+### j-20260928-007 — op-370 returned and closed: gatekeeper1 onboarded; the op-358 image had been booted
+
+- time / kind: 2026-09-28T02:58:39Z / RETURN
+- outcome: gatekeeper1's REPORT and narrative were verified first-hand and closed as S (gate self, confidence 9). Both evidence hashes match. The repo is at 1414af27, 43 commits ahead of origin/main 4b16fd1b, with 62 untracked entries; 117e718 carries build/op247/op247.img at 6,476,638,720 bytes, over GitHub's limit. Key fact for the critical path, which corrects the op-361 baseline in now.md: the op-358 final image (96644d80…, final-op358-alpha2-gpt.raw per the Implementer's artifact-hashes.txt) was booted by op359 and op360 on 2026-09-25. op360's third attempt (VM …044634Z-24151; 2 vCPU, 4G, one disk, no network, shares, or passthrough) loaded mach.ko ("mach system calls available"), passed Mach 4/4 and dispatch 4/4 with twq_attribution UNTESTED, and powered down after 46 s. So the leak-locals path for knote_enqueue already worked at boot with the op-358 module. For steps 6–7: reuse the op360 runner, re-pinned from its wip-gpt op-358 paths to op-364's image. No formal containment disposition is recorded; vmm is not loaded now. The host is bdw-fx15-x64z (seat rx-x64z); the host_desc fix is queued for the next gatekeeper render.
+- state delta: op-370 issued → returned → closed.
+- evidence: sha256 of serial.raw and host-orchestration.log (OK); op360 run dir: module-inventory.raw, module-dmesg.raw, probe-mach-output.raw, probe-dispatch-output.raw, serial.raw; op358 evidence/artifact-hashes.txt; `git rev-list --count`; `git cat-file -s`; `kldstat -n vmm`.
+- next: Wait for op-368. Coordinator decision before gatekeeper1's first op with commits can close: how its history (the 6.5 GB image in 117e718) reaches an origin.

@@ -1,12 +1,12 @@
 ---
 id: op-370
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T02:16Z
+updated: 2026-09-28T02:58Z
 ---
 # op-370 — Gatekeeper 1: onboarding and baseline from disk
 
