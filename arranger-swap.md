@@ -784,3 +784,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-377 created as draft.
 - evidence: `git merge-base`, `git rev-list --count`, `git show <commit>:<path> | sha256`, `git diff --stat` in wip-rmxos; sha256 of the staging scripts.
 - next: Present op-377 (ready; nothing in flight). The Coordinator relays the Implementer NOTICE (j-20260928-025) and decides the service-plane bar before any soak.
+
+### j-20260928-027 — op-377 sent; Implementer NOTICE relayed
+
+- time / kind: 2026-09-28T05:19:35Z / ISSUE
+- outcome: The Coordinator relayed op-377 (explorer1: re-base the PID-1 contract onto alpha2) and the Implementer NOTICE (j-20260928-025). The Coordinator asked the Arranger to check with a web search, not an agent, whether xpc_domain still matters on current macOS: if so, it is worth doing but may be deferred.
+- state delta: op-377 draft → issued.
+- evidence: Coordinator message in chat.
+- next: Web research on launchd/XPC domains on current macOS; record the answer against id-042's service-plane box.

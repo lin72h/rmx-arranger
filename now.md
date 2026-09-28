@@ -19,7 +19,7 @@ Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (template in `implementer0/`) | onboarded and converted; NOTICE to relay (j-20260928-025) |
+| Implementer | `rmx-implementer` (template in `implementer0/`) | onboarded and converted (NOTICE relayed) |
 | Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | both onboarded (op-370, op-371 closed) |
 | Explorer | `rmx-explorer1` (here), `rmx-explorer2` (only on mm4) | both onboarded (op-373, op-374 closed) |
 | Advisor (was Oracle) | `rmx-advisor1`–`3` (here), `rmx-advisor4` (only on mm4) | converted; instances stay local Git, template on GitHub (`lin72h/rmx-advisor0`); onboarding folds into each seat's first consult |
@@ -44,7 +44,7 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 
 | # | Step | Owner | Status |
 |---|---|---|---|
-| 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | op-377 drafted |
+| 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | op-377 issued |
 | 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | waits on 1 |
 | 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | open; needed before any soak |
 | 4 | Containment helper and disposable PID-1 image stage from alpha2, under the triple identity rule (C2) | Implementer | waits on 2 |
