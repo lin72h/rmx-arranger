@@ -1,12 +1,12 @@
 ---
 id: op-380
-state: draft
+state: closed
 agent: explorer1
 repo: rmx-explorer1
 idq: id-016
 gate: self
 authority: none
-updated: 2026-09-28T05:39Z
+updated: 2026-09-28T05:53Z
 ---
 # op-380 — Explorer 1: correct the PID-1 contract's image paths (Arbiter: REMEDIATE)
 
