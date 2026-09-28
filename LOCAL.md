@@ -115,10 +115,13 @@ is ready to send.
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
-## Unpushed Arranger commits in role repos
+## Pushes
 
-- explorer1 `f6277a4`, `7affb09`; explorer2 `90d5344`, `241284e`; gatekeeper1 `c17f2bd`;
-  gatekeeper2 `0cb46e6`; rmx-implementer `f57003b` (README pointers, OPS.md re-renders, the
-  Implementer's conversion; 2026-09-28). They go out with the next push of those repos.
+- Standing permission (Coordinator, 2026-09-28, j-20260928-032): push private role repos when closing
+  ops or after Arranger maintenance. Public repos (rmxOS) still need an explicit yes each time.
+  All private role repos were in sync with origin on 2026-09-28 after the pushes in j-20260928-032.
 - Next render round of every role's OPS.md: its opening says the Arranger sends a NOTICE when
   OPS.md changes; say instead that each brief asks for a re-read (implementer0 already does).
+- Promote into validator0's falsification patterns: "a self-confirming gate cannot see a wrong
+  path: check each destination against its consumer" (validator2, op-379). validator1 missed it in
+  op-378 (it judged sufficiency on the documents alone), which is a calibration data point.

@@ -44,8 +44,8 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 
 | # | Step | Owner | Status |
 |---|---|---|---|
-| 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | op-377 returned: NEEDS-AMENDMENT, three exact amendments (verified first-hand); closes once `5c51fc0` is on origin |
-| 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | op-379 (validator2): REMEDIATE 9, the BOM paths (launchctl at `/bin/launchctl`, BlocksRuntime, kernel) plus a consumer-path check; op-378 (validator1) in flight |
+| 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | closed: op-377, NEEDS-AMENDMENT with three exact amendments |
+| 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | reviews split (validator1 CLOSE 9.5, validator2 REMEDIATE 9); Arbiter: REMEDIATE, the BOM paths are verified wrong. op-380 (explorer1) drafted |
 | 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | decided 2026-09-28: MachServices plus nvlist for the preview; `xpc_domain` deferred past it (li-008) |
 | 4 | Containment helper and disposable PID-1 image stage from alpha2, under the triple identity rule (C2) | Implementer | waits on 2 |
 | 5 | Accept containment and the stage; run the corrected reaper premise (op-279, normalized) | Gatekeeper | waits on 4 |

@@ -1,12 +1,12 @@
 ---
 id: op-377
-state: returned
+state: closed
 agent: explorer1
 repo: rmx-explorer1
 idq: id-016
 gate: self
 authority: none
-updated: 2026-09-28T05:25Z
+updated: 2026-09-28T05:39Z
 ---
 # op-377 — Explorer 1: re-base the op-318/op-322 PID-1 contract onto alpha2
 
