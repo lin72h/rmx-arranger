@@ -169,3 +169,9 @@ Discovery-only, no source edits. Resolves whether decision (c) covers the previe
 ## op-383 consult (2026-09-28)
 
 advisor2 op-383 consult `rmx-advisor2/op-383-mach-kernel-alpha2-integration-consult.md` (433838e), risk R4 and proposal P3: demonstrate the bootstrap lineage. Show the right PID 1 installs, inherited through fork, recovered after exec, used for lookup, and kept across daemon restart, plus a deliberately unrelated process to establish how processes outside the lineage join or are excluded. Tie extract-right reachability to the real preview launch path before choosing work.
+
+## Mach caller identity (2026-09-28, id-046 op-392 F1)
+
+launchd trusts the audit token in each Mach message's trailer, and rmxOS sets that token only at
+fork. Jobs that drop privileges after fork appear to launchd as root. The PID-1 preview's service
+trust depends on the fix (id-046).

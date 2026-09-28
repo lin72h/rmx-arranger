@@ -1,11 +1,12 @@
 ---
 id: op-392
-state: draft
+state: closed
 agent: advisor1
 repo: rmx-advisor1
 idq: id-046
+gate: self
 authority: none
-updated: 2026-09-28T09:20Z
+updated: 2026-09-28T10:21Z
 ---
 # op-392 — Advisor 1: independent deep dive — Mach's FreeBSD 12 assumptions revived on stable/15
 

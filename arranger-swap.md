@@ -966,3 +966,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-392 created as draft.
 - evidence: none (drafting).
 - next: Present op-392.
+
+### j-20260928-049 — op-392 consumed: advisor1's independent Mach review adds F1 (caller identity) and more
+
+- time / kind: 2026-09-28T10:40:00Z / RETURN
+- outcome: op-392 was relayed. advisor1's session was interrupted by a safety flag after its document was committed (rmx-advisor1 d320d93, 289 lines, complete). It reports 8 confirmed defects, 6 suspected, and 5 design classes. Arranger first-hand at 2884304b:
+  - F1: the audit token is set only at fork (task.c:211), copied into every trailer (ipc_kmsg.c:850-851), and trusted by launchd (runtime.c:1089-1094).
+  - F5: NextBSD's compiled-out `assert(found)` is a `panic` in rmxOS (thread_pool.c:92-93).
+  - F6: `thread_unlock` after `mi_switch`, which on stable/15 already releases the lock (kern_synch.c:462-468). NextBSD's FreeBSD 12 `mi_switch(SW_VOL, NULL)` returned holding it.
+  - The truncated REPORT hashes are paste truncation; the recomputed full hashes match their prefixes.
+  Overlap with op-389 covers about five items (F2, F3, F4, S2, the rfork item, and the build fact). Each review found roughly half the union. Recorded in id-046 with the design classes; F1 is also noted in id-016 as a PID-1 trust dependency. Closed op-392 (gate self; local repo). Not reached: clock, semaphores, kobject/MIG dispatch, ipc_space, ipc_notify, and the trap argument path.
+- state delta: op-392 draft → issued → returned → closed.
+- evidence: `git show 2884304b` of proc_info.c, task grep, ipc_kmsg.c, runtime.c, mach_traps.c, kern_synch.c and thread_pool.c; the NextBSD thread_pool.c and mach_traps.c; sha256 of four cited files.
+- next: The Coordinator decides id-046 scope; a possible advisor1 follow-up covers the unreached areas.

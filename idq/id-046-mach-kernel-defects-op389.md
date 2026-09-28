@@ -1,4 +1,4 @@
-# id-046 — Mach kernel defects inherited from the NextBSD port (op-389)
+# id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392)
 
 - id: **id-046**
 - state: **WAITING — Coordinator: schedule an Implementer fix batch, and decide whether it gates the preview**
@@ -66,3 +66,46 @@ Part 2 decides architecture: the Mach receive and event model, the object lifeti
 task lifetime on FreeBSD. It starts with an Advisor architecture proposal and a Coordinator
 decision before any code (Coordinator: architecture correctness first, 2026-09-28).
 Caveat: one source-only review. It shows where bugs are, not that the list is complete.
+
+## Independent second review: advisor1 op-392 (rmx-advisor1 d320d93, 2026-09-28)
+
+advisor1 (Opus 5.5, max effort) reviewed the same scope blind to op-389:
+`/Users/me/wip-mach/rmx-advisor1/op-392-mach-freebsd15-assumptions-findings.md`, 8 confirmed and
+6 suspected. The session was interrupted by a safety flag after the document was committed, so the
+document is complete. Areas it never reached: `mach_clock.c` and `clock_server.c`,
+`mach_semaphore.c`, `ipc_kobject.c`, the MIG dispatch, `ipc_space.c`, `ipc_notify.c`, and the
+trap argument path.
+
+**Overlap with op-389:**
+- op-392 F2 = op-389 #4 (task ports), plus a new aspect: an old task port rebinds to the process
+  that reuses the slot.
+- op-392 F3 = op-389 #3, wider: also fchmod, fchown, and the kevent read and write filters.
+- op-392 F4 = op-389 #6; S2 = #2; the §3 rfork item = #11; the build fact = #1's premise.
+
+**New in op-392; the Arranger traced F1, F5 and F6 first-hand:**
+- **F1** The caller identity is a fork-time snapshot. `set_security_token` is called only at fork
+  (`task.c:211`), the trailer copies it on every send (`ipc_kmsg.c:850-851`), and launchd takes
+  every caller's euid, egid, uid, gid and pid from it (`runtime.c:1089-1094`). A launchd job that
+  drops to a user after fork is seen as root by launchd and by libxpc peers, and a
+  credential-raising exec keeps its old identity. This is a trust defect on the PID-1 path (id-016).
+- **F5** A port-set receive that is interrupted or times out while a message is delivered panics
+  or loses the message. NextBSD's compiled-out `assert(found)` became an unconditional `panic` in
+  rmxOS's import (`thread_pool.c:92-93`).
+- **F6** `_swtch_pri` calls `thread_unlock` after `mi_switch`, but stable/15's `mi_switch` already
+  releases the lock (`kern_synch.c:462-468`; FreeBSD 12's did not). The trap is registered, so any
+  process that calls it panics the INVARIANTS kernel. This is 12→15 drift.
+- F7 (a kqueue sent in a Mach message outlives its creator's fd table) and F8 (`proc_pidbsdinfo`
+  reads `p_fd` of an exiting process); suspected S1 (a lock-order reversal from rmxOS commit
+  8184caaa), S4 (stale knotes), S5 (cross-task operations use the caller's fd table) and S6 (KBI
+  field offsets).
+
+**Only in op-389:** #5, #7, #8, #9, #10, #12, #13 and #14.
+
+**Design classes (op-392 §5), the architecture answer:** A, port names are fds (F3, F7, S2–S5);
+B, Mach state bound to reusable proc and thread slots with no teardown (F1, F2); C, receive
+inside the kqueue filter's readiness check (F4, S1); D, a self-only model mixed with a MIG layer
+that acts on other tasks (S5); E, the standalone module build. These refine part 2 of the shape
+above.
+
+**What the comparison shows:** two strong independent reviews overlapped on about five items, and
+each found roughly half of the union. One review is far from complete.
