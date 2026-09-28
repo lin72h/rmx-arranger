@@ -52,3 +52,14 @@ One Implementer fix batch with a regression probe per fix, smallest first. Order
 argues for gating the preview on at least 3, 5 and 13. 1, 10 and 11 need the build decision
 above. 14 belongs with id-045 (module load and unwind). The batch touches no PID-1 or launchd
 code, so it can run alongside op-391.
+
+## Shape (Arranger, after discussion with the Coordinator, 2026-09-28)
+
+No fundamental mismatch: ports as fds, Mach events as kqueue filters, and task state in FreeBSD's
+proc storage all remain viable on stable/15. The route is repair, not redesign, in two parts:
+1. Local fixes, a few lines each: 3, 5, 13, 12, 9.
+2. Pattern fixes: direct receive consumes messages during kqueue's readiness checks (6; needs
+   XNU's readiness/delivery split); object lifetime across lock drops and fdrop (2, 7, 15; sweep for the
+   pattern, not only three sites); task teardown on ordinary exit (4); the module build outside
+   its kernel's configuration.
+Caveat: one source-only review. It shows where bugs are, not that the list is complete.
