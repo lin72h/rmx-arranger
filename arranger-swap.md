@@ -950,3 +950,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-047 and id-048 created (medium).
 - evidence: `git show 2884304b:sys/conf/options` (KASAN, KMSAN, KCSAN, KCOV); the sys/amd64/conf listing; std.debug; the rmxOS tree listing (no Mach or userland tests); rmx-gatekeeper1's per-op build directories.
 - next: When writing op-384 and op-385, lead with the architecture question.
+
+### j-20260928-047 — IDQ: id-049 (nx-v64z names) and id-050 (mm4 mDNS) raised at low; id-033 low
+
+- time / kind: 2026-09-28T09:45:00Z / DECISION
+- outcome: The Coordinator added two macOS-side polish items to the IDQ at priority low. id-049: the `nx-v64z` → `nx-r64z` name migration that terminology.md calls pending never happened. The old names remain in rmx-explorer1, rmx-gatekeeper1 (`findings/nx-v64z/`, `macos-validation/findings/nx-v64z/`, the archived plan) and the old mach-oracle clones, with about 119 mentions in each role repo. The Arranger proposes freezing the existing paths as history, because migrating moves cited evidence paths. id-050: `mm4.local` does not resolve here, since nsswitch has no mDNS source. The ssh config pins 192.168.4.47. mDNSResponder is installed and mdnsd runs from a manual start, not at boot. The fix is to enable mdnsd, install `mDNSResponder_nss`, and add `mdns` to the hosts line; no avahi. id-033 stays low (already set). Not added, per the Coordinator: the macOS results living in rmx-gatekeeper1, and the unexercised mm4 seats.
+- state delta: id-049 and id-050 created (low).
+- evidence: `find`/`grep` for nx-v64z across the workspace; `pkg info` and `pkg search` for mDNSResponder; /etc/nsswitch.conf; `getent hosts mm4.local`; `pgrep mdnsd`.
+- next: none today.
