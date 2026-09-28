@@ -448,3 +448,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-364 created (draft, gate both).
 - evidence: rmx-implementer/build/op343-alpha2-20260922T065914Z/logs/build-mach-module.log (bare `cc`); `cc --version` for host and op-343 objdir; `git branch -r --contains 15c185c` in wip-rmxos (none).
 - next: Relay op-364; Coordinator decides whether alpha2 is pushed to rmxOS origin.
+
+### j-20260927-015 — Validators onboarded: rmx-validator1/2/3 under Git with OPS.md
+
+- time / kind: 2026-09-28T00:25:10Z / ACTION
+- outcome: Under one-way access (j-20260927-013), the three Validator workspaces were modernized. `wip-glm` → `rmx-validator1` (GLM) and `wip-ds4p` → `rmx-validator2` (DS4P), each with a transitional symlink; `rmx-validator3` kept its name. Numbering follows validator3's own peer list. All three were put under Git (local, no remote), with snapshot commits as found (`ea467a6`, `7732511`, `6a6b890`) and onboarding commits (`fc093bd`, `df2257b`, `148306c`). Each has a self-contained AGENTS.md, a Validator OPS.md (review defaults, score and verdict rules, a REPORT with question/access/score/verdict lines), and an identical modernized validator-rulebook.md (SHA-256 78675303…; craft rules unchanged). About 2 GB of review scratch in rmx-validator3 (op339-review.*, op341-review.*, op331-isolated, op333-review.*) and a DS4P erl_crash.dump are ignored by Git, not deleted.
+- state delta: none; no op state changed.
+- evidence: the six commits above; rulebook hashes identical across the three repos.
+- next: Relay the three onboarding NOTICEs; Validators then review op-364 when it returns.

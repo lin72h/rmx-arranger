@@ -71,10 +71,10 @@ renamed to `rmx-<role>` as each is onboarded (j-20260927-007).
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
 | `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper |
-| `wip-glm` | none (not a Git repo) | Validator GLM |
-| `wip-ds4p` | none (not a Git repo) | Validator DS4P |
+| `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
+| `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
 | `rmx-oracle` | none (not a Git repo) | Oracle |
-| `rmx-validator3` | none (not a Git repo) | Validator (active: reviewed op-339/op-341 on 2026-09-22) |
+| `rmx-validator3` | none (local Git) | Validator 3 (model not recorded; reviewed op-339/op-341 on 2026-09-22) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
 
@@ -178,6 +178,7 @@ Older records keep their original words; read them with these maps.
 | Executor, EXU, Ex | agent | 2026-09-28 (introduced 2026-06-26) |
 | Arranger1 / Arranger2, SWAP, mutex, epoch | single Arranger seat | 2026-09-27 |
 | `wip-gpt` (Implementer repo folder) | `rmx-implementer` | 2026-09-28 |
+| `wip-glm`, `wip-ds4p` (Validator folders) | `rmx-validator1`, `rmx-validator2` | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |
 
 **Workflow**

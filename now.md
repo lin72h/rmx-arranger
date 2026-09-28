@@ -16,10 +16,10 @@ read-only onboarding op.
 | Role | Repo | Status |
 |---|---|---|
 | Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded; op-361, op-362, op-363 closed |
-| Gatekeeper | `rmx-gatekeeper` | after the Implementer rounds |
+| Gatekeeper | `rmx-gatekeeper` | next |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
-| Validators | `wip-glm`, `wip-ds4p`, `rmx-validator3` | pending |
+| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | repos updated (local Git, OPS.md); NOTICEs to relay |
 
 `../wip-gpt` stays a symlink to `rmx-implementer` until no repo references the old path.
 

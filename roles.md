@@ -16,7 +16,7 @@ agents read only their own repo.
 | **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
 | **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
-| **Validators**: GLM, DS4P, validator3 | `wip-glm`, `wip-ds4p`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
+| **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
 | **Oracle** | `rmx-oracle` | consult: design, hypotheses, architectural ambiguity | validate or close ops |
 
 Explorer and Gatekeeper instances are named on the "ruler" grammar in terminology §2 (for example

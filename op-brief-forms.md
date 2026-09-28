@@ -54,7 +54,9 @@ blockers:   <what stops further progress, or none>
 next:       <single smallest next action>
 ```
 
-Validators add two lines: `score: <n>/10` and `verdict: CLOSE | DO-NOT-CLOSE | REMEDIATE`.
+Validators add four lines after `outcome`: `question:` (the distinguishing question), `access:`
+(primary | indirect | none, and what was read first-hand), `score: <n>/10 — because …`, and
+`verdict: CLOSE | DO-NOT-CLOSE | REMEDIATE`. Their `OPS.md` holds the exact block.
 
 ## NOTICE (Arranger → agent, relayed by the Coordinator)
 

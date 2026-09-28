@@ -180,8 +180,8 @@ pre-unified record is frozen in `doc/archive/arranger-swap-legacy-frozen-cp103.m
 - `now.md` — the current critical path.
 - `op-brief-forms.md` — the op file, brief sections, and REPORT block.
 - `rob-mini-format.md` — op states, the board, and op ids (`tools/rob`).
-- `validator-rulebook.md` — the Validators' craft; lives in each Validator repo
-  (`../wip-glm/`, `../wip-ds4p/`), not this workspace.
+- `validator-rulebook.md` — the Validators' craft; an identical copy lives in each Validator repo
+  (`../rmx-validator1/`, `../rmx-validator2/`, `../rmx-validator3/`), not this workspace.
 - `explorer-parity-cycle-workflow.md` — the Explorer's parity cycle.
 - `doc/archive/README.md` — superseded documents, for provenance only.
 
