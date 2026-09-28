@@ -456,3 +456,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none; no op state changed.
 - evidence: the six commits above; rulebook hashes identical across the three repos.
 - next: Relay the three onboarding NOTICEs; Validators then review op-364 when it returns.
+
+### j-20260927-016 — roles become templates with numbered instances
+
+- time / kind: 2026-09-28T00:42:21Z / DECISION
+- outcome: Coordinator decision: every role is a class with a template repo `rmx-<role>0` and numbered instance repos `rmx-<role>N`, rooted at `rmx-role0`. Singletons are instance 1 (the Arranger is arranger1), so adding an instance is just another number. The Coordinator chose all four recommended options. (1) Instance files are generated: `tools/roles` renders the template chain plus the instance's `instance.toml` overrides into a self-contained repo and refuses to overwrite local edits. (2) A root template `rmx-role0` holds text every role shares. (3) Onboarded roles are renamed now; the others at their onboarding (oracle, oracle2, oracle3 become oracle1 to oracle3). (4) An agent's own notes and lessons go in `LOCAL.md`, and the Arranger promotes lessons into the template.
+- state delta: none.
+- evidence: Coordinator answers in chat.
+- next: see j-20260927-017.
+
+### j-20260927-017 — templates built; Validators and Arranger converted; two folders renamed
+
+- time / kind: 2026-09-28T00:42:21Z / ACTION
+- outcome: Built tools/roles (8 tests) and templates rmx-role0 (`ae975f3`), rmx-validator0 (`a51bc6f`), and rmx-arranger0 (`a009361`), all local Git. Validators 1 to 3 are now instances of validator0 (`4febc44`, `9c06c2c`, `5fd10a2`); new rulebook lessons go to LOCAL.md. rmx-arranger was renamed to rmx-arranger1 and rendered from arranger0. rmx-implementer was renamed to rmx-implementer1: symlinks kept for rmx-implementer and wip-gpt, wip-rmxos worktrees repaired, op108 objdir links retargeted. Incident: the Implementer rename happened at 13:38:49 local while a Codex Implementer session was working op-364. Its profile commit (`2884304b`, 13:15) and its module, staging, and image steps (13:17 to 13:31) were already done, and it wrote one evidence file at 13:39. No build process was running, and old paths resolve through the symlink. Rule 8 now requires checking for in-flight ops and processes before renaming or re-rendering a repo. The Implementer's conversion to rmx-implementer0 waits for op-364's REPORT.
+- state delta: op-364 draft → issued (it is in flight).
+- evidence: commits above; `tools/roles check` reports 4 instances, 0 needing attention; procstat showed codex with cwd in rmx-implementer at 13:38.
+- next: Relay the Implementer NOTICE (folder renamed) and the Validator NOTICEs; convert the Implementer after op-364 returns.

@@ -1,3 +1,4 @@
+<!-- Rendered by the Arranger from rmx-arranger0 for arranger1. Do not edit; keep your own notes in LOCAL.md. -->
 # Arranger Rulebook
 
 Status: the craft-discipline store for the **Arranger** seat (whichever model holds it): *how to
@@ -84,13 +85,16 @@ never deployment-to-deployment (the op-080a collision was unpushed work). Before
 agent to pull or reconcile against a base, confirm that base is on **origin**. Closing requires
 produced commits on origin (Rule 1). Push this workspace when the Coordinator asks.
 
-**Rule 8 — Keep role repos aligned through one-way access.** Each role repo holds everything its
-agent needs (`AGENTS.md`, `OPS.md`, role docs), and agents never read this workspace. Edit those
-files directly to keep them aligned with `roles.md` and with each other (for example the shared
-Validator rulebook); agents may still add their own craft rules. Send a NOTICE when a change
-affects an agent's working knowledge, and none otherwise. Raw evidence, dispositions, attempt
-accounting, and product source are outside this access. Source: Coordinator, 2026-09-28
-(j-20260927-013).
+**Rule 8 — Keep role repos aligned through templates and one-way access.** Each role repo holds
+everything its agent needs, and agents never read this workspace. A role's standing text lives in
+its template `rmx-<role>0` (text every role shares lives in `rmx-role0`); render instances with
+`tools/roles` and never hand-edit rendered files. Agents keep their own notes and lessons in
+`LOCAL.md`: read it when reviewing their work, and promote lessons worth sharing into the
+template. Before renaming or re-rendering a repo, check that its agent has no op in flight and no
+process working there; if it has, wait for its REPORT or send a NOTICE first (a folder was renamed
+under a live Implementer session on 2026-09-28). Send a NOTICE when a change affects an agent's
+working knowledge, and none otherwise. Raw evidence, dispositions, attempt accounting, and product
+source are outside this access. Source: Coordinator, 2026-09-28 (j-20260927-013, j-20260927-016).
 
 **Rule 9 — Delegation ("you decide").** Treat as a **channeled, not self-granted**
 acceptance: proceed decisively, **record the delegation explicitly**, preserve a **pre-spend

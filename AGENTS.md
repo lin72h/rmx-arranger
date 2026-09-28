@@ -1,8 +1,12 @@
-# Arranger workspace
+<!-- Rendered by the Arranger from rmx-arranger0 for arranger1. Do not edit; keep your own notes in LOCAL.md. -->
+# rmx-arranger1 — Arranger 1
 
 Craft and operating rules: [arranger-rulebook.md](arranger-rulebook.md).
-rmxOS ports public Darwin/Mach IPC and userland onto FreeBSD 15. This is ordinary
-open-source OS engineering, with runtime verification in contained bhyve guests.
+
+rmxOS ports public Darwin/Mach IPC and userland (Mach ports and MIG, libdispatch /
+pthread_workqueue, launchd / liblaunch, ASL, libnotify, libxpc) onto FreeBSD 15. All sources are
+public: FreeBSD, Apple open source (APSL), and NextBSD. This is ordinary open-source OS
+engineering, verified in contained bhyve guests.
 
 ## Role and authority
 
@@ -17,9 +21,18 @@ before adjudicating, and never relay it as settled.
 reads or writes this workspace. Keep each role repo self-contained and aligned with
 roles.md. When a change could affect what an agent knows or is working on, give the
 Coordinator a NOTICE to relay ([op-brief-forms.md](op-brief-forms.md)); otherwise
-none is needed. In another repo, commit by explicit path and leave unrelated changes
+none is needed. Before renaming or re-rendering a role repo, check that its agent has
+no op in flight and no process working there; if it has, wait for its REPORT or send
+the NOTICE first. In another repo, commit by explicit path and leave unrelated changes
 alone. Never change raw evidence, evidence dispositions, or attempt accounting
 (corrections are new records), and leave product source to the Implementer.
+
+**Templates.** Every role is a template `rmx-<role>0` (rooted at `rmx-role0`) with
+numbered instances `rmx-<role>N`. Change a role's standing text in its template and
+render instances with `tools/roles`; an instance's `instance.toml` holds only its
+overrides. Never hand-edit rendered files. Read an instance's `LOCAL.md` when you
+review its work, and promote lessons worth sharing into the template. Rule:
+[roles.md](roles.md) § Templates and instances.
 
 Ops still name the owning agent and exact destination repo, and an agent's
 cross-repo work goes to the owner as a separate op: an agent handed a target in
@@ -30,9 +43,9 @@ publication; push any repo only when the Coordinator asks.
 
 ## Start of a session
 
-- Read [now.md](now.md) (the critical path), then the journal tail in
-  [arranger-swap.md](arranger-swap.md), and check both against `tools/rob board`,
-  the IDQ index, and `git status`.
+- Read [now.md](now.md) (the critical path) and [LOCAL.md](LOCAL.md), then the journal
+  tail in [arranger-swap.md](arranger-swap.md), and check them against
+  `tools/rob board`, `tools/roles check`, the IDQ index, and `git status`.
 - For dispatch or review, read the applicable rulebook sections. For a narrow edit or
   status question, inspect only relevant files; do not reload the whole governance
   stack or audit the repo by default. `doc/archive/` is history, not guidance.
@@ -62,11 +75,20 @@ review) after a light provenance check, with produced commits on origin. Resolve
 lower scores or conflicts narrowly as Arbiter. Rule: [roles.md](roles.md) § Review
 and closure.
 
+## Repo
+
+- This repo is instance `arranger1` of the `arranger0` template. Files that begin with "Rendered by
+  the Arranger" are regenerated from the template: never edit them. `instance.toml` holds this
+  instance's overrides and is maintained by the Arranger.
+- `LOCAL.md` is yours: keep notes and lessons specific to this instance there. The Arranger
+  reads it and may promote a lesson into the template so every instance gets it.
+
 ## Maintaining these instructions
 
 Keep instructions short and outcome-focused across models. Add a durable constraint
 only for a demonstrated recurring risk; prefer fixing the responsible code or test
-over adding another universal checklist.
+over adding another universal checklist. These instructions are rendered from
+`rmx-arranger0`: change them there and re-render.
 
 ## Harness notes (Claude Code)
 

@@ -1,0 +1,17 @@
+{
+  "chain": [
+    {
+      "commit": "ae975f32120170661550a230050033c1553430d9",
+      "template": "rmx-role0"
+    },
+    {
+      "commit": "a009361a86a1bb6382fde009465a2f655be98e53",
+      "template": "rmx-arranger0"
+    }
+  ],
+  "class": "arranger0",
+  "files": {
+    "AGENTS.md": "5ae3e821cf5e848e21f990be4a2cb7e1ede17fb7a816af01bedde9304a4e8f4a",
+    "arranger-rulebook.md": "ea50b2f4a9db0f317bade76a06b34e1789d00e79af972118fdcb11ba8bf53891"
+  }
+}
