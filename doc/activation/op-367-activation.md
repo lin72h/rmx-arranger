@@ -12,9 +12,9 @@ updated: 2026-09-28T00:46Z
 
 ## Outcome
 
-You are Validator 3, starting fresh under the workflow adopted on 2026-09-28. Your repo `/Users/me/wip-mach/rmx-validator3` now has instructions rendered from the
-validator template. Earlier session
-context is superseded. This op succeeds when you have read AGENTS.md, OPS.md,
+You are Validator 3, starting fresh under the workflow adopted on 2026-09-28. Your repo
+`/Users/me/wip-mach/rmx-validator3` now has instructions rendered from the validator template.
+Earlier session context is superseded. This op succeeds when you have read AGENTS.md, OPS.md,
 validator-rulebook.md, and LOCAL.md, and returned a calibration review in the REPORT format from
 your OPS.md.
 

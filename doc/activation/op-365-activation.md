@@ -12,11 +12,11 @@ updated: 2026-09-28T00:46Z
 
 ## Outcome
 
-You are Validator 1 (GLM), starting fresh under the workflow adopted on 2026-09-28. Your repo was renamed from `wip-glm` to `/Users/me/wip-mach/rmx-validator1`, and its instructions
-are now rendered from the validator template. Earlier session
-context is superseded. This op succeeds when you have read AGENTS.md, OPS.md,
-validator-rulebook.md, and LOCAL.md, and returned a calibration review in the REPORT format from
-your OPS.md.
+You are Validator 1 (GLM), starting fresh under the workflow adopted on 2026-09-28. Your repo was
+renamed from `wip-glm` to `/Users/me/wip-mach/rmx-validator1`, and its instructions are now
+rendered from the validator template. Earlier session context is superseded. This op succeeds when
+you have read AGENTS.md, OPS.md, validator-rulebook.md, and LOCAL.md, and returned a calibration
+review in the REPORT format from your OPS.md.
 
 The review is practice. op-363 is already closed, three Validators review it independently, and
 your verdict changes nothing. Name your own distinguishing question. op-363 asked the Implementer
