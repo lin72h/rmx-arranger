@@ -987,3 +987,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-051 created (medium).
 - evidence: none new (from j-20260928-044 and -049).
 - next: none.
+
+### j-20260928-051 — op-393 drafted: advisor1 finishes the Mach review
+
+- time / kind: 2026-09-28T11:05:00Z / DECISION
+- outcome: The Coordinator wants advisor1 to finish its Mach review before any libdispatch work. op-393 covers the areas op-392 never reached: clocks and callouts, semaphores, the kernel-object and MIG dispatch, ipc_space, ipc_notify, and the trap argument path. It also firms up three shallow op-392 claims. To lower the chance of another safety interruption, the brief frames the work as a correctness and robustness review for fixing: each finding carries a regression test and a fix direction, with no exploit framing. The output is a new document of about 200 lines. advisor1 remains blind to other Advisors.
+- state delta: op-393 created as draft.
+- evidence: `git ls-tree 2884304b sys/compat/mach` for the listed paths.
+- next: Present op-393.
