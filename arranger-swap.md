@@ -904,3 +904,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-389 created as draft; op-387 needs op-389.
 - evidence: `git log` of sys/compat/mach; the NextBSD newvers REVISION 12.0; the xnu clone.
 - next: Present op-389.
+
+### j-20260928-042 — op-388 returned DONE; one-Validator review op-390 drafted
+
+- time / kind: 2026-09-28T07:26:16Z / RETURN
+- outcome: The Implementer fixed the inventory (mtree content only), added the no-change stability test (fixture_no_change_stable), and staged a fresh copy: /Users/me/wip-mach/stage/images/op388-alpha2-pid1-premise.raw 031885…, 28 BOM rows, host inventories equal (9bb2e817…), rmx-implementer dd78a31 on origin. Arranger first-hand: all seven evidence files and the image hash match; the BOM has /sbin/launchd 3ac3d0ec, /bin/launchctl b622a5b9, the four /etc/launchd.d plists, and loader.conf; the commit is an ancestor of origin main. Per op-318 chain step 2, drafted op-390: validator2 as the sole L reviewer of the helper, BOM, and image.
+- state delta: op-388 issued → returned; op-390 created as draft.
+- evidence: sha256 of the seven artifacts and the image; `git merge-base --is-ancestor`; the BOM rows.
+- next: Present op-390; op-388 closes on its review.
