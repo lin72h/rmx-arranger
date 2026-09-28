@@ -488,3 +488,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-364 names updated to implementer / rmx-implementer (still issued).
 - evidence: `tools/roles check` reports 4 instances, 0 needing attention; commits above.
 - next: Relay op-365, op-366, op-367; convert the Implementer after op-364 returns.
+
+### j-20260927-020 — tools rewritten in Elixir; role config moved from TOML to JSON
+
+- time / kind: 2026-09-28T01:08:21Z / DECISION
+- outcome: Coordinator directs no Python and no TOML. tools/rob and tools/roles are now Elixir scripts (Elixir 1.20, OTP 29, built-in JSON; no dependencies) with the same commands and behavior. Their tests are ExUnit suites: `elixir tools/test/rob_test.exs` (14) and `elixir tools/test/roles_test.exs` (11); the Python tests were deleted. Role config is JSON: template.json and instance.json replace the .toml files in rmx-role0, rmx-validator0, rmx-arranger/arranger0, rmx-arranger, and rmx-validator1 to 3, and a "comment" key replaces TOML comments. Equivalence check: before any template text changed, the Elixir renderer reading JSON reported all 4 instances up to date against locks written by the Python renderer, so all 11 rendered files were byte-identical. Mutation checks confirmed that each suite catches a disabled guard (the transition check for rob, the local-edit check for roles). Afterwards `instance.toml` wording became `instance.json` and all instances were re-rendered (rmx-role0 `03fda3b`, rmx-validator0 `d0035d0`, Validators `84ba053`, `7c08718`, `33723b6`).
+- state delta: none.
+- evidence: the test runs and `tools/roles check` (4 instances, 0 need attention); commits above.
+- next: Relay op-365, op-366, op-367; convert the Implementer after op-364 returns.

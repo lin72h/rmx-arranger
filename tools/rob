@@ -1,304 +1,415 @@
-#!/usr/bin/env python3
-"""rob — op state for the Arranger workspace.
+#!/usr/bin/env elixir
+# rob — op state for the Arranger workspace. Run `tools/rob` for usage.
 
-Op files live at doc/activation/op-NNN[m]-activation.md. A converted file starts with a
-front-matter block; a legacy file carries its state in the prose header (`state: **[X]**`),
-which rob maps onto the current vocabulary. `rob set` converts a legacy file by prepending
-front matter and leaves the original header untouched below it.
+defmodule Rob.Error do
+  defexception [:message]
+end
 
-  rob board                   live ops grouped by state (the Rule-13 board)
-  rob list [STATE...]         one line per op, optionally filtered by state
-  rob show OP [--raw]         the brief, ready to relay (--raw: the file as stored)
-  rob set OP STATE [k=v...] [--force]
-                              change state and optional fields; --force skips the
-                              transition check (corrections only)
-  rob new TITLE agent=.. repo=.. [k=v...]
-                              create a draft op with the next free id
-  rob next-id                 next free project op number
-  rob check                   unknown states, dangling needs/idq, stale issued/returned ops
+defmodule Rob do
+  @usage """
+  rob — op state for the Arranger workspace.
 
-States and transitions: rob-mini-format.md. Brief format: op-brief-forms.md. Each role's
-defaults and REPORT block live in its repo's OPS.md, so briefs carry only op-specific parts.
-"""
-import datetime as dt
-import pathlib
-import re
-import sys
+  Op files live at doc/activation/op-NNN[m]-activation.md. A converted file starts with a
+  front-matter block; a legacy file carries its state in the prose header (`state: **[X]**`),
+  which rob maps onto the current vocabulary. `rob set` converts a legacy file by prepending
+  front matter and leaves the original header untouched below it.
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-OPS = ROOT / "doc" / "activation"
-WORKSPACE = ROOT.parent
-IDQ = ROOT / "idq"
+    rob board                   live ops grouped by state (the Rule-13 board)
+    rob list [STATE...]         one line per op, optionally filtered by state
+    rob show OP [--raw]         the brief, ready to relay (--raw: the file as stored)
+    rob set OP STATE [k=v...] [--force]
+                                change state and optional fields; --force skips the
+                                transition check (corrections only)
+    rob new TITLE agent=.. repo=.. [k=v...]
+                                create a draft op with the next free id
+    rob next-id                 next free project op number
+    rob check                   unknown states, dangling needs/idq/repo, stale issued/returned ops
 
-STATES = ["draft", "issued", "returned", "hold", "closed", "dropped"]
-LIVE = ["issued", "returned", "draft", "hold"]
-NEXT = {
-    "draft": {"issued", "hold", "dropped"},
-    "issued": {"returned", "dropped"},
-    "returned": {"closed", "dropped"},
-    "hold": {"draft", "dropped"},
-    "closed": set(),
-    "dropped": set(),
-}
-STALE_DAYS = {"issued": 14, "returned": 7}
-# Ids through op-360 were used by chat-only ops that have no file here (j-20260927-008).
-LEGACY_FLOOR = 360
-FIELDS = ["id", "state", "agent", "repo", "idq", "needs", "gate", "authority", "updated"]
+  States and transitions: rob-mini-format.md. Brief format: op-brief-forms.md. Each role's
+  defaults and REPORT block live in its repo's OPS.md, so briefs carry only op-specific parts.
+  Tests: elixir tools/test/rob_test.exs
+  """
 
-# Legacy header tags -> current state. Unknown tags are reported by `rob check`.
-LEGACY = {
-    "draft": "draft", "ready": "draft", "awaiting": "draft",
-    "exe": "issued", "in": "issued", "in-flight": "issued", "air": "issued", "queued": "issued",
-    "done": "returned", "returned": "returned", "partial": "returned",
-    "hold": "hold", "held": "hold", "deferred": "hold",
-    "retired": "closed", "closed": "closed",
-    "flushed": "dropped", "void": "dropped", "rejected": "dropped",
-}
+  @states ~w(draft issued returned hold closed dropped)
+  @live ~w(issued returned draft hold)
+  @next %{
+    "draft" => ~w(issued hold dropped),
+    "issued" => ~w(returned dropped),
+    "returned" => ~w(closed dropped),
+    "hold" => ~w(draft dropped),
+    "closed" => [],
+    "dropped" => []
+  }
+  @stale_days %{"issued" => 14, "returned" => 7}
+  # Ids through op-360 were used by chat-only ops that have no file here (j-20260927-008).
+  @legacy_floor 360
+  @fields ~w(id state agent repo idq needs gate authority updated)
 
-FM_RE = re.compile(r"\A---\n(.*?)\n---\n", re.S)
-LEGACY_RE = re.compile(r"state:\s*\**\s*\[?([A-Za-z-]+)")
-FILE_RE = re.compile(r"op-(\d{3,})(m?)-activation\.md$")
+  # Legacy header tags -> current state. Unknown tags are reported by `rob check`.
+  @legacy %{
+    "draft" => "draft", "ready" => "draft", "awaiting" => "draft",
+    "exe" => "issued", "in" => "issued", "in-flight" => "issued", "air" => "issued",
+    "queued" => "issued",
+    "done" => "returned", "returned" => "returned", "partial" => "returned",
+    "hold" => "hold", "held" => "hold", "deferred" => "hold",
+    "retired" => "closed", "closed" => "closed",
+    "flushed" => "dropped", "void" => "dropped", "rejected" => "dropped"
+  }
 
-BRIEF_TEMPLATE = """## Outcome
+  @brief_template """
+  ## Outcome
 
 
-Defaults and the REPORT block: OPS.md in your repo.
-"""
+  Defaults and the REPORT block: OPS.md in your repo.
+  """
 
+  @fm_re ~r/\A---\n(.*?)\n---\n/s
+  @legacy_re ~r/state:\s*\**\s*\[?([A-Za-z-]+)/
+  @file_re ~r/op-(\d{3,})(m?)-activation\.md$/
 
-def die(msg):
-    sys.exit(f"rob: {msg}")
+  defp root, do: __ENV__.file |> Path.expand() |> Path.dirname() |> Path.dirname()
+  defp ops_dir, do: Path.join([root(), "doc", "activation"])
+  defp idq_dir, do: Path.join(root(), "idq")
+  defp workspace, do: Path.dirname(root())
 
+  defp die(msg), do: raise(Rob.Error, msg)
 
-def now():
-    return dt.datetime.now(dt.timezone.utc)
+  defp stamp, do: Calendar.strftime(DateTime.utc_now(), "%Y-%m-%dT%H:%MZ")
 
+  defp op_key(id) do
+    case Regex.run(~r/^op-(\d+)(m?)$/, id) do
+      [_, n, m] -> {m, String.to_integer(n)}
+      _ -> {"z", 0}
+    end
+  end
 
-def stamp():
-    return now().strftime("%Y-%m-%dT%H:%MZ")
+  defp sorted(ids), do: Enum.sort_by(ids, &op_key/1)
+  defp or_default(value, default), do: if(value in [nil, ""], do: default, else: value)
 
+  # Front-matter fields are an ordered list of {key, value}, so rewrites keep their order.
+  defp fget(fields, k), do: fields |> List.keyfind(k, 0, {k, nil}) |> elem(1)
 
-def op_key(name):
-    m = re.match(r"op-(\d+)(m?)$", name)
-    return (m.group(2), int(m.group(1))) if m else ("z", 0)
+  defp fput(fields, k, v) do
+    if List.keymember?(fields, k, 0),
+      do: List.keyreplace(fields, k, 0, {k, v}),
+      else: fields ++ [{k, v}]
+  end
 
+  defp parse(path) do
+    [_, num, m] = Regex.run(@file_re, Path.basename(path))
+    text = File.read!(path)
+    id = "op-#{num}#{m}"
 
-class Op:
-    def __init__(self, path):
-        self.path = path
-        m = FILE_RE.search(path.name)
-        self.id = f"op-{m.group(1)}{m.group(2)}"
-        self.text = path.read_text()
-        self.fields = {}
-        fm = FM_RE.match(self.text)
-        self.converted = bool(fm)
-        if fm:
-            for line in fm.group(1).splitlines():
-                if ":" in line:
-                    k, v = line.split(":", 1)
-                    self.fields[k.strip()] = v.strip()
-            self.state = self.fields.get("state", "")
-            self.raw = self.state
-            self.body = self.text[fm.end():]
-        else:
-            lm = LEGACY_RE.search("\n".join(self.text.splitlines()[:15]))
-            self.raw = lm.group(1) if lm else ""
-            key = self.raw.lower()
-            self.state = LEGACY.get(key) or LEGACY.get(key.split("-")[0], "")
-            self.body = self.text
-        title = next((l for l in self.body.splitlines() if l.startswith("# ")), "# " + self.id)
-        self.title = title[2:].split(" — ", 1)[-1].strip()
+    op =
+      case Regex.run(@fm_re, text, return: :index) do
+        [{0, len}, {s, l}] ->
+          fields =
+            text
+            |> binary_part(s, l)
+            |> String.split("\n")
+            |> Enum.flat_map(fn line ->
+              case String.split(line, ":", parts: 2) do
+                [k, v] -> [{String.trim(k), String.trim(v)}]
+                _ -> []
+              end
+            end)
 
-    def needs(self):
-        v = self.fields.get("needs", "").strip("[] ")
-        return [x.strip() for x in v.split(",") if x.strip()]
+          state = fget(fields, "state") || ""
 
-    def age_days(self):
-        try:
-            t = dt.datetime.strptime(self.fields["updated"], "%Y-%m-%dT%H:%MZ")
-        except (KeyError, ValueError):
-            return None
-        return (now() - t.replace(tzinfo=dt.timezone.utc)).days
+          %{fields: fields, converted: true, state: state, raw: state,
+            body: binary_part(text, len, byte_size(text) - len)}
 
+        _ ->
+          head = text |> String.split("\n") |> Enum.take(15) |> Enum.join("\n")
 
-def load():
-    ops = {}
-    for p in OPS.glob("op-*-activation.md"):
-        if FILE_RE.search(p.name):
-            op = Op(p)
-            ops[op.id] = op
-    return ops
+          raw =
+            case Regex.run(@legacy_re, head) do
+              [_, r] -> r
+              _ -> ""
+            end
 
+          key = String.downcase(raw)
+          state = Map.get(@legacy, key) || Map.get(@legacy, hd(String.split(key, "-")), "")
+          %{fields: [], converted: false, state: state, raw: raw, body: text}
+      end
 
-def get(ops, name):
-    name = name if name.startswith("op-") else f"op-{name}"
-    if name not in ops:
-        die(f"no such op: {name}")
-    return ops[name]
+    title =
+      op.body
+      |> String.split("\n")
+      |> Enum.find("# " <> id, &String.starts_with?(&1, "# "))
+      |> String.slice(2..-1//1)
+      |> String.split(" — ", parts: 2)
+      |> List.last()
+      |> String.trim()
 
+    Map.merge(op, %{path: path, id: id, text: text, title: title})
+  end
 
-def parse_kv(args):
-    out = {}
-    for a in args:
-        if "=" not in a:
-            die(f"expected key=value, got {a!r}")
-        k, v = a.split("=", 1)
-        out[k] = v
-    return out
+  defp needs(op) do
+    Regex.replace(~r/^[\[\] ]+|[\[\] ]+$/, fget(op.fields, "needs") || "", "")
+    |> String.split(",")
+    |> Enum.map(&String.trim/1)
+    |> Enum.reject(&(&1 == ""))
+  end
 
+  defp age_days(op) do
+    with u when is_binary(u) <- fget(op.fields, "updated"),
+         {:ok, t, _} <- DateTime.from_iso8601(String.replace_suffix(u, "Z", ":00Z")) do
+      div(DateTime.diff(DateTime.utc_now(), t), 86_400)
+    else
+      _ -> nil
+    end
+  end
 
-def render_fm(fields):
-    lines = ["---"] + [f"{k}: {fields[k]}" for k in FIELDS if k in fields]
-    lines += [f"{k}: {v}" for k, v in fields.items() if k not in FIELDS]
-    return "\n".join(lines + ["---", ""])
+  defp load do
+    Path.join(ops_dir(), "op-*-activation.md")
+    |> Path.wildcard()
+    |> Enum.filter(&Regex.match?(@file_re, Path.basename(&1)))
+    |> Map.new(fn p ->
+      op = parse(p)
+      {op.id, op}
+    end)
+  end
 
+  defp get(ops, name) do
+    name = if String.starts_with?(name, "op-"), do: name, else: "op-" <> name
+    Map.get(ops, name) || die("no such op: #{name}")
+  end
 
-def cmd_board(ops, _):
-    groups = {s: [] for s in STATES}
-    unknown = []
-    for op in ops.values():
-        (groups[op.state] if op.state in groups else unknown).append(op.id)
-    shown = False
-    for s in LIVE:
-        if groups[s]:
-            print(f"- [{s}]: " + ", ".join(sorted(groups[s], key=op_key)))
-            shown = True
-    if unknown:
-        print("- [unknown]: " + ", ".join(sorted(unknown, key=op_key)) + "  (run rob check)")
-        shown = True
-    if not shown:
-        print("(no live ops)")
+  defp parse_kv(args) do
+    Enum.map(args, fn a ->
+      case String.split(a, "=", parts: 2) do
+        [k, v] -> {k, v}
+        _ -> die("expected key=value, got #{inspect(a)}")
+      end
+    end)
+  end
 
+  defp render_fm(fields) do
+    known = for k <- @fields, v <- [fget(fields, k)], v != nil, do: "#{k}: #{v}"
+    other = for {k, v} <- fields, k not in @fields, do: "#{k}: #{v}"
+    Enum.join(["---"] ++ known ++ other ++ ["---", ""], "\n")
+  end
 
-def cmd_list(ops, args):
-    want = set(args)
-    for op in sorted(ops.values(), key=lambda o: op_key(o.id)):
-        if want and op.state not in want:
-            continue
-        legacy = "" if op.converted else f" (legacy [{op.raw or '?'}])"
-        agent = f" {op.fields['agent']}" if "agent" in op.fields else ""
-        print(f"{op.id} [{op.state or 'unknown'}]{legacy}{agent} — {op.title[:90]}")
+  def board(ops, _) do
+    groups = Enum.group_by(Map.values(ops), & &1.state, & &1.id)
 
+    lines =
+      for s <- @live, ids <- [Map.get(groups, s, [])], ids != [],
+          do: "- [#{s}]: " <> Enum.join(sorted(ids), ", ")
 
-def cmd_show(ops, args):
-    raw = "--raw" in args
-    args = [a for a in args if a != "--raw"]
-    if len(args) != 1:
+    unknown = for {s, ids} <- groups, s not in @states, id <- ids, do: id
+
+    lines =
+      if unknown == [],
+        do: lines,
+        else: lines ++ ["- [unknown]: " <> Enum.join(sorted(unknown), ", ") <> "  (run rob check)"]
+
+    IO.puts(if lines == [], do: "(no live ops)", else: Enum.join(lines, "\n"))
+  end
+
+  def list(ops, want) do
+    for op <- Enum.sort_by(Map.values(ops), &op_key(&1.id)), want == [] or op.state in want do
+      legacy = if op.converted, do: "", else: " (legacy [#{or_default(op.raw, "?")}])"
+      agent = if a = fget(op.fields, "agent"), do: " " <> a, else: ""
+      IO.puts("#{op.id} [#{or_default(op.state, "unknown")}]#{legacy}#{agent} — #{String.slice(op.title, 0, 90)}")
+    end
+  end
+
+  def show(ops, args) do
+    case args -- ["--raw"] do
+      [name] ->
+        op = get(ops, name)
+
+        if "--raw" in args or not op.converted do
+          IO.write(op.text)
+        else
+          f = op.fields
+
+          head =
+            ["agent: #{fget(f, "agent") || "?"}", "repo: #{fget(f, "repo") || "?"}"] ++
+              for(k <- ~w(idq needs authority), v <- [fget(f, k)], v not in [nil, ""], do: "#{k}: #{v}")
+
+          lines = String.split(op.body, ~r/(?<=\n)/)
+
+          case Enum.find_index(lines, &String.starts_with?(&1, "# ")) do
+            nil ->
+              IO.write(Enum.join(head, " | ") <> "\n\n" <> op.body)
+
+            i ->
+              {before, rest} = Enum.split(lines, i + 1)
+              IO.write(Enum.join(before) <> Enum.join(head, " | ") <> "\n" <> Enum.join(rest))
+          end
+        end
+
+      _ ->
         die("usage: rob show OP [--raw]")
-    op = get(ops, args[0])
-    if raw or not op.converted:
-        sys.stdout.write(op.text)
-        return
-    f = op.fields
-    head = [f"agent: {f.get('agent', '?')}", f"repo: {f.get('repo', '?')}"]
-    for k in ("idq", "needs", "authority"):
-        if f.get(k):
-            head.append(f"{k}: {f[k]}")
-    body = op.body.splitlines(keepends=True)
-    title = next((i for i, l in enumerate(body) if l.startswith("# ")), None)
-    if title is None:
-        sys.stdout.write(" | ".join(head) + "\n\n" + op.body)
-    else:
-        sys.stdout.write("".join(body[:title + 1]) + " | ".join(head) + "\n" + "".join(body[title + 1:]))
+    end
+  end
 
+  def set(ops, args) do
+    case args -- ["--force"] do
+      [name, state | kv] ->
+        op = get(ops, name)
+        state in @states || die("state must be one of #{Enum.join(@states, ", ")}")
 
-def cmd_set(ops, args):
-    force = "--force" in args
-    args = [a for a in args if a != "--force"]
-    if len(args) < 2:
+        if "--force" not in args and state != op.state do
+          case Map.fetch(@next, op.state) do
+            :error ->
+              die("#{op.id} has unknown state [#{or_default(op.raw, "none")}]; use --force to set it")
+
+            {:ok, allowed} ->
+              nxt = if allowed == [], do: "nothing (terminal)", else: Enum.join(Enum.sort(allowed), ", ")
+
+              state in allowed ||
+                die("#{op.id}: #{op.state} -> #{state} is not allowed (next: #{nxt}); --force for corrections")
+          end
+        end
+
+        fields = if op.converted, do: op.fields, else: [{"id", op.id}]
+        fields = if not op.converted and op.raw != "", do: fput(fields, "legacy-state", op.raw), else: fields
+        fields = Enum.reduce(parse_kv(kv), fields, fn {k, v}, acc -> fput(acc, k, v) end)
+        fields = fields |> fput("state", state) |> fput("updated", stamp())
+        File.write!(op.path, render_fm(fields) <> op.body)
+        IO.puts("#{op.id}: #{or_default(op.state, or_default(op.raw, "unknown"))} -> #{state}")
+
+      _ ->
         die("usage: rob set OP STATE [key=value ...] [--force]")
-    op, state = get(ops, args[0]), args[1]
-    if state not in STATES:
-        die(f"state must be one of {', '.join(STATES)}")
-    if not force and state != op.state:
-        allowed = NEXT.get(op.state)
-        if allowed is None:
-            die(f"{op.id} has unknown state [{op.raw or 'none'}]; use --force to set it")
-        if state not in allowed:
-            nxt = ", ".join(sorted(allowed)) or "nothing (terminal)"
-            die(f"{op.id}: {op.state} -> {state} is not allowed (next: {nxt}); --force for corrections")
-    fields = dict(op.fields) if op.converted else {"id": op.id}
-    if not op.converted and op.raw:
-        fields["legacy-state"] = op.raw
-    fields.update(parse_kv(args[2:]))
-    fields["state"] = state
-    fields["updated"] = stamp()
-    op.path.write_text(render_fm(fields) + op.body)
-    print(f"{op.id}: {op.state or op.raw or 'unknown'} -> {state}")
+    end
+  end
 
+  # Next id above every op file and above @legacy_floor. Prose mentions never reserve ids.
+  defp next_id do
+    Path.join(ops_dir(), "op-*-activation.md")
+    |> Path.wildcard()
+    |> Enum.flat_map(fn p ->
+      case Regex.run(@file_re, Path.basename(p)) do
+        [_, n, ""] -> [String.to_integer(n)]
+        _ -> []
+      end
+    end)
+    |> Enum.max(fn -> 0 end)
+    |> max(@legacy_floor)
+    |> Kernel.+(1)
+  end
 
-def next_id():
-    """Next id above every op file and above LEGACY_FLOOR. Prose mentions never reserve ids."""
-    hi = LEGACY_FLOOR
-    for p in OPS.glob("op-*-activation.md"):
-        m = FILE_RE.search(p.name)
-        if m and not m.group(2):
-            hi = max(hi, int(m.group(1)))
-    return hi + 1
+  defp fmt_id(n), do: "op-" <> String.pad_leading(Integer.to_string(n), 3, "0")
 
+  def next_id_cmd(_, _), do: IO.puts(fmt_id(next_id()))
 
-def cmd_next_id(_ops, _args):
-    print(f"op-{next_id():03d}")
+  def new(_, [title | rest]) do
+    kv = parse_kv(rest)
 
+    for k <- ~w(agent repo), not List.keymember?(kv, k, 0),
+        do: die("#{k}= is required (name the owning agent and the exact repo)")
 
-def cmd_new(_ops, args):
-    if not args:
-        die("usage: rob new TITLE agent=... repo=... [key=value ...]")
-    title, kv = args[0], parse_kv(args[1:])
-    for k in ("agent", "repo"):
-        if k not in kv:
-            die(f"{k}= is required (name the owning agent and the exact repo)")
-    oid = f"op-{next_id():03d}"
-    path = OPS / f"{oid}-activation.md"
-    if path.exists():
-        die(f"{path} exists")
-    fields = {"id": oid, "state": "draft", **kv, "updated": stamp()}
-    path.write_text(render_fm(fields) + f"# {oid} — {title}\n\n" + BRIEF_TEMPLATE)
-    print(path.relative_to(ROOT))
+    oid = fmt_id(next_id())
+    path = Path.join(ops_dir(), "#{oid}-activation.md")
+    if File.exists?(path), do: die("#{path} exists")
+    fields = [{"id", oid}, {"state", "draft"}] ++ kv ++ [{"updated", stamp()}]
+    File.write!(path, render_fm(fields) <> "# #{oid} — #{title}\n\n" <> @brief_template)
+    IO.puts(Path.relative_to(path, root()))
+  end
 
+  def new(_, _), do: die("usage: rob new TITLE agent=... repo=... [key=value ...]")
 
-def idq_exists(ref):
-    m = re.match(r"(id-\d{3,})\b", ref)
-    return bool(m) and any(IDQ.glob(f"{m.group(1)}*.md"))
+  defp idq_exists?(ref) do
+    case Regex.run(~r/^(id-\d{3,})\b/, ref) do
+      [_, id] -> Path.wildcard(Path.join(idq_dir(), "#{id}*.md")) != []
+      _ -> false
+    end
+  end
 
+  defp issues(op, ops) do
+    base =
+      cond do
+        op.state == "" -> ["unknown state [#{or_default(op.raw, "none")}]"]
+        op.converted and op.state not in @states -> ["invalid state #{inspect(op.state)}"]
+        true -> []
+      end
 
-def cmd_check(ops, _):
-    problems = 0
-    for op in sorted(ops.values(), key=lambda o: op_key(o.id)):
-        issues = []
-        if not op.state:
-            issues.append(f"unknown state [{op.raw or 'none'}]")
-        elif op.converted and op.state not in STATES:
-            issues.append(f"invalid state {op.state!r}")
-        if op.converted:
-            if op.state in ("draft", "issued"):
-                issues += [f"missing {k}" for k in ("agent", "repo") if k not in op.fields]
-            for n in op.needs():
-                if n not in ops:
-                    issues.append(f"needs unknown {n}")
-                elif ops[n].state == "dropped" and op.state in LIVE:
-                    issues.append(f"needs dropped {n}")
-            repo = op.fields.get("repo", "").split(" ")[0]
-            if repo and op.state in ("draft", "issued") and not (WORKSPACE / repo).exists():
-                issues.append(f"repo {repo} not found in {WORKSPACE}")
-            ref = op.fields.get("idq", "")
-            if ref and not ref.startswith("none") and not idq_exists(ref):
-                issues.append(f"idq {ref} has no file")
-            age, limit = op.age_days(), STALE_DAYS.get(op.state)
-            if limit is not None and age is not None and age > limit:
-                issues.append(f"{op.state} {age} days ago with no progress")
-        if issues:
-            problems += 1
-            print(f"{op.id}: " + "; ".join(issues))
-    legacy = sum(not o.converted for o in ops.values())
-    print(f"{len(ops)} ops, {legacy} legacy headers, {problems} with problems")
-    return 1 if problems else 0
+    if op.converted, do: base ++ field_issues(op, ops), else: base
+  end
 
+  defp field_issues(op, ops) do
+    f = op.fields
+    active = op.state in ~w(draft issued)
+    missing = for k <- ~w(agent repo), active, fget(f, k) == nil, do: "missing #{k}"
 
-COMMANDS = {"board": cmd_board, "list": cmd_list, "show": cmd_show, "set": cmd_set,
-            "new": cmd_new, "next-id": cmd_next_id, "check": cmd_check}
+    dangling =
+      for n <- needs(op),
+          msg <-
+            [
+              cond do
+                not Map.has_key?(ops, n) -> "needs unknown #{n}"
+                ops[n].state == "dropped" and op.state in @live -> "needs dropped #{n}"
+                true -> nil
+              end
+            ],
+          msg != nil,
+          do: msg
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
-        sys.exit(__doc__)
-    sys.exit(COMMANDS[sys.argv[1]](load(), sys.argv[2:]) or 0)
+    repo = (fget(f, "repo") || "") |> String.split(" ") |> hd()
+
+    repo_issue =
+      if repo != "" and active and not File.exists?(Path.join(workspace(), repo)),
+        do: ["repo #{repo} not found in #{workspace()}"],
+        else: []
+
+    ref = fget(f, "idq") || ""
+
+    idq_issue =
+      if ref != "" and not String.starts_with?(ref, "none") and not idq_exists?(ref),
+        do: ["idq #{ref} has no file"],
+        else: []
+
+    stale =
+      case {Map.get(@stale_days, op.state), age_days(op)} do
+        {limit, age} when is_integer(limit) and is_integer(age) and age > limit ->
+          ["#{op.state} #{age} days ago with no progress"]
+
+        _ ->
+          []
+      end
+
+    missing ++ dangling ++ repo_issue ++ idq_issue ++ stale
+  end
+
+  def check(ops, _) do
+    flagged =
+      for op <- Enum.sort_by(Map.values(ops), &op_key(&1.id)), found <- [issues(op, ops)], found != [] do
+        IO.puts("#{op.id}: " <> Enum.join(found, "; "))
+        op.id
+      end
+
+    legacy = Enum.count(Map.values(ops), &(not &1.converted))
+    IO.puts("#{map_size(ops)} ops, #{legacy} legacy headers, #{length(flagged)} with problems")
+    if flagged == [], do: 0, else: 1
+  end
+
+  @commands %{"board" => :board, "list" => :list, "show" => :show, "set" => :set,
+              "new" => :new, "next-id" => :next_id_cmd, "check" => :check}
+
+  def main([cmd | args]) when is_map_key(@commands, cmd) do
+    code =
+      try do
+        case apply(__MODULE__, @commands[cmd], [load(), args]) do
+          n when is_integer(n) -> n
+          _ -> 0
+        end
+      rescue
+        e in Rob.Error ->
+          IO.puts(:stderr, "rob: " <> e.message)
+          1
+      end
+
+    System.halt(code)
+  end
+
+  def main(_) do
+    IO.puts(:stderr, @usage)
+    System.halt(1)
+  end
+end
+
+Rob.main(System.argv())

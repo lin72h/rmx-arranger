@@ -126,7 +126,7 @@ by visiting every L1i row (Coordinator, 2026-07-11). The current critical path i
 format:** [op-brief-forms.md](op-brief-forms.md); each role repo's `OPS.md` holds its defaults.
 **Templates and instances:** a template (root `rmx-role0`; `<role>0/` inside a singleton's repo,
 or `rmx-<role>0`), instances (`rmx-<role>` for a singleton, `rmx-<role>N` otherwise),
-`instance.toml` (overrides), rendered files (never edited), `LOCAL.md` (the agent's notes),
+`instance.json` (overrides), rendered files (never edited), `LOCAL.md` (the agent's notes),
 rendered by `tools/roles` ([roles.md](roles.md) § Templates and instances).
 **One-way access and NOTICE:** the Arranger reads and changes every role repo, no agent reads the
 Arranger's, and a NOTICE tells an agent when a change affects its work ([roles.md](roles.md) §
@@ -189,6 +189,7 @@ Older records keep their original words; read them with these maps.
 | `rmx-arranger1`, `rmx-arranger0` (briefly) | `rmx-arranger` with its template in `arranger0/` | 2026-09-28 |
 | `rmx-implementer1` (briefly) | `rmx-implementer` with its template in `implementer0/` | 2026-09-28 |
 | each agent edits its own copy of shared text | template + `LOCAL.md`, rendered by `tools/roles` | 2026-09-28 |
+| Python tools and tests, TOML config | Elixir tools (`tools/rob`, `tools/roles`) with ExUnit tests, JSON config | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |
 
 **Workflow**

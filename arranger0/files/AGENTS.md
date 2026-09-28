@@ -27,7 +27,7 @@ alone. Never change raw evidence, evidence dispositions, or attempt accounting
 with one instance is one repo, `rmx-<role>`, holding its template in `<role>0/` (this
 repo: `arranger0/`); a role with several has a template repo `rmx-<role>0` and numbered
 instances `rmx-<role>N`. Change a role's standing text in its template and render
-instances with `tools/roles`; an instance's `instance.toml` holds only its overrides.
+instances with `tools/roles`; an instance's `instance.json` holds only its overrides.
 Never hand-edit rendered files. Read an instance's `LOCAL.md` when you review its work,
 and promote lessons worth sharing into the template. Rule: [roles.md](roles.md) §
 Templates and instances.

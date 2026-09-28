@@ -1,282 +1,433 @@
-#!/usr/bin/env python3
-"""roles — render role instances from their templates.
+#!/usr/bin/env elixir
+# roles — render role instances from their templates. Run `tools/roles` for usage.
 
-Every role is a class with a template and instances. A role with one instance is one repo,
-`rmx-<role>`, with its template inside it in `<role>0/`; a role with several instances has a
-template repo `rmx-<role>0` and numbered instances `rmx-<role>N`. Templates chain to a root,
-`rmx-role0`. An instance repo holds `instance.toml` (its overrides only), the rendered files
-(never edited in place), `LOCAL.md` (its agent's own notes), and `.rendered.lock` (digests of what
-was rendered, so local edits are never overwritten).
+defmodule Roles.Error do
+  defexception [:message]
+end
 
-  roles list                          instances, their template chain, and render status
-  roles diff INSTANCE                 what `render` would change
-  roles render INSTANCE... [--adopt] [--force]
-                                      write rendered files; --adopt takes over existing files
-                                      once, --force overwrites local edits (both are rare)
-  roles check                         exit 1 if any instance is stale or has local edits
+defmodule Roles do
+  @usage """
+  roles — render role instances from their templates.
 
-INSTANCE is a folder name such as rmx-arranger or rmx-validator1, or `all`.
+  Every role is a class with a template and instances. A role with one instance is one repo,
+  `rmx-<role>`, with its template inside it in `<role>0/`; a role with several instances has a
+  template repo `rmx-<role>0` and numbered instances `rmx-<role>N`. Templates chain to a root,
+  `rmx-role0`. A template is a directory with `template.json` ({"parent", "vars", "blocks"}),
+  `files/` (rendered into each instance), and `partials/`. An instance repo holds `instance.json`
+  ({"class", "vars", "blocks"}: its overrides only), the rendered files (never edited in place),
+  `LOCAL.md` (its agent's own notes), and `.rendered.lock` (digests of what was rendered, so
+  local edits are never overwritten). A "comment" key in either JSON file is ignored.
 
-Template syntax, applied in this order:
-  {{> name}}                          include partials/name.md (most derived template first)
-  {{#block name}}default{{/block}}    a block; template.toml or instance.toml may override it
-                                      under [blocks], and {{super}} inserts the overridden text
-  {{var}}                             a variable from [vars]; built-ins: instance (folder), id
-                                      (arranger, validator2), n (1 for a singleton), class, and
-                                      template (the template's path relative to the instance)
-"""
-import difflib
-import hashlib
-import json
-import os
-import pathlib
-import re
-import sys
-import tomllib
+    roles list                          instances, their template chain, and render status
+    roles diff INSTANCE                 what `render` would change
+    roles render INSTANCE... [--adopt] [--force]
+                                        write rendered files; --adopt takes over existing files
+                                        once, --force overwrites local edits (both are rare)
+    roles check                         exit 1 if any instance is stale or has local edits
 
-ARRANGER = pathlib.Path(__file__).resolve().parent.parent
-WORKSPACE = pathlib.Path(os.environ.get("ROLES_WORKSPACE", ARRANGER.parent))
-LOCK = ".rendered.lock"
-LOCAL_STUB = """# LOCAL.md — notes for this instance
+  INSTANCE is a folder name such as rmx-arranger or rmx-validator1, or `all`.
 
-This file is yours. Keep notes and lessons specific to this instance here; rendered files are
-regenerated from the role template and must not be edited. The Arranger reads this file and may
-promote a lesson into the template so every instance gets it.
-"""
+  Template syntax, applied in this order:
+    {{> name}}                          include partials/name.md (most derived template first)
+    {{#block name}}default{{/block}}    a block; template.json or instance.json may override it
+                                        under "blocks", and {{super}} inserts the overridden text
+    {{var}}                             a variable from "vars"; built-ins: instance (folder), id
+                                        (arranger, validator2), n (1 for a singleton), class, and
+                                        template (the template's path relative to the instance)
 
-INCLUDE_RE = re.compile(r"\{\{>\s*([A-Za-z0-9_-]+)\s*\}\}")
-BLOCK_RE = re.compile(r"\{\{#block\s+([A-Za-z0-9_]+)\s*\}\}(.*?)\{\{/block\}\}", re.S)
-VAR_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")
+  Tests: elixir tools/test/roles_test.exs
+  """
 
+  @lock ".rendered.lock"
+  @local_stub """
+  # LOCAL.md — notes for this instance
 
-class RoleError(Exception):
-    pass
+  This file is yours. Keep notes and lessons specific to this instance here; rendered files are
+  regenerated from the role template and must not be edited. The Arranger reads this file and may
+  promote a lesson into the template so every instance gets it.
+  """
 
+  @include_re ~r/\{\{>\s*([A-Za-z0-9_-]+)\s*\}\}/
+  @block_re ~r/\{\{#block\s+([A-Za-z0-9_]+)\s*\}\}(.*?)\{\{\/block\}\}/s
+  @var_re ~r/\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}/
 
-def sha(text):
-    return hashlib.sha256(text.encode()).hexdigest()
+  defp die(msg), do: raise(Roles.Error, msg)
 
+  defp workspace do
+    System.get_env("ROLES_WORKSPACE") ||
+      __ENV__.file |> Path.expand() |> Path.dirname() |> Path.dirname() |> Path.dirname()
+  end
 
-def load_toml(path):
-    try:
-        return tomllib.loads(path.read_text())
-    except (OSError, tomllib.TOMLDecodeError) as e:
-        raise RoleError(f"{path}: {e}")
+  defp sha(text), do: :crypto.hash(:sha256, text) |> Base.encode16(case: :lower)
 
+  defp load_json(path) do
+    with {:ok, text} <- File.read(path),
+         {:ok, data} when is_map(data) <- JSON.decode(text) do
+      data
+    else
+      {:ok, _} -> die("#{path}: expected a JSON object")
+      {:error, reason} -> die("#{path}: #{inspect(reason)}")
+    end
+  end
 
-def template_dir(cls):
-    """rmx-<cls> for the root and for roles with several instances; rmx-<role>/<cls> inside a
-    singleton role's repo."""
-    role = cls[:-1] if cls.endswith("0") else cls
-    found = {d.resolve() for d in (WORKSPACE / f"rmx-{cls}", WORKSPACE / f"rmx-{role}" / cls)
-             if (d / "template.toml").is_file()}
-    if not found:
-        raise RoleError(f"template {cls}: no rmx-{cls}/template.toml or rmx-{role}/{cls}/template.toml")
-    if len(found) > 1:
-        raise RoleError(f"template {cls}: found in more than one place: {sorted(map(str, found))}")
-    return found.pop()
+  # Relative path from `base` to `target`, like Python's os.path.relpath.
+  defp relpath(target, base) do
+    t = Path.split(Path.expand(target))
+    b = Path.split(Path.expand(base))
+    common = Enum.zip(t, b) |> Enum.take_while(fn {x, y} -> x == y end) |> length()
 
+    case List.duplicate("..", length(b) - common) ++ Enum.drop(t, common) do
+      [] -> "."
+      parts -> Path.join(parts)
+    end
+  end
 
-def chain_for(instance_dir):
-    """Least-derived first: [root template, ..., class template, instance]."""
-    inst = load_toml(instance_dir / "instance.toml")
-    if "class" not in inst:
-        raise RoleError(f"{instance_dir}/instance.toml: missing class")
-    chain, cls, seen = [], inst["class"], set()
-    while cls:
-        if cls in seen:
-            raise RoleError(f"template cycle at {cls}")
-        seen.add(cls)
-        d = template_dir(cls)
-        t = load_toml(d / "template.toml")
-        chain.insert(0, {"name": cls, "dir": d, "vars": t.get("vars", {}), "blocks": t.get("blocks", {})})
-        cls = t.get("parent")
-    chain.append({"name": instance_dir.name, "dir": instance_dir,
-                  "vars": inst.get("vars", {}), "blocks": inst.get("blocks", {}), "instance": True})
-    return inst["class"], chain
+  defp same_dir_id(dir) do
+    {:ok, st} = File.stat(dir)
+    {st.major_device, st.minor_device, st.inode}
+  end
 
+  # rmx-<cls> for the root and for roles with several instances; rmx-<role>/<cls> inside a
+  # singleton role's repo.
+  defp template_dir(cls) do
+    role = String.replace_suffix(cls, "0", "")
+    ws = workspace()
 
-def builtins(instance_dir, cls, class_dir):
-    ident = instance_dir.name.removeprefix("rmx-")
-    m = re.search(r"(\d+)$", ident)
-    return {"instance": instance_dir.name, "id": ident, "n": m.group(1) if m else "1", "class": cls,
-            "template": os.path.relpath(class_dir, instance_dir.resolve()) + "/"}
+    found =
+      [Path.join(ws, "rmx-#{cls}"), Path.join([ws, "rmx-#{role}", cls])]
+      |> Enum.filter(&File.regular?(Path.join(&1, "template.json")))
+      |> Enum.uniq_by(&same_dir_id/1)
 
+    case found do
+      [d] -> d
+      [] -> die("template #{cls}: no rmx-#{cls}/template.json or rmx-#{role}/#{cls}/template.json")
+      _ -> die("template #{cls}: found in more than one place: #{Enum.join(found, ", ")}")
+    end
+  end
 
-def render_text(text, chain, variables, where, depth=0):
-    if depth > 10:
-        raise RoleError(f"{where}: includes nested too deeply")
+  # Least-derived first: [root template, ..., class template, instance].
+  defp chain_for(instance_dir) do
+    inst = load_json(Path.join(instance_dir, "instance.json"))
+    cls = inst["class"] || die("#{instance_dir}/instance.json: missing class")
+    {chain, _} = walk(cls, [], MapSet.new())
 
-    def include(m):
-        for t in reversed(chain):
-            p = t["dir"] / "partials" / f"{m.group(1)}.md"
-            if not t.get("instance") and p.is_file():
-                return render_text(p.read_text().rstrip("\n"), chain, variables, f"{p}", depth + 1)
-        raise RoleError(f"{where}: no partial named {m.group(1)!r}")
+    instance = %{name: Path.basename(instance_dir), dir: instance_dir, instance: true,
+                 vars: inst["vars"] || %{}, blocks: inst["blocks"] || %{}}
 
-    def block(m):
-        name, text_ = m.group(1), m.group(2)
-        for t in chain:
-            if name in t["blocks"]:
-                text_ = t["blocks"][name].replace("{{super}}", text_)
-        return text_
+    {cls, chain ++ [instance]}
+  end
 
-    text = INCLUDE_RE.sub(include, text)
-    text = BLOCK_RE.sub(block, text)
+  defp walk(nil, chain, seen), do: {chain, seen}
 
-    def var(m):
-        if m.group(1) not in variables:
-            raise RoleError(f"{where}: unknown variable {{{{{m.group(1)}}}}}")
-        return str(variables[m.group(1)])
+  defp walk(cls, chain, seen) do
+    if MapSet.member?(seen, cls), do: die("template cycle at #{cls}")
+    dir = template_dir(cls)
+    t = load_json(Path.join(dir, "template.json"))
+    entry = %{name: cls, dir: dir, instance: false, vars: t["vars"] || %{}, blocks: t["blocks"] || %{}}
+    walk(t["parent"], [entry | chain], MapSet.put(seen, cls))
+  end
 
-    text = VAR_RE.sub(var, text)
-    for marker in ("{{#block", "{{/block}}", "{{>"):
-        if marker in text:
-            raise RoleError(f"{where}: unmatched {marker}")
-    return text
+  defp builtins(instance_dir, cls, class_dir) do
+    id = instance_dir |> Path.basename() |> String.replace_prefix("rmx-", "")
 
+    n =
+      case Regex.run(~r/(\d+)$/, id) do
+        [_, d] -> d
+        _ -> "1"
+      end
 
-def outputs(instance_dir):
-    cls, chain = chain_for(instance_dir)
-    variables = {}
-    for t in chain:
-        variables.update(t["vars"])
-    variables.update(builtins(instance_dir, cls, chain[-2]["dir"]))
-    files = {}
-    for t in chain[:-1]:
-        root = t["dir"] / "files"
-        if root.is_dir():
-            for p in sorted(root.rglob("*")):
-                if p.is_file():
-                    files[str(p.relative_to(root))] = (t, p)
-    out = {}
-    for rel, (t, p) in sorted(files.items()):
-        body = render_text(p.read_text(), chain, variables, f"{p}")
-        if rel.endswith(".md"):
-            body = (f"<!-- Rendered by the Arranger from the {cls} template for {variables['id']}. "
-                    f"Do not edit; keep your own notes in LOCAL.md. -->\n" + body)
-        out[rel] = body
-    return cls, chain, out
+    %{"instance" => Path.basename(instance_dir), "id" => id, "n" => n, "class" => cls,
+      "template" => relpath(class_dir, instance_dir) <> "/"}
+  end
 
+  defp render_text(_text, _chain, _vars, where, depth) when depth > 10,
+    do: die("#{where}: includes nested too deeply")
 
-def read_lock(instance_dir):
-    p = instance_dir / LOCK
-    return json.loads(p.read_text()) if p.is_file() else {"files": {}}
+  defp render_text(text, chain, vars, where, depth) do
+    text =
+      Regex.replace(@include_re, text, fn _, name ->
+        partial =
+          chain
+          |> Enum.reverse()
+          |> Enum.reject(& &1.instance)
+          |> Enum.map(&Path.join([&1.dir, "partials", name <> ".md"]))
+          |> Enum.find(&File.regular?/1) || die("#{where}: no partial named #{inspect(name)}")
 
+        partial |> File.read!() |> String.trim_trailing("\n") |> render_text(chain, vars, partial, depth + 1)
+      end)
 
-def status(instance_dir):
-    """(cls, out, stale, drifted, unmanaged): paths needing work, by kind."""
-    cls, chain, out = outputs(instance_dir)
-    lock = read_lock(instance_dir)
-    stale, drifted, unmanaged = [], [], []
-    for rel, body in out.items():
-        p = instance_dir / rel
-        current = p.read_text() if p.is_file() else None
-        if rel in lock["files"]:
-            if current is not None and sha(current) != lock["files"][rel]:
-                drifted.append(rel)
-            elif current != body:
-                stale.append(rel)
-        elif current is None:
-            stale.append(rel)
-        elif current != body:
-            unmanaged.append(rel)
-    return cls, chain, out, stale, drifted, unmanaged
+    text =
+      Regex.replace(@block_re, text, fn _, name, default ->
+        Enum.reduce(chain, default, fn t, acc ->
+          case t.blocks[name] do
+            nil -> acc
+            override -> String.replace(override, "{{super}}", acc)
+          end
+        end)
+      end)
 
+    text =
+      Regex.replace(@var_re, text, fn _, name ->
+        case Map.fetch(vars, name) do
+          {:ok, v} -> to_string(v)
+          :error -> die("#{where}: unknown variable {{#{name}}}")
+        end
+      end)
 
-def digest_of(d):
-    """Content digest of a template (template.toml, files/, partials/): what was rendered from."""
-    h = hashlib.sha256()
-    for p in sorted(d.rglob("*")):
-        rel = p.relative_to(d)
-        if p.is_file() and (rel.parts[0] in ("files", "partials") or str(rel) == "template.toml"):
-            h.update(str(rel).encode() + b"\0" + p.read_bytes() + b"\0")
-    return h.hexdigest()
+    for marker <- ["{{#block", "{{/block}}", "{{>"], String.contains?(text, marker),
+        do: die("#{where}: unmatched #{marker}")
 
+    text
+  end
 
-def instances(args):
-    found = sorted(p.parent for p in WORKSPACE.glob("rmx-*/instance.toml") if not p.parent.is_symlink())
-    if args == ["all"]:
-        return found
-    named = []
-    for a in args:
-        d = WORKSPACE / a
-        if not (d / "instance.toml").is_file():
-            raise RoleError(f"{a}: not an instance (no instance.toml)")
-        named.append(d)
-    return named
+  defp outputs(instance_dir) do
+    {cls, chain} = chain_for(instance_dir)
+    [class_template | _] = chain |> Enum.reject(& &1.instance) |> Enum.reverse()
+    vars = chain |> Enum.map(& &1.vars) |> Enum.reduce(%{}, &Map.merge(&2, &1))
+    vars = Map.merge(vars, builtins(instance_dir, cls, class_template.dir))
 
+    files =
+      for t <- chain, not t.instance, root <- [Path.join(t.dir, "files")], File.dir?(root),
+          p <- Path.wildcard(Path.join(root, "**/*"), match_dot: true), File.regular?(p),
+          into: %{},
+          do: {Path.relative_to(p, root), p}
 
-def cmd_list(args):
-    for d in instances(["all"]):
-        cls, chain, out, stale, drifted, unmanaged = status(d)
-        names = " -> ".join(t["name"] for t in chain)
-        state = ("local edits: " + ", ".join(drifted)) if drifted else \
-                ("unmanaged: " + ", ".join(unmanaged)) if unmanaged else \
-                ("stale: " + ", ".join(stale)) if stale else "up to date"
-        print(f"{d.name}: {names} | {len(out)} files | {state}")
+    out =
+      for {rel, p} <- Enum.sort(files) do
+        body = render_text(File.read!(p), chain, vars, p, 0)
 
+        body =
+          if String.ends_with?(rel, ".md"),
+            do: "<!-- Rendered by the Arranger from the #{cls} template for #{vars["id"]}. " <>
+                  "Do not edit; keep your own notes in LOCAL.md. -->\n" <> body,
+            else: body
 
-def cmd_diff(args):
-    if len(args) != 1:
-        raise RoleError("usage: roles diff INSTANCE")
-    d = instances(args)[0]
-    _, _, out = outputs(d)
-    for rel, body in out.items():
-        p = d / rel
-        current = p.read_text() if p.is_file() else ""
-        sys.stdout.writelines(difflib.unified_diff(
-            current.splitlines(True), body.splitlines(True), f"{d.name}/{rel}", f"{d.name}/{rel} (rendered)"))
+        {rel, body}
+      end
 
+    {cls, chain, out}
+  end
 
-def cmd_render(args):
-    adopt, force = "--adopt" in args, "--force" in args
-    targets = instances([a for a in args if not a.startswith("--")] or ["all"])
-    for d in targets:
-        cls, chain, out, stale, drifted, unmanaged = status(d)
-        if drifted and not force:
-            raise RoleError(f"{d.name}: rendered files edited locally: {', '.join(drifted)} "
-                            f"(merge them into the template or LOCAL.md; --force overwrites)")
-        if unmanaged and not (adopt or force):
-            raise RoleError(f"{d.name}: existing files differ from the render: {', '.join(unmanaged)} "
-                            f"(check `roles diff {d.name}`, then --adopt)")
-        changed = sorted(set(stale + drifted + unmanaged))
-        for rel in changed:
-            p = d / rel
-            p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(out[rel])
-        old = read_lock(d)["files"]
-        lock = {"class": cls,
-                "chain": [{"template": os.path.relpath(t["dir"], WORKSPACE.resolve()), "digest": digest_of(t["dir"])}
-                          for t in chain[:-1]],
-                "files": {rel: sha(body) for rel, body in out.items()}}
-        (d / LOCK).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
-        if not (d / "LOCAL.md").exists():
-            (d / "LOCAL.md").write_text(LOCAL_STUB)
-            changed.append("LOCAL.md (new)")
-        for rel in sorted(set(old) - set(out)):
-            print(f"{d.name}: {rel} is no longer rendered; left in place")
-        print(f"{d.name}: " + (", ".join(changed) if changed else "up to date"))
+  defp read_lock(instance_dir) do
+    path = Path.join(instance_dir, @lock)
+    if File.regular?(path), do: load_json(path), else: %{"files" => %{}}
+  end
 
+  # {cls, chain, out, stale, drifted, unmanaged}: paths needing work, by kind.
+  defp status(instance_dir) do
+    {cls, chain, out} = outputs(instance_dir)
+    locked = read_lock(instance_dir)["files"] || %{}
 
-def cmd_check(args):
-    bad = 0
-    for d in instances(["all"]):
-        _, _, _, stale, drifted, unmanaged = status(d)
-        for kind, paths in (("local edits", drifted), ("unmanaged", unmanaged), ("stale", stale)):
-            if paths:
-                bad += 1
-                print(f"{d.name}: {kind}: {', '.join(paths)}")
-    print(f"{len(instances(['all']))} instances, {bad} need attention")
-    return 1 if bad else 0
+    kinds =
+      for {rel, body} <- out do
+        path = Path.join(instance_dir, rel)
+        current = if File.regular?(path), do: File.read!(path), else: nil
 
+        kind =
+          cond do
+            Map.has_key?(locked, rel) and current != nil and sha(current) != locked[rel] -> :drifted
+            Map.has_key?(locked, rel) -> if current != body, do: :stale, else: nil
+            current == nil -> :stale
+            current != body -> :unmanaged
+            true -> nil
+          end
 
-COMMANDS = {"list": cmd_list, "diff": cmd_diff, "render": cmd_render, "check": cmd_check}
+        {kind, rel}
+      end
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
-        sys.exit(__doc__)
-    try:
-        sys.exit(COMMANDS[sys.argv[1]](sys.argv[2:]) or 0)
-    except RoleError as e:
-        sys.exit(f"roles: {e}")
+    pick = fn k -> for {^k, rel} <- kinds, do: rel end
+    {cls, chain, out, pick.(:stale), pick.(:drifted), pick.(:unmanaged)}
+  end
+
+  # Content digest of a template (template.json, files/, partials/): what was rendered from.
+  defp digest_of(dir) do
+    dir
+    |> Path.join("**/*")
+    |> Path.wildcard(match_dot: true)
+    |> Enum.filter(&File.regular?/1)
+    |> Enum.map(&{Path.relative_to(&1, dir), &1})
+    |> Enum.filter(fn {rel, _} ->
+      rel == "template.json" or hd(Path.split(rel)) in ["files", "partials"]
+    end)
+    |> Enum.sort()
+    |> Enum.reduce(:crypto.hash_init(:sha256), fn {rel, p}, h ->
+      :crypto.hash_update(h, [rel, 0, File.read!(p), 0])
+    end)
+    |> :crypto.hash_final()
+    |> Base.encode16(case: :lower)
+  end
+
+  # Stable, readable JSON: sorted keys, two-space indent.
+  defp pretty(value, indent \\ 0)
+
+  defp pretty(map, _indent) when is_map(map) and map_size(map) == 0, do: "{}"
+
+  defp pretty(map, indent) when is_map(map) do
+    pad = String.duplicate("  ", indent + 1)
+    items = for {k, v} <- Enum.sort(map), do: pad <> JSON.encode!(k) <> ": " <> pretty(v, indent + 1)
+    "{\n" <> Enum.join(items, ",\n") <> "\n" <> String.duplicate("  ", indent) <> "}"
+  end
+
+  defp pretty([], _), do: "[]"
+
+  defp pretty(list, indent) when is_list(list) do
+    pad = String.duplicate("  ", indent + 1)
+    items = for v <- list, do: pad <> pretty(v, indent + 1)
+    "[\n" <> Enum.join(items, ",\n") <> "\n" <> String.duplicate("  ", indent) <> "]"
+  end
+
+  defp pretty(other, _), do: JSON.encode!(other)
+
+  defp instances(["all"]) do
+    ws = workspace()
+
+    ws
+    |> Path.join("rmx-*/instance.json")
+    |> Path.wildcard()
+    |> Enum.map(&Path.dirname/1)
+    |> Enum.reject(fn d -> match?({:ok, %File.Stat{type: :symlink}}, File.lstat(d)) end)
+    |> Enum.sort()
+  end
+
+  defp instances(names) do
+    for a <- names do
+      d = Path.join(workspace(), a)
+      File.regular?(Path.join(d, "instance.json")) || die("#{a}: not an instance (no instance.json)")
+      d
+    end
+  end
+
+  def list(_args) do
+    for d <- instances(["all"]) do
+      {_cls, chain, out, stale, drifted, unmanaged} = status(d)
+      names = Enum.map_join(chain, " -> ", & &1.name)
+
+      state =
+        cond do
+          drifted != [] -> "local edits: " <> Enum.join(drifted, ", ")
+          unmanaged != [] -> "unmanaged: " <> Enum.join(unmanaged, ", ")
+          stale != [] -> "stale: " <> Enum.join(stale, ", ")
+          true -> "up to date"
+        end
+
+      IO.puts("#{Path.basename(d)}: #{names} | #{length(out)} files | #{state}")
+    end
+
+    0
+  end
+
+  def diff([name]) do
+    [d] = instances([name])
+    {_, _, out} = outputs(d)
+    tmp = Path.join(System.tmp_dir!(), "roles-diff-#{System.unique_integer([:positive])}")
+
+    try do
+      for {rel, body} <- out do
+        File.write!(tmp, body)
+        current = Path.join(d, rel)
+        current = if File.regular?(current), do: current, else: "/dev/null"
+        label = "#{Path.basename(d)}/#{rel}"
+        {text, _} = System.cmd("diff", ["-u", "--label", label, "--label", label <> " (rendered)", current, tmp])
+        IO.write(text)
+      end
+    after
+      File.rm(tmp)
+    end
+
+    0
+  end
+
+  def diff(_), do: die("usage: roles diff INSTANCE")
+
+  def render(args) do
+    {flags, names} = Enum.split_with(args, &String.starts_with?(&1, "--"))
+    adopt = "--adopt" in flags
+    force = "--force" in flags
+
+    for d <- instances(if names == [], do: ["all"], else: names) do
+      name = Path.basename(d)
+      {cls, chain, out, stale, drifted, unmanaged} = status(d)
+
+      if drifted != [] and not force,
+        do: die("#{name}: rendered files edited locally: #{Enum.join(drifted, ", ")} " <>
+                  "(merge them into the template or LOCAL.md; --force overwrites)")
+
+      if unmanaged != [] and not (adopt or force),
+        do: die("#{name}: existing files differ from the render: #{Enum.join(unmanaged, ", ")} " <>
+                  "(check `roles diff #{name}`, then --adopt)")
+
+      bodies = Map.new(out)
+      changed = Enum.sort(Enum.uniq(stale ++ drifted ++ unmanaged))
+
+      for rel <- changed do
+        path = Path.join(d, rel)
+        File.mkdir_p!(Path.dirname(path))
+        File.write!(path, bodies[rel])
+      end
+
+      old = read_lock(d)["files"] || %{}
+
+      lock = %{
+        "class" => cls,
+        "chain" =>
+          for(t <- chain, not t.instance,
+            do: %{"template" => relpath(t.dir, workspace()), "digest" => digest_of(t.dir)}),
+        "files" => Map.new(out, fn {rel, body} -> {rel, sha(body)} end)
+      }
+
+      File.write!(Path.join(d, @lock), pretty(lock) <> "\n")
+
+      changed =
+        if File.exists?(Path.join(d, "LOCAL.md")) do
+          changed
+        else
+          File.write!(Path.join(d, "LOCAL.md"), @local_stub)
+          changed ++ ["LOCAL.md (new)"]
+        end
+
+      for rel <- Enum.sort(Map.keys(old) -- Map.keys(bodies)),
+          do: IO.puts("#{name}: #{rel} is no longer rendered; left in place")
+
+      IO.puts("#{name}: " <> if(changed == [], do: "up to date", else: Enum.join(changed, ", ")))
+    end
+
+    0
+  end
+
+  def check(_args) do
+    all = instances(["all"])
+
+    bad =
+      for d <- all,
+          {_, _, _, stale, drifted, unmanaged} <- [status(d)],
+          {kind, paths} <- [{"local edits", drifted}, {"unmanaged", unmanaged}, {"stale", stale}],
+          paths != [] do
+        IO.puts("#{Path.basename(d)}: #{kind}: #{Enum.join(paths, ", ")}")
+      end
+
+    IO.puts("#{length(all)} instances, #{length(bad)} need attention")
+    if bad == [], do: 0, else: 1
+  end
+
+  @commands %{"list" => :list, "diff" => :diff, "render" => :render, "check" => :check}
+
+  def main([cmd | args]) when is_map_key(@commands, cmd) do
+    code =
+      try do
+        apply(__MODULE__, @commands[cmd], [args])
+      rescue
+        e in Roles.Error ->
+          IO.puts(:stderr, "roles: " <> e.message)
+          1
+      end
+
+    System.halt(code)
+  end
+
+  def main(_) do
+    IO.puts(:stderr, @usage)
+    System.halt(1)
+  end
+end
+
+Roles.main(System.argv())

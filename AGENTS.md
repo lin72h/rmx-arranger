@@ -31,7 +31,7 @@ alone. Never change raw evidence, evidence dispositions, or attempt accounting
 with one instance is one repo, `rmx-<role>`, holding its template in `<role>0/` (this
 repo: `arranger0/`); a role with several has a template repo `rmx-<role>0` and numbered
 instances `rmx-<role>N`. Change a role's standing text in its template and render
-instances with `tools/roles`; an instance's `instance.toml` holds only its overrides.
+instances with `tools/roles`; an instance's `instance.json` holds only its overrides.
 Never hand-edit rendered files. Read an instance's `LOCAL.md` when you review its work,
 and promote lessons worth sharing into the template. Rule: [roles.md](roles.md) §
 Templates and instances.
@@ -81,7 +81,7 @@ and closure.
 
 - This repo is the `arranger` instance of the `arranger0` template, which lives in `arranger0/`.
   Files that begin with "Rendered by the Arranger" are regenerated from that template: never edit
-  them. `instance.toml` holds this instance's overrides; the Arranger maintains both.
+  them. `instance.json` holds this instance's overrides; the Arranger maintains both.
 - `LOCAL.md` is yours: keep notes and lessons specific to this instance there. The Arranger
   reads it and may promote a lesson into the template so every instance gets it.
 

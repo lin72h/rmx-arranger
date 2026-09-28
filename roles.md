@@ -81,7 +81,7 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
 
 Every instance repo holds:
 
-- `instance.toml`: only what differs from the template (variables and block overrides),
+- `instance.json`: only what differs from the template (variables and block overrides),
   maintained by the Arranger;
 - rendered files (`AGENTS.md`, `OPS.md`, role docs), which begin "Rendered by the Arranger" and
   are regenerated with `tools/roles`, never edited in place;
