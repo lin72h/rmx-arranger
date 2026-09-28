@@ -808,3 +808,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-377 issued → returned; op-378 and op-379 created as draft.
 - evidence: `git show 2884304b:<path>` line reads and sha256; rmx-explorer1 `git log`/`show --stat` 5c51fc0; sha256 of the three notes and wait.h.
 - next: Present op-378 and op-379. Ask the Coordinator for push permission for rmx-explorer1 so op-377 can close; a standing permission for private role repos would remove this round trip.
+
+### j-20260928-030 — op-378 and op-379 sent: both Validators review the PID-1 contract
+
+- time / kind: 2026-09-28T05:28:04Z / ISSUE
+- outcome: The Coordinator relayed op-378 (validator1) and op-379 (validator2), identical reviews of the layered PID-1 contract on alpha2. The push permission for rmx-explorer1, needed to close op-377, is still open.
+- state delta: op-378 and op-379 draft → issued.
+- evidence: Coordinator message in chat.
+- next: Wait for both REPORTs; op-377 closes when 5c51fc0 is on origin.

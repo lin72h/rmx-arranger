@@ -1,12 +1,12 @@
 ---
 id: op-378
-state: draft
+state: issued
 agent: validator1
 repo: rmx-validator1
 idq: id-016
 gate: self
 authority: none
-updated: 2026-09-28T05:24Z
+updated: 2026-09-28T05:28Z
 ---
 # op-378 — Validator 1: review the PID-1 launchd contract on alpha2 (op-318, op-322, op-377)
 
