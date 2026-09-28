@@ -958,3 +958,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-049 and id-050 created (low).
 - evidence: `find`/`grep` for nx-v64z across the workspace; `pkg info` and `pkg search` for mDNSResponder; /etc/nsswitch.conf; `getent hosts mm4.local`; `pgrep mdnsd`.
 - next: none today.
+
+### j-20260928-048 — op-392 drafted: advisor1 repeats the Mach deep dive independently
+
+- time / kind: 2026-09-28T09:55:00Z / DECISION
+- outcome: The Coordinator gives advisor1 (the Arranger's model at max effort) the same Mach kernel work as advisor2's op-389, while the other agents are at their limits. op-392 reuses op-389's brief with three changes. It is independent: advisor1 may not read other Advisors' repos, and the two results will be compared. It asks for design-level causes where a class of failures shares one. It asks advisor1 to read the build rather than the config name. No op-383 or op-389 results are given. Comparing overlap and differences with id-046 will show how complete a single review is.
+- state delta: op-392 created as draft.
+- evidence: none (drafting).
+- next: Present op-392.
