@@ -163,6 +163,9 @@ Source: Coordinator, 2026-09-28 (j-20260928-020). An Advisor is the consult of l
 treat every consult as expensive. Send questions that need macOS itself (SDK, headers, system
 binaries) to advisor4 on mm4, and the rest to advisor1, advisor2, or advisor3. Seat models are the
 Coordinator's to choose and are not recorded; ask when a consult's cost matters.
+Advisors are expensive: never fan a round out across seats. Send it to one seat in sequence
+(Coordinator, 2026-09-28); advisor4 only for work that needs macOS. advisor2 is seated with
+ChatGPT astra max (2026-09-28).
 
 ## History
 

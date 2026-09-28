@@ -1,20 +1,21 @@
 ---
 id: op-384
-state: draft
+state: hold
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
+needs: op-383
 gate: self
 authority: none
-updated: 2026-09-28T06:07Z
+updated: 2026-09-28T06:14Z
 ---
 # op-384 — Advisor 2: libnotify and notifyd review at alpha2
 
 ## Outcome
 
 This is open-source OS engineering: an internal architecture and code-quality review of rmxOS
-code we author and ship. It is also your first consult under the workflow adopted on 2026-09-28:
-read AGENTS.md, OPS.md, and LOCAL.md first. The Oracle-era consults in your repo are history.
+code we author and ship. It is the second (or third) of three consults you run in sequence; keep
+each in its own document.
 
 The question: at alpha2 `2884304b`, how solid are libnotify and notifyd for the 1.0 preview?
 

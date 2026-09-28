@@ -1,14 +1,14 @@
 ---
 id: op-383
 state: draft
-agent: advisor1
-repo: rmx-advisor1
+agent: advisor2
+repo: rmx-advisor2
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T06:07Z
+updated: 2026-09-28T06:14Z
 ---
-# op-383 — Advisor 1: foundation review at alpha2 — Mach IPC and libdispatch
+# op-383 — Advisor 2: foundation review at alpha2 — Mach IPC and libdispatch
 
 ## Outcome
 
@@ -45,7 +45,7 @@ Problem entries: id-042 (the 1.0-preview tracker), id-045 (the leak-locals depen
 - Product source `/Users/me/wip-mach/rmx-implementer/wip-rmxos` at `2884304b67fc454ee60187ce4731fca01cbefe6a`, read with `git show` and `git diff` only:
   `sys/compat/mach/`, `lib/libmach/`, the MIG definitions, `lib/libdispatch/`, and
   `sys/kern/kern_thrworkq.c`. Diff against base `26655e67872cd55cff0a272b32b7895f55368033`.
-- The July baseline, sha256: `/Users/me/wip-mach/rmx-advisor2/foundation-mach-ipc-libdispatch-9of10-checklist.md`
+- Your own July baseline, sha256: `/Users/me/wip-mach/rmx-advisor2/foundation-mach-ipc-libdispatch-9of10-checklist.md`
   `cbbcdd288fde099cdb8cb7a7e9964090fe3e10f97dfab9cc06d0b8909a84c2cb` and its round-2 review
   `/Users/me/wip-mach/rmx-advisor3/op-319-mach-ipc-libdispatch-foundation-review-round2.md`
   `0f2ed556adfcbee6c542cb6d38810bda3ec1c68ecad2c6434b5ed3dc12b62d53`.

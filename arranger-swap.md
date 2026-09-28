@@ -864,3 +864,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-382 draft → issued (recorded earlier); op-383 to op-386 created as draft.
 - evidence: sha256 of the four baseline consults; the mm4 copy count (225, matching `git ls-tree`) and the checklist hash.
 - next: Present op-383 to op-386.
+
+### j-20260928-037 — Advisor round: one seat in sequence
+
+- time / kind: 2026-09-28T06:14:21Z / DECISION
+- outcome: Coordinator: Advisors are expensive, so no fan-out; advisor4 is fine for the macOS-only task. advisor2 (ChatGPT astra max) runs op-383, op-384, and op-385 in three sequential batches; op-383 and op-385 were reassigned to advisor2, op-384 and op-385 are held with needs, and op-386 (advisor4) stays a draft. roles.md § Choosing an Advisor records the no-fan-out rule and advisor2's model.
+- state delta: op-383 reassigned (draft); op-384 draft → hold (needs op-383); op-385 reassigned, draft → hold (needs op-384).
+- evidence: Coordinator message.
+- next: Present op-383 and op-386.

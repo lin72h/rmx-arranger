@@ -65,11 +65,10 @@ contract requires (j-20260928-035).
 
 ## In parallel
 
-Advisor review round (Coordinator, 2026-09-28), which is also each seat's onboarding: does July's
-status hold at alpha2, and what are the top preview risks? op-383 advisor1 (Mach IPC and libdispatch),
-op-384 advisor2 (libnotify and notifyd), op-385 advisor3 (launchd service hosting), and op-386
-advisor4 on mm4 (libxpc against macOS 27). Read-only; findings bind to IDQ entries before any
-follow-on op.
+Advisor review round (Coordinator, 2026-09-28): does July's status hold at alpha2, and what are
+the top preview risks? One seat, in sequence (Advisors are expensive): advisor2 runs op-383 (Mach
+IPC and libdispatch), then op-384 (libnotify and notifyd), then op-385 (launchd hosting). advisor4
+runs op-386 (libxpc against macOS 27) on mm4. Findings bind to IDQ entries before any follow-on op.
 
 ## Off the path (backlog, not live)
 
