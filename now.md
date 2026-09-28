@@ -16,7 +16,7 @@ Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 closed; rename back and `implementer0/` wait until op-372 returns, so nothing moves under a run |
+| Implementer | `rmx-implementer` (template in `implementer0/`) | onboarded and converted; NOTICE to relay (j-20260928-025) |
 | Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | both onboarded (op-370, op-371 closed) |
 | Explorer | `rmx-explorer1` (here), `rmx-explorer2` (only on mm4) | both onboarded (op-373, op-374 closed) |
 | Advisor (was Oracle) | `rmx-advisor1`–`3` (here), `rmx-advisor4` (only on mm4) | converted; instances stay local Git, template on GitHub (`lin72h/rmx-advisor0`); onboarding folds into each seat's first consult |
@@ -24,9 +24,8 @@ Validators use `rmx-validator0` plus numbered instances.
 
 Old folder names stay as symlinks while anything references them: `wip-gpt` (also named by
 gatekeeper1's op360 runner and the id-044 preflights), `wip-glm`, `wip-ds4p`, `rmx-arranger1`,
-`rmx-gatekeeper`, `rmx-explorer` (here and on mm4), and `mach-oracle` on mm4.
-Until op-372 returns (it reads the image from `rmx-implementer/build/`), the Implementer's real
-folder is `rmx-implementer1` and `rmx-implementer` is the symlink; that swaps back afterwards.
+`rmx-gatekeeper`, `rmx-explorer` (here and on mm4), `rmx-implementer1`, `rmx-oracle`,
+`rmx-oracle2`, `rmx-oracle3`, and `mach-oracle` on mm4.
 
 mm4 is reached as `ssh mm4`: the SSH config pins 192.168.4.47 with `HostKeyAlias mm4`, so if
 mm4's address changes only `HostName` needs updating. Resolving `mm4.local` from this host (mDNS)

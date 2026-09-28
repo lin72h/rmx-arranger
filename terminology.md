@@ -72,7 +72,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-arranger` (template in `arranger0/`; `rmx-arranger1` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
 | `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0` | none (local Git) | templates |
 | `rmx-advisor0` | `git@github.com:lin72h/rmx-advisor0.git` (private) | Advisor template |
-| `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
+| `rmx-implementer` (template in `implementer0/`; product source in `rmx-implementer/wip-rmxos`; `wip-gpt` and `rmx-implementer1` are transitional symlinks) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer1` (`rmx-explorer` is a transitional symlink) | `git@github.com:lin72h/rmx-explorer1.git` (private; the public `lin72h/rmx-explorer`, shared by both seats until 2026-09-28, is its `shared` remote) | Explorer 1 (rx-x64z seat on `bdw-fx15-x64z`) |
 | `rmx-explorer2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-explorer2` (`rmx-explorer` there is a transitional symlink; a copy of `rmx-explorer0` sits beside it) | `git@github.com:lin72h/rmx-explorer2.git` (private; `shared` as above) | Explorer 2 (mx-a64z) |
 | `rmx-gatekeeper1` (`rmx-gatekeeper` is a transitional symlink) | `git@github.com:lin72h/rmx-gatekeeper1.git` (private; the public `lin72h/rmx-gatekeeper` is left as history, and the history after `4b16fd1b` was rewritten on 2026-09-28: map in `docs/history-rewrite-2026-09-28.md`) | Gatekeeper 1 (rx-x64z seat on `bdw-fx15-x64z`) |

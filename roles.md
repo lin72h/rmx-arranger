@@ -73,7 +73,7 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
 
 - **A role with one instance** is one repo with no number, `rmx-<role>`. The repo is the instance
   (implicitly instance 1, id `<role>`), and its template lives inside it in `<role>0/`:
-  `rmx-arranger/arranger0/`, and `rmx-implementer/implementer0/` once op-364 returns.
+  `rmx-arranger/arranger0/` and `rmx-implementer/implementer0/`.
 - **A role with several instances** has a template repo `rmx-<role>0` and numbered instance repos
   `rmx-<role>N` with ids `<role>N`: `rmx-validator0` and `rmx-validator1` to `rmx-validator3`.
 - **Growing a singleton**: move `<role>0/` out to `rmx-<role>0`, rename the repo `rmx-<role>1`,

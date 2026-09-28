@@ -61,8 +61,9 @@ Validators add four lines after `outcome`: `question:` (the distinguishing quest
 ## NOTICE (Arranger → agent, relayed by the Coordinator)
 
 Send one when an Arranger change in an agent's repo could affect what the agent knows or is
-working on; skip it otherwise. A notice is not an op: no REPORT and no state. If the agent has an
-op in flight, relay the notice before that op's REPORT is due.
+working on; skip it otherwise. A change to a role's `OPS.md` alone needs none, because every brief
+ends by telling the agent to re-read it. A notice is not an op: no REPORT and no state. If the
+agent has an op in flight, relay the notice before that op's REPORT is due.
 
 ```text
 NOTICE from the Arranger — <YYYY-MM-DD>

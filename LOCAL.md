@@ -114,5 +114,8 @@ is ready to send.
 
 ## Unpushed Arranger commits in role repos
 
-- explorer1 `f6277a4` and explorer2 `90d5344` (README pointers, 2026-09-28). They go out with the
-  next push of those repos.
+- explorer1 `f6277a4`, `7affb09`; explorer2 `90d5344`, `241284e`; gatekeeper1 `c17f2bd`;
+  gatekeeper2 `0cb46e6`; rmx-implementer `f57003b` (README pointers, OPS.md re-renders, the
+  Implementer's conversion; 2026-09-28). They go out with the next push of those repos.
+- Next render round of every role's OPS.md: its opening says the Arranger sends a NOTICE when
+  OPS.md changes; say instead that each brief asks for a re-read (implementer0 already does).
