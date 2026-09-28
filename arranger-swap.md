@@ -872,3 +872,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-383 reassigned (draft); op-384 draft → hold (needs op-383); op-385 reassigned, draft → hold (needs op-384).
 - evidence: Coordinator message.
 - next: Present op-383 and op-386.
+
+### j-20260928-038 — op-383 narrowed to the Mach kernel; libdispatch split out as op-387
+
+- time / kind: 2026-09-28T06:18:20Z / DECISION
+- outcome: Coordinator: narrow op-383 to the Mach kernel side (Mach IPC and every FreeBSD integration point), with libdispatch next. op-383 was rewritten to name the integration surface (syscalls.master and the generated sysent/syscalls/systrace files, kern_event.c EVFILT_MACHPORT and knote_enqueue, sys/event.h, sys/file.h, sys/sys/mach headers and MIG defs, sys/modules/mach, and the module's own hooks), found with git grep at 2884304b. Created op-387 (advisor2, libdispatch and kern_thrworkq.c). Sequence: op-383 → op-387 → op-384 → op-385.
+- state delta: op-383 rewritten (draft); op-387 created, hold (needs op-383); op-384 needs op-387.
+- evidence: `git grep` of the integration files.
+- next: op-383 is ready to send.

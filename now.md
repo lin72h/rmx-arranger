@@ -67,7 +67,7 @@ contract requires (j-20260928-035).
 
 Advisor review round (Coordinator, 2026-09-28): does July's status hold at alpha2, and what are
 the top preview risks? One seat, in sequence (Advisors are expensive): advisor2 runs op-383 (Mach
-IPC and libdispatch), then op-384 (libnotify and notifyd), then op-385 (launchd hosting). advisor4
+kernel: IPC and FreeBSD integration), op-387 (libdispatch), op-384 (libnotify), op-385 (launchd). advisor4
 runs op-386 (libxpc against macOS 27) on mm4. Findings bind to IDQ entries before any follow-on op.
 
 ## Off the path (backlog, not live)

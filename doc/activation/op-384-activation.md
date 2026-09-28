@@ -4,10 +4,10 @@ state: hold
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
-needs: op-383
+needs: op-387
 gate: self
 authority: none
-updated: 2026-09-28T06:14Z
+updated: 2026-09-28T06:18Z
 ---
 # op-384 — Advisor 2: libnotify and notifyd review at alpha2
 
