@@ -1,12 +1,12 @@
 ---
 id: op-375
-state: draft
+state: issued
 agent: validator1
 repo: rmx-validator1
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T04:09Z
+updated: 2026-09-28T04:11Z
 ---
 # op-375 — Validator 1: review op-372 contained boot of the op-364 image
 

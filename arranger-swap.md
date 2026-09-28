@@ -744,3 +744,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-372 issued → returned; op-375 and op-376 created as draft.
 - evidence: sha256 of the cited files; host-orchestration.log header; serial.raw lines 15, 203, 219, 300, 4256, 4271; `git merge-base --is-ancestor` against `git ls-remote origin`; `diff` of the plan against the basis.
 - next: Present op-375 and op-376. After both return: close op-372, then the Implementer rename and the Gatekeeper report-partial render (both wait so nothing moves under a review).
+
+### j-20260928-022 — op-375 and op-376 sent: both Validators review op-372
+
+- time / kind: 2026-09-28T04:11:31Z / ISSUE
+- outcome: The Coordinator relayed op-375 (validator1) and op-376 (validator2), identical reviews of op-372 with full pins. They run concurrently under validator0's standing concurrency defaults.
+- state delta: op-375 and op-376 draft → issued.
+- evidence: Coordinator message in chat.
+- next: Wait for both REPORTs. Until they return, leave rmx-gatekeeper1, rmx-implementer, and both Validator repos untouched.
