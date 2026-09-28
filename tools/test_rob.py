@@ -26,7 +26,9 @@ LEGACY_DONE = textwrap.dedent("""\
 
 class RobTest(unittest.TestCase):
     def setUp(self):
-        self.root = pathlib.Path(tempfile.mkdtemp())
+        self.ws = pathlib.Path(tempfile.mkdtemp())
+        self.root = self.ws / "rmx-arranger1"
+        self.root.mkdir()
         (self.root / "tools").mkdir()
         shutil.copy(ROB, self.root / "tools" / "rob")
         (self.root / "doc" / "activation").mkdir(parents=True)
@@ -36,7 +38,7 @@ class RobTest(unittest.TestCase):
         self.write("op-100", LEGACY_DONE)
 
     def tearDown(self):
-        shutil.rmtree(self.root)
+        shutil.rmtree(self.ws)
 
     def write(self, oid, text):
         (self.root / "doc" / "activation" / f"{oid}-activation.md").write_text(text)
@@ -117,7 +119,13 @@ class RobTest(unittest.TestCase):
         self.assertIn("returned", r.stdout)
         self.assertIn("days ago with no progress", r.stdout)
 
+    def test_check_flags_a_repo_that_does_not_exist(self):
+        self.rob("new", "t", "agent=a", "repo=rmx-nowhere (nested)")
+        r = self.rob("check", ok=False)
+        self.assertIn("repo rmx-nowhere not found", r.stdout)
+
     def test_check_passes_on_a_clean_workspace(self):
+        (self.ws / "r").mkdir()
         self.rob("new", "t", "agent=a", "repo=r", "idq=id-042")
         self.assertIn("0 with problems", self.rob("check").stdout)
 

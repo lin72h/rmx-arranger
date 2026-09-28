@@ -62,13 +62,15 @@ unambiguous: `rmx-explorer-mx-a64z` vs `swift-rx-explorer-mx-a64z`.
 
 ## 4. Agent repos
 
-Each agent writes only its own repo. Paths are under `/Users/me/wip-mach/`. Role repos are being
-renamed to `rmx-<role>` as each is onboarded (j-20260927-007).
+Each agent writes only its own repo. Paths are under `/Users/me/wip-mach/`. Roles are templates
+`rmx-<role>0` with numbered instances `rmx-<role>N` ([roles.md](roles.md) § Templates and
+instances); roles not yet onboarded keep their old names until they are.
 
 | Local workspace | Upstream | Role |
 |---|---|---|
-| `rmx-arranger` | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
+| `rmx-arranger1` (`rmx-arranger` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger 1 |
+| `rmx-role0`, `rmx-arranger0`, `rmx-validator0` | none (local Git) | templates |
+| `rmx-implementer1` (product source in `rmx-implementer1/wip-rmxos`; `rmx-implementer` and `wip-gpt` are transitional symlinks) | `git@github.com:lin72h/project-rmx.git` | Implementer 1 |
 | `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
 | `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
@@ -121,6 +123,9 @@ by visiting every L1i row (Coordinator, 2026-07-11). The current critical path i
 
 **Op states, board, and ids:** [rob-mini-format.md](rob-mini-format.md). **Brief and REPORT
 format:** [op-brief-forms.md](op-brief-forms.md); each role repo's `OPS.md` holds its defaults.
+**Templates and instances:** a template `rmx-<role>0` (root `rmx-role0`), numbered instances
+`rmx-<role>N`, `instance.toml` (overrides), rendered files (never edited), `LOCAL.md` (the agent's
+notes), rendered by `tools/roles` ([roles.md](roles.md) § Templates and instances).
 **One-way access and NOTICE:** the Arranger reads and changes every role repo, no agent reads the
 Arranger's, and a NOTICE tells an agent when a change affects its work ([roles.md](roles.md) §
 Edges). **Review rule:** [roles.md](roles.md) § Review
@@ -179,6 +184,8 @@ Older records keep their original words; read them with these maps.
 | Arranger1 / Arranger2, SWAP, mutex, epoch | single Arranger seat | 2026-09-27 |
 | `wip-gpt` (Implementer repo folder) | `rmx-implementer` | 2026-09-28 |
 | `wip-glm`, `wip-ds4p` (Validator folders) | `rmx-validator1`, `rmx-validator2` | 2026-09-28 |
+| `rmx-arranger`, `rmx-implementer` | `rmx-arranger1`, `rmx-implementer1` (instances of `rmx-<role>0` templates) | 2026-09-28 |
+| each agent edits its own copy of shared text | template + `LOCAL.md`, rendered by `tools/roles` | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |
 
 **Workflow**

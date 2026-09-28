@@ -9,19 +9,21 @@ Git and the journal. Op state comes from `tools/rob board`, problem state from `
 
 ## Onboarding (in progress)
 
-The Coordinator is onboarding each role repo directly (j-20260927-007): rename to `rmx-<role>`,
-rewrite its instructions for the current workflow, add its `OPS.md` op contract, then relay one
-read-only onboarding op.
+The Coordinator is onboarding each role repo directly (j-20260927-007): make it an instance
+`rmx-<role>N` of a template `rmx-<role>0` (j-20260927-016), render its instructions and `OPS.md`,
+then relay a NOTICE or an onboarding op. Templates so far: `rmx-role0`, `rmx-arranger0`,
+`rmx-validator0`.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded; op-361, op-362, op-363 closed |
+| Implementer | `rmx-implementer1` (was `wip-gpt`, `rmx-implementer`) | onboarded; op-364 in flight; `rmx-implementer0` conversion waits for its REPORT |
 | Gatekeeper | `rmx-gatekeeper` | next |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
-| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | repos updated (local Git, OPS.md); NOTICEs to relay |
+| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | instances of `rmx-validator0`; NOTICEs to relay |
 
-`../wip-gpt` stays a symlink to `rmx-implementer` until no repo references the old path.
+Old folder names (`wip-gpt`, `rmx-implementer`, `wip-glm`, `wip-ds4p`, `rmx-arranger`) stay as symlinks while
+anything still references them.
 
 ## Critical path
 
@@ -44,7 +46,7 @@ clang/LLD 21.1.8).
 | 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
 | 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
-| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | draft |
+| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | in flight: alpha2 `2884304b`; `build/op364-20260928T001637Z` |
 | 5 | Review op-364 | both Validators (release critical path) | waits on 4 |
 | 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | waits on 5 |
 | 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 6 |

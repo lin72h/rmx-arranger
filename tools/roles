@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""roles — render role instances from their templates.
+
+Every role is a class with a template repo `rmx-<role>0` and numbered instances `rmx-<role>N`.
+Templates chain to a root, `rmx-role0`. An instance repo holds `instance.toml` (its overrides
+only), the rendered files (never edited in place), `LOCAL.md` (its agent's own notes), and
+`.rendered.lock` (hashes of what was rendered, so local edits are never overwritten).
+
+  roles list                          instances, their template chain, and render status
+  roles diff INSTANCE                 what `render` would change
+  roles render INSTANCE... [--adopt] [--force]
+                                      write rendered files; --adopt takes over existing files
+                                      once, --force overwrites local edits (both are rare)
+  roles check                         exit 1 if any instance is stale or has local edits
+
+INSTANCE is a folder name such as rmx-validator1, or `all`.
+
+Template syntax, applied in this order:
+  {{> name}}                          include partials/name.md (most derived template first)
+  {{#block name}}default{{/block}}    a block; template.toml or instance.toml may override it
+                                      under [blocks], and {{super}} inserts the overridden text
+  {{var}}                             a variable from [vars]; built-ins: instance, id, n, class
+"""
+import difflib
+import hashlib
+import json
+import os
+import pathlib
+import re
+import subprocess
+import sys
+import tomllib
+
+ARRANGER = pathlib.Path(__file__).resolve().parent.parent
+WORKSPACE = pathlib.Path(os.environ.get("ROLES_WORKSPACE", ARRANGER.parent))
+LOCK = ".rendered.lock"
+LOCAL_STUB = """# LOCAL.md — notes for this instance
+
+This file is yours. Keep notes and lessons specific to this instance here; rendered files are
+regenerated from the role template and must not be edited. The Arranger reads this file and may
+promote a lesson into the template so every instance gets it.
+"""
+
+INCLUDE_RE = re.compile(r"\{\{>\s*([A-Za-z0-9_-]+)\s*\}\}")
+BLOCK_RE = re.compile(r"\{\{#block\s+([A-Za-z0-9_]+)\s*\}\}(.*?)\{\{/block\}\}", re.S)
+VAR_RE = re.compile(r"\{\{\s*([A-Za-z_][A-Za-z0-9_]*)\s*\}\}")
+
+
+class RoleError(Exception):
+    pass
+
+
+def sha(text):
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+def load_toml(path):
+    try:
+        return tomllib.loads(path.read_text())
+    except (OSError, tomllib.TOMLDecodeError) as e:
+        raise RoleError(f"{path}: {e}")
+
+
+def template_dir(cls):
+    d = WORKSPACE / f"rmx-{cls}"
+    if not (d / "template.toml").is_file():
+        raise RoleError(f"template {cls}: no {d}/template.toml")
+    return d
+
+
+def chain_for(instance_dir):
+    """Least-derived first: [root template, ..., class template, instance]."""
+    inst = load_toml(instance_dir / "instance.toml")
+    if "class" not in inst:
+        raise RoleError(f"{instance_dir}/instance.toml: missing class")
+    chain, cls, seen = [], inst["class"], set()
+    while cls:
+        if cls in seen:
+            raise RoleError(f"template cycle at {cls}")
+        seen.add(cls)
+        d = template_dir(cls)
+        t = load_toml(d / "template.toml")
+        chain.insert(0, {"name": cls, "dir": d, "vars": t.get("vars", {}), "blocks": t.get("blocks", {})})
+        cls = t.get("parent")
+    chain.append({"name": instance_dir.name, "dir": instance_dir,
+                  "vars": inst.get("vars", {}), "blocks": inst.get("blocks", {}), "instance": True})
+    return inst["class"], chain
+
+
+def builtins(instance_dir, cls):
+    ident = instance_dir.name.removeprefix("rmx-")
+    m = re.search(r"(\d+)$", ident)
+    return {"instance": instance_dir.name, "id": ident, "n": m.group(1) if m else "", "class": cls}
+
+
+def render_text(text, chain, variables, where, depth=0):
+    if depth > 10:
+        raise RoleError(f"{where}: includes nested too deeply")
+
+    def include(m):
+        for t in reversed(chain):
+            p = t["dir"] / "partials" / f"{m.group(1)}.md"
+            if not t.get("instance") and p.is_file():
+                return render_text(p.read_text().rstrip("\n"), chain, variables, f"{p}", depth + 1)
+        raise RoleError(f"{where}: no partial named {m.group(1)!r}")
+
+    def block(m):
+        name, text_ = m.group(1), m.group(2)
+        for t in chain:
+            if name in t["blocks"]:
+                text_ = t["blocks"][name].replace("{{super}}", text_)
+        return text_
+
+    text = INCLUDE_RE.sub(include, text)
+    text = BLOCK_RE.sub(block, text)
+
+    def var(m):
+        if m.group(1) not in variables:
+            raise RoleError(f"{where}: unknown variable {{{{{m.group(1)}}}}}")
+        return str(variables[m.group(1)])
+
+    text = VAR_RE.sub(var, text)
+    for marker in ("{{#block", "{{/block}}", "{{>"):
+        if marker in text:
+            raise RoleError(f"{where}: unmatched {marker}")
+    return text
+
+
+def outputs(instance_dir):
+    cls, chain = chain_for(instance_dir)
+    variables = {}
+    for t in chain:
+        variables.update(t["vars"])
+    variables.update(builtins(instance_dir, cls))
+    files = {}
+    for t in chain[:-1]:
+        root = t["dir"] / "files"
+        if root.is_dir():
+            for p in sorted(root.rglob("*")):
+                if p.is_file():
+                    files[str(p.relative_to(root))] = (t, p)
+    out = {}
+    for rel, (t, p) in sorted(files.items()):
+        body = render_text(p.read_text(), chain, variables, f"{p}")
+        if rel.endswith(".md"):
+            body = (f"<!-- Rendered by the Arranger from rmx-{cls} for {variables['id']}. "
+                    f"Do not edit; keep your own notes in LOCAL.md. -->\n" + body)
+        out[rel] = body
+    return cls, chain, out
+
+
+def read_lock(instance_dir):
+    p = instance_dir / LOCK
+    return json.loads(p.read_text()) if p.is_file() else {"files": {}}
+
+
+def status(instance_dir):
+    """(cls, out, stale, drifted, unmanaged): paths needing work, by kind."""
+    cls, chain, out = outputs(instance_dir)
+    lock = read_lock(instance_dir)
+    stale, drifted, unmanaged = [], [], []
+    for rel, body in out.items():
+        p = instance_dir / rel
+        current = p.read_text() if p.is_file() else None
+        if rel in lock["files"]:
+            if current is not None and sha(current) != lock["files"][rel]:
+                drifted.append(rel)
+            elif current != body:
+                stale.append(rel)
+        elif current is None:
+            stale.append(rel)
+        elif current != body:
+            unmanaged.append(rel)
+    return cls, chain, out, stale, drifted, unmanaged
+
+
+def commit_of(d):
+    r = subprocess.run(["git", "-C", str(d), "rev-parse", "HEAD"], capture_output=True, text=True)
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+def instances(args):
+    found = sorted(p.parent for p in WORKSPACE.glob("rmx-*/instance.toml") if not p.parent.is_symlink())
+    if args == ["all"]:
+        return found
+    named = []
+    for a in args:
+        d = WORKSPACE / a
+        if not (d / "instance.toml").is_file():
+            raise RoleError(f"{a}: not an instance (no instance.toml)")
+        named.append(d)
+    return named
+
+
+def cmd_list(args):
+    for d in instances(["all"]):
+        cls, chain, out, stale, drifted, unmanaged = status(d)
+        names = " -> ".join(t["name"] for t in chain)
+        state = ("local edits: " + ", ".join(drifted)) if drifted else \
+                ("unmanaged: " + ", ".join(unmanaged)) if unmanaged else \
+                ("stale: " + ", ".join(stale)) if stale else "up to date"
+        print(f"{d.name}: {names} | {len(out)} files | {state}")
+
+
+def cmd_diff(args):
+    if len(args) != 1:
+        raise RoleError("usage: roles diff INSTANCE")
+    d = instances(args)[0]
+    _, _, out = outputs(d)
+    for rel, body in out.items():
+        p = d / rel
+        current = p.read_text() if p.is_file() else ""
+        sys.stdout.writelines(difflib.unified_diff(
+            current.splitlines(True), body.splitlines(True), f"{d.name}/{rel}", f"{d.name}/{rel} (rendered)"))
+
+
+def cmd_render(args):
+    adopt, force = "--adopt" in args, "--force" in args
+    targets = instances([a for a in args if not a.startswith("--")] or ["all"])
+    for d in targets:
+        cls, chain, out, stale, drifted, unmanaged = status(d)
+        if drifted and not force:
+            raise RoleError(f"{d.name}: rendered files edited locally: {', '.join(drifted)} "
+                            f"(merge them into the template or LOCAL.md; --force overwrites)")
+        if unmanaged and not (adopt or force):
+            raise RoleError(f"{d.name}: existing files differ from the render: {', '.join(unmanaged)} "
+                            f"(check `roles diff {d.name}`, then --adopt)")
+        changed = sorted(set(stale + drifted + unmanaged))
+        for rel in changed:
+            p = d / rel
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(out[rel])
+        old = read_lock(d)["files"]
+        lock = {"class": cls,
+                "chain": [{"template": f"rmx-{t['name']}", "commit": commit_of(t["dir"])} for t in chain[:-1]],
+                "files": {rel: sha(body) for rel, body in out.items()}}
+        (d / LOCK).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
+        if not (d / "LOCAL.md").exists():
+            (d / "LOCAL.md").write_text(LOCAL_STUB)
+            changed.append("LOCAL.md (new)")
+        for rel in sorted(set(old) - set(out)):
+            print(f"{d.name}: {rel} is no longer rendered; left in place")
+        print(f"{d.name}: " + (", ".join(changed) if changed else "up to date"))
+
+
+def cmd_check(args):
+    bad = 0
+    for d in instances(["all"]):
+        _, _, _, stale, drifted, unmanaged = status(d)
+        for kind, paths in (("local edits", drifted), ("unmanaged", unmanaged), ("stale", stale)):
+            if paths:
+                bad += 1
+                print(f"{d.name}: {kind}: {', '.join(paths)}")
+    print(f"{len(instances(['all']))} instances, {bad} need attention")
+    return 1 if bad else 0
+
+
+COMMANDS = {"list": cmd_list, "diff": cmd_diff, "render": cmd_render, "check": cmd_check}
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] not in COMMANDS:
+        sys.exit(__doc__)
+    try:
+        sys.exit(COMMANDS[sys.argv[1]](sys.argv[2:]) or 0)
+    except RoleError as e:
+        sys.exit(f"roles: {e}")

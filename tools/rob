@@ -27,6 +27,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OPS = ROOT / "doc" / "activation"
+WORKSPACE = ROOT.parent
 IDQ = ROOT / "idq"
 
 STATES = ["draft", "issued", "returned", "hold", "closed", "dropped"]
@@ -277,6 +278,9 @@ def cmd_check(ops, _):
                     issues.append(f"needs unknown {n}")
                 elif ops[n].state == "dropped" and op.state in LIVE:
                     issues.append(f"needs dropped {n}")
+            repo = op.fields.get("repo", "").split(" ")[0]
+            if repo and op.state in ("draft", "issued") and not (WORKSPACE / repo).exists():
+                issues.append(f"repo {repo} not found in {WORKSPACE}")
             ref = op.fields.get("idq", "")
             if ref and not ref.startswith("none") and not idq_exists(ref):
                 issues.append(f"idq {ref} has no file")
