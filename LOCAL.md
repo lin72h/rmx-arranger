@@ -78,6 +78,10 @@ is ready to send.
   patterns: a binary's `.comment` names the compiler that built it, not its own version; "defined
   in the kernel" must name the resolution path (`.symtab` vs `.dynsym` plus leak-locals); an image
   diff needs a byte count, its distribution, and pattern-probe deltas, never "only X differs".
+- Also promote validator1's "verify image-delta claims layer by layer" (da865b2, op-368). It
+  pairs with validator2's image-diff lesson.
+- validator1's REPORTs arrive with fused lines when copied (op-365, op-368). Take exact values
+  from its committed review file.
 - validator2 format slips, twice now (op-366, op-369): a duplicated `REPORT` line, and in op-369
   a bare commit hash with no repo. Fix it in the template only if it recurs after the next render.
 

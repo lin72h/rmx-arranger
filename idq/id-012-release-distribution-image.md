@@ -240,3 +240,15 @@ package repo / pkg(8) distribution (separate logistics item if wanted).
 - installer scope: full `bsdinstall` install-to-disk for the preview, or live/memstick-only boot
   first (cheaper) with install-to-disk deferred to Tier 1?
 - arch: amd64-only for 1.0 (matches the explorer/gatekeeper guests) — confirm arm64 is post-1.0.
+
+## Composition loose ends found in op-364's review (op-368, 2026-09-28)
+
+These come from the op-344→op-358 lineage. None breaks an op-364 claim, but each matters for a
+release image:
+- The staged tree carries `/METALOG.reconciled` from the op-344 era (`4b6ecd40…`), which does not
+  describe the final image; makefs consumed the evidence copy (`d614ae33…` in op-364). A release
+  image should not ship a stale spec inside itself.
+- makefs reports 263 duplicate-definition warnings (`-D`) from the inherited manifest.
+- op-358's `evidence/final-gpt-inspection.txt` is internally inconsistent (backup_lba `1000042`
+  beside end_lba `16777249`), so do not rely on it. It stays as recorded, because evidence is
+  never edited.

@@ -55,7 +55,7 @@ not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against 
 | 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
 | 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | returned, verified first-hand: alpha2 `2884304b`; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
-| 5 | Review op-364 | both Validators (release critical path) | validator2 (op-369): CLOSE, 9; validator1 (op-368) in flight |
+| 5 | Review op-364 | both Validators (release critical path) | both CLOSE: validator1 9.5 (op-368), validator2 9 (op-369). op-364 closes once its commits are on origin |
 | 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | waits on 5 |
 | 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 6 |
 
