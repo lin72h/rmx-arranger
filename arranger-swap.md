@@ -856,3 +856,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-381 returned → dropped; op-382 created as draft.
 - evidence: `zfs list zroot/wip-mach-stage`; `df` and `stat -f %d` of the dataset and /; a write test.
 - next: Present op-382 (ready; nothing in flight).
+
+### j-20260928-036 — op-382 sent; Advisor review round drafted (op-383 to op-386)
+
+- time / kind: 2026-09-28T06:08:32Z / ISSUE
+- outcome: The Coordinator relayed op-382 and proposed a new rmxOS review round on the core components (Mach IPC, libxpc, libdispatch, launchd, libnotify), using it to onboard and exercise the Advisors. Design: one consult per seat; each seat gets a component it did not write the July checklist for (advisor2 wrote the July foundation, libxpc, launchd, and ASL checklists; advisor3 wrote op-319, foundation round 2). All four ask the same question: do July's items hold at alpha2 2884304b, which moved with the stable/15 merge, what are the ranked preview risks, and what are the proposals tied to IDQ entries? Architecture and risk only. Each brief opens with the framing line and a one-line onboarding, and carries the problem-entry facts itself, since Advisors never read this repo. op-383 advisor1: Mach IPC and libdispatch, baseline July foundation checklist cbbcdd28… and op-319 0f2ed556…. op-384 advisor2: libnotify and notifyd, baseline op-262 1aefd784… and op-270 7b4c6c6d…. op-385 advisor3: launchd, liblaunch, and launchctl hosting (the PID-1 contract out of scope), baseline July launchd checklist 94a34e9c…. op-386 advisor4 on mm4: libxpc against the macOS 27 SDK headers, with id-021's acceptance box spelled out, baseline July libxpc checklist f25d9d6c…. For advisor4, a read-only pinned copy of the relevant source at 2884304b (225 files, 3.1 MB, git archive) and the checklist were placed on mm4 under /Users/linz/Local/wip-mach/rmx-reference/. All four are read-only and safe alongside op-382 (no shared writes; lock-free reads).
+- state delta: op-382 draft → issued (recorded earlier); op-383 to op-386 created as draft.
+- evidence: sha256 of the four baseline consults; the mm4 copy count (225, matching `git ls-tree`) and the checklist hash.
+- next: Present op-383 to op-386.

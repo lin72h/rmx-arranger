@@ -63,6 +63,14 @@ the rx-x64z seat). Image staging uses the ZFS dataset `zroot/wip-mach-stage` at
 `/Users/me/wip-mach/stage` (64 GB quota, owned by `me`), a device distinct from `/` as the PID-1
 contract requires (j-20260928-035).
 
+## In parallel
+
+Advisor review round (Coordinator, 2026-09-28), which is also each seat's onboarding: does July's
+status hold at alpha2, and what are the top preview risks? op-383 advisor1 (Mach IPC and libdispatch),
+op-384 advisor2 (libnotify and notifyd), op-385 advisor3 (launchd service hosting), and op-386
+advisor4 on mm4 (libxpc against macOS 27). Read-only; findings bind to IDQ entries before any
+follow-on op.
+
 ## Off the path (backlog, not live)
 
 Open problems stay in their IDQ files: id-011 (asl leg 4), id-021 (libxpc lifecycle), id-033/id-034/
