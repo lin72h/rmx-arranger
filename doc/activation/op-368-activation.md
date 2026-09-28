@@ -44,5 +44,10 @@ module loads at boot is out of scope: that is the Gatekeeper's boot test.
 
 - Do not mount or boot the images; work from hashes, mtree files, manifests, and objects.
   Hashing each 8 GiB image takes about a minute.
+- Another Validator reviews the same artifacts at the same time. Use only git commands that
+  take no locks in the Implementer's repo or the alpha2 worktree (`git show`, `git log`,
+  `git ls-tree`, `git cat-file`; for status, `git --no-optional-locks status`).
+- Keep every scratch file under your own `reviews/op-368/scratch/`, never in `/tmp`.
+- Do not read `/Users/me/wip-mach/rmx-validator2` until you have returned your REPORT.
 
 Defaults and the REPORT block: OPS.md in your repo.

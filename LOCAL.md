@@ -72,3 +72,11 @@ preflights and verify-phase1; replace `${workspace_root}/wip-gpt/…` in the fiv
 evaluating the derivations under all three names. Cause: my op-363 brief asked for
 location-derived paths, and my own S gate accepted the result. These are historical phase-0.95
 preflights, so the Coordinator may prefer to retire them instead.
+
+## Pending for the validator0 template (next NOTICE)
+
+- Concurrent two-reviewer gates (from op-368/369): make these OPS.md defaults instead of per-brief
+  limits. Use no-lock git in other roles' repos (`git show`/`log`/`ls-tree`/`cat-file`,
+  `git --no-optional-locks status`); keep scratch under `reviews/op-NNN/scratch/`, never `/tmp`;
+  do not read the other Validator's repo before returning. And for the Arranger: no rename or
+  re-render of a repo whose artifacts are under review.
