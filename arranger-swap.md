@@ -568,3 +568,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: mm4 ~/Local/wip-mach/rmx-gatekeeper0 (README, template.json, files/AGENTS.md, files/OPS.md); `tools/roles check` reports 6 instances, 0 needing attention.
 - next: Relay op-370 and op-371.
+
+### j-20260927-030 — op-370 and op-371 sent: both Gatekeepers onboarding
+
+- time / kind: 2026-09-28T02:16:01Z / ISSUE
+- outcome: The Coordinator relayed op-370 (gatekeeper1, FreeBSD host) and op-371 (gatekeeper2, mm4): read-only onboarding with a baseline from disk. They run alongside op-368 and op-369 without sharing writes or reading anything under review.
+- state delta: op-370 and op-371 draft → issued.
+- evidence: Coordinator message in chat.
+- next: Wait for the op-368, op-369, op-370, and op-371 REPORTs.

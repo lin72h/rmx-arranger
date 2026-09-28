@@ -1,12 +1,12 @@
 ---
 id: op-371
-state: draft
+state: issued
 agent: gatekeeper2
 repo: rmx-gatekeeper2 (on mm4)
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T02:07Z
+updated: 2026-09-28T02:16Z
 ---
 # op-371 — Gatekeeper 2: onboarding and baseline from disk
 
