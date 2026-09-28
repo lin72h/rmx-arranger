@@ -67,23 +67,17 @@ Template changes from the Validators' feedback (op-365/366/367 blockers):
 Follow-up: now IDQ problem id-044 (fix or retire the historical preflights), not an op until it
 is ready to send.
 
-## Pending for the validator0 template (next NOTICE)
+## Validator template (validator0)
 
-- Concurrent two-reviewer gates (from op-368/369): make these OPS.md defaults instead of per-brief
-  limits. Use no-lock git in other roles' repos (`git show`/`log`/`ls-tree`/`cat-file`,
-  `git --no-optional-locks status`); keep scratch under `reviews/op-NNN/scratch/`, never `/tmp`;
-  do not read the other Validator's repo before returning. And for the Arranger: no rename or
-  re-render of a repo whose artifacts are under review.
-- Promote from validator2's LOCAL.md (d401250, op-369) into the rulebook's falsification
-  patterns: a binary's `.comment` names the compiler that built it, not its own version; "defined
-  in the kernel" must name the resolution path (`.symtab` vs `.dynsym` plus leak-locals); an image
-  diff needs a byte count, its distribution, and pattern-probe deltas, never "only X differs".
-- Also promote validator1's "verify image-delta claims layer by layer" (da865b2, op-368). It
-  pairs with validator2's image-diff lesson.
+- Applied 2026-09-28 (validator0 `edf1597`, j-20260928-012): the concurrency defaults in OPS.md
+  (lock-free git, scratch in `reviews/op-NNN/scratch/`, independence), and four falsification
+  patterns from op-368/op-369. The Arranger's own side stays: no rename or re-render of a repo
+  whose artifacts are under review.
 - validator1's REPORTs arrive with fused lines when copied (op-365, op-368). Take exact values
   from its committed review file.
-- validator2 format slips, twice now (op-366, op-369): a duplicated `REPORT` line, and in op-369
-  a bare commit hash with no repo. Fix it in the template only if it recurs after the next render.
+- validator2 duplicated its `REPORT` line twice (op-366, op-369). Fix it in the template only if
+  it recurs. A bare commit hash is correct for a Validator: its `commits:` line is this repo's
+  review-notes commit.
 
 ## My checks (corrections)
 

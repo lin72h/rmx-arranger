@@ -664,3 +664,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-372 draft → issued.
 - evidence: Coordinator message in chat.
 - next: While op-372 runs, apply the queued validator0 template changes (no Validator has an op in flight). Do not touch rmx-gatekeeper1 or rmx-implementer until op-372 returns.
+
+### j-20260928-012 — validator0 updated: concurrency defaults and four falsification patterns
+
+- time / kind: 2026-09-28T03:24:18Z / ACTION
+- outcome: With no Validator op in flight, all three repos clean, and their sessions idle, the per-brief limits from op-368/op-369 became standing OPS.md defaults ("Working alongside other ops": lock-free git in other roles' repos, scratch under reviews/op-NNN/scratch/, no reading the other reviewer before the REPORT). The rulebook gained four falsification patterns: .comment names the building compiler; symbol checks must name the resolution path; an image diff is layout until shown otherwise; verify image-delta claims layer by layer. Commits: validator0 edf1597, rmx-validator1 24f24ae, rmx-validator2 4c7ae12, rmx-validator3 258252b. `roles check`: 5 instances, 0 need attention.
+- state delta: none.
+- evidence: the commits above; the render output (OPS.md and validator-rulebook.md per instance).
+- next: The Coordinator relays the Validator NOTICE (one text for all three). The rmx-role0 report-partial change waits for op-372 (it re-renders gatekeeper1).
