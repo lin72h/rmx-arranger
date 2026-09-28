@@ -936,3 +936,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `pgrep bhyve`; `mount`; the stage images listing; `git log` of rmx-gatekeeper1.
 - next: Wait for op-387 and op-391 to resume.
+
+### j-20260928-046 — workflow review: Coordinator positions; sanitizers and fuzzers raised (id-047, id-048)
+
+- time / kind: 2026-09-28T09:30:00Z / DECISION
+- outcome: The Arranger reviewed the workflow's fit for kernel and OS work. The principles fit: independent verification, pinned evidence, containment, fail-closed gates, and single ownership. The observed costs are heavy mechanics, paper contracts where a boot would answer, no rmxOS in-tree tests for Mach or its userland, and no automated bug-finding. The Coordinator's positions:
+  - The hand relay and the Coordinator bottleneck are intentional. Understanding intent matters more than speed, and slow or no feature progress is fine.
+  - The multi-agent efficiency plan comes later, not for this project.
+  - Architecture correctness is the goal of the Advisor review round.
+  - Sanitizers and fuzzers go into the IDQ at priority medium.
+  - The macOS side was designed in from the start and needs polish.
+  Raised id-047 (sanitizer builds: KASAN, KMSAN and KCSAN kernels, ASan, UBSan and TSan userland; starts with `mach.ko` built under its kernel's options) and id-048 (fuzzing: syzkaller with kcov on Mach traps, libFuzzer on userland decoders). id-048 needs id-047 and a containment decision, because syzkaller needs host-guest networking and current containment allows none. Recorded the positions in LOCAL.md. now.md states the round's architecture goal. id-046 part 2 now starts with an Advisor architecture proposal before code.
+- state delta: id-047 and id-048 created (medium).
+- evidence: `git show 2884304b:sys/conf/options` (KASAN, KMSAN, KCSAN, KCOV); the sys/amd64/conf listing; std.debug; the rmxOS tree listing (no Mach or userland tests); rmx-gatekeeper1's per-op build directories.
+- next: When writing op-384 and op-385, lead with the architecture question.

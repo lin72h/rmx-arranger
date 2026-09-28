@@ -110,6 +110,19 @@ is ready to send.
   id-021. Translate through `rmx-gatekeeper1/docs/history-rewrite-2026-09-28.md` before issuing
   or citing them; historical records stay as written.
 
+## Coordinator positions from the workflow review (2026-09-28)
+
+- The hand relay is intentional: the Coordinator is the deliberate bottleneck so that the intent
+  behind every step is understood. Slow or no feature progress is acceptable in kernel and OS
+  work. Do not propose automating or bypassing the relay.
+- Multi-agent efficiency (accounts, a second Implementer, parallel lanes) is a later holistic plan
+  of the Coordinator's, not for this project now. Do not propose it.
+- Architecture correctness is the goal of the Advisor review round. Lead Advisor briefs with the
+  architecture question, and treat concrete defects as its evidence.
+- Sanitizers and fuzzers find bugs; they do not decide design. Tracked as id-047 and id-048, medium.
+- The macOS side (mm4, the mx-a64z seats, and the platform-arch naming) was designed in from the
+  start and still needs polish.
+
 ## Lessons for briefs
 
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.

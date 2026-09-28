@@ -62,4 +62,7 @@ proc storage all remain viable on stable/15. The route is repair, not redesign, 
    XNU's readiness/delivery split); object lifetime across lock drops and fdrop (2, 7, 15; sweep for the
    pattern, not only three sites); task teardown on ordinary exit (4); the module build outside
    its kernel's configuration.
+Part 2 decides architecture: the Mach receive and event model, the object lifetime model, and
+task lifetime on FreeBSD. It starts with an Advisor architecture proposal and a Coordinator
+decision before any code (Coordinator: architecture correctness first, 2026-09-28).
 Caveat: one source-only review. It shows where bugs are, not that the list is complete.

@@ -65,7 +65,8 @@ contract requires (j-20260928-035).
 
 ## In parallel
 
-Advisor review round (Coordinator, 2026-09-28): one seat, in sequence (Advisors are expensive).
+Advisor review round (Coordinator, 2026-09-28): the goal is a correct architecture, with defects
+as its evidence. One seat, in sequence (Advisors are expensive).
 advisor2: op-383 (Mach consult; closed) → op-389 (Mach deep dive; closed, 14 confirmed defects →
 id-046) → op-387 (libdispatch and workqueue deep dive, same form; drafted) → op-384 (libnotify) →
 op-385 (launchd). advisor4 runs op-386 (libxpc against macOS 27) on mm4 when chosen. Findings bind
