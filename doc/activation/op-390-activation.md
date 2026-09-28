@@ -1,12 +1,12 @@
 ---
 id: op-390
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-016
 gate: self
 authority: none
-updated: 2026-09-28T07:26Z
+updated: 2026-09-28T07:27Z
 ---
 # op-390 — Validator 2: review op-388 staging helper, BOM, and PID-1 premise image
 
