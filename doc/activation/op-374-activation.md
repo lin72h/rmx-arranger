@@ -1,12 +1,12 @@
 ---
 id: op-374
-state: draft
+state: closed
 agent: explorer2
 repo: mm4:/Users/linz/Local/wip-mach/rmx-explorer2
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T03:44Z
+updated: 2026-09-28T03:55Z
 ---
 # op-374 — Explorer 2: onboarding and baseline from disk
 

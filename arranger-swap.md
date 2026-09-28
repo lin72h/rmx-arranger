@@ -704,3 +704,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-373 draft → issued → returned → closed (the Coordinator relayed it; the REPORT is the send confirmation).
 - evidence: sha256 of the 4 cited files; `git rev-list`/status in rmx-explorer1; `zig version`, `elixir --version`; grep of the six findings' verdict lines.
 - next: op-374 when the Coordinator sends it; op-372 still running.
+
+### j-20260928-017 — op-374 returned and closed: explorer2 onboarded
+
+- time / kind: 2026-09-28T03:56:15Z / RETURN
+- outcome: explorer2's REPORT and narrative were verified first-hand on mm4 and closed as S (gate self, confidence 9). The repo is clean at 0327f73, 0 ahead, with origin rmx-explorer2 and shared rmx-explorer. Four evidence hashes match exactly. The fifth (environment.json) matches 7f8a81fd…8095 on disk; the pasted value lacks 4 middle characters, a copy slip. Toolchain as reported: Xcode 27.0 (27A266a), Swift 6.4, Zig 0.16.0, Elixir 1.20.0 on OTP 29, macOS 27.0 26A428. Spot checks hold: the 2026-06-21 Mach/dispatch run is 21/21 pass on beta 26A5353q; notify 10 passes; ASL one failure (asl_search_roundtrip, also seen on rx); ob2.4 on 26.5/25F71. So the macOS truth predates the current build, and several captures do not record a build. Fixed the README pointer it flagged (mm4 explorer2 90d5344, not pushed; explorer1's twin is f6277a4).
+- state delta: op-374 draft → issued → returned → closed.
+- evidence: `shasum -a 256` of the five cited files on mm4; `xcodebuild -version`, `swift --version`, `zig version`, `sw_vers`; counts in the 20260621 run dir.
+- next: Both Explorers are onboarded. op-372 is still running. Next modernization: the Oracle.

@@ -112,7 +112,7 @@ is ready to send.
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
-## Pending repo fixes
+## Unpushed Arranger commits in role repos
 
-- explorer2's README (on mm4) still calls `ONBOARDING.md` authoritative and describes the old
-  change lanes; apply explorer1's README fix (f6277a4) there once op-374 returns.
+- explorer1 `f6277a4` and explorer2 `90d5344` (README pointers, 2026-09-28). They go out with the
+  next push of those repos.
