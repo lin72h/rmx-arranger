@@ -95,6 +95,7 @@ is ready to send.
   condition.
 ## mm4 access
 
+- mm4 scripts: copy the script to mm4 and run `zsh -l <file> < /dev/null`. A script fed on stdin can be swallowed by any command that reads stdin (the Xcode git shim did, 2026-09-28).
 - My SSH session on mm4 has no GitHub key (`Permission denied (publickey)`). To push an mm4 repo,
   clone it bare from `mm4:<path>` to the scratchpad, push from here, then set the repo's
   `origin/main` on mm4 with `git update-ref` (j-20260928-005).

@@ -680,3 +680,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: Coordinator message in chat ("3 sent").
 - next: While op-372 runs, inspect the Explorer repos (here and on mm4) for modernization.
+
+### j-20260928-014 — Explorer split into two instances: explorer1 done, explorer2 waits for mm4 Xcode
+
+- time / kind: 2026-09-28T03:37:28Z / DECISION
+- outcome: Coordinator decision: the Explorer's two seats become two instances with separate repos, like the Gatekeepers, not one shared repo. Created template rmx-explorer0 (local Git 81e62c3: AGENTS.md from the roles table and the still-valid legacy craft rules — Zig/Elixir test logic, shell discipline, guest-run preflight, attempt accounting; OPS.md allowing read-only commands; an attempts line in the REPORT). Its plain copy on mm4 is identical (4 files, no .git). explorer1 (rx-x64z, here): the clone was renamed rmx-explorer → rmx-explorer1 (symlink kept); loose work snapshotted 5336897 (a findings log and a soak conductor; *.core now ignored, the 24 MB core dump stays on disk); converted 3354264 (ONBOARDING.md → docs/ONBOARDING-2026-06-21.md, README repointed, rendered with --adopt); old origin renamed `shared`; pushed to new private github.com/lin72h/rmx-explorer1 (main = HEAD 33542646). explorer2 (mx-a64z, mm4): nothing changed yet. The first git call there found no developer directory (no Xcode, no Command Line Tools, only the /usr/bin/git shim), opened the "Install Command Line Developer Tools" dialog, and consumed the rest of the stdin-fed script, so no snapshot or rename happened. The Coordinator is reinstalling Xcode on mm4. Lesson: run mm4 scripts from a copied file with stdin from /dev/null (LOCAL.md).
+- state delta: none.
+- evidence: rmx-explorer0 81e62c3; rmx-explorer1 5336897, 3354264; `git ls-remote` of lin72h/rmx-explorer1; mm4 checks (`whence -a git`, `xcode-select -p` error, CommandLineTools absent).
+- next: Once Xcode is back on mm4, finish explorer2: snapshot 3 findings dirs, rename, onboarding doc and README, instance.json, render, commit, new private repo lin72h/rmx-explorer2. Then update terminology, roles, and now.md, and prepare the two Explorer onboarding ops.
