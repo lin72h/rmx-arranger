@@ -17,7 +17,7 @@ agents read only their own repo.
 | **Explorer**: explorer1 (rx-x64z), explorer2 (mx-a64z) | `rmx-explorer1` here; `rmx-explorer2` on mm4 | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper**: gatekeeper1 (rx-x64z), gatekeeper2 (mx-a64z) | `rmx-gatekeeper1` here; `rmx-gatekeeper2` on mm4 | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
 | **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
-| **Advisor**: advisor1, advisor2, advisor3 | `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` | consult of last resort: design, hypotheses, architectural ambiguity | review correctness, validate or close ops, write product source |
+| **Advisor**: advisor1–3, advisor4 (mx-a64z, macOS side) | `rmx-advisor1`–`3` here; `rmx-advisor4` on mm4 | consult of last resort: design, hypotheses, architectural ambiguity | review correctness, validate or close ops, write product source |
 
 Explorer and Gatekeeper instances are named on the "ruler" grammar in terminology §2 (for example
 `rmx-explorer-rx-x64z`). The Coordinator decides; the Arranger proposes.
@@ -78,8 +78,8 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
   `rmx-<role>N` with ids `<role>N`: `rmx-validator0` and `rmx-validator1` to `rmx-validator3`.
 - **Growing a singleton**: move `<role>0/` out to `rmx-<role>0`, rename the repo `rmx-<role>1`,
   and add `rmx-<role>2`.
-- **An instance on another host** (the Gatekeeper's and Explorer's Mac instances on mm4) exists
-  only there, and ops name its repo as `host:/path`. The Arranger keeps no copy and works on it
+- **An instance on another host** (on mm4: gatekeeper2, explorer2, and advisor4) exists only
+  there, and ops name its repo as `host:/path`. The Arranger keeps no copy and works on it
   over SSH; the Coordinator relays to its agent the same way. A plain copy of its class template
   (no `.git`) sits beside it for reading; replace it when the template changes. To re-render the
   instance, copy its `instance.json`, `.rendered.lock`, `LOCAL.md`, and rendered files into a
@@ -99,8 +99,8 @@ Every instance repo holds:
 - everything else the instance works on.
 
 Current classes also include gatekeeper0 (gatekeeper1 here, gatekeeper2 on mm4), explorer0
-(explorer1 here, explorer2 on mm4), and advisor0 (advisor1, advisor2, advisor3; the Advisor was
-called the Oracle until 2026-09-28).
+(explorer1 here, explorer2 on mm4), and advisor0 (advisor1 to advisor3 here, advisor4 on mm4; the
+Advisor was called the Oracle until 2026-09-28).
 
 ## Review and closure
 

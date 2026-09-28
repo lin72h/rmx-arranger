@@ -720,3 +720,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the commits above; the render output.
 - next: The Coordinator decides whether the Advisors get private GitHub repos like the other instances, and names each seat's model (for routing). Then Advisor onboarding.
+
+### j-20260928-019 — advisor4 added on mm4 (mx-a64z, macOS side)
+
+- time / kind: 2026-09-28T04:03:21Z / DECISION
+- outcome: Coordinator direction: add a macOS-side Advisor for difficult tasks. Created advisor4, which lives only on mm4 at /Users/linz/Local/wip-mach/rmx-advisor4 (local Git ed0a690). It is rendered from advisor0 through a temporary workspace; the rendered files on mm4 are byte-identical to the local render, and a plain copy of rmx-advisor0 sits beside it (identical, 4 files). Its seat note lets it read the macOS 27 SDK, system headers, and man pages and inspect system binaries with read-only tools; it runs no probes, since explorer2 records macOS truth. Updated roles.md (Advisor row, classes, the on-mm4 instance list), terminology.md (repo table), and now.md.
+- state delta: none.
+- evidence: mm4 rmx-advisor4 ed0a690; hash comparisons of the rendered files and the template copy.
+- next: The Coordinator decides private GitHub repos for the four Advisors and names each seat's model; then Advisor onboarding.

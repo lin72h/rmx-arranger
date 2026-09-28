@@ -79,6 +79,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
 | `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` (`rmx-oracle`, `rmx-oracle2`, `rmx-oracle3` are transitional symlinks) | none yet (local Git since 2026-09-28) | Advisors 1–3 |
+| `rmx-advisor4`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-advisor4` (a copy of `rmx-advisor0` sits beside it) | none yet (local Git since 2026-09-28) | Advisor 4 (mx-a64z, macOS side) |
 | `rmx-validator3` | none (local Git) | Validator 3 (model seated per session: luna-max, sol-medium, astra-medium, astra-max, or astra-ultra) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
