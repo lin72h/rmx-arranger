@@ -9,21 +9,22 @@ Git and the journal. Op state comes from `tools/rob board`, problem state from `
 
 ## Onboarding (in progress)
 
-The Coordinator is onboarding each role repo directly (j-20260927-007): make it an instance
-`rmx-<role>N` of a template `rmx-<role>0` (j-20260927-016), render its instructions and `OPS.md`,
-then relay a NOTICE or an onboarding op. Templates so far: `rmx-role0`, `rmx-arranger0`,
-`rmx-validator0`.
+The Coordinator is onboarding each role repo directly (j-20260927-007): give it a template and
+render its instructions and `OPS.md` (j-20260927-016/018), then relay an onboarding op.
+Singletons keep one unnumbered repo with the template inside (`rmx-arranger/arranger0/`);
+Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer1` (was `wip-gpt`, `rmx-implementer`) | onboarded; op-364 in flight; `rmx-implementer0` conversion waits for its REPORT |
+| Implementer | `rmx-implementer` (folder is `rmx-implementer1` until op-364 returns) | onboarded; op-364 in flight; then rename back and add `implementer0/` |
 | Gatekeeper | `rmx-gatekeeper` | next |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
-| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | instances of `rmx-validator0`; NOTICEs to relay |
+| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | instances of `rmx-validator0`; onboarding ops op-365, op-366, op-367 to relay |
 
-Old folder names (`wip-gpt`, `rmx-implementer`, `wip-glm`, `wip-ds4p`, `rmx-arranger`) stay as symlinks while
-anything still references them.
+Old folder names stay as symlinks while anything references them: `wip-gpt`, `wip-glm`, `wip-ds4p`,
+`rmx-arranger1`. Until op-364 returns, the Implementer's real folder is `rmx-implementer1` and
+`rmx-implementer` is the symlink; that swaps back afterwards.
 
 ## Critical path
 

@@ -52,7 +52,7 @@ class RolesTest(unittest.TestCase):
     def test_render_applies_vars_includes_blocks_and_super(self):
         self.roles("render", "rmx-thing1")
         text = self.read("rmx-thing1/AGENTS.md")
-        self.assertTrue(text.startswith("<!-- Rendered by the Arranger from rmx-thing0 for thing1."))
+        self.assertTrue(text.startswith("<!-- Rendered by the Arranger from the thing0 template for thing1."))
         self.assertIn("# rmx-thing1 — Thing 1 (thing0)", text)
         self.assertIn("Project rmxOS; strength: completeness.", text)
         self.assertIn("NOTICE rule for thing1.", text)
@@ -103,6 +103,22 @@ class RolesTest(unittest.TestCase):
         self.assertIn("unknown variable {{nope}}", self.roles("render", "rmx-thing1", ok=False).stderr)
         self.put("rmx-thing0/files/bad.md", "{{#block open}} never closed\n")
         self.assertIn("unmatched {{#block", self.roles("render", "rmx-thing1", ok=False).stderr)
+
+    def test_singleton_role_keeps_its_template_inside_its_repo(self):
+        self.put("rmx-solo/solo0/template.toml", 'parent = "role0"\n')
+        self.put("rmx-solo/solo0/files/AGENTS.md", "# {{instance}} ({{id}}, n={{n}}, template {{template}})\n")
+        self.put("rmx-solo/instance.toml", 'class = "solo0"\n')
+        self.roles("render", "rmx-solo")
+        self.assertIn("# rmx-solo (solo, n=1, template solo0/)", self.read("rmx-solo/AGENTS.md"))
+
+    def test_template_builtin_is_relative_to_the_instance(self):
+        self.put("rmx-thing0/files/where.md", "template {{template}}\n")
+        self.roles("render", "rmx-thing1")
+        self.assertIn("template ../rmx-thing0/", self.read("rmx-thing1/where.md"))
+
+    def test_a_template_in_two_places_is_an_error(self):
+        self.put("rmx-thing/thing0/template.toml", 'parent = "role0"\n')
+        self.assertIn("more than one place", self.roles("render", "rmx-thing1", ok=False).stderr)
 
     def test_symlinked_instance_folders_are_not_listed_twice(self):
         self.roles("render", "rmx-thing1")

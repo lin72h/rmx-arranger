@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """roles — render role instances from their templates.
 
-Every role is a class with a template repo `rmx-<role>0` and numbered instances `rmx-<role>N`.
-Templates chain to a root, `rmx-role0`. An instance repo holds `instance.toml` (its overrides
-only), the rendered files (never edited in place), `LOCAL.md` (its agent's own notes), and
-`.rendered.lock` (hashes of what was rendered, so local edits are never overwritten).
+Every role is a class with a template and instances. A role with one instance is one repo,
+`rmx-<role>`, with its template inside it in `<role>0/`; a role with several instances has a
+template repo `rmx-<role>0` and numbered instances `rmx-<role>N`. Templates chain to a root,
+`rmx-role0`. An instance repo holds `instance.toml` (its overrides only), the rendered files
+(never edited in place), `LOCAL.md` (its agent's own notes), and `.rendered.lock` (digests of what
+was rendered, so local edits are never overwritten).
 
   roles list                          instances, their template chain, and render status
   roles diff INSTANCE                 what `render` would change
@@ -13,13 +15,15 @@ only), the rendered files (never edited in place), `LOCAL.md` (its agent's own n
                                       once, --force overwrites local edits (both are rare)
   roles check                         exit 1 if any instance is stale or has local edits
 
-INSTANCE is a folder name such as rmx-validator1, or `all`.
+INSTANCE is a folder name such as rmx-arranger or rmx-validator1, or `all`.
 
 Template syntax, applied in this order:
   {{> name}}                          include partials/name.md (most derived template first)
   {{#block name}}default{{/block}}    a block; template.toml or instance.toml may override it
                                       under [blocks], and {{super}} inserts the overridden text
-  {{var}}                             a variable from [vars]; built-ins: instance, id, n, class
+  {{var}}                             a variable from [vars]; built-ins: instance (folder), id
+                                      (arranger, validator2), n (1 for a singleton), class, and
+                                      template (the template's path relative to the instance)
 """
 import difflib
 import hashlib
@@ -27,7 +31,6 @@ import json
 import os
 import pathlib
 import re
-import subprocess
 import sys
 import tomllib
 
@@ -62,10 +65,16 @@ def load_toml(path):
 
 
 def template_dir(cls):
-    d = WORKSPACE / f"rmx-{cls}"
-    if not (d / "template.toml").is_file():
-        raise RoleError(f"template {cls}: no {d}/template.toml")
-    return d
+    """rmx-<cls> for the root and for roles with several instances; rmx-<role>/<cls> inside a
+    singleton role's repo."""
+    role = cls[:-1] if cls.endswith("0") else cls
+    found = {d.resolve() for d in (WORKSPACE / f"rmx-{cls}", WORKSPACE / f"rmx-{role}" / cls)
+             if (d / "template.toml").is_file()}
+    if not found:
+        raise RoleError(f"template {cls}: no rmx-{cls}/template.toml or rmx-{role}/{cls}/template.toml")
+    if len(found) > 1:
+        raise RoleError(f"template {cls}: found in more than one place: {sorted(map(str, found))}")
+    return found.pop()
 
 
 def chain_for(instance_dir):
@@ -87,10 +96,11 @@ def chain_for(instance_dir):
     return inst["class"], chain
 
 
-def builtins(instance_dir, cls):
+def builtins(instance_dir, cls, class_dir):
     ident = instance_dir.name.removeprefix("rmx-")
     m = re.search(r"(\d+)$", ident)
-    return {"instance": instance_dir.name, "id": ident, "n": m.group(1) if m else "", "class": cls}
+    return {"instance": instance_dir.name, "id": ident, "n": m.group(1) if m else "1", "class": cls,
+            "template": os.path.relpath(class_dir, instance_dir.resolve()) + "/"}
 
 
 def render_text(text, chain, variables, where, depth=0):
@@ -131,7 +141,7 @@ def outputs(instance_dir):
     variables = {}
     for t in chain:
         variables.update(t["vars"])
-    variables.update(builtins(instance_dir, cls))
+    variables.update(builtins(instance_dir, cls, chain[-2]["dir"]))
     files = {}
     for t in chain[:-1]:
         root = t["dir"] / "files"
@@ -143,7 +153,7 @@ def outputs(instance_dir):
     for rel, (t, p) in sorted(files.items()):
         body = render_text(p.read_text(), chain, variables, f"{p}")
         if rel.endswith(".md"):
-            body = (f"<!-- Rendered by the Arranger from rmx-{cls} for {variables['id']}. "
+            body = (f"<!-- Rendered by the Arranger from the {cls} template for {variables['id']}. "
                     f"Do not edit; keep your own notes in LOCAL.md. -->\n" + body)
         out[rel] = body
     return cls, chain, out
@@ -174,9 +184,14 @@ def status(instance_dir):
     return cls, chain, out, stale, drifted, unmanaged
 
 
-def commit_of(d):
-    r = subprocess.run(["git", "-C", str(d), "rev-parse", "HEAD"], capture_output=True, text=True)
-    return r.stdout.strip() if r.returncode == 0 else None
+def digest_of(d):
+    """Content digest of a template (template.toml, files/, partials/): what was rendered from."""
+    h = hashlib.sha256()
+    for p in sorted(d.rglob("*")):
+        rel = p.relative_to(d)
+        if p.is_file() and (rel.parts[0] in ("files", "partials") or str(rel) == "template.toml"):
+            h.update(str(rel).encode() + b"\0" + p.read_bytes() + b"\0")
+    return h.hexdigest()
 
 
 def instances(args):
@@ -232,7 +247,8 @@ def cmd_render(args):
             p.write_text(out[rel])
         old = read_lock(d)["files"]
         lock = {"class": cls,
-                "chain": [{"template": f"rmx-{t['name']}", "commit": commit_of(t["dir"])} for t in chain[:-1]],
+                "chain": [{"template": os.path.relpath(t["dir"], WORKSPACE.resolve()), "digest": digest_of(t["dir"])}
+                          for t in chain[:-1]],
                 "files": {rel: sha(body) for rel, body in out.items()}}
         (d / LOCK).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
         if not (d / "LOCAL.md").exists():

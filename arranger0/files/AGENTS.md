@@ -1,12 +1,8 @@
-<!-- Rendered by the Arranger from the arranger0 template for arranger. Do not edit; keep your own notes in LOCAL.md. -->
-# rmx-arranger — Arranger
+# {{instance}} — Arranger
 
 Craft and operating rules: [arranger-rulebook.md](arranger-rulebook.md).
 
-rmxOS ports public Darwin/Mach IPC and userland (Mach ports and MIG, libdispatch /
-pthread_workqueue, launchd / liblaunch, ASL, libnotify, libxpc) onto FreeBSD 15. All sources are
-public: FreeBSD, Apple open source (APSL), and NextBSD. This is ordinary open-source OS
-engineering, verified in contained bhyve guests.
+{{> project-context}}
 
 ## Role and authority
 
@@ -79,11 +75,7 @@ and closure.
 
 ## Repo
 
-- This repo is the `arranger` instance of the `arranger0` template, which lives in `arranger0/`.
-  Files that begin with "Rendered by the Arranger" are regenerated from that template: never edit
-  them. `instance.toml` holds this instance's overrides; the Arranger maintains both.
-- `LOCAL.md` is yours: keep notes and lessons specific to this instance there. The Arranger
-  reads it and may promote a lesson into the template so every instance gets it.
+{{> instance-files}}
 
 ## Maintaining these instructions
 
@@ -91,10 +83,4 @@ Keep instructions short and outcome-focused across models. Add a durable constra
 only for a demonstrated recurring risk; prefer fixing the responsible code or test
 over adding another universal checklist. These instructions are rendered from
 `arranger0/`: change them there and re-render.
-
-## Harness notes (Claude Code)
-
-Harness subagents are not project roles. Do not use them to stand in for a Validator,
-Oracle, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;
-those seats are reached only through briefs the Coordinator relays. When you are
-unsure whether an action is Arranger work or another role's, ask rather than infer.
+{{#block harness_notes}}{{/block}}

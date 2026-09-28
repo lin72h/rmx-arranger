@@ -12,8 +12,8 @@ agents read only their own repo.
 | Role | Repo | Does | Does not |
 |---|---|---|---|
 | **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
-| **Arranger** (arranger1; holds the **Arbiter** seat) | `rmx-arranger1` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
-| **Implementer** (implementer1) | `rmx-implementer1` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
+| **Arranger** (holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
+| **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
 | **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
 | **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
@@ -67,11 +67,19 @@ defaults, and the REPORT block), so a brief carries only what is specific to its
 
 ## Templates and instances
 
-Source: Coordinator, 2026-09-28 (j-20260927-016). Every role is a class. Its template repo
-`rmx-<role>0` holds the role's standing text, and `rmx-role0` is the root template holding text
-every role shares (project context, the NOTICE rule, the REPORT block, the evidence limits).
-Instances are numbered repos `rmx-<role>N`, even when a role has one (the Arranger is
-`arranger1`), so a second instance is just another number. An instance repo holds:
+Source: Coordinator, 2026-09-28 (j-20260927-016, singleton layout j-20260927-018). Every role is a
+class with a template (its standing text) and instances; `rmx-role0` is the root template with
+text every role shares (project context, the NOTICE rule, the REPORT block, the evidence limits).
+
+- **A role with one instance** is one repo with no number, `rmx-<role>`. The repo is the instance
+  (implicitly instance 1, id `<role>`), and its template lives inside it in `<role>0/`:
+  `rmx-arranger/arranger0/`, and `rmx-implementer/implementer0/` once op-364 returns.
+- **A role with several instances** has a template repo `rmx-<role>0` and numbered instance repos
+  `rmx-<role>N` with ids `<role>N`: `rmx-validator0` and `rmx-validator1` to `rmx-validator3`.
+- **Growing a singleton**: move `<role>0/` out to `rmx-<role>0`, rename the repo `rmx-<role>1`,
+  and add `rmx-<role>2`.
+
+Every instance repo holds:
 
 - `instance.toml`: only what differs from the template (variables and block overrides),
   maintained by the Arranger;
@@ -79,13 +87,11 @@ Instances are numbered repos `rmx-<role>N`, even when a role has one (the Arrang
   are regenerated with `tools/roles`, never edited in place;
 - `LOCAL.md`: the agent's own notes and lessons, which the Arranger may promote into the
   template;
-- `.rendered.lock`: hashes that stop a render from overwriting local edits;
+- `.rendered.lock`: digests that stop a render from overwriting local edits;
 - everything else the instance works on.
 
-Adding an instance means writing `rmx-<role>N/instance.toml` and rendering it. Current classes:
-arranger0 (arranger1), validator0 (validator1, validator2, validator3), and implementer0
-(implementer1, converted after op-364 returns). Gatekeeper, Explorer, and Oracle get theirs when
-they are onboarded (oracle, oracle2, oracle3 become oracle1 to oracle3).
+Gatekeeper, Explorer, and Oracle get theirs when they are onboarded (oracle, oracle2, oracle3
+become `rmx-oracle0` plus `rmx-oracle1` to `rmx-oracle3`).
 
 ## Review and closure
 

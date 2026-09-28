@@ -472,3 +472,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-364 draft → issued (it is in flight).
 - evidence: commits above; `tools/roles check` reports 4 instances, 0 needing attention; procstat showed codex with cwd in rmx-implementer at 13:38.
 - next: Relay the Implementer NOTICE (folder renamed) and the Validator NOTICEs; convert the Implementer after op-364 returns.
+
+### j-20260927-018 — singleton roles: one unnumbered repo with the template inside
+
+- time / kind: 2026-09-28T00:55:19Z / DECISION
+- outcome: Coordinator refines j-20260927-016 to cut noise for singleton roles. A role with one instance is one repo with no number (`rmx-arranger`, `rmx-implementer`). The repo is the instance (implicitly instance 1, id `arranger`), and its template lives in a subdirectory (`arranger0/`), kept for consistency and for growth to several instances. Roles with several instances keep `rmx-<role>0` plus `rmx-<role>N` (Validators). Growing a singleton means moving `<role>0/` out to `rmx-<role>0` and renaming the repo `rmx-<role>1`.
+- state delta: none.
+- evidence: Coordinator message in chat.
+- next: see j-20260927-019.
+
+### j-20260927-019 — Arranger converted to the singleton layout; Validators re-rendered
+
+- time / kind: 2026-09-28T00:55:19Z / ACTION
+- outcome: tools/roles now finds a template at `rmx-<cls>` or inside a singleton at `rmx-<role>/<cls>` (an error if both exist), gives an unnumbered instance n=1 and id `<role>`, adds a `template` built-in (the template's path from the instance), and locks template content digests instead of Git commits (10 tests). The standalone rmx-arranger0 (one commit, `a009361`) moved into `rmx-arranger/arranger0/` and was deleted after a byte-for-byte check. rmx-arranger1 was renamed back to rmx-arranger, with rmx-arranger1 kept as a transitional symlink, and rendered as `arranger`. The root partial instance-files now names the template location (rmx-role0 `d552b15`). Validators 1 to 3 were re-rendered (`a67c438`, `97bbca3`, `bcb7cb8`); only an idle zsh was open in rmx-validator1 and no agent was running. The Implementer's rename back to rmx-implementer and its `implementer0/` template wait for op-364's REPORT.
+- state delta: op-364 names updated to implementer / rmx-implementer (still issued).
+- evidence: `tools/roles check` reports 4 instances, 0 needing attention; commits above.
+- next: Relay op-365, op-366, op-367; convert the Implementer after op-364 returns.

@@ -1,4 +1,3 @@
-<!-- Rendered by the Arranger from the arranger0 template for arranger. Do not edit; keep your own notes in LOCAL.md. -->
 # Arranger Rulebook
 
 Status: the craft-discipline store for the **Arranger** seat (whichever model holds it): *how to

@@ -1,0 +1,2 @@
+# rmx-arranger0: template for every Arranger instance (rmx-arranger1, ...).
+parent = "role0"

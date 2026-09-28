@@ -8,8 +8,7 @@ REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form con
 
 - **Each role repo's `OPS.md`** is that role's standing op contract: what a brief contains, the
   defaults that apply unless a brief says otherwise, and the REPORT block. It is rendered from the
-  role's template `rmx-<role>0` (roles.md § Templates and instances), and the role's `AGENTS.md`
-  links it.
+  role's template (roles.md § Templates and instances), and the role's `AGENTS.md` links it.
 - **The brief** carries only what is specific to its op. Never repeat the defaults or the REPORT
   block in it.
 - Until a role repo has an `OPS.md`, add that role's defaults and the REPORT block to the brief.
@@ -21,8 +20,8 @@ REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form con
 ```yaml
 id: op-NNN
 state: draft
-agent: <instance id, e.g. implementer1 or validator2>
-repo: <the exact repo the deliverable lands in, e.g. rmx-implementer1; the agent must own it>
+agent: <instance id: implementer for a singleton, validator2 for a numbered instance>
+repo: <the exact repo the deliverable lands in, e.g. rmx-implementer; the agent must own it>
 idq: <id-NNN this op serves>
 needs: [<op-NNN>, ...]        # optional
 gate: self | validator | both  # expected review size; S/M self, L one, XL/critical-path both
