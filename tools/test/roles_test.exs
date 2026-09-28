@@ -128,6 +128,43 @@ defmodule RolesTest do
     assert elem(roles(ctx, ["render", "rmx-thing1"], ok: false), 0) =~ "more than one place"
   end
 
+  defp remote_instance(ctx) do
+    remote = Path.join(ctx.ws, "far-host/rmx-thing2")
+    put(ctx, "rmx-thing2/instance.json", ~s({"class": "thing0", "remote": "#{remote}"}))
+    roles(ctx, ["render", "rmx-thing2"])
+    remote
+  end
+
+  test "sync copies a remote instance's files and creates LOCAL.md only once", ctx do
+    remote = remote_instance(ctx)
+    assert elem(roles(ctx, ["sync", "rmx-thing2"]), 0) =~ "(LOCAL.md created)"
+    assert File.read!(Path.join(remote, "AGENTS.md")) == read(ctx, "rmx-thing2/AGENTS.md")
+    assert File.regular?(Path.join(remote, "instance.json"))
+    File.write!(Path.join(remote, "LOCAL.md"), "remote notes\n")
+    roles(ctx, ["sync", "rmx-thing2"])
+    assert File.read!(Path.join(remote, "LOCAL.md")) == "remote notes\n"
+  end
+
+  test "sync refuses to overwrite a rendered file edited on the remote", ctx do
+    remote = remote_instance(ctx)
+    roles(ctx, ["sync", "rmx-thing2"])
+    File.write!(Path.join(remote, "AGENTS.md"), "edited over there\n")
+    assert elem(roles(ctx, ["sync", "rmx-thing2"], ok: false), 0) =~ "edited on"
+    assert File.read!(Path.join(remote, "AGENTS.md")) == "edited over there\n"
+    roles(ctx, ["sync", "rmx-thing2", "--force"])
+    assert File.read!(Path.join(remote, "AGENTS.md")) =~ "Thing 2"
+  end
+
+  test "check reports a mirror rendered but not synced", ctx do
+    remote_instance(ctx)
+    roles(ctx, ["render", "rmx-thing1"])
+    {out, code} = roles(ctx, ["check"], ok: false)
+    assert code == 1
+    assert out =~ "rmx-thing2: not synced"
+    roles(ctx, ["sync", "rmx-thing2"])
+    assert elem(roles(ctx, ["check"]), 0) =~ "0 need attention"
+  end
+
   test "symlinked instance folders are not listed twice", ctx do
     roles(ctx, ["render", "rmx-thing1"])
     File.ln_s!("rmx-thing1", Path.join(ctx.ws, "rmx-oldname"))

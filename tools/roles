@@ -23,9 +23,20 @@ defmodule Roles do
     roles render INSTANCE... [--adopt] [--force]
                                         write rendered files; --adopt takes over existing files
                                         once, --force overwrites local edits (both are rare)
-    roles check                         exit 1 if any instance is stale or has local edits
+    roles check                         exit 1 if any instance is stale, has local edits, or is
+                                        a remote mirror not yet synced
+    roles sync INSTANCE... [--adopt] [--force]
+                                        copy a remote instance's rendered files from its local
+                                        mirror to the host in its "remote" ("host:/path"); never
+                                        overwrites the remote LOCAL.md
 
   INSTANCE is a folder name such as rmx-arranger or rmx-validator1, or `all`.
+
+  An instance on another host has "remote" in its instance.json; its folder here is the
+  Arranger's mirror. Render into the mirror, then `sync`. Extra ssh options come from the
+  ROLES_SSH_OPTS environment variable. `sync` refuses to overwrite a rendered file that was
+  edited on the remote since the last sync (`--force` overrides) or that it never synced
+  (`--adopt` takes it over once).
 
   Template syntax, applied in this order:
     {{> name}}                          include partials/name.md (most derived template first)
@@ -39,6 +50,7 @@ defmodule Roles do
   """
 
   @lock ".rendered.lock"
+  @synced ".synced.json"
   @local_stub """
   # LOCAL.md — notes for this instance
 
@@ -302,9 +314,12 @@ defmodule Roles do
       {_cls, chain, out, stale, drifted, unmanaged} = status(d)
       names = Enum.map_join(chain, " -> ", & &1.name)
 
+      pending = unsynced(d)
+
       state =
         cond do
           drifted != [] -> "local edits: " <> Enum.join(drifted, ", ")
+          pending != [] and stale == [] and unmanaged == [] -> "not synced to #{remote_of(d)}: " <> Enum.join(pending, ", ")
           unmanaged != [] -> "unmanaged: " <> Enum.join(unmanaged, ", ")
           stale != [] -> "stale: " <> Enum.join(stale, ", ")
           true -> "up to date"
@@ -400,7 +415,8 @@ defmodule Roles do
     bad =
       for d <- all,
           {_, _, _, stale, drifted, unmanaged} <- [status(d)],
-          {kind, paths} <- [{"local edits", drifted}, {"unmanaged", unmanaged}, {"stale", stale}],
+          {kind, paths} <- [{"local edits", drifted}, {"unmanaged", unmanaged}, {"stale", stale},
+                            {"not synced", unsynced(d)}],
           paths != [] do
         IO.puts("#{Path.basename(d)}: #{kind}: #{Enum.join(paths, ", ")}")
       end
@@ -409,7 +425,138 @@ defmodule Roles do
     if bad == [], do: 0, else: 1
   end
 
-  @commands %{"list" => :list, "diff" => :diff, "render" => :render, "check" => :check}
+  # ---- remote instances -------------------------------------------------------------------
+
+  defp remote_of(d), do: load_json(Path.join(d, "instance.json"))["remote"]
+
+  defp target(remote) do
+    case Regex.run(~r/^([^\/:][^:]*):(\/.*)$/, remote) do
+      [_, host, path] -> {:ssh, host, path}
+      _ -> {:local, remote}
+    end
+  end
+
+  defp shq(s), do: "'" <> String.replace(s, "'", "'\\''") <> "'"
+
+  defp ssh_opts do
+    extra = (System.get_env("ROLES_SSH_OPTS") || "") |> String.split(" ", trim: true)
+    ["-o", "BatchMode=yes"] ++ extra
+  end
+
+  defp remote_hashes({:local, root}, files) do
+    Map.new(files, fn f ->
+      p = Path.join(root, f)
+      {f, if(File.regular?(p), do: sha(File.read!(p)), else: nil)}
+    end)
+  end
+
+  defp remote_hashes({:ssh, host, root}, files) do
+    loop = Enum.map_join(files, " ", &shq/1)
+
+    script =
+      "cd #{shq(root)} 2>/dev/null || exit 0; for f in #{loop}; do " <>
+        "if [ -f \"$f\" ]; then printf '%s %s\\n' \"$(shasum -a 256 < \"$f\" | cut -d' ' -f1)\" \"$f\"; fi; done"
+
+    case System.cmd("ssh", ssh_opts() ++ [host, script], stderr_to_stdout: true) do
+      {out, 0} ->
+        found =
+          for line <- String.split(out, "\n", trim: true), [h, f] <- [String.split(line, " ", parts: 2)],
+              into: %{}, do: {f, h}
+
+        Map.new(files, &{&1, found[&1]})
+
+      {out, code} ->
+        die("#{host}: ssh failed (exit #{code}): #{String.trim(out)}")
+    end
+  end
+
+  defp push({:local, root}, mirror, files) do
+    for f <- files do
+      dest = Path.join(root, f)
+      File.mkdir_p!(Path.dirname(dest))
+      File.cp!(Path.join(mirror, f), dest)
+    end
+  end
+
+  defp push({:ssh, host, root}, mirror, files) do
+    remote_cmd = "mkdir -p #{shq(root)} && tar -C #{shq(root)} -xf -"
+
+    cmd =
+      "tar -C #{shq(mirror)} -cf - #{Enum.map_join(files, " ", &shq/1)} | ssh " <>
+        Enum.map_join(ssh_opts(), " ", &shq/1) <> " #{shq(host)} #{shq(remote_cmd)}"
+
+    case System.shell(cmd, stderr_to_stdout: true) do
+      {_, 0} -> :ok
+      {out, code} -> die("#{host}: copy failed (exit #{code}): #{String.trim(out)}")
+    end
+  end
+
+  defp read_synced(d) do
+    p = Path.join(d, @synced)
+    if File.regular?(p), do: load_json(p), else: %{"files" => %{}}
+  end
+
+  # Rendered files whose mirror copy differs from what was last synced to the remote.
+  defp unsynced(d) do
+    case remote_of(d) do
+      nil ->
+        []
+
+      _ ->
+        synced = read_synced(d)["files"] || %{}
+
+        for rel <- Map.keys(read_lock(d)["files"] || %{}), p <- [Path.join(d, rel)],
+            not File.regular?(p) or synced[rel] != sha(File.read!(p)),
+            do: rel
+    end
+  end
+
+  def sync(args) do
+    {flags, names} = Enum.split_with(args, &String.starts_with?(&1, "--"))
+    adopt = "--adopt" in flags
+    force = "--force" in flags
+    targets = instances(if names == [], do: ["all"], else: names) |> Enum.filter(&remote_of/1)
+
+    for d <- targets do
+      name = Path.basename(d)
+      remote = remote_of(d)
+      tgt = target(remote)
+      rendered = read_lock(d)["files"] || die("#{name}: render it before syncing")
+      files = Enum.sort(Map.keys(rendered)) ++ ["instance.json", @lock]
+      synced = read_synced(d)["files"] || %{}
+      now = remote_hashes(tgt, files ++ ["LOCAL.md"])
+
+      drifted =
+        for f <- Map.keys(rendered), r <- [now[f]], r != nil, Map.has_key?(synced, f),
+            r != synced[f], r != rendered[f], do: f
+
+      unmanaged =
+        for f <- Map.keys(rendered), r <- [now[f]], r != nil, not Map.has_key?(synced, f),
+            r != rendered[f], do: f
+
+      if drifted != [] and not force,
+        do: die("#{name}: rendered files edited on #{remote}: #{Enum.join(Enum.sort(drifted), ", ")} " <>
+                  "(merge them into the template or LOCAL.md; --force overwrites)")
+
+      if unmanaged != [] and not (adopt or force),
+        do: die("#{name}: files on #{remote} differ from the render: #{Enum.join(Enum.sort(unmanaged), ", ")} " <>
+                  "(inspect them, then --adopt)")
+
+      local_new = now["LOCAL.md"] == nil and File.regular?(Path.join(d, "LOCAL.md"))
+      push(tgt, d, if(local_new, do: files ++ ["LOCAL.md"], else: files))
+
+      record = %{"remote" => remote,
+                 "files" => Map.new(files, &{&1, sha(File.read!(Path.join(d, &1)))})}
+
+      File.write!(Path.join(d, @synced), pretty(record) <> "\n")
+      IO.puts("#{name}: synced #{length(files)} files to #{remote}" <> if(local_new, do: " (LOCAL.md created)", else: ""))
+    end
+
+    0
+  end
+
+  @commands %{"list" => :list, "diff" => :diff, "render" => :render, "check" => :check,
+              "sync" => :sync}
 
   def main([cmd | args]) when is_map_key(@commands, cmd) do
     code =

@@ -70,10 +70,11 @@ instances). Roles not yet onboarded keep their old names until they are.
 | Local workspace | Upstream | Role |
 |---|---|---|
 | `rmx-arranger` (template in `arranger0/`; `rmx-arranger1` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `rmx-role0`, `rmx-validator0` | none (local Git) | templates |
+| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0` | none (local Git) | templates |
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
-| `rmx-gatekeeper` | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper |
+| `rmx-gatekeeper1` (`rmx-gatekeeper` is a transitional symlink) | `git@github.com:lin72h/rmx-gatekeeper.git` | Gatekeeper 1 (rx-x64z) |
+| `rmx-gatekeeper2` here: the Arranger's mirror; live on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink) | `git@github.com:lin72h/mach-oracle.git` (on mm4) | Gatekeeper 2 (mx-a64z) |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
 | `rmx-oracle` | none (not a Git repo) | Oracle |
@@ -188,6 +189,7 @@ Older records keep their original words; read them with these maps.
 | `wip-glm`, `wip-ds4p` (Validator folders) | `rmx-validator1`, `rmx-validator2` | 2026-09-28 |
 | `rmx-arranger1`, `rmx-arranger0` (briefly) | `rmx-arranger` with its template in `arranger0/` | 2026-09-28 |
 | `rmx-implementer1` (briefly) | `rmx-implementer` with its template in `implementer0/` | 2026-09-28 |
+| `rmx-gatekeeper`; `mach-oracle` on mm4 (legacy unified Oracle) | `rmx-gatekeeper1`; `rmx-gatekeeper2` on mm4 | 2026-09-28 |
 | each agent edits its own copy of shared text | template + `LOCAL.md`, rendered by `tools/roles` | 2026-09-28 |
 | Python tools and tests, TOML config | Elixir tools (`tools/rob`, `tools/roles`) with ExUnit tests, JSON config | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |

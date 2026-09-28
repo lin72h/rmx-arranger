@@ -17,8 +17,8 @@ Validators use `rmx-validator0` plus numbered instances.
 | Role | Repo | Status |
 |---|---|---|
 | Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368/op-369 return, so nothing moves under a review |
-| Gatekeeper | `rmx-gatekeeper` | next |
-| Explorer | `rmx-explorer` | pending |
+| Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (mm4) | converted; onboarding ops to relay |
+| Explorer | `rmx-explorer` (here and on mm4) | pending |
 | Oracle | `rmx-oracle` | pending |
 | Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | onboarded and calibrated (op-365, op-366, op-367 closed) |
 

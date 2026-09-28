@@ -15,7 +15,7 @@ agents read only their own repo.
 | **Arranger** (holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
 | **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
 | **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
-| **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
+| **Gatekeeper**: gatekeeper1 (rx-x64z), gatekeeper2 (mx-a64z) | `rmx-gatekeeper1` here; `rmx-gatekeeper2` on mm4 | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
 | **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
 | **Oracle** | `rmx-oracle` | consult: design, hypotheses, architectural ambiguity | validate or close ops |
 
@@ -78,6 +78,10 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
   `rmx-<role>N` with ids `<role>N`: `rmx-validator0` and `rmx-validator1` to `rmx-validator3`.
 - **Growing a singleton**: move `<role>0/` out to `rmx-<role>0`, rename the repo `rmx-<role>1`,
   and add `rmx-<role>2`.
+- **An instance on another host** (the Gatekeeper's and Explorer's Mac instances on mm4) has
+  `"remote": "host:/path"` in its `instance.json`; its folder here is the Arranger's mirror.
+  Render into the mirror, then `tools/roles sync` copies the rendered files over SSH. Sync never
+  overwrites the remote `LOCAL.md` and refuses to overwrite a rendered file edited there.
 
 Every instance repo holds:
 
@@ -90,8 +94,9 @@ Every instance repo holds:
 - `.rendered.lock`: digests that stop a render from overwriting local edits;
 - everything else the instance works on.
 
-Gatekeeper, Explorer, and Oracle get theirs when they are onboarded (oracle, oracle2, oracle3
-become `rmx-oracle0` plus `rmx-oracle1` to `rmx-oracle3`).
+Current classes also include gatekeeper0 (gatekeeper1 here, gatekeeper2 on mm4). The Explorer
+(an rx instance here and an mx instance on mm4) and the Oracle (oracle, oracle2, oracle3) get
+theirs when they are onboarded.
 
 ## Review and closure
 
