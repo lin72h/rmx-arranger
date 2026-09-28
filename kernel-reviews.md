@@ -30,7 +30,7 @@ Validator on a different model.
 **op-393 (advisor1, 2026-09-29)** covered most of the unreached areas: 5 new main findings
 (N1-N5, including launchd's 53x timebase and task calls acting on the caller), 3 firm-ups and 1
 retraction. Still not reached: the host_priv and mach_host routine bodies, task_info/task_threads,
-and the other vm_map server routines.
+and the other vm_map server routines. Tracked, with S1's open check, as id-052 (high).
 
 **Originally not reached by either:** `mach_clock.c` and `clock_server.c`, `mach_semaphore.c`,
 `ipc_kobject.c` and the MIG dispatch, `ipc_space.c`, `ipc_notify.c`, and the trap argument path.

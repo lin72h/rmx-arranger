@@ -1014,3 +1014,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-393 draft → issued → returned → closed.
 - evidence: `git show 2884304b` of mach_clock.c:112-121, mach_misc.c:186-197, runtime.c:1508-1515, core.c:4474-4479 and ipc_tt.c:870-882.
 - next: advisor2 resumes op-387 (libdispatch) when its account is back.
+
+### j-20260929-002 — id-052 raised (high): the Mach review remainder
+
+- time / kind: 2026-09-29T00:40:00Z / DECISION
+- outcome: The Coordinator put what remains of the Mach review into the IDQ at priority high. id-052 covers the host_priv and mach_host routine bodies, task_info and task_threads, and the other vm_map server routines, which no review has read. It also carries S1's open check: the file:line of the first lock in the logged ETAP_IPC_RPC → ETAP_IPC_IS reversal. It is high because N5 showed that the task-level routines were never really exercised. Linked from kernel-reviews.md.
+- state delta: id-052 created (high).
+- evidence: none new.
+- next: none.
