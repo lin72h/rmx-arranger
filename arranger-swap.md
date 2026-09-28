@@ -920,3 +920,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-390 issued → returned → closed; op-388 returned → closed; op-279 hold → dropped; op-280 needs op-391; op-391 created as draft.
 - evidence: sha256 of the op-388 artifacts and image; `git branch -r --contains dd78a31`; `nm` and `file` of the op-364 staged launchd; the /boot/RMXOS-RELEASE module listing; `git ls-tree be1a3fb`.
 - next: Present op-391 with its authority for the Coordinator's decision.
+
+### j-20260928-044 — op-391 sent; op-389 consumed (Mach deep dive): id-046; op-387 rewritten and released
+
+- time / kind: 2026-09-28T08:20:00Z / RETURN
+- outcome: op-391 relayed. advisor2 returned op-389: 14 confirmed Mach defects and 1 suspect, 294 lines, rmx-advisor2 2f6c337, nearly all inherited from NextBSD. The Arranger traced 3, 2, 4, 5, 9, 12 and 13 at 2884304b; each holds as stated. Finding 3 is a user-triggerable panic: `mach_fileops` has no fo_poll or fo_ioctl, and poll(2) calls through NULL. Answering advisor2's "next": the op-364 mach.ko is a standalone module build with an empty opt_global.h (build-mach-module.log) and carries no assertion strings, while the kernel does. So finding 1 and the assertion in 11 are latent in the shipped build, and the module does not share the kernel's options. No HZ override exists, so a bhyve guest runs hz=100 (finding 10). Recorded as id-046, with a proposed fix batch that can run alongside op-391. Closed op-389 (gate self; local repo). Much more useful than op-383: every finding is a concrete failure with a check. Fetched Apple libdispatch-442.1.4 read-only to /Users/me/wip-mach/reference/ (the rmxOS tree is 442.1.4 plus three FreeBSD shim files). Rewrote op-387 in op-389's findings-only form and moved it from hold to draft.
+- state delta: op-391 draft → issued; op-389 issued → returned → closed; op-387 hold → draft (rewritten); id-046 created.
+- evidence: `git show 2884304b` of ipc_entry.c, sys_generic.c, file.h, mach_msg.c, ipc_tt.c, ipc_pset.c, mach_thread.c and the conf files; `strings` of the op-364 kernel and mach.ko; logs/build-mach-module.log; `git ls-remote` of the libdispatch tag.
+- next: Present op-387; the Coordinator decides the id-046 fix batch and its preview gating.
