@@ -544,3 +544,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-044 raised (WAITING).
 - evidence: Coordinator message in chat; rob-mini-format.md; arranger-rulebook.md Rule 5; idq/id-044.
 - next: Relay op-368 and op-369.
+
+### j-20260927-027 — op-368 and op-369 sent: both default Validators review op-364
+
+- time / kind: 2026-09-28T01:44:27Z / ISSUE
+- outcome: The Coordinator relayed op-368 (validator1) and op-369 (validator2), concurrent independent reviews of op-364 under no-lock-git, own-scratch, and independence limits. op-364 closes only if both reach 8 or more and agree, and its commits are on origin.
+- state delta: op-368 and op-369 draft → issued.
+- evidence: Coordinator message in chat.
+- next: Wait for both REPORTs; meanwhile nothing touches rmx-implementer build/op364, the alpha2 worktree, or the Implementer folder.

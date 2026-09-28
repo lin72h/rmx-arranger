@@ -1,12 +1,12 @@
 ---
 id: op-368
-state: draft
+state: issued
 agent: validator1
 repo: rmx-validator1
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T01:36Z
+updated: 2026-09-28T01:44Z
 ---
 # op-368 — Validator 1: review op-364 (alpha2 profile commit, mach.ko rebuild, new image)
 
