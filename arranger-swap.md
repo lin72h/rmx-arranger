@@ -896,3 +896,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-388 draft → issued; op-383 issued → returned → closed; op-387 hold → draft.
 - evidence: rmx-advisor2 433838e; `git show 2884304b` of syscalls.master and mach_module.c; sha256 of the two cited files.
 - next: Present op-387.
+
+### j-20260928-041 — Mach deep dive (op-389) ahead of libdispatch
+
+- time / kind: 2026-09-28T07:21:07Z / DECISION
+- outcome: The Coordinator questioned op-383's value and wants to go deep on the Mach kernel integration: XNU Mach ported by NextBSD onto FreeBSD 12.0, revived on stable/15. The Arranger's assessment of op-383: a few concrete verified finds (syscall-number headroom, the load-failure unwind, overstated public calls, the lifetime risk surface, a reusable replay list), with much of the rest restatement and process; the audit-shaped brief invited that. For the deep dive: the pristine NextBSD 12.0 tree is at /Users/me/wip-mach/nx/NextBSD-NextBSD-CURRENT; releng/12.0 is in wip-rmxos; the rmxOS import snapshot is 8c6a1c15 (Upstream-Base e4f02a72); fetched a public shallow XNU xnu-12377.121.6 (ac9718f, read-only, 24 MB) to /Users/me/wip-mach/reference/. Drafted op-389 (advisor2): findings only, ranked, each with the assumption, rmxOS and NextBSD lines, the stable/15 or XNU truth, the failure, confidence, and the smallest confirming check; under about 300 lines. op-387 now needs op-389.
+- state delta: op-389 created as draft; op-387 needs op-389.
+- evidence: `git log` of sys/compat/mach; the NextBSD newvers REVISION 12.0; the xnu clone.
+- next: Present op-389.
