@@ -1,12 +1,12 @@
 ---
 id: op-389
-state: draft
+state: issued
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T07:21Z
+updated: 2026-09-28T07:24Z
 ---
 # op-389 — Advisor 2: deep dive — Mach's FreeBSD 12 assumptions revived on stable/15
 
