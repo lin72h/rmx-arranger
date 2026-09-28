@@ -1,12 +1,12 @@
 ---
 id: op-367
-state: draft
+state: closed
 agent: validator3
 repo: rmx-validator3
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T00:46Z
+updated: 2026-09-28T01:27Z
 ---
 # op-367 — Validator 3: onboarding with a calibration review of op-363
 

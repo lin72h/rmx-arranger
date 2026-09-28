@@ -29,7 +29,14 @@ promote a lesson into the template so every instance gets it.
   `wip-gpt/freebsd-src-stable-15`); the set of six is correct. Format slip: duplicated `REPORT`
   line.
 
-## Held until op-365 and op-367 return (avoids editing under a live review and leaking answers)
+- **validator3 (op-367, model tier not stated): met the key on the decisive point.** Claim 3 fails;
+  it separated the source-tree check (holds for every alias) from the objdir paths (only via
+  `wip-gpt`). Verdict DO-NOT-CLOSE (accepted by the key), score 9 (fits the direct evidence).
+  Every hash verified, including the objdir kernel `b8f3f8a7…` and `mach.ko` `9c7706a3…`; its
+  "commit sha256" lines hash the raw commit object (`git cat-file commit`). Less depth than
+  validator2: no remediation, missed verify-phase1, and no feedback on its instructions.
+
+## Held until op-365 returns (avoids editing under a live review and leaking answers)
 
 Template changes from validator2's feedback (op-366 blockers):
 - validator0 OPS.md: define `idq` (the problem served, or `none`) and `needs` (ops that must close
@@ -38,6 +45,8 @@ Template changes from validator2's feedback (op-366 blockers):
   under review.
 - validator0 report_evidence block: for source reviews allow `<repo>@<commit> <path>:<lines>` and
   directory listings as evidence, not only `<path> sha256:<hash>`.
+- Evidence format: a commit id is already a content hash, so cite `<repo>@<commit>` without a
+  sha256 (validator3 hashed raw commit objects, which is reproducible but opaque).
 - rulebook Rule 3: when reviewing alone, name the distinguishing question yourself and fetch the
   decisive fact yourself.
 - Promote validator2's two LOCAL.md lessons into the rulebook's falsification patterns: "the objdir

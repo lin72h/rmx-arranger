@@ -512,3 +512,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-366 issued → returned → closed.
 - evidence: rmx-validator2 `5961a5e` (LOCAL.md and reviews/op-366/op-363-calibration-review.md only); `tools/roles check` clean; the script lines and objdir listings above.
 - next: Paste the op-365 and op-367 REPORTs; then op-364's.
+
+### j-20260927-023 — op-367 closed: validator3 onboarded; calibration met the key
+
+- time / kind: 2026-09-28T01:27:45Z / RETURN
+- outcome: validator3 read its instructions and returned the op-363 calibration review: claim 3 fails, with the source-tree check holding for every alias and the objdir paths matching only via `wip-gpt`; verdict DO-NOT-CLOSE, score 9. I verified every hash first-hand, including the objdir kernel (`b8f3f8a7…`) and mach.ko (`9c7706a3…`); its two commit-evidence hashes are sha256 of the raw commit objects. It met the key but went less deep than validator2 (no remediation, missed verify-phase1, no feedback on its instructions). The model tier seated for this session was not stated.
+- state delta: op-367 issued → returned → closed.
+- evidence: REPORT op-367; the re-computed hashes above.
+- next: Paste the op-365 REPORT; then apply the held Validator template changes; then op-364's REPORT.
