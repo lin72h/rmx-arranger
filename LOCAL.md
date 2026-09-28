@@ -101,6 +101,13 @@ is ready to send.
   clone it bare from `mm4:<path>` to the scratchpad, push from here, then set the repo's
   `origin/main` on mm4 with `git update-ref` (j-20260928-005).
 
+## Rewritten gatekeeper1 commit IDs (2026-09-28)
+
+- The 19 gatekeeper1 commits from `117e718` on have new IDs (j-20260928-008). Only my own records
+  cite old ones, and no other role repo does. The live ones are hold op-308 and IDQs id-011 and
+  id-021. Translate through `rmx-gatekeeper1/docs/history-rewrite-2026-09-28.md` before issuing
+  or citing them; historical records stay as written.
+
 ## Lessons for briefs
 
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
