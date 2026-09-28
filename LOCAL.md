@@ -95,9 +95,6 @@ is ready to send.
 - report partial: `commits:` lists the commits this op made, or none. In op-371, gatekeeper2
   listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure
   condition.
-- Same batch, gatekeeper1's `instance.json`: `host_desc` should name the host `bdw-fx15-x64z`
-  and call rx-x64z the seat. Its logs name the host, and gatekeeper1 flagged the mismatch in op-370.
-
 ## mm4 access
 
 - My SSH session on mm4 has no GitHub key (`Permission denied (publickey)`). To push an mm4 repo,
