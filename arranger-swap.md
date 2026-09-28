@@ -672,3 +672,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the commits above; the render output (OPS.md and validator-rulebook.md per instance).
 - next: The Coordinator relays the Validator NOTICE (one text for all three). The rmx-role0 report-partial change waits for op-372 (it re-renders gatekeeper1).
+
+### j-20260928-013 — Validator NOTICEs relayed
+
+- time / kind: 2026-09-28T03:28:33Z / ACTION
+- outcome: The Coordinator relayed the validator0 NOTICE (j-20260928-012) to validator1, validator2, and validator3.
+- state delta: none.
+- evidence: Coordinator message in chat ("3 sent").
+- next: While op-372 runs, inspect the Explorer repos (here and on mm4) for modernization.
