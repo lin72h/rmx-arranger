@@ -27,9 +27,10 @@ read-only onboarding op.
 
 Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted
 containment and staging, then a small regression slice; the generic preflight checker is off the
-path). NFS/Kerberos: j-20260922-003 as revised by op-340 in chat. Kernel NFS options and NFS
-modules are off, NFS userland stays dormant, Kerberos is at upstream defaults, and
-OpenSSH/OpenSSL/ACLs are kept. Coordinator to confirm (j-20260927-010).
+path). NFS/Kerberos: op-340's policy, confirmed by the Coordinator (j-20260927-014). Kernel NFS options
+and NFS modules are off, NFS userland stays dormant, Kerberos is at upstream defaults, and
+OpenSSH/OpenSSL/ACLs are kept. Branch `alpha2` exists only locally (not on rmxOS origin or the
+backup remote); whether to push it is open.
 
 Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
 image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
@@ -42,9 +43,11 @@ clang/LLD 21.1.8).
 |---|---|---|---|
 | 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
 | 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
-| 3 | Coordinator reviews the build and image evidence by hand | Coordinator | ready |
-| 4 | Accepted containment, then staging of the op-358 image | Gatekeeper | waits on 3 |
-| 5 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 4 |
+| 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
+| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | draft |
+| 5 | Review op-364 | both Validators (release critical path) | waits on 4 |
+| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | waits on 5 |
+| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 6 |
 
 ## Off the path (backlog, not live)
 

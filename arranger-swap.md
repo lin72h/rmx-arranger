@@ -440,3 +440,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none; governing docs (AGENTS.md, roles.md, rulebook Rule 8, op-brief-forms.md with the NOTICE format, terminology.md) updated.
 - evidence: this commit; rmx-implementer log.
 - next: Relay the NOTICE to the Implementer (its AGENTS.md, OPS.md, and role docs changed).
+
+### j-20260927-014 — alpha2 review decisions: rebuild mach.ko, commit profile, op-340 policy, push repos
+
+- time / kind: 2026-09-28T00:13:45Z / DECISION
+- outcome: Coordinator decisions after reviewing the op-362 index. (1) Before the first boot, the Implementer rebuilds mach.ko with the kernel's toolchain and composes a new image. op-343's module log shows host cc (clang 19.1.7), and the op-343 objdir holds clang 21.1.8. (2) The five release-profile paths are committed on wip-rmxos alpha2 as part of that op. (3) op-340's NFS/Kerberos policy is in force: kernel NFS options and NFS modules off, NFS userland dormant, Kerberos at upstream defaults, OpenSSH/OpenSSL/ACLs kept. This supersedes the j-20260922-003 text. (4) Push rmx-arranger and rmx-implementer (project-rmx) now. Also found: branch alpha2, including candidate 15c185c, exists only locally; neither rmxOS origin nor the backup remote has it. Pushing it is a separate, open publication decision, and op-364 cannot close while its alpha2 commit is local-only.
+- state delta: op-364 created (draft, gate both).
+- evidence: rmx-implementer/build/op343-alpha2-20260922T065914Z/logs/build-mach-module.log (bare `cc`); `cc --version` for host and op-343 objdir; `git branch -r --contains 15c185c` in wip-rmxos (none).
+- next: Relay op-364; Coordinator decides whether alpha2 is pushed to rmxOS origin.
