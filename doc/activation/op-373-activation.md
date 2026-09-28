@@ -1,12 +1,12 @@
 ---
 id: op-373
-state: draft
+state: closed
 agent: explorer1
 repo: rmx-explorer1
 idq: none (onboarding)
 gate: self
 authority: none
-updated: 2026-09-28T03:44Z
+updated: 2026-09-28T03:53Z
 ---
 # op-373 — Explorer 1: onboarding and baseline from disk
 

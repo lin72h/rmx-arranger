@@ -696,3 +696,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-373 and op-374 created as draft.
 - evidence: mm4 rmx-explorer2 0498dfd, 0327f73; `git ls-remote` of lin72h/rmx-explorer2 = 0327f73547cf…; hash comparisons of the rendered files and the template copy.
 - next: Present op-373 and op-374 (ready, read-only, no shared writes with op-372). Then the Oracle.
+
+### j-20260928-016 — op-373 returned and closed: explorer1 onboarded
+
+- time / kind: 2026-09-28T03:54:09Z / RETURN
+- outcome: explorer1's REPORT and narrative were verified first-hand and closed as S (gate self, confidence 9). All 4 evidence hashes match (three op-097 rx dispatch-matrix results and op232 macOS truth). The repo is clean at 33542646 with 0 commits off origin. This host has Zig 0.15.2 and Elixir 1.20.0 on Erlang/OTP 29 (the macos-validation README names Zig 0.16 as default; mm4 has 0.16.0). The six findings it summarized exist, with the recorded verdicts. One label was paraphrased: op-318's verdict is NEEDS-IMPLEMENTER-CONTAINMENT-HELPER, not "PREP-NEEDS-CONTAINMENT-HELPER". Its flagged instruction issue was real (README lines still called ONBOARDING.md authoritative) and is fixed in explorer1 f6277a4 (local, not pushed); explorer2's copy waits for op-374. Useful state for later: the newest rx work is the PID-1/launchd contract line (op-315, op-318, op-322 → CORRECTED-CONTRACT-READY-FOR-VALIDATION, id-016), and the Mach receive records (op-097 green on 129ee3c; op-241 panic on another image) do not establish one current result.
+- state delta: op-373 draft → issued → returned → closed (the Coordinator relayed it; the REPORT is the send confirmation).
+- evidence: sha256 of the 4 cited files; `git rev-list`/status in rmx-explorer1; `zig version`, `elixir --version`; grep of the six findings' verdict lines.
+- next: op-374 when the Coordinator sends it; op-372 still running.
