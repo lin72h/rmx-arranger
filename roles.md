@@ -103,16 +103,37 @@ cross-repo reach, doctrine tension), not by the size of the original op:
 | Size | Reviewer | Closes when |
 |---|---|---|
 | S / M | Arranger, first-hand | the Arranger verifies it |
-| L | one Validator, chosen by the question (completeness → GLM, breakability → DS4P) | confidence ≥8/10 |
-| XL, or on the release critical path | both Validators | both ≥8/10 **and** they agree |
+| L | one Validator, chosen by the question and cost (§ Choosing a Validator) | confidence ≥8/10 |
+| XL, or on the release critical path | two Validators, by default validator1 + validator2 | both ≥8/10 **and** they agree |
 
 - The Arranger may raise a gate one level, never lower it.
 - Whoever reviews verifies first-hand. At ≥8 the Arranger closes on the Validator's word after a
   light provenance check, not a second review.
 - Below 8, or when Validators conflict, the **Arbiter** (the Arranger) makes the final call:
   close, do-not-close, or remediate with a new op. Only the Arbiter does this, subject to
-  Coordinator override; how to arbitrate is rulebook Rule 6.
+  Coordinator override; how to arbitrate is rulebook Rule 6. Before ruling, the Arbiter may ask
+  validator3 for a third opinion.
 - Closing also requires every produced commit to be reachable on origin.
+
+### Choosing a Validator
+
+Source: Coordinator, 2026-09-28 (j-20260927-021). Risk decides how many reviewers; the question
+and cost decide which. Costs are relative (0 free, 10 most expensive) and are kept only here: never
+in a role template or instance file, where Validators would see them and could be biased by them.
+
+| Validator | Strength | Cost |
+|---|---|---|
+| validator1 (GLM) | completeness: finds what is missing | 0 (free) |
+| validator2 (DS4P) | falsification: finds what breaks | 1 |
+| validator3 (model seated per session by the Coordinator) | general | luna-max 1, sol-medium 3, astra-medium 6, astra-max 8, astra-ultra 9 |
+
+- The default pair for XL or critical-path gates is validator1 + validator2 (cost 1 in total).
+- For an L gate, use validator1 when the question is completeness and validator2 when it is
+  falsification.
+- Use validator3 as a third opinion when the pair disagrees or scores below 8, or when a question
+  needs a stronger model. Choose the tier by stakes: luna-max or sol-medium for routine checks,
+  astra-medium for hard ones, astra-max or astra-ultra only for release-deciding calls. Name the
+  tier in the op's `agent` field, for example `validator3 (astra-medium)`.
 
 **Validators and Gatekeeper are two different checks; both are needed.**
 

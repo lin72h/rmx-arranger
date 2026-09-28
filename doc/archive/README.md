@@ -13,7 +13,7 @@ dates, not authoring dates.
 | `discovery-implementation-pipeline.md` | Explorer/Implementer split plan (phases A–C), Validators-vs-Gatekeeper, and the review rule | `roles.md` (flow, edges, review rule) |
 | `arranger-block-workflow.md` | Block-era operating loop | `arranger-rulebook.md` operating loop |
 | `validator-bench-calibration.md` | GLM vs DS4P strengths for routing | `roles.md` Validator definitions |
-| `cost-factor.md` | Per-role cost weights for parallel issue | Rule 11: review depth by risk, not cost |
+| `cost-factor.md` | Per-role cost weights for parallel issue | Rule 11 (depth by risk) and `roles.md` § Choosing a Validator (cost among Validators) |
 | `arranger-swap-legacy-frozen-cp103.md` | Pre-unified journal through cp-103; immutable, SHA-256 `c4e20689…b009d` | `arranger-swap.md` journal |
 
 ## One-time onboarding packages

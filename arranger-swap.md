@@ -496,3 +496,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the test runs and `tools/roles check` (4 instances, 0 need attention); commits above.
 - next: Relay op-365, op-366, op-367; convert the Implementer after op-364 returns.
+
+### j-20260927-021 — Validator costs recorded for routing, in the Arranger repo only
+
+- time / kind: 2026-09-28T01:23:11Z / DECISION
+- outcome: Coordinator gave relative Validator costs (0 free to 10): validator1 (GLM) 0, validator2 (DS4P) 1, and validator3 by the model seated for the session: luna-max 1, sol-medium 3, astra-medium 6, astra-max 8, astra-ultra 9. They are kept only in roles.md § Choosing a Validator, never in role templates or instance files, so Validators cannot be biased by them. Rule: risk decides how many reviewers and cost decides which. The default pair for XL or critical-path gates is validator1 + validator2. validator3 is the third opinion when the pair disagrees or scores below 8, or when a question needs a stronger model; its tier follows the stakes and is named in the op's agent field. Rule 11 (arranger0 template) updated accordingly. This also answers the open question: validator3's model is chosen per session.
+- state delta: none.
+- evidence: Coordinator messages in chat; roles.md, terminology.md, arranger0/files/arranger-rulebook.md.
+- next: Relay op-365, op-366, op-367 (seat validator3 at the tier expected for real reviews); paste op-364's REPORT.

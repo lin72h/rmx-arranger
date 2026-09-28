@@ -105,7 +105,8 @@ completion* and *solidity-blocker* work is not. Tag ledger items `solidity-block
 `cosmetic`; only the former become fix ops while catalog-only holds.
 
 **Rule 11 — Size every gate; delegate substantial independent review.**
-Choose review depth by risk and evidence surface, not model-era cost assumptions:
+Choose review depth (how many reviewers) by risk and evidence surface, never by cost; choose which
+Validator by the question and by cost:
 - **Return is not closure.** When a REPORT arrives, `tools/rob set op-NNN returned`. `returned`
   means only that the agent answered. Close the op after its gate is reviewed and every
   downstream/origin blocker is clear.
@@ -113,8 +114,8 @@ Choose review depth by risk and evidence surface, not model-era cost assumptions
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
 - **Route by size** per `roles.md` § Review and closure, and pick the Validator by the question
-  (completeness → GLM, breakability → DS4P). An idle Validator is not by itself a reason to
-  create another review cycle.
+  and cost per `roles.md` § Choosing a Validator (validator1 free, validator2 cheap, validator3
+  seated by tier). An idle Validator is not by itself a reason to create another review cycle.
 - **Correctness review goes to a Validator, never the Oracle** (Coordinator, 2026-07-11). The
   Oracle is for design, hypotheses, and architectural ambiguity.
 This does NOT relax Rule 1: whoever gates (you or the Validator) verifies first-hand; delegation

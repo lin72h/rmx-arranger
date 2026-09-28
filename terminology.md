@@ -77,7 +77,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
 | `rmx-oracle` | none (not a Git repo) | Oracle |
-| `rmx-validator3` | none (local Git) | Validator 3 (model not recorded; reviewed op-339/op-341 on 2026-09-22) |
+| `rmx-validator3` | none (local Git) | Validator 3 (model seated per session: luna-max, sol-medium, astra-medium, astra-max, or astra-ultra) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
 
