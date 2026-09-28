@@ -46,7 +46,7 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 |---|---|---|---|
 | 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | op-377 issued |
 | 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | waits on 1 |
-| 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | open; needed before any soak |
+| 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | decided 2026-09-28: MachServices plus nvlist for the preview; `xpc_domain` deferred past it (li-008) |
 | 4 | Containment helper and disposable PID-1 image stage from alpha2, under the triple identity rule (C2) | Implementer | waits on 2 |
 | 5 | Accept containment and the stage; run the corrected reaper premise (op-279, normalized) | Gatekeeper | waits on 4 |
 | 6 | op-280's fix only if the premise is CONFIRMED; then op-202 productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | waits on 5 and 3 |

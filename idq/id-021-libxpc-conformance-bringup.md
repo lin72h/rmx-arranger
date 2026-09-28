@@ -50,6 +50,9 @@
   NOT XPC (unlike macOS); service plane (launchd xpc_domain hosting + app xpc_connection) = libxpc/nvlist =
   the long pole.** FIRST move when un-held: a free-Explorer runtime probe — "is launchd's xpc_domain service
   path LIVE end-to-end over nvlist, or stubbed?" — to calibrate how much libxpc we already have.
+  **2026-09-28 (Coordinator): the preview hosts services through MachServices+nvlist; the launchd
+  `xpc_domain` leg (app and framework XPC services in per-process domains) comes after the
+  preview (li-008, j-20260928-028).**
 - state: **leg 1 DONE (op-121 `ec25e50`, Arranger-verified first-hand) → leg 2 = op-122 RESERVED but HELD
   (Coordinator depth-first directive 2026-06-24: make id-010 notify + id-011 asl *truly-green/solid*
   BEFORE opening the libxpc work).** Leg 2 dispatch text (lockstep dual-explorer run of pinned blob

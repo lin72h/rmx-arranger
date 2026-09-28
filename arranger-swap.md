@@ -792,3 +792,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-377 draft → issued.
 - evidence: Coordinator message in chat.
 - next: Web research on launchd/XPC domains on current macOS; record the answer against id-042's service-plane box.
+
+### j-20260928-028 — service-plane bar decided: MachServices+nvlist for the preview; xpc_domain deferred
+
+- time / kind: 2026-09-28T05:21:16Z / DECISION
+- outcome: The Coordinator asked whether xpc_domain still matters on the latest macOS: if it does, it is worth doing but may be deferred. Web search (no agent): since OS X 10.10, launchd is organized around domains (system, user/<uid>, gui/<uid>, and a per-process pid/<pid> domain holding the XPC services that process can reach), and 2025–26 reports show the domain model in daily use on macOS 26. The last open-source launchd is 842.92.1 (OS X 10.9.5), the base rmxOS descends from. First-hand on mm4, macOS 27.0 (26A428): launchctl's domain subcommands (bootstrap, bootout, print, enable, disable, kickstart, blame); the system domain holds 431 services (228 active); a pid domain exists on demand for an ssh shell (pid/40403); 121 .xpc service bundles in /System/Library frameworks and private frameworks; 8 apps with XPCServices; 324 of 425 system LaunchDaemons publish MachServices. Result: xpc_domain still matters on macOS 27, so per the Coordinator it is worth doing and deferred. The preview bar is MachServices+nvlist, which carries system daemons (the preview's services) and is what rmxOS hosts today. Recorded in id-042 (box checked as a Coordinator disposition), li-008, id-021, and now.md step 3.
+- state delta: none.
+- evidence: web sources (ss64.com launchctl; thrysoee.dk launchctl; Tencent Xuanwu Lab on XPC service domains; Wikipedia launchd; GitHub issues on macOS 26 launchctl bootstrap); mm4 commands `launchctl help`, `launchctl print system`, `launchctl print pid/$$`, and counts of .xpc bundles and MachServices plists.
+- next: Wait for op-377 (explorer1).

@@ -25,6 +25,9 @@ launchd straddles two planes, and only ONE is the open work:
 - **Service plane (launchd `xpc_domain` hosting): rides libxpc/nvlist (li-007) = the long pole.**
   `xpc_bootstrapper` / `_launchd_xpc_bootstrapper` / `_xpc_domain_import_service(s)` (core.c:912-940);
   `xpc_dictionary_*` (core.c:2359/2397/3775). This is the leg to "get right."
+  2026-09-28 (Coordinator): not required for the preview, and worth doing after it. On macOS 27
+  (26A428) launchd is domain-structured, every process has a `pid/…` domain, and 121 framework
+  XPC service bundles depend on it (j-20260928-028).
 
 ## Known state
 
