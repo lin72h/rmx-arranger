@@ -113,6 +113,18 @@ is ready to send.
 ## Lessons for briefs
 
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
+- Ask a reviewer for findings, not status: "where does X rely on Y in a way that fails; for each,
+  the lines on both sides, the failure, and the smallest check". op-383 (audit-shaped) returned
+  bookkeeping; op-389 (findings-only) returned 14 concrete defects at similar cost.
+- Name the lineage and put every reference tree on disk (donor port, upstream, old base) so
+  claims can cite both sides.
+- A gate that hashes its own output can fail on noise (op-382: mtree date header) as easily as it
+  passes on a wrong path (op-379). Every self-test needs a no-change control as well as a
+  changed-input control.
+- Read the build, not the config name: RMXOS-RELEASE has INVARIANTS but the module is built
+  outside it (op-389 finding 1).
+- Check a reviewer's cited commit against the file's history; validator2 cited the parent commit
+  for the op-380 note.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
 ## Pushes
