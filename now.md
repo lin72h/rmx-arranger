@@ -57,8 +57,8 @@ not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against 
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
 | 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | closed: alpha2 `2884304b` on origin; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
 | 5 | Review op-364 | both Validators (release critical path) | closed: both CLOSE, validator1 9.5 (op-368), validator2 9 (op-369) |
-| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | op-372 returned, verified first-hand; review: op-375 (validator1) and op-376 (validator2) issued |
-| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | op-372: booted; mach.ko loaded (leak-locals 1); Mach 4/4, dispatch 4/4; clean power-off |
+| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | closed: op-372 (validator1 9.5, validator2 9) |
+| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | closed: op-372 booted the op-364 image; mach.ko loaded (leak-locals 1); Mach 4/4, dispatch 4/4; clean power-off. TWQ attribution untested; not release-wide |
 
 Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which
 resolves only through leak-locals (`debug.link_elf_leak_locals=1`, the default) and the symbol

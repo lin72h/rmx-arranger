@@ -760,3 +760,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-376 issued → returned → closed. op-372 stays returned until op-375 (validator1).
 - evidence: `git log`/`show --stat` of rmx-validator2 fe2b3c5; `git status` of rmx-gatekeeper1; host-orchestration.log line 3912.
 - next: Wait for op-375.
+
+### j-20260928-024 — op-372 closed: the alpha2 regression critical path is complete
+
+- time / kind: 2026-09-28T05:08:09Z / RETURN
+- outcome: validator1's op-375 (CLOSE 9.5, with its own sharpened question: the in-guest module hash, leak-locals 1, 8 case PASS lines in raw console bytes, a pre-run-verified fresh copy, one attempt, clean power-off, no VM left) was consumed after a light provenance check: rmx-validator1 7c61ba0 (reviews/op-375/op-372.md; scratch in-repo); loader.raw 53873ae9…, attempt-marker b9b7ec1e…, run-command 4846796d…, and the host-test result-summary de1f3c21… match (the pasted REPORT had fused lines and a mangled path; exact values came from disk); rmx-gatekeeper1 untouched. With validator2's CLOSE at 9 (op-376) the two agree at 8 or more, and the commits e5d46af and a4a9836 are on origin, so op-372 closed (gate both). Critical path steps 1–7 of the alpha2 regression milestone are done. Limits stay recorded: TWQ attribution untested, a bounded slice, no release-wide regression claim. Correction to j-20260928-016: explorer1's "PREP-NEEDS-CONTAINMENT-HELPER" for op-318 is the label this repo's id-042 uses; the finding file itself says NEEDS-IMPLEMENTER-CONTAINMENT-HELPER, so it was not a slip.
+- state delta: op-375 issued → returned → closed; op-372 returned → closed.
+- evidence: `git log`/`show --stat` of rmx-validator1 7c61ba0; sha256 of the four additional files; rmx-gatekeeper1 status.
+- next: The Coordinator chooses the next milestone focus from id-042's open boxes (proposal: PID-1 launchd via op-322's XL gates, after re-basing its contract from alpha 26655e67 to alpha2). Two pure decisions are pending: the launchd service-plane bar and the libxpc quality disposition (id-021). Housekeeping is now unblocked: Implementer rename and template, and the template fixes.

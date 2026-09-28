@@ -1,13 +1,13 @@
 ---
 id: op-372
-state: returned
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-042
 needs: op-364
 gate: both
 authority: guest attempts: 2 on the op-364 image; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-09-28T04:09Z
+updated: 2026-09-28T05:08Z
 ---
 # op-372 — Gatekeeper 1: contained boot of the op-364 image
 
