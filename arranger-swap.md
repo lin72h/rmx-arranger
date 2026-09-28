@@ -528,3 +528,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-365 issued → returned → closed.
 - evidence: rmx-validator1 `577411c` (LOCAL.md and reviews/op-365/notes.md only); the script lines above; `tools/roles check` reports 4 instances, 0 needing attention.
 - next: Relay the Validator NOTICE; paste op-364's REPORT.
+
+### j-20260927-025 — op-364 returned and verified first-hand; review ops drafted for both default Validators
+
+- time / kind: 2026-09-28T01:36:55Z / RETURN
+- outcome: The Implementer returned op-364 DONE. I verified it first-hand. wip-rmxos `2884304b` (parent `15c185c`, tree `801b8ae9…`) adds exactly the five profile paths, with hashes equal to op-340's three configs, op-342's Makefile, and op-358's README; the worktree is clean. mach.ko `53e5a8cf…` has a .comment of clang 21.1.8. My own nm comparison found 112 undefined symbols (104 required plus 8 weak) and none missing from the op-343 kernel. The staging mtrees differ only in mach.ko (`1acea1e0…` → `53e5a8cf…`), all seven stages returned 0, and the images I hashed match the REPORT (UFS `ea7157ab…`, GPT `8f546a93…`). The index commit `39b2f89` changes only docs/alpha2-build-chain.md. The gate is `both` (release critical path), so op-368 (validator1) and op-369 (validator2) are drafted. Closure also needs both commits on origin: rmx-implementer `39b2f89` (one commit ahead) and wip-rmxos `2884304b` (branch alpha2 is on no remote; rmxOS is public; decision open).
+- state delta: op-364 issued → returned; op-368 and op-369 created (draft).
+- evidence: rmx-implementer/build/op364-20260928T001637Z/{evidence,images,obj}; the hashes above.
+- next: Relay op-368 and op-369; Coordinator decides the rmx-implementer and alpha2 pushes.
