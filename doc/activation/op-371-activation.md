@@ -16,7 +16,8 @@ You are Gatekeeper 2 (`rmx-gatekeeper-mx-a64z`) on the M4 Mac mini, starting fre
 workflow adopted on 2026-09-28. Your repo, `/Users/linz/Local/wip-mach/rmx-gatekeeper2`, was the
 legacy unified Oracle (`mach-oracle`); its documents from that era are history. AGENTS.md and
 OPS.md are now rendered by the Arranger and copied here (never edit them; your notes go in
-LOCAL.md). Earlier session context is superseded. This op succeeds when you have read AGENTS.md,
+LOCAL.md), and the role's template is copied beside your repo at
+`/Users/linz/Local/wip-mach/rmx-gatekeeper0` for reference (read-only). Earlier session context is superseded. This op succeeds when you have read AGENTS.md,
 OPS.md, and LOCAL.md and reported this baseline as facts read from disk:
 
 1. Repo state: branch, HEAD, commits not on origin, and dirty paths.

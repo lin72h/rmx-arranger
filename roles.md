@@ -80,8 +80,10 @@ text every role shares (project context, the NOTICE rule, the REPORT block, the 
   and add `rmx-<role>2`.
 - **An instance on another host** (the Gatekeeper's and Explorer's Mac instances on mm4) has
   `"remote": "host:/path"` in its `instance.json`; its folder here is the Arranger's mirror.
-  Render into the mirror, then `tools/roles sync` copies the rendered files over SSH. Sync never
-  overwrites the remote `LOCAL.md` and refuses to overwrite a rendered file edited there.
+  Render into the mirror, then `tools/roles sync` copies the rendered files over SSH, and copies
+  the class template (without `.git`) beside the instance so the remote agent can read the shared
+  role definition. Sync never overwrites the remote `LOCAL.md` and refuses to overwrite a
+  rendered file or template copy edited there.
 
 Every instance repo holds:
 

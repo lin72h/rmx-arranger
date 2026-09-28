@@ -155,6 +155,36 @@ defmodule RolesTest do
     assert File.read!(Path.join(remote, "AGENTS.md")) =~ "Thing 2"
   end
 
+  test "sync copies the class template beside the remote instance, without .git", ctx do
+    remote_instance(ctx)
+    File.mkdir_p!(Path.join(ctx.ws, "rmx-thing0/.git"))
+    File.write!(Path.join(ctx.ws, "rmx-thing0/.git/HEAD"), "ref: refs/heads/main\n")
+    assert elem(roles(ctx, ["sync", "rmx-thing2"]), 0) =~ "template rmx-thing0"
+    copy = Path.join(ctx.ws, "far-host/rmx-thing0")
+    assert File.read!(Path.join(copy, "template.json")) == read(ctx, "rmx-thing0/template.json")
+    assert File.regular?(Path.join(copy, "files/AGENTS.md"))
+    refute File.exists?(Path.join(copy, ".git"))
+  end
+
+  test "sync refuses to overwrite an edited template copy on the remote", ctx do
+    remote_instance(ctx)
+    roles(ctx, ["sync", "rmx-thing2"])
+    File.write!(Path.join(ctx.ws, "far-host/rmx-thing0/files/AGENTS.md"), "edited copy\n")
+    assert elem(roles(ctx, ["sync", "rmx-thing2"], ok: false), 0) =~ "template copy on the remote differs"
+    roles(ctx, ["sync", "rmx-thing2", "--force"])
+    assert File.read!(Path.join(ctx.ws, "far-host/rmx-thing0/files/AGENTS.md")) == read(ctx, "rmx-thing0/files/AGENTS.md")
+  end
+
+  test "a template change leaves the remote copy unsynced until the next sync", ctx do
+    remote_instance(ctx)
+    roles(ctx, ["render", "rmx-thing1"])
+    roles(ctx, ["sync", "rmx-thing2"])
+    put(ctx, "rmx-thing0/partials/extra.md", "unused partial\n")
+    assert elem(roles(ctx, ["check"], ok: false), 0) =~ "not synced: rmx-thing0/partials/extra.md"
+    roles(ctx, ["sync", "rmx-thing2"])
+    assert elem(roles(ctx, ["check"]), 0) =~ "0 need attention"
+  end
+
   test "check reports a mirror rendered but not synced", ctx do
     remote_instance(ctx)
     roles(ctx, ["render", "rmx-thing1"])

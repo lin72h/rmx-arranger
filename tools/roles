@@ -33,7 +33,8 @@ defmodule Roles do
   INSTANCE is a folder name such as rmx-arranger or rmx-validator1, or `all`.
 
   An instance on another host has "remote" in its instance.json; its folder here is the
-  Arranger's mirror. Render into the mirror, then `sync`. Extra ssh options come from the
+  Arranger's mirror. Render into the mirror, then `sync`, which also copies the instance's class
+  template (without .git) beside it on the remote host, for reading only. Extra ssh options come from the
   ROLES_SSH_OPTS environment variable. `sync` refuses to overwrite a rendered file that was
   edited on the remote since the last sync (`--force` overrides) or that it never synced
   (`--adopt` takes it over once).
@@ -491,6 +492,26 @@ defmodule Roles do
     end
   end
 
+  defp class_template(d) do
+    {_cls, chain} = chain_for(d)
+    chain |> Enum.reject(& &1.instance) |> List.last()
+  end
+
+  defp template_files(dir) do
+    dir
+    |> Path.join("**/*")
+    |> Path.wildcard(match_dot: true)
+    |> Enum.filter(&File.regular?/1)
+    |> Enum.map(&Path.relative_to(&1, dir))
+    |> Enum.reject(&(hd(Path.split(&1)) == ".git"))
+    |> Enum.sort()
+  end
+
+  defp template_target({kind, host, root}, tdir), do: {kind, host, Path.join(Path.dirname(root), Path.basename(tdir))}
+  defp template_target({:local, root}, tdir), do: {:local, Path.join(Path.dirname(root), Path.basename(tdir))}
+
+  defp local_hashes(dir, files), do: Map.new(files, &{&1, sha(File.read!(Path.join(dir, &1)))})
+
   defp read_synced(d) do
     p = Path.join(d, @synced)
     if File.regular?(p), do: load_json(p), else: %{"files" => %{}}
@@ -505,9 +526,19 @@ defmodule Roles do
       _ ->
         synced = read_synced(d)["files"] || %{}
 
-        for rel <- Map.keys(read_lock(d)["files"] || %{}), p <- [Path.join(d, rel)],
-            not File.regular?(p) or synced[rel] != sha(File.read!(p)),
-            do: rel
+        t = class_template(d)
+        tsynced = read_synced(d)["template"] || %{}
+
+        rendered =
+          for rel <- Map.keys(read_lock(d)["files"] || %{}), p <- [Path.join(d, rel)],
+              not File.regular?(p) or synced[rel] != sha(File.read!(p)),
+              do: rel
+
+        templ =
+          for {rel, h} <- local_hashes(t.dir, template_files(t.dir)), tsynced[rel] != h,
+              do: Path.basename(t.dir) <> "/" <> rel
+
+        rendered ++ templ
     end
   end
 
@@ -542,14 +573,33 @@ defmodule Roles do
         do: die("#{name}: files on #{remote} differ from the render: #{Enum.join(Enum.sort(unmanaged), ", ")} " <>
                   "(inspect them, then --adopt)")
 
+      t = class_template(d)
+      tfiles = template_files(t.dir)
+      ttgt = template_target(tgt, t.dir)
+      tnow = remote_hashes(ttgt, tfiles)
+      tlocal = local_hashes(t.dir, tfiles)
+      tsynced = read_synced(d)["template"] || %{}
+
+      tdrift =
+        for f <- tfiles, r <- [tnow[f]], r != nil, r != tlocal[f],
+            not Map.has_key?(tsynced, f) or r != tsynced[f], do: f
+
+      if tdrift != [] and not (force or (adopt and tsynced == %{})),
+        do: die("#{name}: template copy on the remote differs: #{Enum.join(tdrift, ", ")} " <>
+                  "(the copy there is read-only; --force overwrites)")
+
       local_new = now["LOCAL.md"] == nil and File.regular?(Path.join(d, "LOCAL.md"))
       push(tgt, d, if(local_new, do: files ++ ["LOCAL.md"], else: files))
+      push(ttgt, t.dir, tfiles)
 
       record = %{"remote" => remote,
-                 "files" => Map.new(files, &{&1, sha(File.read!(Path.join(d, &1)))})}
+                 "files" => Map.new(files, &{&1, sha(File.read!(Path.join(d, &1)))}),
+                 "template" => tlocal}
 
       File.write!(Path.join(d, @synced), pretty(record) <> "\n")
-      IO.puts("#{name}: synced #{length(files)} files to #{remote}" <> if(local_new, do: " (LOCAL.md created)", else: ""))
+      IO.puts("#{name}: synced #{length(files)} files to #{remote}" <>
+                if(local_new, do: " (LOCAL.md created)", else: "") <>
+                "; template #{Path.basename(t.dir)} (#{length(tfiles)} files) beside it")
     end
 
     0

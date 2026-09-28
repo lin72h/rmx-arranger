@@ -560,3 +560,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-370 (gatekeeper1) and op-371 (gatekeeper2) onboarding ops created (draft).
 - evidence: the commits above; `tools/roles check` reports 6 instances, 0 needing attention.
 - next: Relay op-370 and op-371; Coordinator decides the op247.img history fix and a stable mm4 address.
+
+### j-20260927-029 — remote instances get their class template beside them
+
+- time / kind: 2026-09-28T02:13:01Z / DECISION
+- outcome: Coordinator direction. gatekeeper2 is on another host, so the gatekeeper0 template is copied to mm4 beside it, where the remote agent can read the shared role definition. `roles sync` now also copies an instance's class template, without .git, to the same parent folder on the remote host. The same guards apply (a template copy edited there blocks the next sync unless --force), the synced template digests are recorded, and `roles check` reports template changes not yet synced. The source of truth stays here; the remote copy is read-only. gatekeeper2's template_location override was removed because `../rmx-gatekeeper0/` is now true on mm4. Commits: rmx-gatekeeper0 README `f2359b5`; mm4 rmx-gatekeeper2 `06fb1a5`; mirror `17e25a7`. roles tests: 17 pass. op-371 (unsent) now points the Mac Gatekeeper at the template copy.
+- state delta: none.
+- evidence: mm4 ~/Local/wip-mach/rmx-gatekeeper0 (README, template.json, files/AGENTS.md, files/OPS.md); `tools/roles check` reports 6 instances, 0 needing attention.
+- next: Relay op-370 and op-371.
