@@ -840,3 +840,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-380 draft → issued → returned → closed; op-381 created as draft.
 - evidence: `git show 2884304b:bin/launchctl/launchctl.c` lines 104-110 and 899-925; the notifyd plist lines 17-22; lib/liblaunch/Makefile; the op-364 staging loader.conf and the sha256 of /sbin/launchd and /bin/launchctl; alpha2-build-chain.md rows for op-343, op-344, op-358, op-364.
 - next: Present op-381 (ready; nothing in flight).
+
+### j-20260928-034 — op-381 BLOCKED: no staging filesystem distinct from /
+
+- time / kind: 2026-09-28T05:59:55Z / RETURN
+- outcome: The Coordinator relayed op-381; the Implementer returned BLOCKED before staging. op-318 Q4's pre-privilege check 5 (kept by op-322) requires `df "$workspace"` and `df /` to resolve to distinct devices, and both are zroot/ROOT/default. The op-364 base image hash matched; no image change, commit, or push. Verified first-hand: both evidence files (workspace-root-df.txt 826fcbc2…, host-mounts.txt a887d16a…) match; stat shows the same device id (5882038518042460496) for /Users/me/wip-mach/rmx-implementer and /, while /tmp is zroot/tmp; rmx-implementer is clean at f57003b. This is the contract's fail-closed containment working as reviewed, so the fix is a place to stage, not a weaker rule. `zfs list` shows the Coordinator already separates projects by dataset (zroot/RNX, zroot/wip-rnx-normd). Proposal: a dedicated dataset for rmxOS image staging with a quota, then re-issue op-381 as a new op with that workspace.
+- state delta: op-381 draft → issued → returned (BLOCKED).
+- evidence: sha256 of the two blocker files; `df` and `stat -f %d` for the workspace, /, and /tmp; `zfs list`.
+- next: The Coordinator decides the staging dataset (host change, needs root).

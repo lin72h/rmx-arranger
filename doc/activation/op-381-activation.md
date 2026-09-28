@@ -1,12 +1,12 @@
 ---
 id: op-381
-state: draft
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: validator
 authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in your workspace; no guest runs; push rmx-implementer main
-updated: 2026-09-28T05:53Z
+updated: 2026-09-28T05:59Z
 ---
 # op-381 — Implementer: staging helper and disposable PID-1 premise image on alpha2
 
