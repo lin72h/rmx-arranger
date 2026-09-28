@@ -15,7 +15,7 @@ read-only onboarding op.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded (op-361 closed); op-362 closed; op-363 draft |
+| Implementer | `rmx-implementer` (was `wip-gpt`) | onboarded; op-361, op-362, op-363 closed |
 | Gatekeeper | `rmx-gatekeeper` | after the Implementer rounds |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |

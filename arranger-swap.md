@@ -424,3 +424,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-362 issued → returned → closed.
 - evidence: rmx-implementer/docs/alpha2-build-chain.md; build/op358-alpha2-20260925T000042Z/images/final-rootfs-8g.ufs and final-op358-alpha2-gpt.raw (sha256 above).
 - next: Coordinator reviews the index (critical path step 3); op-363 is ready to relay.
+
+### j-20260927-012 — op-363 closed: tracked scripts no longer hard-code the old repo path
+
+- time / kind: 2026-09-28T00:01:15Z / RETURN
+- outcome: The Implementer committed `d58169e` in rmx-implementer (not on origin; exactly the seven scripts). Verified first-hand (S gate): all seven hashes match; `git grep /Users/me/wip-mach/wip-gpt -- scripts` is empty; `sh -n` passes (all are /bin/sh); the six preflights derive `expected_freebsd_src` from `${repo_root}/wip-rmxos` and verify-phase1 already defaulted to `${repo_root}/wip-rmxos` (only its help text changed). Note for any future reuse, not a defect: `repo_root` uses logical `pwd`, so running a script through the `wip-gpt` symlink resolves to the old tree while the real path resolves to `rmx-implementer`. Existing objdirs under build/wip-rmxos-alpha-obj exist only for the old path, so these preflights need a rebuild or NXPLATFORM_* overrides before reuse. `pwd -P` would match make's physical objdir layout.
+- state delta: op-363 issued → returned → closed.
+- evidence: rmx-implementer `d58169e`; derivation evaluated with `sh -c` for real, symlink, and relative invocations.
+- next: Coordinator decides the alpha2 review items in now.md; then the Gatekeeper repo.

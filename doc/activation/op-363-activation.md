@@ -1,12 +1,12 @@
 ---
 id: op-363
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: none (rename cleanup)
 gate: self
 authority: none
-updated: 2026-09-27T23:37Z
+updated: 2026-09-28T00:01Z
 ---
 # op-363 — Implementer: remove hard-coded wip-gpt paths from tracked scripts
 
