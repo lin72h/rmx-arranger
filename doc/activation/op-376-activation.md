@@ -1,12 +1,12 @@
 ---
 id: op-376
-state: issued
+state: closed
 agent: validator2
 repo: rmx-validator2
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T04:11Z
+updated: 2026-09-28T04:59Z
 ---
 # op-376 — Validator 2: review op-372 contained boot of the op-364 image
 

@@ -1,0 +1,33 @@
+# id-045 — `mach.ko` loads only because the kernel resolves a LOCAL symbol
+
+- id: **id-045**
+- state: **WAITING — not on the preview critical path; decide accept, harden, or test (Coordinator)**
+- raised: **2026-09-28 by the Arranger, from op-369 (prediction) and op-376 (observation)**
+- parent: none (a robustness limit of the Mach module's link to the kernel)
+
+## Problem
+
+`mach.ko` calls `knote_enqueue`, which the kernel defines as a LOCAL (static) symbol, absent from
+its exported `.dynsym`. The module links only because `debug.link_elf_leak_locals` defaults to 1
+and the loader passes the kernel's full symbol table. op-369 predicted this from source; op-372
+observed it (`debug.link_elf_leak_locals: 1`, module loaded), and op-376 confirmed that the run
+read the shipped default rather than setting it. The failure branch is unexercised: with the
+tunable at 0, or without the loader's symbol table, `kldload` would fail with
+`symbol knote_enqueue undefined`.
+
+## Why it matters
+
+A default kernel setting silently holds the Mach module together. A future kernel, loader, or
+tunable change would break Mach at boot, and nothing in the tree records the dependency.
+
+## Options (for the Coordinator)
+
+1. Accept and document it: record the dependency beside the module and in the release notes.
+2. Harden the product: give the module a supported path to the enqueue operation (an exported
+   kernel function or a module-local equivalent). This is Implementer work.
+3. Test it: a contained negative-control boot with the tunable forced to 0, to observe the
+   failure mode (validator2's proposal in op-376). This spends a guest attempt and proves only
+   what the source already shows.
+
+The Arranger's proposal: 1 now, 2 when Mach work resumes after the preview; 3 is not needed if
+2 happens.

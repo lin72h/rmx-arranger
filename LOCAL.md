@@ -75,9 +75,9 @@ is ready to send.
   whose artifacts are under review.
 - validator1's REPORTs arrive with fused lines when copied (op-365, op-368). Take exact values
   from its committed review file.
-- validator2 duplicated its `REPORT` line twice (op-366, op-369). Fix it in the template only if
-  it recurs. A bare commit hash is correct for a Validator: its `commits:` line is this repo's
-  review-notes commit.
+- validator2 duplicated its `REPORT` line in op-366, op-369, and op-376. Next validator0 render:
+  say in OPS.md to print the block once, with no separate `REPORT` heading line. A bare commit
+  hash is correct for a Validator: its `commits:` line is this repo's review-notes commit.
 
 ## My checks (corrections)
 

@@ -752,3 +752,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-375 and op-376 draft → issued.
 - evidence: Coordinator message in chat.
 - next: Wait for both REPORTs. Until they return, leave rmx-gatekeeper1, rmx-implementer, and both Validator repos untouched.
+
+### j-20260928-023 — op-376 returned and consumed: validator2 says CLOSE op-372 at 9; id-045 raised
+
+- time / kind: 2026-09-28T04:59:12Z / RETURN
+- outcome: validator2 reviewed op-372 with its own sharpened question: the identity chain from the verified copy through the loader to the guest's own hash and kldstat, with leak-locals read as the shipped default and not set by the run. All four claims hold. Verdict CLOSE, score 9. It confirmed containment from inside the guest (one virtio block device of the image's sector count, no NIC, only lo0), confirmed ordering by commit timestamps, scanned the whole 324,692-byte serial for "undefined" and "symbol" (0 hits), confirmed the plan has no setter for the tunable, and re-derived both image hashes. It dismissed one anomaly (5120 MB real memory under -m 4G, the same in op-347 and op-349). Consumed after a light provenance check: rmx-validator2 fe2b3c5 (reviews/op-376/op-372-review.md; scratch in-repo per the new default); rmx-gatekeeper1 untouched at a4a9836; the disposable copy hash 48d385a4… matches host-orchestration.log line 3912. Its proposed negative-control run became IDQ id-045, with options to accept, harden, or test, and the Arranger's proposal to accept and document now and harden after the preview. Format: a third duplicated REPORT line; a template fix is queued.
+- state delta: op-376 issued → returned → closed. op-372 stays returned until op-375 (validator1).
+- evidence: `git log`/`show --stat` of rmx-validator2 fe2b3c5; `git status` of rmx-gatekeeper1; host-orchestration.log line 3912.
+- next: Wait for op-375.
