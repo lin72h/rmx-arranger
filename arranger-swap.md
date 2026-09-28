@@ -1022,3 +1022,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-052 created (high).
 - evidence: none new.
 - next: none.
+
+### j-20260929-003 — id-046 findings ledger: every finding from the three reviews
+
+- time / kind: 2026-09-29T00:50:00Z / ACTION
+- outcome: The Coordinator asked whether every finding was in the IDQ. Before this, not by name: op-392's S3 (urefs in f_count; exit frees files still referenced) and its §3 low-ranked items, and op-393's N6–N10 (N9 was summarized without its number), were reachable only through the consult documents. id-046 now has a ledger of all 38 rows. Each row gives the source, the number, one line, how far it was checked (first-hand, reported, open check, or retracted), and any other entry that tracks it (id-016, id-045, id-047, id-052).
+- state delta: none.
+- evidence: the section headings of the three consult documents.
+- next: none.

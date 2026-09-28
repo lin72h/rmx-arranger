@@ -141,3 +141,53 @@ Arranger first-hand at `2884304b`: N1 and N5 hold as written.
   vm_map server routines.
 - advisor1's proposal: fix N3, N4 and the `clock_sleep` divisor now; N1 together with the libmach
   clock change; N2 as a design fix; F2 teardown before N5.
+
+## Findings ledger (every finding from op-389, op-392 and op-393)
+
+This is the complete list; each consult document holds the detail. "First-hand" means the
+Arranger traced it at `2884304b`; "reported" means the consult's own trace only. "Both" marks
+findings that both op-389 and op-392 reached.
+
+| Source | # | Finding | Checked | Also in |
+|---|---|---|---|---|
+| op-389 | 1 | Untimed-wakeup assertion (latent: `mach.ko` built without INVARIANTS) | first-hand | id-047 |
+| op-389 | 2 | Port-name lookup returns the entry after `fdrop` (both: op-392 S2) | first-hand | |
+| op-389 | 3 | Mach fileops lack poll/ioctl, so poll() and fcntl() panic (both: op-392 F3) | first-hand | |
+| op-389 | 4 | Fork copies task send rights that exit never releases (both: op-392 F2) | first-hand | |
+| op-389 | 5 | Short-buffer direct kevent receive passes a NULL kmsg to cleanup | first-hand | |
+| op-389 | 6 | Direct receive runs inside the kqueue readiness check and loses messages (both: op-392 F4) | reported | |
+| op-389 | 7 | Sender signals a port set after dropping its last protection | reported | |
+| op-389 | 8 | Failed OOL copyout frees a copy object the caller also discards | reported | |
+| op-389 | 9 | Mach fd transfer drops Capsicum rights and installs full rights | first-hand | |
+| op-389 | 10 | Mach millisecond timeouts run 10x long at hz=100 | first-hand (no HZ override) | |
+| op-389 | 11 | rfork shared fd table: exit assertion or closing the sharer's names (both: op-392 §3) | reported | |
+| op-389 | 12 | File transfer leaks a reference on success; double destroy on fd exhaustion | first-hand | |
+| op-389 | 13 | Explicitly named port set skips list, lock and knlist init | first-hand | |
+| op-389 | 14 | Failed module load leaves lifecycle hooks into unloaded text | reported | id-045 |
+| op-389 | 15 | Suspected: pset destruction keeps an unpinned member across a lock drop | reported | |
+| op-392 | F1 | Caller identity (audit token) is a fork-time snapshot that launchd trusts | first-hand | id-016 |
+| op-392 | F5 | Port-set receive racing an interrupt or timeout panics (rmxOS turned an assert into a panic) | first-hand | |
+| op-392 | F6 | `_swtch_pri` double-unlocks the thread lock (12→15 drift) | first-hand | |
+| op-392 | F7 | A kqueue sent in a Mach message outlives its creator's fd table | reported | |
+| op-392 | F8 | `proc_pidbsdinfo` reads `p_fd` of an exiting process | reported | |
+| op-392 | S1 | Suspected lock-order reversal; logs show `ETAP_IPC_RPC`→`ETAP_IPC_IS`, likely pre-60e5e76e5add | open check | id-052 |
+| op-392 | S3 | Mach urefs live in `f_count`; exit frees files others still reference; no-senders missed | reported | |
+| op-392 | S4 | Stale knotes survive port-name reuse | reported | |
+| op-392 | S5 | Cross-task space operations use the caller's descriptor table | reported | |
+| op-392 | S6 | KBI: inserted proc/thread fields shift offsets for stock-built modules | reported | |
+| op-392 | §3 | VM wrappers ignore the target map; `setmax` dropped; errno as kern_return_t; `mach_vm_allocate` skips RLIMIT_VMEM and RACCT; OOL buffered via malloc(M_NOWAIT) | reported | |
+| op-392 | §3 | AUDIT_SYSCLOSE and seqc compiled out of `mach.ko`; debug sysctls walk entries without references; `twq_proc_exec` runs before exec can fail | reported | |
+| op-392 | §3 | Workqueue per-thread state freed only on `thr_exit` | **retracted by op-393** | |
+| op-393 | N1 | Timebase ratio ~53 vs nanosecond clock; launchd's 10 s respawn throttle becomes ~0.19 s | first-hand | id-016 |
+| op-393 | N2 | Kernel MIG reply parked on the sending thread, not queued to the reply port | reported | |
+| op-393 | N3 | Receive on a dead name dereferences a NULL object | reported | |
+| op-393 | N4 | `ipc_object_translate` lock shortcut reads uninitialized variables (17 callers) | reported | |
+| op-393 | N5 | `convert_port_to_task` returns the caller; task_* calls act on the caller | first-hand | id-016 |
+| op-393 | N6 | Concurrent copyouts of one send right can create two names | reported | |
+| op-393 | N7 | Notifications dropped on allocation failure | reported | |
+| op-393 | N8 | `clock_sleep_trap`: wrong duration, clock and result codes | reported | |
+| op-393 | N9 | Handlers written for user pointers are called by MIG with kernel pointers (`clock_get_time`, VM attribute always fail) | reported | |
+| op-393 | N10 | Traps report kern_return_t through two conventions (-1/errno vs value) | reported | |
+
+Build finding (op-389, op-392, op-393): `mach.ko` is built outside its kernel's configuration →
+id-047. Unreached routines → id-052.
