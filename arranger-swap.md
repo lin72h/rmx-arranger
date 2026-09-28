@@ -995,3 +995,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-393 created as draft.
 - evidence: `git ls-tree 2884304b sys/compat/mach` for the listed paths.
 - next: Present op-393.
+
+### j-20260928-052 — op-393 amended: S1 log observation, best effort, LOCAL.md note
+
+- time / kind: 2026-09-28T11:20:00Z / ACTION
+- outcome: advisor1's full answer matched op-393's scope. The Arranger grepped guest serial logs for S1 (read-only). 3 of about 4,400 serial logs show a WITNESS lock-order reversal: 1st ETAP_IPC_RPC (sleep mutex), 2nd ETAP_IPC_IS (rw). That is not the pair S1 predicts. The Coordinator stopped further digging: leave it to advisor1, best effort, then move on. op-393 now asks advisor1 to explain that reversal from source, marks the op as best effort, and asks for its LOCAL.md note on the standalone module build. The background search was stopped.
+- state delta: none (op-393 draft amended).
+- evidence: `grep -i "lock order reversal"` over the serial-log list in the session scratchpad.
+- next: Present op-393; after it returns, advisor2 continues with libdispatch (op-387).

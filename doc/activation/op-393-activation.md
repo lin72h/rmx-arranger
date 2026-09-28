@@ -26,14 +26,18 @@ Your op-392 review did not reach these parts of the Mach integration at alpha2 `
   `mach_msg_overwrite_trap` tail).
 
 Also firm up the op-392 claims that rest on shallow checks: the workqueue per-thread state that
-is freed only on `thr_exit`; the port-set zone's flags behind S2; and F2's rebinding case.
+is freed only on `thr_exit`; the port-set zone's flags behind S2; F2's rebinding case; and
+S1. For S1, existing guest serial logs show a WITNESS lock-order reversal between
+`ETAP_IPC_RPC` (1st) and `ETAP_IPC_IS` (2nd), not the pair S1 predicts. Explain it from source.
+This is best effort: cover what you can, and list what you did not reach.
 
 Same form as op-392: confirmed and suspected findings, ranked by likelihood times impact, each
 with the assumption, the rmxOS lines (and NextBSD's or XNU's where they differ), the concrete
 incorrect behavior, your confidence, and the smallest regression test or source trace that would
 confirm it; plus the fix direction. Add a "checked and cleared" list and any design cause that is
 new beyond op-392's classes A to E. Write it as a new document; don't edit op-392's. Under about
-200 lines.
+200 lines. Also add your LOCAL.md note: `mach.ko` is built standalone, so the kernel's option
+headers do not apply to it.
 
 ## Inputs
 
