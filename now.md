@@ -56,7 +56,7 @@ not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against 
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
 | 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | closed: alpha2 `2884304b` on origin; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
 | 5 | Review op-364 | both Validators (release critical path) | closed: both CLOSE, validator1 9.5 (op-368), validator2 9 (op-369) |
-| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | op-372 (bundled with step 7): drafted |
+| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | op-372 (bundled with step 7): issued |
 | 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | op-372 |
 
 Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which

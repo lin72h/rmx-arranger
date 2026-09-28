@@ -656,3 +656,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-364 returned → closed; op-372 created as draft.
 - evidence: `git ls-remote` for project-rmx main (39b2f89972d6…) and rmxOS alpha2 (2884304b67fc…); sha256 of op360's driver, plan, and probes and of op-364's image inputs; op360 host-orchestration.log lines 10–20.
 - next: Present op-372; it is ready and nothing else is in flight. gatekeeper1's NOTICE (j-20260928-008) must be relayed first.
+
+### j-20260928-011 — op-372 sent; gatekeeper1 NOTICE relayed
+
+- time / kind: 2026-09-28T03:23:17Z / ISSUE
+- outcome: The Coordinator relayed gatekeeper1's NOTICE (history rewrite and new origin, j-20260928-008) and then op-372: preparation, containment disposition, and a bounded, contained boot of the op-364 image, with up to 2 guest attempts, vmm load authority, and a push to rmx-gatekeeper1. It is the only op in flight.
+- state delta: op-372 draft → issued.
+- evidence: Coordinator message in chat.
+- next: While op-372 runs, apply the queued validator0 template changes (no Validator has an op in flight). Do not touch rmx-gatekeeper1 or rmx-implementer until op-372 returns.
