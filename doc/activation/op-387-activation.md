@@ -1,13 +1,13 @@
 ---
 id: op-387
-state: draft
+state: issued
 agent: advisor2
 repo: rmx-advisor2
 idq: id-042
 needs: op-389
 gate: self
 authority: none
-updated: 2026-09-28T08:03Z
+updated: 2026-09-28T08:11Z
 ---
 # op-387 — Advisor 2: deep dive — libdispatch and the workqueue it runs on, at alpha2
 
