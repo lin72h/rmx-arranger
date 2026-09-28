@@ -1046,3 +1046,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: Draft the first ops: the class A and B design consult (Advisor), fix batch 1 (Implementer), and the CI (Gatekeeper).
+
+### j-20260928-051 — correction: j-20260929-001 to -005 carry wrong dates and times
+
+- time / kind: 2026-09-28T11:33:00Z / CORRECTION
+- outcome: Entries j-20260929-001 to j-20260929-005 were written on 2026-09-28 UTC (commits between 11:06Z and 11:22Z, local 2026-09-29 00:06–00:22 NZDT). The Arranger took the local date for the UTC date and estimated the times instead of reading the clock. Read them as 2026-09-28, in commit order. Their IDs stay as written (the journal is append-only), and this entry continues the true UTC sequence after j-20260928-050. The times on j-20260928-046 to -050 were also estimates; their commits are authoritative (22:11–23:27 NZDT). From now on, times come from `date -u`. Also created worklog.md: major milestones only, with local-time headers taken from commit times.
+- state delta: none.
+- evidence: `git log --date=format-local` for the affected commits; `date -u` → 2026-09-28 11:31 UTC.
+- next: none.

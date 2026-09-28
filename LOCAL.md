@@ -123,6 +123,13 @@ is ready to send.
 - The macOS side (mm4, the mx-a64z seats, and the platform-arch naming) was designed in from the
   start and still needs polish.
 
+## Worklog and journal times
+
+- `worklog.md` (Coordinator, 2026-09-29): add a section for each major milestone, headed with the
+  local date and time (NZDT) from its commit or event. The journal keeps the detail.
+- Journal times come from `date -u`, never estimates. This host's local date runs 13 hours ahead
+  of UTC (j-20260928-051).
+
 ## Lessons for briefs
 
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
