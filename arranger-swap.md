@@ -979,3 +979,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-392 draft → issued → returned → closed.
 - evidence: `git show 2884304b` of proc_info.c, task grep, ipc_kmsg.c, runtime.c, mach_traps.c, kern_synch.c and thread_pool.c; the NextBSD thread_pool.c and mach_traps.c; sha256 of four cited files.
 - next: The Coordinator decides id-046 scope; a possible advisor1 follow-up covers the unreached areas.
+
+### j-20260928-050 — Kernel review plan recorded: kernel-reviews.md and id-051 (medium)
+
+- time / kind: 2026-09-28T10:55:00Z / DECISION
+- outcome: The Coordinator decided that the Mach integration gets a second review round after the fixes, shaped as follows. Decide design classes A and B first, then fix; Validators review each fix; then a blind round with two reviewers on different models covering the new design and the areas neither review reached, each returning a checked-and-cleared list. Stop when overlap is high, then hand over to sanitizers and fuzzing. Round 1 (op-389, op-392) is recorded with its overlap (about 6 of 23), the capture-recapture estimate (about 12 unfound), the scores (advisor2 8, advisor1 8.5) and the brief form that worked. Written to kernel-reviews.md, linked from now.md; id-051 raised at medium.
+- state delta: id-051 created (medium).
+- evidence: none new (from j-20260928-044 and -049).
+- next: none.

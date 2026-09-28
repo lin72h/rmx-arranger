@@ -71,6 +71,7 @@ advisor2: op-383 (Mach consult; closed) → op-389 (Mach deep dive; closed, 14 c
 id-046) → op-387 (libdispatch and workqueue deep dive, same form; drafted) → op-384 (libnotify) →
 op-385 (launchd). advisor4 runs op-386 (libxpc against macOS 27) on mm4 when chosen. Findings bind
 to IDQ entries before any follow-on op. id-046's fix batch (Implementer) awaits the Coordinator.
+Kernel review rounds and the plan for round 2: [kernel-reviews.md](kernel-reviews.md) (id-051).
 
 ## Off the path (backlog, not live)
 
