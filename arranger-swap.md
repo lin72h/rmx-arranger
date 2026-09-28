@@ -776,3 +776,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the commits above; `git worktree list` of wip-rmxos after the rename; `git status -sb` of the alpha2 worktree.
 - next: The Coordinator relays the Implementer NOTICE. The PID-1 launchd critical path (Coordinator choice) comes next: re-base op-322 onto alpha2, then its XL gates.
+
+### j-20260928-026 — new milestone: PID-1 launchd; op-377 drafted to re-base the contract onto alpha2
+
+- time / kind: 2026-09-28T05:16:06Z / DECISION
+- outcome: Coordinator choice: the next critical path is PID-1 launchd (id-016, id-042). now.md was rewritten with six steps: re-base, two-Validator review, the Coordinator's service-plane bar, the Implementer's helper and disposable stage, the Gatekeeper's containment and corrected reaper premise, then op-280/op-202/op-203. The contract to validate is op-318 as corrected by op-322 (explorer1's notes; CORRECTED-CONTRACT-READY-FOR-VALIDATION, confidence 9), written at alpha@26655e67. Arranger checks: alpha is wholly contained in alpha2 (merge-base 26655e67; 0 alpha-only commits; 1,930 alpha2-only); op-322's pinned launchd sources (runtime.c, core.c, launchd.c) are byte-identical at 2884304b; its three pinned staging scripts are unchanged in rmx-implementer/scripts/bhyve; in the contract's areas only sys/kern/kern_exit.c (stable/15, including 9d6498310f5c "processes: add zombie references, each of them prevents reap", ecdc9cfea64c pdwait, 83fa3c3ad844) and 26 libexec/rc files changed; the alpha2 dtrace Makefile change only filters dtnfscl. Drafted op-377 (explorer1, read-only apart from one addendum note): decide HOLDS-ON-ALPHA2 or NEEDS-AMENDMENT for exactly those deltas.
+- state delta: op-377 created as draft.
+- evidence: `git merge-base`, `git rev-list --count`, `git show <commit>:<path> | sha256`, `git diff --stat` in wip-rmxos; sha256 of the staging scripts.
+- next: Present op-377 (ready; nothing in flight). The Coordinator relays the Implementer NOTICE (j-20260928-025) and decides the service-plane bar before any soak.

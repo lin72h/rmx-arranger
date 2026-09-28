@@ -5,7 +5,10 @@ Git and the journal. Op state comes from `tools/rob board`, problem state from `
 
 ## Milestone
 
-**alpha2 regression** on the path to 1.0-preview (`li-1000`, `id-042`).
+**PID-1 launchd** on the path to 1.0-preview (`li-1000`, `id-042`, `id-016`), chosen by the
+Coordinator on 2026-09-28 after the alpha2 regression milestone closed (op-372, j-20260928-024).
+The candidate is alpha2 `2884304b` and its op-364 image, which boots contained with the Mach and
+dispatch slice passing.
 
 ## Onboarding (in progress)
 
@@ -34,47 +37,32 @@ is deferred (j-20260928-002).
 ## Critical path
 
 Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted
-containment and staging, then a small regression slice; the generic preflight checker is off the
-path). NFS/Kerberos: op-340's policy, confirmed by the Coordinator (j-20260927-014). Kernel NFS options
-and NFS modules are off, NFS userland stays dormant, Kerberos is at upstream defaults, and
-OpenSSH/OpenSSL/ACLs are kept. Branch `alpha2` is on the public rmxOS origin at `2884304b`
-(pushed 2026-09-28 by Coordinator decision).
-
-Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
-image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
-the op-343 kernel and `mach.ko` loaded at boot by `loader.conf`. Composition succeeded (makefs
-and mkimg rc 0; extracted partition byte-for-byte equal). Image hashes re-verified first-hand (j-20260927-011). Correction (op-370, verified first-hand): the image *was* booted. The Gatekeeper's op359 and
-op360 ran it on 2026-09-25, and op360's third attempt loaded `mach.ko`, passed the bounded Mach
-(4/4) and dispatch (4/4) probes, and shut down cleanly. TWQ attribution was untested, and this is
-not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against the clang/LLD
-21.1.8 kernel; op-364 rebuilt it with the kernel's toolchain.
+containment and staging, then a small regression slice); NFS/Kerberos per op-340
+(j-20260927-014); preview needs non-`-u` PID-1 launchd (Coordinator, 2026-07-12, id-042). alpha2
+`2884304b` is on the public rmxOS origin. The contract to validate is op-318 as corrected by op-322
+(both notes in `rmx-explorer1/findings/nx-r64z/`), written at `alpha@26655e67`, which alpha2 contains.
 
 | # | Step | Owner | Status |
 |---|---|---|---|
-| 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
-| 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
-| 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
-| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | closed: alpha2 `2884304b` on origin; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
-| 5 | Review op-364 | both Validators (release critical path) | closed: both CLOSE, validator1 9.5 (op-368), validator2 9 (op-369) |
-| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | closed: op-372 (validator1 9.5, validator2 9) |
-| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | closed: op-372 booted the op-364 image; mach.ko loaded (leak-locals 1); Mach 4/4, dispatch 4/4; clean power-off. TWQ attribution untested; not release-wide |
+| 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | op-377 drafted |
+| 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | waits on 1 |
+| 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | open; needed before any soak |
+| 4 | Containment helper and disposable PID-1 image stage from alpha2, under the triple identity rule (C2) | Implementer | waits on 2 |
+| 5 | Accept containment and the stage; run the corrected reaper premise (op-279, normalized) | Gatekeeper | waits on 4 |
+| 6 | op-280's fix only if the premise is CONFIRMED; then op-202 productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | waits on 5 and 3 |
 
-Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which
-resolves only through leak-locals (`debug.link_elf_leak_locals=1`, the default) and the symbol
-table the loader passes. op360 already saw the op-358 module, which has the same dependency, load
-at boot on this kernel and loader. The op-364 boot must still record it; a failure reads
-`symbol knote_enqueue undefined`.
+The alpha2 regression milestone closed on 2026-09-28: op-364 built the image, and op-372 booted it
+contained (`mach.ko` loads with leak-locals 1; Mach 4/4, dispatch 4/4; clean power-off; TWQ
+attribution untested; not release-wide). Detail: the journal (j-20260928-007 to -024) and id-045
+(`mach.ko`'s leak-locals dependency).
 
-For steps 6–7 (op-370): reuse gatekeeper1's op360 runner (`build/op360/run-op360-r2.sh` with its
-Expect plan). It pins the op-358 image through `wip-gpt` paths, so a run brief must re-pin it to
-op-364's image (`8f546a93…`). It enforces 2 vCPUs, 4 GiB, one virtio disk, serial console, no
-network, shares, or passthrough, and a fresh verified disk copy per attempt. No formal containment
-disposition exists (op345 recorded the approved `vmm` load), and `vmm` is not loaded now, so a run
-needs authority to load it. The host is `bdw-fx15-x64z` (the rx-x64z seat).
+Guest runs use gatekeeper1's maintained runner `build/op360/run-op360-alignment-r1.sh`,
+parameterized per op (op-372's `build/op372/config.sh`): 2 vCPUs, 4 GiB, one virtio disk, serial
+console, and no network, shares, or passthrough. `vmm.ko` is loaded on this host (`bdw-fx15-x64z`,
+the rx-x64z seat).
 
 ## Off the path (backlog, not live)
 
-Open problems stay in their IDQ files: id-011 (asl leg 4), id-016 (PID-1 launchd; op-322's
-staging/reaper contract still needs Validator review), id-021 (libxpc lifecycle), id-033/id-034/
+Open problems stay in their IDQ files: id-011 (asl leg 4), id-021 (libxpc lifecycle), id-033/id-034/
 id-037 (conformance pipeline), id-040/id-041 (asl/notifyd), id-012 (release image), id-044
-(historical preflights: fix or retire).
+(historical preflights: fix or retire), id-045 (`mach.ko` leak-locals dependency).
