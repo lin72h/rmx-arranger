@@ -12,6 +12,8 @@ REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form con
 - **The brief** carries only what is specific to its op. Never repeat the defaults or the REPORT
   block in it.
 - Until a role repo has an `OPS.md`, add that role's defaults and the REPORT block to the brief.
+- The Arranger maintains every role repo's `AGENTS.md` and `OPS.md` directly (one-way access,
+  `roles.md` § Edges). Briefs never point agents at this repo.
 
 ## Front matter
 
@@ -53,3 +55,16 @@ next:       <single smallest next action>
 ```
 
 Validators add two lines: `score: <n>/10` and `verdict: CLOSE | DO-NOT-CLOSE | REMEDIATE`.
+
+## NOTICE (Arranger → agent, relayed by the Coordinator)
+
+Send one when an Arranger change in an agent's repo could affect what the agent knows or is
+working on; skip it otherwise. A notice is not an op: no REPORT and no state. If the agent has an
+op in flight, relay the notice before that op's REPORT is due.
+
+```text
+NOTICE from the Arranger — <YYYY-MM-DD>
+changed:  <repo-relative paths>
+meaning:  <what is different for you, one to three lines>
+action:   none | re-read <files> before your next step | <specific instruction>
+```

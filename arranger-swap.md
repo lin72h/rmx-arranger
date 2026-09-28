@@ -432,3 +432,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-363 issued → returned → closed.
 - evidence: rmx-implementer `d58169e`; derivation evaluated with `sh -c` for real, symlink, and relative invocations.
 - next: Coordinator decides the alpha2 review items in now.md; then the Gatekeeper repo.
+
+### j-20260927-013 — Arranger one-way access to all role repos made standing
+
+- time / kind: 2026-09-28T00:08:17Z / DECISION
+- outcome: Coordinator rules that the Arranger has standing one-way access. It can read and change every role repo directly, and no other agent reads or writes the Arranger's repo, so agents see its work only through briefs, notices, and their own files. When an Arranger change could affect what an agent knows or is working on, a NOTICE goes to that agent through the Coordinator; other changes need none. This supersedes the onboarding-only exception in j-20260927-007 and the old per-change one-way window/door records. Kept limits (Arranger reading, not a new Coordinator ruling): raw evidence, evidence dispositions, and guest-attempt accounting are never changed in place; product source stays the Implementer's. Applied to rmx-implementer (`dfe9a60`, local): its instructions no longer point at rmx-arranger.
+- state delta: none; governing docs (AGENTS.md, roles.md, rulebook Rule 8, op-brief-forms.md with the NOTICE format, terminology.md) updated.
+- evidence: this commit; rmx-implementer log.
+- next: Relay the NOTICE to the Implementer (its AGENTS.md, OPS.md, and role docs changed).

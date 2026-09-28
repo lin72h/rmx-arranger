@@ -4,15 +4,15 @@ Status: canonical for the workflow: who the roles are, what may pass between the
 returned work is reviewed and closed. Terms: [terminology.md](terminology.md). Op states and the
 board: [rob-mini-format.md](rob-mini-format.md). Brief and REPORT format:
 [op-brief-forms.md](op-brief-forms.md). Current critical path: [now.md](now.md).
-Role repos point here as they are onboarded (the Implementer since 2026-09-28); where anything
-disagrees with this file, this file wins.
+The Arranger keeps every role repo aligned with this file through one-way access (§ Edges);
+agents read only their own repo.
 
 ## Roles
 
 | Role | Repo | Does | Does not |
 |---|---|---|---|
 | **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
-| **Arranger** (single seat; holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops | write product source or any other repo |
+| **Arranger** (single seat; holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
 | **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
 | **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper** | `rmx-gatekeeper` | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
@@ -47,9 +47,20 @@ Ops for different agents run in parallel and may close in any order.
 | Arranger | Validator | review brief for a returned op | Coordinator, by hand |
 | Arranger | Oracle | consult question | Coordinator, by hand |
 | Explorer | Gatekeeper | evidence | Gatekeeper reads it |
+| Arranger | any role repo | direct changes to instructions, `OPS.md`, and docs | one-way access; a NOTICE via the Coordinator when it affects the agent's work |
 
-Each agent writes only its own repo. Reading another repo is allowed when a brief names the path;
-reading never grants write authority. Cross-repo work is a separate op for the owning agent.
+Each agent other than the Arranger writes only its own repo and reads another repo only when a
+brief names the path; reading never grants write authority. An agent's cross-repo work is a
+separate op for the owning agent.
+
+**One-way access** (Coordinator, 2026-09-28). The Arranger can read and change every role repo; no
+other agent reads or writes the Arranger's repo, so agents see its work only through briefs,
+notices, and the files in their own repo. The Arranger uses this to keep each role repo
+self-contained and aligned with this file. When a change could affect what an agent knows or is
+working on (its instructions, its op contract, paths it uses, files of an op in flight), the
+Arranger sends a NOTICE through the Coordinator; other changes need none. Limits: raw evidence,
+evidence dispositions, and guest-attempt accounting are never changed (corrections are new
+records), and product source stays the Implementer's.
 
 Each role repo has an `AGENTS.md` (standing rules) and an `OPS.md` (its op contract: brief format,
 defaults, and the REPORT block), so a brief carries only what is specific to its op.

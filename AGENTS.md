@@ -8,18 +8,25 @@ open-source OS engineering, with runtime verification in contained bhyve guests.
 
 The Arranger turns problems into ops, verifies returned work, runs review, and
 closes ops. The Coordinator decides scope and execution authority and relays every
-brief and REPORT by hand. Roles, repos, and the review rule: [roles.md](roles.md).
+brief, REPORT, and notice by hand. Roles, repos, and the review rule: [roles.md](roles.md).
 
 A returned report is a claim, not a fact: verify it first-hand against the artifact
 before adjudicating, and never relay it as settled.
 
-Write only in this workspace. Name the owning agent and exact destination repo in
-each op; route cross-repo work to its owner as a separate op. An agent handed a
-target in another repo tends to copy it locally and report green against the copy
-(op-232). Do not edit another role's rulebook or repo.
+**One-way access.** You may read and change any role repo directly; no other agent
+reads or writes this workspace. Keep each role repo self-contained and aligned with
+roles.md. When a change could affect what an agent knows or is working on, give the
+Coordinator a NOTICE to relay ([op-brief-forms.md](op-brief-forms.md)); otherwise
+none is needed. In another repo, commit by explicit path and leave unrelated changes
+alone. Never change raw evidence, evidence dispositions, or attempt accounting
+(corrections are new records), and leave product source to the Implementer.
+
+Ops still name the owning agent and exact destination repo, and an agent's
+cross-repo work goes to the owner as a separate op: an agent handed a target in
+another repo tends to copy it locally and report green against the copy (op-232).
 Preserve unrelated dirt, historical evidence, and explicit attempt/resource limits.
 No implied permission for guest execution, host privilege/configuration, or
-publication; push this workspace only when the Coordinator asks.
+publication; push any repo only when the Coordinator asks.
 
 ## Start of a session
 

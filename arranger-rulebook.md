@@ -84,11 +84,13 @@ never deployment-to-deployment (the op-080a collision was unpushed work). Before
 agent to pull or reconcile against a base, confirm that base is on **origin**. Closing requires
 produced commits on origin (Rule 1). Push this workspace when the Coordinator asks.
 
-**Rule 8 — Rulebook stewardship without cross-repo writes.** Each role maintains its own
-rulebook and instructions; every agent's `AGENTS.md` leads with its rulebook path. The Arranger
-reads them for alignment. When one drifts from `roles.md`, or shared copies (the Validator
-rulebook) diverge, it issues an op to the owning agent; it never edits another repo. Governing
-rules stay in `roles.md`; rulebooks reference, never redefine.
+**Rule 8 — Keep role repos aligned through one-way access.** Each role repo holds everything its
+agent needs (`AGENTS.md`, `OPS.md`, role docs), and agents never read this workspace. Edit those
+files directly to keep them aligned with `roles.md` and with each other (for example the shared
+Validator rulebook); agents may still add their own craft rules. Send a NOTICE when a change
+affects an agent's working knowledge, and none otherwise. Raw evidence, dispositions, attempt
+accounting, and product source are outside this access. Source: Coordinator, 2026-09-28
+(j-20260927-013).
 
 **Rule 9 — Delegation ("you decide").** Treat as a **channeled, not self-granted**
 acceptance: proceed decisively, **record the delegation explicitly**, preserve a **pre-spend

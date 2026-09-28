@@ -120,7 +120,10 @@ by visiting every L1i row (Coordinator, 2026-07-11). The current critical path i
 [now.md](now.md).
 
 **Op states, board, and ids:** [rob-mini-format.md](rob-mini-format.md). **Brief and REPORT
-format:** [op-brief-forms.md](op-brief-forms.md); each role repo's `OPS.md` holds its defaults. **Review rule:** [roles.md](roles.md) § Review
+format:** [op-brief-forms.md](op-brief-forms.md); each role repo's `OPS.md` holds its defaults.
+**One-way access and NOTICE:** the Arranger reads and changes every role repo, no agent reads the
+Arranger's, and a NOTICE tells an agent when a change affects its work ([roles.md](roles.md) §
+Edges). **Review rule:** [roles.md](roles.md) § Review
 and closure. Old workflow terms: §9.
 
 **L1i numbering:** `li-MNNN`, where M is the milestone (1 = 1.0-preview, index
@@ -175,6 +178,7 @@ Older records keep their original words; read them with these maps.
 | Executor, EXU, Ex | agent | 2026-09-28 (introduced 2026-06-26) |
 | Arranger1 / Arranger2, SWAP, mutex, epoch | single Arranger seat | 2026-09-27 |
 | `wip-gpt` (Implementer repo folder) | `rmx-implementer` | 2026-09-28 |
+| one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |
 
 **Workflow**
 
