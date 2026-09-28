@@ -1,3 +1,9 @@
+---
+id: op-279
+state: dropped
+updated: 2026-09-28T07:53Z
+legacy-state: Hold
+---
 # op-279 — Gatekeeper: size op-264 Finding A — runtime-check the `waitpid_loop` cross-thread reaper (idle-boot CPU watch + kill-storm soak on a KeepAlive job) BEFORE any pid-1 patch
 
 op-279 | role: **Gatekeeper** (runtime-evidence owner; no product write) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Hold — PID-1 IS NOW 1.0-PREVIEW SCOPE, resolving op-317's topology fork. Still NOT dispatchable: WAITING on op-318's exact current-tip disposable image/BOM/staging/containment and a corrected fail-closed normal form. Runtime still precedes op-280.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: gatekeeper | authored 2026-07-07; scope resolved 2026-07-12 by Coordinator ruling

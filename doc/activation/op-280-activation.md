@@ -1,3 +1,10 @@
+---
+id: op-280
+state: hold
+needs: op-391
+updated: 2026-09-28T07:53Z
+legacy-state: Hold
+---
 # op-280 — Implementer: fix op-264 Finding A — serialize/relocate the `waitpid_loop` cross-thread reaper (RESERVED, gated on op-279 evidence)
 
 op-280 | role: **Implementer** | EXU: **wip-gpt / wip-rmxos** | state: **[Hold — PID-1 is preview scope, but no edit is authorized until corrected op-279 runtime evidence sizes Finding A. WAITING on op-318→disposable-stage→op-279; exact fix remains evidence-selected.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: implementer (small/med — pid-1 code, evidence-first) | authored 2026-07-07; scope promoted 2026-07-12 by Coordinator ruling

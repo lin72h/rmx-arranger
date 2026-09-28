@@ -912,3 +912,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-388 issued → returned; op-390 created as draft.
 - evidence: sha256 of the seven artifacts and the image; `git merge-base --is-ancestor`; the BOM rows.
 - next: Present op-390; op-388 closes on its review.
+
+### j-20260928-043 — op-390 CLOSE 9/10; op-388 and op-390 closed; reaper cell op-391 drafted
+
+- time / kind: 2026-09-28T07:54:00Z / RETURN
+- outcome: validator2 returned op-390: all four op-388 claims hold, CLOSE at 9/10. It re-derived the 28 BOM rows, the plist pins, the loader.conf delta, launchd's NEEDED entries and the kernel ident, and reproduced the host inventory live with the helper's method. Arranger first-hand: rmx-validator2 3a5df4c exists; every cited artifact hash and the image hash `031885…` match on disk; rmx-implementer dd78a31 is on origin/main. Two small notes, neither blocking. consumer-checks.json was written five minutes after the run and no script produces it; validator2 re-derived its content. validator2 cited rmx-explorer1 5c51fc0 for the op-380 note, but that note landed in be1a3fb. Closed op-388 and op-390 (gate validator; rmx-validator2 has no origin by decision). For the next step, the Arranger checked the image: launchd is unstripped (jobmgr_reap_pid, job_reap and waitpid_loop are present), and dtrace with dtraceall, fasttrap and systrace are staged, so the Tier U and Tier K probes are possible. The premise image carries no workload, and a guest has no network or shares, so the W1–W5 workload has to be staged. rmx-stage-image already accepts any base whose hash matches the BOM and requires the 28 premise rows. Drafted op-391 (gatekeeper1, gate both): harness and Tier-2 classifier controls, then a workload overlay on a copy of the premise image, then one cell. op-279 dropped, as op-318 recommended (mis-scoped method; superseded by op-391). op-280 now needs op-391.
+- state delta: op-390 issued → returned → closed; op-388 returned → closed; op-279 hold → dropped; op-280 needs op-391; op-391 created as draft.
+- evidence: sha256 of the op-388 artifacts and image; `git branch -r --contains dd78a31`; `nm` and `file` of the op-364 staged launchd; the /boot/RMXOS-RELEASE module listing; `git ls-tree be1a3fb`.
+- next: Present op-391 with its authority for the Coordinator's decision.
