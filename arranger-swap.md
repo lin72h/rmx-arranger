@@ -928,3 +928,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-391 draft → issued; op-389 issued → returned → closed; op-387 hold → draft (rewritten); id-046 created.
 - evidence: `git show 2884304b` of ipc_entry.c, sys_generic.c, file.h, mach_msg.c, ipc_tt.c, ipc_pset.c, mach_thread.c and the conf files; `strings` of the op-364 kernel and mach.ko; logs/build-mach-module.log; `git ls-remote` of the libdispatch tag.
 - next: Present op-387; the Coordinator decides the id-046 fix batch and its preview gating.
+
+### j-20260928-045 — op-387 and op-391 paused (shared token account)
+
+- time / kind: 2026-09-28T08:45:00Z / STATUS
+- outcome: gatekeeper1 and advisor2 share one token account, and both paused mid-op. The Arranger checked the host: no bhyve process, nothing mounted from the stage dataset, no overlay image, and no new rmx-gatekeeper1 commits. op-391 had consumed no attempt, and the op-388 image is untouched. Both ops stay issued; re-relaying op-391 is safe if its session restarts. The Coordinator declined the id-046 fix batch for now. Also recorded: the IDQ index gained a priority column (6de3008).
+- state delta: none.
+- evidence: `pgrep bhyve`; `mount`; the stage images listing; `git log` of rmx-gatekeeper1.
+- next: Wait for op-387 and op-391 to resume.
