@@ -47,7 +47,7 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 | 1 | Re-base the op-318/op-322 contract onto alpha2: under it, only `kern_exit.c` (stable/15 zombie-reference and pdwait changes) and 26 `libexec/rc` files changed | Explorer (explorer1) | closed: op-377, NEEDS-AMENDMENT with three exact amendments |
 | 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | closed: reviews split (validator1 CLOSE 9.5, validator2 REMEDIATE 9); Arbiter REMEDIATE; op-380 corrected the BOM (BOM-CORRECTED, verified first-hand) |
 | 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | decided 2026-09-28: MachServices plus nvlist for the preview; `xpc_domain` deferred past it (li-008) |
-| 4 | Containment helper `rmx-stage-image` and the disposable PID-1 premise image on alpha2 (base: the op-364 image; launchd identity accepted) | Implementer | op-381 BLOCKED before staging: the contract needs the workspace on a device distinct from `/`, and both are `zroot/ROOT/default`. Needs a staging dataset (Coordinator); then re-issue. One Validator gates the result (op-318 chain step 2) |
+| 4 | Containment helper `rmx-stage-image` and the disposable PID-1 premise image on alpha2 (base: the op-364 image; launchd identity accepted) | Implementer | op-382 drafted (re-issue of op-381, which stopped correctly at the distinct-device check) with workspace `/Users/me/wip-mach/stage`; then one Validator gates the helper and BOM (op-318 chain step 2) |
 | 5 | The cell runner, then the corrected reaper premise (op-279, normalized) on op-381's image | Gatekeeper | waits on 4 and its Validator gate |
 | 6 | op-280's fix only if the premise is CONFIRMED; then op-202 productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | waits on 5 and 3 |
 
@@ -59,7 +59,9 @@ attribution untested; not release-wide). Detail: the journal (j-20260928-007 to 
 Guest runs use gatekeeper1's maintained runner `build/op360/run-op360-alignment-r1.sh`,
 parameterized per op (op-372's `build/op372/config.sh`): 2 vCPUs, 4 GiB, one virtio disk, serial
 console, and no network, shares, or passthrough. `vmm.ko` is loaded on this host (`bdw-fx15-x64z`,
-the rx-x64z seat).
+the rx-x64z seat). Image staging uses the ZFS dataset `zroot/wip-mach-stage` at
+`/Users/me/wip-mach/stage` (64 GB quota, owned by `me`), a device distinct from `/` as the PID-1
+contract requires (j-20260928-035).
 
 ## Off the path (backlog, not live)
 

@@ -848,3 +848,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-381 draft → issued → returned (BLOCKED).
 - evidence: sha256 of the two blocker files; `df` and `stat -f %d` for the workspace, /, and /tmp; `zfs list`.
 - next: The Coordinator decides the staging dataset (host change, needs root).
+
+### j-20260928-035 — staging dataset created; op-381 re-issued as op-382
+
+- time / kind: 2026-09-28T06:02:13Z / ACTION
+- outcome: The Coordinator chose to have the Arranger create the staging dataset. Created with `doas -n zfs create -o mountpoint=/Users/me/wip-mach/stage -o quota=64G zroot/wip-mach-stage` and `doas -n chown me:staff`, after checking that neither the path nor the dataset existed. It is a distinct device from / (dev 14112530667120819705 vs 5882038518042460496), 64 GB quota, writable by me, and persistent through the ZFS mountpoint property. op-381 was dropped as superseded, and op-382 drafted: the same brief with the workspace /Users/me/wip-mach/stage and privilege confined to image files there. Its gate is still one Validator.
+- state delta: op-381 returned → dropped; op-382 created as draft.
+- evidence: `zfs list zroot/wip-mach-stage`; `df` and `stat -f %d` of the dataset and /; a write test.
+- next: Present op-382 (ready; nothing in flight).

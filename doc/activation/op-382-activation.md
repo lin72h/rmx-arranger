@@ -1,16 +1,19 @@
 ---
-id: op-381
-state: dropped
+id: op-382
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: validator
-authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in your workspace; no guest runs; push rmx-implementer main
+authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in /Users/me/wip-mach/stage; no guest runs; push rmx-implementer main
 updated: 2026-09-28T06:01Z
 ---
-# op-381 — Implementer: staging helper and disposable PID-1 premise image on alpha2
+# op-382 — Implementer: staging helper and disposable PID-1 premise image on alpha2 (re-issue of op-381)
 
 ## Outcome
+
+op-381 stopped correctly at the distinct-device check. The Coordinator has created a staging
+dataset for it; everything else is unchanged.
 
 Chain step 1 of the reviewed PID-1 contract: the containment helper `rmx-stage-image` and one
 disposable PID-1 premise image on alpha2, delivered as content-pinned artifacts that the
@@ -46,6 +49,9 @@ wins.
 
 ## Inputs
 
+- Workspace: `/Users/me/wip-mach/stage`, ZFS dataset `zroot/wip-mach-stage` (a device distinct
+  from `/`, 64 GB quota, owned by you). Use it as the helper's `--workspace`: the image copy,
+  `vm/runs/`, `artifacts/`, and `build/` all go there.
 - Base image `/Users/me/wip-mach/rmx-implementer/build/op364-20260928T001637Z/images/op364-alpha2-gpt.raw`,
   sha256 `8f546a930859ce537d1cb8f462dbf391171fd02c2bd004d2d10b1c8b498c7140`, and its staged tree
   `…/op364-20260928T001637Z/staging/destdir` as the source of the artifacts already in the image.
@@ -58,7 +64,7 @@ wins.
 ## Limits
 
 - No guest boot or cell run; that is the Gatekeeper's next op.
-- Privilege only as the authority states, and only on image files inside your workspace. Any
+- Privilege only as the authority states, and only on image files inside `/Users/me/wip-mach/stage`. Any
   difference between `host-before.json` and `host-after.json` is a hard stop: report it; do not
   repair it.
 - Do not modify the op-364 image, its staging tree, or any other role's repo.
