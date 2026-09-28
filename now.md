@@ -34,6 +34,20 @@ mm4 is reached as `ssh mm4`: the SSH config pins 192.168.4.47 with `HostKeyAlias
 mm4's address changes only `HostName` needs updating. Resolving `mm4.local` from this host (mDNS)
 is deferred (j-20260928-002).
 
+## Next: the Mach foundation round (Coordinator, 2026-09-29)
+
+Every component depends on Mach, so upper components (libdispatch, libnotify, launchd, libxpc)
+wait until the Mach foundation is fixed and re-reviewed. In order:
+1. Fix the id-046 findings, each with an in-tree regression test that fails before the fix.
+   Design classes A (port names as fds) and B (Mach state on reused proc/thread slots) are
+   decided before point fixes land in those areas (kernel-reviews.md).
+2. Consistent automated checking (CI) on the verification side: the candidate built with
+   `mach.ko` under its kernel's configuration, booted contained, and the Mach regression suite run
+   every time (id-047 starts here).
+3. Round 2 of the Mach review (id-051, id-052): two blind reviewers on different models.
+4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
+   will be re-drafted against the fixed candidate. op-384, op-385 and op-386 are on hold.
+
 ## Critical path
 
 Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted

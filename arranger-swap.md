@@ -1030,3 +1030,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the section headings of the three consult documents.
 - next: none.
+
+### j-20260929-004 — Coordinator: Mach foundation first; upper components wait
+
+- time / kind: 2026-09-29T01:00:00Z / DECISION
+- outcome: The Coordinator's plan: do not continue to libdispatch or other upper components. Every component depends on Mach, so the order is: fix all the reported Mach bugs (id-046), set up CI-like consistent checking on the verification side, run another Mach review round like 2026-09-28's (id-051, id-052), then move up the stack. op-387 (issued to advisor2 and paused) was dropped, because `rob` refuses issued → hold and its alpha2 pin will be stale after the fixes; it will be re-drafted against the fixed candidate. op-386 moved from draft to hold; op-384 and op-385 stay on hold. now.md gained the four-step plan. Open questions for the Coordinator: whether op-391 continues as a pre-fix baseline, and which role owns the CI.
+- state delta: op-387 issued → dropped; op-386 draft → hold.
+- evidence: none.
+- next: Draft the first fix ops when the Coordinator answers.

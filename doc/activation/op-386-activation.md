@@ -1,12 +1,12 @@
 ---
 id: op-386
-state: draft
+state: hold
 agent: advisor4
 repo: mm4:/Users/linz/Local/wip-mach/rmx-advisor4
 idq: id-021
 gate: self
 authority: none
-updated: 2026-09-28T06:07Z
+updated: 2026-09-28T11:18Z
 ---
 # op-386 — Advisor 4: libxpc review at alpha2 against macOS 27
 
