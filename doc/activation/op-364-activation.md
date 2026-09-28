@@ -1,12 +1,12 @@
 ---
 id: op-364
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer (and nested wip-rmxos, branch alpha2)
 idq: id-042
 gate: both
 authority: build mach.ko only; stage and compose a new image (makefs, mkimg)
-updated: 2026-09-28T01:34Z
+updated: 2026-09-28T03:18Z
 ---
 # op-364 — Implementer: rebuild mach.ko with the kernel toolchain and compose a new boot image
 

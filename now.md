@@ -16,7 +16,7 @@ Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368 returns, so nothing moves under a review |
+| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 closed; rename back and `implementer0/` wait until op-372 returns, so nothing moves under a run |
 | Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | both onboarded (op-370, op-371 closed) |
 | Explorer | `rmx-explorer` (here and on mm4) | pending |
 | Oracle | `rmx-oracle` | pending |
@@ -24,8 +24,8 @@ Validators use `rmx-validator0` plus numbered instances.
 
 Old folder names stay as symlinks while anything references them: `wip-gpt` (also named by
 gatekeeper1's op360 runner and the id-044 preflights), `wip-glm`, `wip-ds4p`, `rmx-arranger1`.
-Until op-368 returns, the Implementer's real folder is `rmx-implementer1` and `rmx-implementer`
-is the symlink; that swaps back afterwards.
+Until op-372 returns (it reads the image from `rmx-implementer/build/`), the Implementer's real
+folder is `rmx-implementer1` and `rmx-implementer` is the symlink; that swaps back afterwards.
 
 mm4 is reached as `ssh mm4`: the SSH config pins 192.168.4.47 with `HostKeyAlias mm4`, so if
 mm4's address changes only `HostName` needs updating. Resolving `mm4.local` from this host (mDNS)
@@ -37,8 +37,8 @@ Decisions in force: j-20260922-001 (cold build of the exact candidate, manual re
 containment and staging, then a small regression slice; the generic preflight checker is off the
 path). NFS/Kerberos: op-340's policy, confirmed by the Coordinator (j-20260927-014). Kernel NFS options
 and NFS modules are off, NFS userland stays dormant, Kerberos is at upstream defaults, and
-OpenSSH/OpenSSL/ACLs are kept. Branch `alpha2` exists only locally (not on rmxOS origin or the
-backup remote); whether to push it is open.
+OpenSSH/OpenSSL/ACLs are kept. Branch `alpha2` is on the public rmxOS origin at `2884304b`
+(pushed 2026-09-28 by Coordinator decision).
 
 Baseline (op-361, verified): the deliverable is the op-358 image, an 8 GiB UFS root and raw GPT
 image built from the alpha2 candidate (`15c185c0` plus three uncommitted profile paths), with
@@ -54,10 +54,10 @@ not release-wide acceptance. That `mach.ko` was built with clang 19.1.7 against 
 | 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
 | 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
-| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | returned, verified first-hand: alpha2 `2884304b`; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
-| 5 | Review op-364 | both Validators (release critical path) | both CLOSE: validator1 9.5 (op-368), validator2 9 (op-369). op-364 closes once its commits are on origin |
-| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | waits on 5 |
-| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 6 |
+| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | closed: alpha2 `2884304b` on origin; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
+| 5 | Review op-364 | both Validators (release critical path) | closed: both CLOSE, validator1 9.5 (op-368), validator2 9 (op-369) |
+| 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | op-372 (bundled with step 7): drafted |
+| 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | op-372 |
 
 Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which
 resolves only through leak-locals (`debug.link_elf_leak_locals=1`, the default) and the symbol

@@ -648,3 +648,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-368 issued → returned → closed. op-364 stays returned until its commits are on origin: rmx-implementer 39b2f89 (private lin72h/project-rmx, 1 ahead) and alpha2 2884304b (public lin72h/rmxOS, 1,930 commits on no origin branch, mostly the upstream stable/15 merge; no blob over 50 MB; not on the local backup remote either).
 - evidence: `git log`/`show --stat` of rmx-validator1 da865b2; sha256 of the five commit blobs and four cited files (OK); `git rev-list` counts; `gh repo view` visibilities.
 - next: The Coordinator decides the two pushes (publishing alpha2 needs an explicit yes); then close op-364 and present the Gatekeeper boot op.
+
+### j-20260928-010 — op-364 closed after both pushes; op-372 drafted for the contained boot
+
+- time / kind: 2026-09-28T03:21:43Z / DECISION
+- outcome: The Coordinator chose to push both. rmx-implementer 39b2f89 went to the private lin72h/project-rmx (main dfe9a60..39b2f89), and alpha2 2884304b went to the public lin72h/rmxOS as a new branch. Both were verified with `git ls-remote`, and op-364 closed (gate both: validator1 9.5, validator2 9, in agreement; commits on origin). Drafted op-372 (gatekeeper1, steps 6–7 bundled): prepare, then a bounded, contained boot of the op-364 image with up to 2 guest attempts, loading vmm with doas if absent, and pushing to rmx-gatekeeper1. While preparing it, the passing op360 attempt turned out not to match the launcher on disk. Its host log records Expect driver boot-op360-r2.expect 7bcd0682…, plan guest-sequence-alignment-r1.tsv cc93815a…, and Mach probe alignment-r1/bin/mach_probe_diag 72be4d2c…, while run-op360-r2.sh (c642924f…) pins bin/mach_probe_diag 0830f1a0… and guest-sequence.tsv. op-372 therefore pins the passing basis and changes only the image-side pins. The Implementer rename now waits for op-372, which reads the image under rmx-implementer/build/.
+- state delta: op-364 returned → closed; op-372 created as draft.
+- evidence: `git ls-remote` for project-rmx main (39b2f89972d6…) and rmxOS alpha2 (2884304b67fc…); sha256 of op360's driver, plan, and probes and of op-364's image inputs; op360 host-orchestration.log lines 10–20.
+- next: Present op-372; it is ready and nothing else is in flight. gatekeeper1's NOTICE (j-20260928-008) must be relayed first.
