@@ -95,6 +95,9 @@ is ready to send.
   condition.
 ## mm4 access
 
+- Quick macOS 27 facts: read-only commands on mm4 (`launchctl print`, `sw_vers`, `find`), which beat a
+  web search for the current release (j-20260928-028). Probe runs, traces, and captures go to
+  explorer2 by op, so the evidence lands in its repo.
 - mm4 scripts: copy the script to mm4 and run `zsh -l <file> < /dev/null`. A script fed on stdin can be swallowed by any command that reads stdin (the Xcode git shim did, 2026-09-28).
 - My SSH session on mm4 has no GitHub key (`Permission denied (publickey)`). To push an mm4 repo,
   clone it bare from `mm4:<path>` to the scratchpad, push from here, then set the repo's
