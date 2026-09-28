@@ -70,9 +70,12 @@ brief holds only what is specific to the op; the role repo's `OPS.md` holds the 
 REPORT block (op-brief-forms.md). Plain labels only, no box-drawing. The op stays `draft` until the
 Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28; OPS.md split 2026-09-28.
 
-**Rule 5 — Run the independent in parallel, sequence the dependent.** Independent ops go to
-different agents in parallel; a dependent op lists `needs: [op-NNN]` and is not sent until those
-close.
+**Rule 5 — Present only what can run now; sequence the rest.** An op is ready when its `needs`
+have closed and it is safe to run alongside everything in flight: its agent is idle; it shares no
+writes with another op; it reads nothing another op, or the Arranger, may change meanwhile (a repo,
+worktree, build tree, or artifact under review); and it needs no guest or VM that is in use. Show
+the Coordinator only ready ops. Keep the rest in the IDQ, or in `hold` if the brief exists, and
+say nothing about them until they are ready. Source: Coordinator, 2026-09-28 (j-20260927-026).
 
 **Rule 6 — Validators-primary; Arbiter narrow.** Quality-validation is GLM + DS4P's job.
 When Rule 11 has you step in (confidence <8 or a conflict): give the **final call**

@@ -536,3 +536,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-364 issued → returned; op-368 and op-369 created (draft).
 - evidence: rmx-implementer/build/op364-20260928T001637Z/{evidence,images,obj}; the hashes above.
 - next: Relay op-368 and op-369; Coordinator decides the rmx-implementer and alpha2 pushes.
+
+### j-20260927-026 — only ready, concurrency-safe ops are shown to the Coordinator
+
+- time / kind: 2026-09-28T01:42:11Z / DECISION
+- outcome: Coordinator rule. The Arranger tells the Coordinator only about ops that are ready to send now and safe to run alongside everything in flight: their needs have closed, their agent is idle, they share no writes, they read nothing another op or the Arranger may change meanwhile, and they need no guest or VM in use. Everything else stays in the IDQ, or in `hold` if a brief exists, and is not mentioned until ready. `draft` now means ready to send (rob-mini-format.md), and rulebook Rule 5 and AGENTS.md (arranger0 template) are updated. Applied now: the follow-up fix for the op-363 scripts became IDQ problem id-044 (fix or retire) instead of a planned op; the Implementer conversion waits until op-368 and op-369 return, so nothing moves under a review.
+- state delta: id-044 raised (WAITING).
+- evidence: Coordinator message in chat; rob-mini-format.md; arranger-rulebook.md Rule 5; idq/id-044.
+- next: Relay op-368 and op-369.

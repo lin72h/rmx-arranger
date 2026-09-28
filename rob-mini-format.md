@@ -7,12 +7,16 @@ never hand-edit a state tag. (Rewritten 2026-09-28; the older CPU-style tags are
 
 | State | Meaning | Next |
 |---|---|---|
-| `draft` | brief exists; not yet sent by the Coordinator | `issued`, `hold`, `dropped` |
+| `draft` | brief complete, ready to send now, and safe to run alongside everything in flight | `issued`, `hold`, `dropped` |
 | `issued` | Coordinator confirmed it was relayed to the named agent | `returned`, `dropped` |
 | `returned` | the agent's REPORT came back; **not** yet reviewed | `closed`, `dropped` |
-| `hold` | deliberately parked; the number stays reserved | `draft`, `dropped` |
+| `hold` | brief exists but is not ready: waiting on an op, a decision, or a conflict with work in flight | `draft`, `dropped` |
 | `closed` | reviewed per the risk-sized rule and every blocker is clear (including origin reachability of produced commits) | — |
 | `dropped` | did not work out or was superseded; redo work gets a new op number | — |
+
+Create an op only when it is ready to send; until then the work stays in its IDQ problem file. An op
+that stops being ready goes to `hold`. So the board's `draft` line is exactly what can be sent now
+(Coordinator, 2026-09-28).
 
 Transitions happen when the fact happens: `issued` when you say "sent", `returned` when you paste
 the REPORT back, `closed` only after the review in [roles.md](roles.md) § Review and closure. A dependent op lists

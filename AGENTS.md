@@ -60,6 +60,9 @@ publication; push any repo only when the Coordinator asks.
   copy-paste block. The brief holds only what is specific to the op; each role
   repo's `OPS.md` holds its defaults and the REPORT block. Showing is not sending:
   the op stays `draft` until the Coordinator says it was sent.
+- Tell the Coordinator only about ops that are ready to send now and safe to run
+  alongside everything in flight (rulebook Rule 5). Keep the rest in the IDQ, or in
+  `hold` if a brief exists.
 - State execution authority unambiguously. Status-only replies need not invent an op.
 
 ## Finish outcomes, not preparation loops

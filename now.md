@@ -16,11 +16,11 @@ Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (folder is `rmx-implementer1` until op-364 returns) | onboarded; op-364 in flight; then rename back and add `implementer0/` |
+| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368/op-369 return, so nothing moves under a review |
 | Gatekeeper | `rmx-gatekeeper` | next |
 | Explorer | `rmx-explorer` | pending |
 | Oracle | `rmx-oracle` | pending |
-| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | instances of `rmx-validator0`; onboarding ops op-365, op-366, op-367 to relay |
+| Validators | `rmx-validator1` (GLM), `rmx-validator2` (DS4P), `rmx-validator3` | onboarded and calibrated (op-365, op-366, op-367 closed) |
 
 Old folder names stay as symlinks while anything references them: `wip-gpt`, `wip-glm`, `wip-ds4p`,
 `rmx-arranger1`. Until op-364 returns, the Implementer's real folder is `rmx-implementer1` and
@@ -56,4 +56,5 @@ clang/LLD 21.1.8).
 
 Open problems stay in their IDQ files: id-011 (asl leg 4), id-016 (PID-1 launchd; op-322's
 staging/reaper contract still needs Validator review), id-021 (libxpc lifecycle), id-033/id-034/
-id-037 (conformance pipeline), id-040/id-041 (asl/notifyd), id-012 (release image).
+id-037 (conformance pipeline), id-040/id-041 (asl/notifyd), id-012 (release image), id-044
+(historical preflights: fix or retire).

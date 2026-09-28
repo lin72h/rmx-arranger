@@ -64,14 +64,8 @@ Template changes from the Validators' feedback (op-365/366/367 blockers):
   spelling", "a removed hard-code can be a relocated one" (validator1 and validator2), and
   "evaluating a derivation without running the script" (validator1).
 
-Follow-up op (after op-364 closes and the Implementer is converted): give the objdir component an
-explicit key with an environment override (default: the historical `wip-gpt` spelling) in the six
-preflights and verify-phase1; replace `${workspace_root}/wip-gpt/…` in the five other scripts
-(asl-a3, four verify-phase07); report the mach-send mach.ko pin mismatch (`49ac3d89…` pinned,
-`9c7706a3…` on disk) without changing the pin, since pins are evidence authority. Check by
-evaluating the derivations under all three names. Cause: my op-363 brief asked for
-location-derived paths, and my own S gate accepted the result. These are historical phase-0.95
-preflights, so the Coordinator may prefer to retire them instead.
+Follow-up: now IDQ problem id-044 (fix or retire the historical preflights), not an op until it
+is ready to send.
 
 ## Pending for the validator0 template (next NOTICE)
 
