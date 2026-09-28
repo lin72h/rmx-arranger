@@ -74,3 +74,14 @@ is ready to send.
   `git --no-optional-locks status`); keep scratch under `reviews/op-NNN/scratch/`, never `/tmp`;
   do not read the other Validator's repo before returning. And for the Arranger: no rename or
   re-render of a repo whose artifacts are under review.
+
+## Pending for rmx-role0 (render with the next batch, when no instance has an op in flight)
+
+- report partial: `commits:` lists the commits this op made, or none. In op-371, gatekeeper2
+  listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure
+  condition.
+
+## Lessons for briefs
+
+- A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
+  op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.

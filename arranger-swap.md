@@ -592,3 +592,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `ssh -o BatchMode=yes mm4 'hostname; sw_vers -productVersion'` → `mm4.local`, `27.0`; the previous config is backed up in the session scratchpad.
 - next: none; mDNS when the Coordinator takes it up.
+
+### j-20260928-003 — op-371 returned and closed: gatekeeper2 onboarded
+
+- time / kind: 2026-09-28T02:45:11Z / RETURN
+- outcome: gatekeeper2's REPORT (DONE, read-only) was verified first-hand on mm4 and closed as S (gate self, confidence 9). All 15 evidence hashes match. The repo is clean on main at 06fb1a5, 3 commits ahead of origin (the Arranger's snapshot and conversion commits), and the op wrote nothing. Its evidence choice is right: the newest macOS runs are macos-validation/results/mx-a64z/20260619-27.0-27.0.0 (12 checks, all "pass", on macOS 27.0 beta 26A5353q) and artifacts/oracle/macos26/oracle.mach_ipc.cross_task_inline.v1/20260604T031557Z ("pass"); mx-a64z/ holds older write-ups from 2026-05-12/13. Filled in first-hand what the REPORT left out: the login shell provides Elixir 1.20.0 (compiled with OTP 28) on Erlang/OTP 29, and Zig 0.16.0; the host now runs macOS 27.0 build 26A428, which is newer than the evidence build. Gaps: the REPORT block gave no per-run reading, and its commits line listed existing commits instead of none. The toolchain was left untested because the brief said "no runs"; that ambiguity is the brief's, not the agent's (LOCAL.md lessons).
+- state delta: op-371 issued → returned → closed.
+- evidence: `shasum -a 256 -c` on mm4 (15 OK); `git status -sb` on mm4; statuses read from the 12 result JSONs; versions from `zsh -l` on mm4.
+- next: none for gatekeeper2 until a macOS-truth op is needed; a re-run on 26A428 would need run authority.
+
+### j-20260928-004 — mm4 cleanup after op-371: template copy replaced, instance.json tidied
+
+- time / kind: 2026-09-28T02:45:11Z / ACTION
+- outcome: With op-371 returned and gatekeeper2's Codex session idle, replaced the rmx-gatekeeper0 copy on mm4 (now identical to the local tree at faf7acd: 4 files, no .git) and removed the old "remote" key and mirror comment from gatekeeper2's instance.json. That change is rmx-gatekeeper2 39d92e7 on mm4, not pushed; main is 4 commits ahead of origin. The render is unchanged: a temporary-workspace render was up to date and the lock identical. No NOTICE, because nothing the agent relies on changed.
+- state delta: none.
+- evidence: local vs mm4 hash comparison (4 template files identical); rmx-gatekeeper2 39d92e7.
+- next: Push rmx-gatekeeper2 (origin lin72h/mach-oracle) only when the Coordinator asks. Its 4 unpushed commits are small (largest blob 53 KB).
