@@ -74,6 +74,18 @@ is ready to send.
   `git --no-optional-locks status`); keep scratch under `reviews/op-NNN/scratch/`, never `/tmp`;
   do not read the other Validator's repo before returning. And for the Arranger: no rename or
   re-render of a repo whose artifacts are under review.
+- Promote from validator2's LOCAL.md (d401250, op-369) into the rulebook's falsification
+  patterns: a binary's `.comment` names the compiler that built it, not its own version; "defined
+  in the kernel" must name the resolution path (`.symtab` vs `.dynsym` plus leak-locals); an image
+  diff needs a byte count, its distribution, and pattern-probe deltas, never "only X differs".
+- validator2 format slips, twice now (op-366, op-369): a duplicated `REPORT` line, and in op-369
+  a bare commit hash with no repo. Fix it in the template only if it recurs after the next render.
+
+## My checks (corrections)
+
+- op-364: I counted mach.ko's 112 undefined symbols as "present in the kernel" by `.symtab`. That
+  does not prove they resolve: `knote_enqueue` is LOCAL and resolves only through leak-locals
+  (validator2, op-369). For a module, name the resolution path.
 
 ## Pending for rmx-role0 (render with the next batch, when no instance has an op in flight)
 

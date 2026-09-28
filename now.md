@@ -16,7 +16,7 @@ Validators use `rmx-validator0` plus numbered instances.
 
 | Role | Repo | Status |
 |---|---|---|
-| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368/op-369 return, so nothing moves under a review |
+| Implementer | `rmx-implementer` (folder is `rmx-implementer1` for now) | onboarded; op-364 returned; rename back and `implementer0/` wait until op-368 returns, so nothing moves under a review |
 | Gatekeeper | `rmx-gatekeeper1` (here), `rmx-gatekeeper2` (only on mm4) | gatekeeper2 onboarded (op-371 closed); gatekeeper1's op-370 in flight |
 | Explorer | `rmx-explorer` (here and on mm4) | pending |
 | Oracle | `rmx-oracle` | pending |
@@ -51,10 +51,16 @@ clang/LLD 21.1.8).
 | 1 | Re-establish the baseline from disk | Implementer (op-361) | closed |
 | 2 | Index the op-335…op-358 build chain for review | Implementer (op-362) | closed: `rmx-implementer/docs/alpha2-build-chain.md` |
 | 3 | Coordinator reviews the build and image evidence | Coordinator | done: decisions in j-20260927-014 |
-| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | in flight: alpha2 `2884304b`; `build/op364-20260928T001637Z` |
-| 5 | Review op-364 | both Validators (release critical path) | waits on 4 |
+| 4 | Commit the profile on alpha2; rebuild `mach.ko` with the kernel toolchain; compose a new image | Implementer (op-364) | returned, verified first-hand: alpha2 `2884304b`; `build/op364-20260928T001637Z`; GPT image `8f546a93…` |
+| 5 | Review op-364 | both Validators (release critical path) | validator2 (op-369): CLOSE, 9; validator1 (op-368) in flight |
 | 6 | Accepted containment, then staging of the op-364 image | Gatekeeper | waits on 5 |
 | 7 | Boot: `mach.ko` loads and initializes, `task_self_trap` works; then the small regression slice (boot/base, Mach IPC, dispatch/workqueue) | Gatekeeper | waits on 6 |
+
+Carry into the boot test (op-369): `mach.ko` needs the kernel's LOCAL `knote_enqueue`, which
+resolves only through leak-locals (`debug.link_elf_leak_locals=1`, the default) and the symbol
+table the loader passes. The boot must record whether it loads; a failure reads `symbol
+knote_enqueue undefined`. This is not an op-364 regression, because op-343's module had the same
+dependency.
 
 ## Off the path (backlog, not live)
 

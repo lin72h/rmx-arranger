@@ -1,12 +1,12 @@
 ---
 id: op-369
-state: issued
+state: closed
 agent: validator2
 repo: rmx-validator2
 idq: id-042
 gate: self
 authority: none
-updated: 2026-09-28T01:44Z
+updated: 2026-09-28T02:53Z
 ---
 # op-369 — Validator 2: review op-364 (alpha2 profile commit, mach.ko rebuild, new image)
 

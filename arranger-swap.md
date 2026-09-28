@@ -616,3 +616,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `git ls-remote git@github.com:lin72h/rmx-gatekeeper2.git refs/heads/main` → 510d275cf9ee2f757f952f29bc1afe294c2768fb; `gh repo view` → PRIVATE, default branch main.
 - next: The Coordinator relays the NOTICE to gatekeeper2 (origin and the AGENTS.md repo note changed).
+
+### j-20260928-006 — op-369 returned and consumed: validator2 says CLOSE op-364 at 9
+
+- time / kind: 2026-09-28T02:54:02Z / RETURN
+- outcome: validator2 reviewed op-364 with its own sharpened question: does the byte chain hold end to end, from 2884304b and op-343's compiler to the module in the delivered image, with everything else still matching op-358? It found that all four claims hold. Verdict CLOSE, score 9; it recorded two failed falsification threads and did not read validator1's review. Consumed after a light provenance check (confidence 9): all 14 file evidence hashes match first-hand, including both UFS copies (ea7157ab…) and the GPT image (8f546a93…); the review is rmx-validator2 d401250 (reviews/op-369/op-364-review.md plus LOCAL.md lessons; local Git, no origin); rmx-implementer 39b2f89 and alpha2 2884304b exist as cited. Carried into the boot test: mach.ko needs the kernel's LOCAL knote_enqueue, which resolves only through leak-locals (debug.link_elf_leak_locals=1, the default) and the loader's symbol table; op-343's module had the same dependency. This also corrects the Arranger's op-364 symbol check, which counted .symtab membership (LOCAL.md). Format slips: a duplicated REPORT line again, and a commit given without its repo.
+- state delta: op-369 issued → returned → closed. op-364 stays returned until op-368 (validator1) returns and agrees.
+- evidence: sha256 of the 14 cited files (all OK); `git log`/`show --stat` of rmx-validator2 d401250; now.md boot-test note.
+- next: Wait for op-368. Closing op-364 then needs rmx-implementer 39b2f89 and alpha2 2884304b on origin, or the Coordinator's waiver.
