@@ -1,12 +1,12 @@
 ---
 id: op-382
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: validator
 authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in /Users/me/wip-mach/stage; no guest runs; push rmx-implementer main
-updated: 2026-09-28T06:01Z
+updated: 2026-09-28T06:05Z
 ---
 # op-382 — Implementer: staging helper and disposable PID-1 premise image on alpha2 (re-issue of op-381)
 
