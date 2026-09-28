@@ -880,3 +880,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-383 rewritten (draft); op-387 created, hold (needs op-383); op-384 needs op-387.
 - evidence: `git grep` of the integration files.
 - next: op-383 is ready to send.
+
+### j-20260928-039 — op-382 BLOCKED on a false host delta; op-388 drafted
+
+- time / kind: 2026-09-28T06:46:09Z / RETURN
+- outcome: op-383 was relayed. op-382 (Implementer) returned BLOCKED at the host-inventory hard stop. Evidence hashes match; the two inventories agree on rc.conf, rc.local, and loader.conf and differ only in the mtree digests for /etc/rc.d and /boot/modules. Arranger first-hand: rmx-stage-image.exs:123 hashes the whole `mtree -c` output, including its # header (user, machine, tree, date), which differs on every run; back-to-back runs differ while content-only lines are stable; no protected file changed in the last 12 hours. So the host was unchanged and the stop was a harness defect, handled correctly (stop, not repair). The self-test lacked a no-change stability control. op-382 dropped as superseded; op-388 drafted: fix the inventory to hash content lines only, add the stability check, then stage a fresh copy (the op-382 image bdce6128… is not accepted).
+- state delta: op-383 draft → issued; op-382 issued → returned → dropped; op-388 created as draft.
+- evidence: sha256 of host-before.json and host-after.json; the diff; back-to-back `mtree -c` on this host; `find -newermt`.
+- next: Present op-388.

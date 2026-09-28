@@ -1,6 +1,6 @@
 ---
-id: op-382
-state: dropped
+id: op-388
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-016
@@ -8,12 +8,18 @@ gate: validator
 authority: doas only for mdconfig, gpart, fsck, mount, install, umount on image files in /Users/me/wip-mach/stage; no guest runs; push rmx-implementer main
 updated: 2026-09-28T06:46Z
 ---
-# op-382 — Implementer: staging helper and disposable PID-1 premise image on alpha2 (re-issue of op-381)
+# op-388 — Implementer: fix the helper's host inventory, then stage the PID-1 premise image (re-issue of op-382)
 
 ## Outcome
 
-op-381 stopped correctly at the distinct-device check. The Coordinator has created a staging
-dataset for it; everything else is unchanged.
+op-382 stopped correctly at the host-inventory hard stop, but the delta was a harness defect, not a
+host change. The Arranger verified: `rmx-stage-image.exs:123` hashes the full `mtree -c` output,
+whose `#` header (user, machine, tree, date) differs on every run; the content lines are stable,
+and nothing under `/etc/rc.d`, `/boot/modules`, `rc.conf`, `rc.local`, or `loader.conf` changed.
+First: hash only mtree's content lines (drop `#` lines), and add to the self-test a no-change
+stability check (two inventories with nothing changed must be equal) alongside the existing
+fixture-delta check. Then stage a fresh copy; the op-382 image is not accepted. Everything else
+is as in op-382:
 
 Chain step 1 of the reviewed PID-1 contract: the containment helper `rmx-stage-image` and one
 disposable PID-1 premise image on alpha2, delivered as content-pinned artifacts that the
