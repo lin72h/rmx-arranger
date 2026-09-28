@@ -1038,3 +1038,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-387 issued → dropped; op-386 draft → hold.
 - evidence: none.
 - next: Draft the first fix ops when the Coordinator answers.
+
+### j-20260929-005 — op-391 continues as the pre-fix baseline; the Gatekeeper owns CI
+
+- time / kind: 2026-09-29T01:05:00Z / DECISION
+- outcome: The Coordinator's answers: op-391 continues as a baseline of launchd's reaper on today's alpha2, with its results read in light of N1's fast respawn. CI is built and run by the Gatekeeper and read by the Validators, keeping who runs apart from who judges. Fix ops are test-first: each starts with an in-tree regression test that fails on today's code, which also confirms the 20 reported-only findings. Batches: local fixes; lifetime fixes after the class A and B design; design fixes.
+- state delta: none.
+- evidence: none.
+- next: Draft the first ops: the class A and B design consult (Advisor), fix batch 1 (Implementer), and the CI (Gatekeeper).

@@ -41,10 +41,11 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
 1. Fix the id-046 findings, each with an in-tree regression test that fails before the fix.
    Design classes A (port names as fds) and B (Mach state on reused proc/thread slots) are
    decided before point fixes land in those areas (kernel-reviews.md).
-2. Consistent automated checking (CI) on the verification side: the candidate built with
+2. Consistent automated checking (CI), built and run by the Gatekeeper and read by the Validators: the candidate built with
    `mach.ko` under its kernel's configuration, booted contained, and the Mach regression suite run
    every time (id-047 starts here).
 3. Round 2 of the Mach review (id-051, id-052): two blind reviewers on different models.
+op-391 continues as the pre-fix baseline of launchd's reaper (read its results with N1 in mind).
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
    will be re-drafted against the fixed candidate. op-384, op-385 and op-386 are on hold.
 
