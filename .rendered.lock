@@ -1,17 +1,17 @@
 {
   "chain": [
     {
-      "digest": "bc3f379bfb7ce93078d021d083b63d91a09752fd08a1fcda714e2e1948ae134f",
+      "digest": "ce308f1c9706482ad0b9f102ea6082a92ad1a38d16d0abe7c5b176d7f440a8ab",
       "template": "rmx-role0"
     },
     {
-      "digest": "9772bcb90ec7739564d31a2c555bf8adb1210a7f84c253132517cca9c4ec643f",
+      "digest": "a3c4ea6d86da0af270cc577c31766068e3fb812200cfb3b023a0a6833245d133",
       "template": "rmx-arranger/arranger0"
     }
   ],
   "class": "arranger0",
   "files": {
-    "AGENTS.md": "4764f4e00e7027ff07923eee84ec635ea6b7934552af272d334888111253ba64",
-    "arranger-rulebook.md": "49ecdc4332b97b5dd33f724b56d6139f37430f3bee594eea36e1fa3308389e89"
+    "AGENTS.md": "cb71ad43353cb2ed085d2d28cdf46851065596bea737a43f6774a155674834d0",
+    "arranger-rulebook.md": "e83d0d001db57774bccc5e5b6a713f9f6cb694b700906bd1e32b9dd896bd8e11"
   }
 }

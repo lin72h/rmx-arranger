@@ -712,3 +712,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-374 draft → issued → returned → closed.
 - evidence: `shasum -a 256` of the five cited files on mm4; `xcodebuild -version`, `swift --version`, `zig version`, `sw_vers`; counts in the 20260621 run dir.
 - next: Both Explorers are onboarded. op-372 is still running. Next modernization: the Oracle.
+
+### j-20260928-018 — the Oracle role renamed Advisor; three Advisor instances converted
+
+- time / kind: 2026-09-28T04:01:00Z / DECISION
+- outcome: Coordinator decision: the consult role "Oracle" becomes "Advisor". Lowercase "oracle" keeps only its test sense and legacy artifact names. Created template rmx-advisor0 (local Git 8dbf3c4). It keeps the still-valid Oracle-era rules: framing every consult as open-source OS engineering so a model's safety layer does not misread kernel design review, first-hand reading, overclaim-strict proposals, no product writes, and plain text. Its REPORT adds question, consult, and proposal lines. The three plain folders became Git instances with transitional symlinks: rmx-oracle → rmx-advisor1 (snapshot ca6f7e0; Oracle-era AGENTS.md and oracle-rulebook.md moved to docs/ as history; converted 2d4e274), rmx-oracle2 → rmx-advisor2 (snapshot e400a08 with two core dumps ignored; 67bfbf1), rmx-oracle3 → rmx-advisor3 (17aa85e; 015f225). No agent was working in them. Renamed the role in roles.md, terminology.md (definition, repo table, §9 map), now.md, the Arranger rulebook (Advisor briefs lead with the framing), and the Arranger's harness note; re-rendered rmx-arranger. `roles check`: 9 instances, 0 need attention. The Advisors have no remote yet.
+- state delta: none.
+- evidence: the commits above; the render output.
+- next: The Coordinator decides whether the Advisors get private GitHub repos like the other instances, and names each seat's model (for routing). Then Advisor onboarding.

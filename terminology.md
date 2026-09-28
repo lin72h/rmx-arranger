@@ -11,8 +11,8 @@ Definitions, repos, and the review rule: [roles.md](roles.md). Naming notes only
 
 - **agent** — one autonomous worker: a harness, a model, and its tools. Each non-human role is
   held by one or more agents; only the Coordinator is human.
-- **Oracle** (capital O) is the consult role. It is distinct from the lowercase "test oracle" /
-  "real macOS is the oracle" sense in parity docs, and from "oracle" inside legacy artifact names
+- **Advisor** is the consult role; it was called the Oracle until 2026-09-28. Lowercase "oracle"
+  keeps only its test sense ("real macOS is the oracle") and appears inside legacy artifact names
   (§4).
 - **Ruler** — naming family for Explorer and Gatekeeper instances (§2); each measures rmxOS
   against macOS truth. Not a separate role.
@@ -70,7 +70,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | Local workspace | Upstream | Role |
 |---|---|---|
 | `rmx-arranger` (template in `arranger0/`; `rmx-arranger1` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0` | none (local Git) | templates |
+| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0`, `rmx-advisor0` | none (local Git) | templates |
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer1` (`rmx-explorer` is a transitional symlink) | `git@github.com:lin72h/rmx-explorer1.git` (private; the public `lin72h/rmx-explorer`, shared by both seats until 2026-09-28, is its `shared` remote) | Explorer 1 (rx-x64z seat on `bdw-fx15-x64z`) |
 | `rmx-explorer2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-explorer2` (`rmx-explorer` there is a transitional symlink; a copy of `rmx-explorer0` sits beside it) | `git@github.com:lin72h/rmx-explorer2.git` (private; `shared` as above) | Explorer 2 (mx-a64z) |
@@ -78,7 +78,7 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-gatekeeper2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink; a copy of `rmx-gatekeeper0` sits beside it) | `git@github.com:lin72h/rmx-gatekeeper2.git` (private; the old `lin72h/mach-oracle` is left as history) | Gatekeeper 2 (mx-a64z) |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
-| `rmx-oracle` | none (not a Git repo) | Oracle |
+| `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` (`rmx-oracle`, `rmx-oracle2`, `rmx-oracle3` are transitional symlinks) | none yet (local Git since 2026-09-28) | Advisors 1–3 |
 | `rmx-validator3` | none (local Git) | Validator 3 (model seated per session: luna-max, sol-medium, astra-medium, astra-max, or astra-ultra) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |
@@ -192,6 +192,7 @@ Older records keep their original words; read them with these maps.
 | `rmx-implementer1` (briefly) | `rmx-implementer` with its template in `implementer0/` | 2026-09-28 |
 | `rmx-gatekeeper`; `mach-oracle` on mm4 (legacy unified Oracle) | `rmx-gatekeeper1`; `rmx-gatekeeper2` on mm4 | 2026-09-28 |
 | `rmx-explorer`, one repo shared by both seats | `rmx-explorer1` here; `rmx-explorer2` on mm4 | 2026-09-28 |
+| Oracle (consult role); `rmx-oracle`, `rmx-oracle2`, `rmx-oracle3` (plain folders) | Advisor; `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` | 2026-09-28 |
 | each agent edits its own copy of shared text | template + `LOCAL.md`, rendered by `tools/roles` | 2026-09-28 |
 | Python tools and tests, TOML config | Elixir tools (`tools/rob`, `tools/roles`) with ExUnit tests, JSON config | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |

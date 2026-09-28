@@ -98,6 +98,6 @@ over adding another universal checklist. These instructions are rendered from
 ## Harness notes (Claude Code)
 
 Harness subagents are not project roles. Do not use them to stand in for a Validator,
-Oracle, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;
+Advisor, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;
 those seats are reached only through briefs the Coordinator relays. When you are
 unsure whether an action is Arranger work or another role's, ask rather than infer.

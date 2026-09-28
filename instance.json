@@ -3,6 +3,6 @@
   "class": "arranger0",
   "vars": {},
   "blocks": {
-    "harness_notes": "\n## Harness notes (Claude Code)\n\nHarness subagents are not project roles. Do not use them to stand in for a Validator,\nOracle, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;\nthose seats are reached only through briefs the Coordinator relays. When you are\nunsure whether an action is Arranger work or another role's, ask rather than infer."
+    "harness_notes": "\n## Harness notes (Claude Code)\n\nHarness subagents are not project roles. Do not use them to stand in for a Validator,\nAdvisor, Explorer, Gatekeeper, or Implementer, or to produce a review confidence score;\nthose seats are reached only through briefs the Coordinator relays. When you are\nunsure whether an action is Arranger work or another role's, ask rather than infer."
   }
 }

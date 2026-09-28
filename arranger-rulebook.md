@@ -120,8 +120,9 @@ Validator by the question and by cost:
 - **Route by size** per `roles.md` § Review and closure, and pick the Validator by the question
   and cost per `roles.md` § Choosing a Validator (validator1 free, validator2 cheap, validator3
   seated by tier). An idle Validator is not by itself a reason to create another review cycle.
-- **Correctness review goes to a Validator, never the Oracle** (Coordinator, 2026-07-11). The
-  Oracle is for design, hypotheses, and architectural ambiguity.
+- **Correctness review goes to a Validator, never the Advisor** (Coordinator, 2026-07-11). The
+  Advisor (called the Oracle until 2026-09-28) is for design, hypotheses, and architectural
+  ambiguity. Frame each Advisor brief as open-source OS engineering (advisor0 § Framing).
 This does NOT relax Rule 1: whoever gates (you or the Validator) verifies first-hand; delegation
 moves the *labor*, not the *standard*. Source: Coordinator, 2026-07-02; risk-sized routing and
 the single ≥8 threshold, 2026-09-28 (j-20260927-003).
