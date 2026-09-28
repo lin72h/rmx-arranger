@@ -728,3 +728,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: mm4 rmx-advisor4 ed0a690; hash comparisons of the rendered files and the template copy.
 - next: The Coordinator decides private GitHub repos for the four Advisors and names each seat's model; then Advisor onboarding.
+
+### j-20260928-020 — Advisor template on GitHub; instances stay local; routing by question
+
+- time / kind: 2026-09-28T04:05:53Z / DECISION
+- outcome: Coordinator decisions. Only the template goes to GitHub: created private github.com/lin72h/rmx-advisor0 and pushed main aa8168d (its README now names advisor4); the mm4 copy was refreshed and is identical. The four Advisor instances stay local Git with no origin. Seat models were left to the Arranger: they are not recorded, and routing is by question (roles.md § Choosing an Advisor: macOS-side questions to advisor4, the rest to advisor1–3, every consult treated as expensive). The closure rule now states the exemption that Validator review closures (op-365–op-369) already relied on: repos without an origin by Coordinator decision (Validators, Advisors) are verified locally. Advisor onboarding folds into each seat's first consult brief instead of four separate ops.
+- state delta: none.
+- evidence: `git ls-remote` of lin72h/rmx-advisor0 = aa8168d7812666e198d98194a8f1b93664e8e6f7; hash comparison of the mm4 template copy.
+- next: op-372's REPORT. The first consult brief to each Advisor carries a one-line introduction to the new workflow.

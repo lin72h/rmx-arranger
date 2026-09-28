@@ -70,7 +70,8 @@ instances). Roles not yet onboarded keep their old names until they are.
 | Local workspace | Upstream | Role |
 |---|---|---|
 | `rmx-arranger` (template in `arranger0/`; `rmx-arranger1` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0`, `rmx-advisor0` | none (local Git) | templates |
+| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0` | none (local Git) | templates |
+| `rmx-advisor0` | `git@github.com:lin72h/rmx-advisor0.git` (private) | Advisor template |
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
 | `rmx-explorer1` (`rmx-explorer` is a transitional symlink) | `git@github.com:lin72h/rmx-explorer1.git` (private; the public `lin72h/rmx-explorer`, shared by both seats until 2026-09-28, is its `shared` remote) | Explorer 1 (rx-x64z seat on `bdw-fx15-x64z`) |
 | `rmx-explorer2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-explorer2` (`rmx-explorer` there is a transitional symlink; a copy of `rmx-explorer0` sits beside it) | `git@github.com:lin72h/rmx-explorer2.git` (private; `shared` as above) | Explorer 2 (mx-a64z) |
@@ -78,8 +79,8 @@ instances). Roles not yet onboarded keep their old names until they are.
 | `rmx-gatekeeper2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink; a copy of `rmx-gatekeeper0` sits beside it) | `git@github.com:lin72h/rmx-gatekeeper2.git` (private; the old `lin72h/mach-oracle` is left as history) | Gatekeeper 2 (mx-a64z) |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
 | `rmx-validator2` (`wip-ds4p` is a transitional symlink) | none (local Git) | Validator 2, DS4P |
-| `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` (`rmx-oracle`, `rmx-oracle2`, `rmx-oracle3` are transitional symlinks) | none yet (local Git since 2026-09-28) | Advisors 1–3 |
-| `rmx-advisor4`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-advisor4` (a copy of `rmx-advisor0` sits beside it) | none yet (local Git since 2026-09-28) | Advisor 4 (mx-a64z, macOS side) |
+| `rmx-advisor1`, `rmx-advisor2`, `rmx-advisor3` (`rmx-oracle`, `rmx-oracle2`, `rmx-oracle3` are transitional symlinks) | none (local Git, by Coordinator decision) | Advisors 1–3 |
+| `rmx-advisor4`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-advisor4` (a copy of `rmx-advisor0` sits beside it) | none (local Git, by Coordinator decision) | Advisor 4 (mx-a64z, macOS side) |
 | `rmx-validator3` | none (local Git) | Validator 3 (model seated per session: luna-max, sol-medium, astra-medium, astra-max, or astra-ultra) |
 | `wip-gpt-oracle` | `git@github.com:lin72h/mach-oracle.git` | legacy oracle (Elixir app + UI); evidence trees under `priv/runs/` |
 | `swift-rx-explorer`, `swift-rx-gatekeeper` | swift-rx upstream | Swift-project rulers |

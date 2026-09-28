@@ -122,7 +122,9 @@ cross-repo reach, doctrine tension), not by the size of the original op:
   close, do-not-close, or remediate with a new op. Only the Arbiter does this, subject to
   Coordinator override; how to arbitrate is rulebook Rule 6. Before ruling, the Arbiter may ask
   validator3 for a third opinion.
-- Closing also requires every produced commit to be reachable on origin.
+- Closing also requires every produced commit to be reachable on origin. Repos that have no origin
+  by Coordinator decision (the Validators' and the Advisors') are exempt; the Arranger verifies
+  their commits locally.
 
 ### Choosing a Validator
 
@@ -154,6 +156,13 @@ in a role template or instance file, where Validators would see them and could b
 | Scope | this op | the accumulated closed state |
 
 An op can pass the Validators yet fail the Gatekeeper, and the reverse.
+
+### Choosing an Advisor
+
+Source: Coordinator, 2026-09-28 (j-20260928-020). An Advisor is the consult of last resort, so
+treat every consult as expensive. Send questions that need macOS itself (SDK, headers, system
+binaries) to advisor4 on mm4, and the rest to advisor1, advisor2, or advisor3. Seat models are the
+Coordinator's to choose and are not recorded; ask when a consult's cost matters.
 
 ## History
 
