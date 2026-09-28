@@ -70,9 +70,10 @@ instances). Roles not yet onboarded keep their old names until they are.
 | Local workspace | Upstream | Role |
 |---|---|---|
 | `rmx-arranger` (template in `arranger0/`; `rmx-arranger1` is a transitional symlink) | `git@github.com:lin72h/rmx-arranger.git` | Arranger |
-| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0` | none (local Git) | templates |
+| `rmx-role0`, `rmx-validator0`, `rmx-gatekeeper0`, `rmx-explorer0` | none (local Git) | templates |
 | `rmx-implementer` (product source in `rmx-implementer/wip-rmxos`; the folder is `rmx-implementer1` until op-364 returns, and `wip-gpt` is a transitional symlink) | `git@github.com:lin72h/project-rmx.git` | Implementer |
-| `rmx-explorer` | `git@github.com:lin72h/rmx-explorer.git` | Explorer |
+| `rmx-explorer1` (`rmx-explorer` is a transitional symlink) | `git@github.com:lin72h/rmx-explorer1.git` (private; the public `lin72h/rmx-explorer`, shared by both seats until 2026-09-28, is its `shared` remote) | Explorer 1 (rx-x64z seat on `bdw-fx15-x64z`) |
+| `rmx-explorer2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-explorer2` (`rmx-explorer` there is a transitional symlink; a copy of `rmx-explorer0` sits beside it) | `git@github.com:lin72h/rmx-explorer2.git` (private; `shared` as above) | Explorer 2 (mx-a64z) |
 | `rmx-gatekeeper1` (`rmx-gatekeeper` is a transitional symlink) | `git@github.com:lin72h/rmx-gatekeeper1.git` (private; the public `lin72h/rmx-gatekeeper` is left as history, and the history after `4b16fd1b` was rewritten on 2026-09-28: map in `docs/history-rewrite-2026-09-28.md`) | Gatekeeper 1 (rx-x64z seat on `bdw-fx15-x64z`) |
 | `rmx-gatekeeper2`, only on mm4 at `/Users/linz/Local/wip-mach/rmx-gatekeeper2` (`mach-oracle` there is a transitional symlink; a copy of `rmx-gatekeeper0` sits beside it) | `git@github.com:lin72h/rmx-gatekeeper2.git` (private; the old `lin72h/mach-oracle` is left as history) | Gatekeeper 2 (mx-a64z) |
 | `rmx-validator1` (`wip-glm` is a transitional symlink) | none (local Git) | Validator 1, GLM |
@@ -190,6 +191,7 @@ Older records keep their original words; read them with these maps.
 | `rmx-arranger1`, `rmx-arranger0` (briefly) | `rmx-arranger` with its template in `arranger0/` | 2026-09-28 |
 | `rmx-implementer1` (briefly) | `rmx-implementer` with its template in `implementer0/` | 2026-09-28 |
 | `rmx-gatekeeper`; `mach-oracle` on mm4 (legacy unified Oracle) | `rmx-gatekeeper1`; `rmx-gatekeeper2` on mm4 | 2026-09-28 |
+| `rmx-explorer`, one repo shared by both seats | `rmx-explorer1` here; `rmx-explorer2` on mm4 | 2026-09-28 |
 | each agent edits its own copy of shared text | template + `LOCAL.md`, rendered by `tools/roles` | 2026-09-28 |
 | Python tools and tests, TOML config | Elixir tools (`tools/rob`, `tools/roles`) with ExUnit tests, JSON config | 2026-09-28 |
 | one-way window / one-way door (per-change exceptions) | Arranger one-way access (standing) | 2026-09-28 |

@@ -14,7 +14,7 @@ agents read only their own repo.
 | **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
 | **Arranger** (holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
 | **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
-| **Explorer** | `rmx-explorer` | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
+| **Explorer**: explorer1 (rx-x64z), explorer2 (mx-a64z) | `rmx-explorer1` here; `rmx-explorer2` on mm4 | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper**: gatekeeper1 (rx-x64z), gatekeeper2 (mx-a64z) | `rmx-gatekeeper1` here; `rmx-gatekeeper2` on mm4 | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
 | **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
 | **Oracle** | `rmx-oracle` | consult: design, hypotheses, architectural ambiguity | validate or close ops |
@@ -98,9 +98,9 @@ Every instance repo holds:
 - `.rendered.lock`: digests that stop a render from overwriting local edits;
 - everything else the instance works on.
 
-Current classes also include gatekeeper0 (gatekeeper1 here, gatekeeper2 on mm4). The Explorer
-(an rx instance here and an mx instance on mm4) and the Oracle (oracle, oracle2, oracle3) get
-theirs when they are onboarded.
+Current classes also include gatekeeper0 (gatekeeper1 here, gatekeeper2 on mm4) and explorer0
+(explorer1 here, explorer2 on mm4). The Oracle (oracle, oracle2, oracle3) gets its class when it
+is onboarded.
 
 ## Review and closure
 

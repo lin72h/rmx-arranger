@@ -688,3 +688,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: rmx-explorer0 81e62c3; rmx-explorer1 5336897, 3354264; `git ls-remote` of lin72h/rmx-explorer1; mm4 checks (`whence -a git`, `xcode-select -p` error, CommandLineTools absent).
 - next: Once Xcode is back on mm4, finish explorer2: snapshot 3 findings dirs, rename, onboarding doc and README, instance.json, render, commit, new private repo lin72h/rmx-explorer2. Then update terminology, roles, and now.md, and prepare the two Explorer onboarding ops.
+
+### j-20260928-015 — explorer2 converted on mm4; Explorer onboarding ops drafted
+
+- time / kind: 2026-09-28T03:44:20Z / ACTION
+- outcome: After the Coordinator's Xcode reinstall, git works on mm4 again (Apple Git 2.54.0 from /Applications/Xcode.app, login and non-interactive). explorer2 (mx-a64z) on mm4: loose findings snapshotted 0498dfd (op190 xpc cancel and echo truth, op232 concurrency truth); renamed rmx-explorer → rmx-explorer2 (symlink kept); converted 0327f73 (ONBOARDING.md → docs/ONBOARDING-2026-06-21.md, README repointed, instance.json installed, rendered through a temporary workspace with --adopt, byte-identical on mm4). The old origin was renamed `shared`, and main was pushed from a bare clone here to new private github.com/lin72h/rmx-explorer2; mm4 main tracks origin/main and is in sync. The rmx-explorer0 copy on mm4 is identical to the local template. Updated terminology.md (§4 rows, §9 map), roles.md (Explorer row, classes), and now.md. Drafted op-373 (explorer1) and op-374 (explorer2): read-only onboarding baselines, safe alongside op-372.
+- state delta: op-373 and op-374 created as draft.
+- evidence: mm4 rmx-explorer2 0498dfd, 0327f73; `git ls-remote` of lin72h/rmx-explorer2 = 0327f73547cf…; hash comparisons of the rendered files and the template copy.
+- next: Present op-373 and op-374 (ready, read-only, no shared writes with op-372). Then the Oracle.
