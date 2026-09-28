@@ -81,6 +81,12 @@ is ready to send.
   listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure
   condition.
 
+## mm4 access
+
+- My SSH session on mm4 has no GitHub key (`Permission denied (publickey)`). To push an mm4 repo,
+  clone it bare from `mm4:<path>` to the scratchpad, push from here, then set the repo's
+  `origin/main` on mm4 with `git update-ref` (j-20260928-005).
+
 ## Lessons for briefs
 
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.

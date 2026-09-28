@@ -608,3 +608,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: local vs mm4 hash comparison (4 template files identical); rmx-gatekeeper2 39d92e7.
 - next: Push rmx-gatekeeper2 (origin lin72h/mach-oracle) only when the Coordinator asks. Its 4 unpushed commits are small (largest blob 53 KB).
+
+### j-20260928-005 — gatekeeper2 gets its own GitHub repo, lin72h/rmx-gatekeeper2
+
+- time / kind: 2026-09-28T02:49:14Z / ACTION
+- outcome: Coordinator direction: create a new repo for gatekeeper2 instead of pushing to mach-oracle. Created github.com/lin72h/rmx-gatekeeper2, private like mach-oracle; making it public is the Coordinator's call. First, the repo note that named mach-oracle as the remote was re-rendered (instance.json block, AGENTS.md, and lock: rmx-gatekeeper2 510d275 on mm4). Then origin on mm4 was pointed at the new repo, and main was pushed from a bare clone on this host, because mm4 cannot authenticate to GitHub from a non-interactive SSH session (Permission denied (publickey)). GitHub main equals mm4 HEAD 510d275. mm4's origin/main was set to it with update-ref, so `git status` there shows main in sync. lin72h/mach-oracle is untouched (private; main at 9ed6170).
+- state delta: none.
+- evidence: `git ls-remote git@github.com:lin72h/rmx-gatekeeper2.git refs/heads/main` → 510d275cf9ee2f757f952f29bc1afe294c2768fb; `gh repo view` → PRIVATE, default branch main.
+- next: The Coordinator relays the NOTICE to gatekeeper2 (origin and the AGENTS.md repo note changed).
