@@ -1062,3 +1062,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the candidate lists and the (empty) delete-failed.txt in the session scratchpad; `zpool list` before and after; `zpool get bcloneused,bclonesaved`.
 - next: none.
+
+### j-20260929-007 — Mach foundation round begins: op-394 (design) and op-395 (fix batch 1) drafted
+
+- time / kind: 2026-09-29T04:04:03Z / DECISION
+- outcome: First ops of the Mach foundation round. op-394 (advisor1): a design proposal for classes A (port names as fds), B (task and thread state on reused slots), C (the receive and wakeup model) and D (self-only vs cross-task MIG). Each option comes with userland impact, lifetime and locking rules, bootable steps, and the ledger findings each step retires. advisor1 was chosen because advisor2 shares an account with gatekeeper1; the blind rule is lifted, since round 1 is over. op-395 (Implementer, gate both): 13 local fixes on a new branch mach-fixes-1 off origin/alpha2, one commit each, each with an ATF test under tests/sys/mach/ written before its fix, with expected results FAIL or PANIC on alpha2 and PASS after. The Implementer builds and stages two images from the op-364 base (base + tests; fixed + tests) and runs no guests. Test-first is proven by gatekeeper1's CI running both images; that CI op waits for op-391 and op-395's images. The module build configuration is unchanged here (id-047 comes later). No push, since rmxOS is public.
+- state delta: op-394 and op-395 created as draft.
+- evidence: rmx-implementer/OPS.md defaults; `git ls-tree 2884304b tests/sys` (no mach directory); wip-rmxos is clean on branch alpha.
+- next: Present op-394 and op-395.
