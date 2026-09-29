@@ -1054,3 +1054,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `git log --date=format-local` for the affected commits; `date -u` → 2026-09-28 11:31 UTC.
 - next: none.
+
+### j-20260929-006 — disk cleanup: old guest images and build objects deleted
+
+- time / kind: 2026-09-29T03:43:02Z / ACTION
+- outcome: The Coordinator asked to clean up wip-mach, because the zpool was at 79% (734G allocated, 194G free), and approved deleting the candidate lists. Deleted: 271 disk images of 256 MB or more, last modified before 2026-09-14 (285G by du was in build/block-078-runtime-smoke/runs), and 62 obj directories older than 2026-09-14, all from closed ops. There were no errors and none are left. Logs, serial captures, cores and evidence files were kept; small .raw serial captures and METALOG.raw were excluded by the size filter. Kept: every image and obj directory since 2026-09-14, including the op-364 base image, the op-388 premise image (op-391 in flight), the op-372 run image, and the op343/op335 objects (op-364's toolchain). Result: 581G allocated, 347G free, 62%. The pool freed 153G, while ROOT/default's used fell from 867G to 300G: most deleted images were block clones sharing blocks (bclonesaved is now 52.2G). The recorded hashes of the deleted images can no longer be re-checked against files; the hashes remain in their records. Not touched: /tmp (57.6G, including op195-calib.img and simd7-ci-minimal*.raw), the op-382 and op-358 images, and nx/.
+- state delta: none.
+- evidence: the candidate lists and the (empty) delete-failed.txt in the session scratchpad; `zpool list` before and after; `zpool get bcloneused,bclonesaved`.
+- next: none.
