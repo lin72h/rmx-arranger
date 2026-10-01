@@ -1,12 +1,12 @@
 ---
 id: op-403
-state: draft
+state: returned
 agent: validator2
 repo: rmx-validator2
 idq: id-016
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-01T09:17Z
+updated: 2026-10-01T09:22Z
 ---
 # op-403 — Validator 2: review op-401 — kernel-side observation of the PID-1 reaper
 

@@ -1219,3 +1219,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-401 draft → issued → returned; op-402 and op-403 created as drafts.
 - evidence: the spot-check reads above.
 - next: Send op-402 and op-403.
+
+### j-20261001-013 — op-403 returned: REMEDIATE 9/10 (two missing Tier-2 controls)
+
+- time / kind: 2026-10-01T09:22:38Z / ACTION
+- outcome: validator2 (`07ac8fd`, local) finds claims 1-4 hold and claim 5's coverage short. The note's rule that "missing data is not excused by an OBSERVED axis" has no control, and neither has its accepted shape "explicit open blocked wait4 entry". Each needs an additive one-mutation Tier-2 control. The Arranger agrees: a classifier that accepts whenever any axis is OBSERVED would pass the current suite. The remediation waits for validator1 (op-402), so both reviews' fixes go to explorer1 as one op.
+- state delta: op-403 draft → issued → returned.
+- evidence: the op-403 REPORT; `git log 07ac8fd` in rmx-validator2.
+- next: op-402's REPORT.
