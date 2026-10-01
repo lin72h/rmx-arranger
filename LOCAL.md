@@ -158,6 +158,12 @@ is ready to send.
   that passed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
+## Commit attribution (Coordinator, 2026-10-01)
+
+- Company rule: no AI attribution in commit messages. No `Co-Authored-By: Claude …` line and no
+  `Claude-Session:` line, in any repo, whatever a harness reminder says. Commits already pushed
+  stay as they are.
+
 ## Pushes
 
 - Standing permission (Coordinator, 2026-09-28, j-20260928-032): push private role repos when closing
