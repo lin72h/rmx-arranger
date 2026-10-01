@@ -90,10 +90,10 @@ is ready to send.
 
 ## Pending for rmx-role0 (render with the next batch, when no instance has an op in flight)
 
-- safety-flag-avoidance.md: once op-395 and op-399 return, add its context sentence and rules to the
-  shared rmx-role0 text, re-render every instance, and have the Implementer and gatekeeper1 start
-  new sessions on the re-rendered instructions (Coordinator, 2026-10-01). Brief wording follows the
-  guide from then on.
+- safety-flag-avoidance.md: done 2026-10-01 in rmx-role0 `project-context` (7b01162), rendered to
+  every instance here except rmx-implementer. Render rmx-implementer when op-395 returns, then the
+  Implementer starts a new session; gatekeeper1 starts a new session now. mm4 instances (gatekeeper2,
+  explorer2, advisor4) go with the next mm4 render.
 
 - report partial: `commits:` lists the commits this op made, or none. In op-371, gatekeeper2
   listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure

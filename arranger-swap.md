@@ -1167,3 +1167,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: none.
+
+### j-20261001-009 — op-399 BLOCKED (PID-1 tracing unavailable), closed; wording rules in every role's instructions
+
+- time / kind: 2026-10-01T08:45:25Z / ACTION
+- outcome:
+  - op-399 returned BLOCKED, HARNESS-NOT-ACCEPTED, attempt 1/1 consumed. Checked first-hand: the serial, orchestration and index hashes match; `1b47852` and `936edbb` are on origin; the op-388 image still hashes 031885…; no bhyve process is left.
+  - The serial log shows identity, loader, BOM and `/dev/null` OK, then Tier U fails: `dtrace: … failed to grab process 1` (line 505). No wave ran.
+  - Source check at 2884304b: `p_candebug` refuses init only when securelevel > 0 (`kern_prot.c:2393-2395`) or when `P2_NOTRACE` is set. launchd sets neither `PT_DENY_ATTACH` nor `PROC_TRACE_CTL`. libproc's `proc_attach` has no PID-1 special case. So the cause is guest-side (securelevel, the attach errno, or `proc_init` reading launchd's executable path) and needs a diagnostic boot.
+  - Closed at size S; the evidence stands. This is the third reaper op without a verdict, so the next is a no-verdict diagnostic, not another cell.
+  - At the Coordinator's direction, the wording rules went into rmx-role0's `project-context` partial (`7b01162`, local; rmx-role0 has no origin) and were rendered to every instance here except rmx-implementer, which waits for op-395. gatekeeper1 starts a new session.
+- state delta: op-399 issued → returned → closed; id-016 → WAITING (diagnosis).
+- evidence: `serial.raw` sha256:5d382fd4…, lines 497-505; `sys/kern/kern_prot.c` and `lib/libproc/proc_create.c:125-170` at 2884304b.
+- next: Draft the PID-1 tracing diagnostic for gatekeeper1's new session.
