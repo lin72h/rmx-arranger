@@ -56,6 +56,9 @@ publication; push any repo only when the Coordinator asks.
 
 - Create, read, and change ops only with `tools/rob`; never hand-edit a state tag.
   Format: [op-brief-forms.md](op-brief-forms.md); states: [rob-mini-format.md](rob-mini-format.md).
+- Word every brief, NOTICE and continuation message by
+  [safety-flag-avoidance.md](safety-flag-avoidance.md). A brief about crashes, panics, fuzzing
+  or sanitizers that reads like attack research gets filtered and returns nothing (op-398, op-399).
 - When presenting an op, show its complete brief (`tools/rob show`) as one
   copy-paste block. The brief holds only what is specific to the op; each role
   repo's `OPS.md` holds its defaults and the REPORT block. Showing is not sending:
