@@ -1,4 +1,4 @@
-# Brief wording: keep engineering briefs from tripping safety filters
+# Safety-flag avoidance: keep engineering briefs from tripping safety filters
 
 Status: Arranger guide (living), 2026-10-01. Applies to every brief, NOTICE and continuation
 message, and matters most for seats on models with strict filters (gatekeeper1, advisor2).

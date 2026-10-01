@@ -90,7 +90,7 @@ is ready to send.
 
 ## Pending for rmx-role0 (render with the next batch, when no instance has an op in flight)
 
-- brief-wording.md: add its context sentence and rules to the shared role text (after op-399 returns).
+- safety-flag-avoidance.md: add its context sentence and rules to the shared role text (after op-399 returns).
 
 - report partial: `commits:` lists the commits this op made, or none. In op-371, gatekeeper2
   listed three existing Arranger commits as `on-origin:no`, which reads like an unmet closure

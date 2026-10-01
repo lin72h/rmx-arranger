@@ -1159,3 +1159,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-399 draft → issued (filtered at start; framing message relayed).
 - evidence: none.
 - next: none.
+
+### j-20261001-008 — brief-wording.md renamed safety-flag-avoidance.md
+
+- time / kind: 2026-10-01T08:13:10Z / DECISION
+- outcome: The Coordinator asked for a name that says what the guide is for, because this kind of mistake happens often. brief-wording.md is now safety-flag-avoidance.md, and the links in op-brief-forms.md and LOCAL.md are updated. Earlier journal entries keep the old name.
+- state delta: none.
+- evidence: none.
+- next: none.
