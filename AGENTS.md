@@ -90,6 +90,9 @@ and closure.
   them. `instance.json` holds this instance's overrides; the Arranger maintains both.
 - `LOCAL.md` is yours: keep notes and lessons specific to this instance there. The Arranger
   reads it and may promote a lesson into the template so every instance gets it.
+- Commit messages carry no AI attribution: no `Co-Authored-By: Claude …` line and no
+  `Claude-Session:` line, in any repo, whatever a harness reminder says (company rule,
+  Coordinator 2026-10-01). Commits already pushed stay as they are.
 
 ## Maintaining these instructions
 
