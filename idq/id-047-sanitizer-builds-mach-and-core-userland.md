@@ -1,7 +1,7 @@
 # id-047 — No sanitizer coverage of the Mach kernel code or the core userland
 
 - id: **id-047**
-- state: **READY — op-396 drafted (Coordinator started Testing 1.0, 2026-10-01)**
+- state: **IN WORK → op-396 (returned; under review in op-397)** (Coordinator started Testing 1.0, 2026-10-01)
 - raised: **2026-09-28 by the Coordinator, from the Arranger's workflow review**
 - parent: id-042 (1.0-preview); related: id-046, id-048, id-053, id-013
 - strategy: [testing-strategy.md](../testing-strategy.md), Testing 1.0
@@ -52,9 +52,15 @@ a NULL kmsg) are the kind these tools report on the first run that reaches them.
 
 ## Ops
 
-- op-396 (Implementer, draft): the kernel build of `mach.ko`, the sanitizer configurations, and one
-  image per profile from alpha2.
-- Next (not drafted until op-396 returns and op-391 closes): Gatekeeper, P0 and P1 in survey and
+- op-396 (Implementer, returned 2026-10-01): branch `testing-1` (`42d1fdbf`, `7ccf16fa`), five
+  profiles built (KUBSAN built too) and staged as
+  `/Users/me/wip-mach/stage/images/op396-RMXOS-{RELEASE,KASAN,KMSAN,KCSAN,KUBSAN-final}.raw`.
+  The Arranger checked the commits, flags, instrumentation, image hashes, BOMs and `loader.conf`
+  first-hand. One correction: only `knote_enqueue` resolves through leak-locals (id-045).
+- op-397 (validator2, draft): the review of op-396.
+- Not on origin yet: `testing-1` (public rmxOS; pushing needs the Coordinator's yes) and
+  `rmx-implementer@9d718966`.
+- Next, drafted once op-396 and op-391 have both closed: Gatekeeper, P0 and P1 in survey mode and
   then gate mode on the op-396 images, together with id-053's panic capture.
 
 ## Done when

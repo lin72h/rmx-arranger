@@ -35,3 +35,12 @@ The Arranger's proposal: 1 now, 2 when Mach work resumes after the preview; 3 is
 ## op-383 consult (2026-09-28)
 
 advisor2 op-383 consult `rmx-advisor2/op-383-mach-kernel-alpha2-integration-consult.md` (433838e) ranks this R1, the top Mach risk. Its proposal P1: option B, a narrow kernel-owned activation interface, instead of pinning the setting (option A) or redesigning around native knote APIs (option C). Making the symbol global is not enough. Retire only with a boot at leak_locals=0 plus readiness, direct receive, and concurrent teardown checks. The Implementer owns the code, and the Validators its review.
+
+## Kernel-built profiles (op-396, checked first-hand 2026-10-01)
+
+Building `mach.ko` with its kernel does not change the dependency. In all five op-396 profiles
+(RMXOS-RELEASE, -KASAN, -KMSAN, -KCSAN, -KUBSAN), `knote_enqueue` is the only undefined symbol
+that resolves to a LOCAL kernel symbol (`readelf -sW kernel.full`: `FUNC LOCAL`). op-396's
+evidence also lists `copyin`, `copyout`, `memcpy`, `memmove`, `memset` and `sched_relinquish` as
+"local/leak-locals", because `nm` prints them as `i`. In every profile, though, they are
+`IFUNC GLOBAL`: `i` marks an indirect function, not a binding.

@@ -5,7 +5,7 @@ agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: both
-authority: build: kernel RMXOS-RELEASE, mach.ko and the Mach tests from the fix branch; stage two test images with rmx-stage-image; no guest runs; no push
+authority: build: kernel RMXOS-RELEASE, mach.ko and the Mach tests from the fix branch; extend rmx-stage-image with a schema for these test images and stage two test images with it; no guest runs; no push
 updated: 2026-09-29T04:03Z
 ---
 # op-395 — Implementer: Mach fix batch 1 — local fixes, each with an in-tree regression test
@@ -43,8 +43,17 @@ and proves each test fails first and passes after.
 
 **Build and stage** (authority below): the kernel `RMXOS-RELEASE`, `mach.ko` built the same way
 as op-364, libmach and the tests. Stage two images with
-`/Users/me/wip-mach/rmx-implementer/scripts/bhyve/rmx-stage-image` (dd78a31), each a copy of the
-op-364 image `8f546a930859ce537d1cb8f462dbf391171fd02c2bd004d2d10b1c8b498c7140`:
+`/Users/me/wip-mach/rmx-implementer/scripts/bhyve/rmx-stage-image`, building on `9d718966`
+(op-396's kernel-profile schema, under review in op-397). Its `rmx-stage-image/v1` schema
+accepts only alpha2's PID-1 premise. Add a schema for these test images the way `9d718966`
+added `rmx-stage-kernel/v1`:
+- installs go only to the paths these images need: the kernel, `mach.ko`, libmach and the
+  tests;
+- the behaviour of both existing schemas stays unchanged;
+- the self-test covers the new schema.
+
+Each image is a copy of the op-364 image
+`8f546a930859ce537d1cb8f462dbf391171fd02c2bd004d2d10b1c8b498c7140`:
 - **base + tests:** alpha2 unchanged plus the tests only;
 - **fixed + tests:** the fixed kernel, `mach.ko` and libmach, plus the tests.
 Each has a BOM, a host-before/host-after inventory and a final hash, as in op-388.

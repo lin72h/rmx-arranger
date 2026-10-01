@@ -1078,3 +1078,24 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-396 created as draft; id-047 WAITING → READY; id-053 (medium), id-054 (low) and id-055 (low) raised; id-048 amended (libFuzzer design from apple/swift-network-evolution#147; an in-guest fuzzer with no network); id-046 ledger: §3 seqc row checked first-hand, row A1 added.
 - evidence: `git show 2884304b:` sys/conf/{options,kern.mk,kmod.mk,kern.pre.mk,config.mk}, sys/amd64/conf/GENERIC-K*SAN, sys/compat/mach/ipc/{ipc_entry.c,ipc_kmsg.c,mach_port.c}, sys/kern/kern_descrip.c, sys/amd64/vmm/x86.c, lib/clang/liblldb/Makefile, lib/libclang_rt/Makefile; the op-364 build log, line 14 (`touch opt_global.h`); `lldb -b -o 'script print(_VERSION)'` → Lua 5.4; `/usr/local/llvm21/bin/lldb` → Python 3.11.15.
 - next: The Coordinator chooses the order of op-396 and op-395 (one Implementer).
+
+### j-20261001-002 — op-396 sent and returned; checked first-hand; op-397 review drafted
+
+- time / kind: 2026-10-01T07:40:36Z / ACTION
+- outcome: The Coordinator sent op-396, and the Coordinator relayed its REPORT (DONE). The Implementer's record says the Coordinator authorized, during the op, adapting the dd78a31 staging helper for kernel-profile BOMs; recorded here as a Coordinator authorization. Checked first-hand:
+  - `testing-1` = `42d1fdbf` + `7ccf16fa` on `2884304b`. The changes are the module list, the mach `SRCS`, the `opt_compat_mach.h` include in `mach_port.c`, and four configurations in GENERIC-KASAN form. The `7ccf16fa` subject omits KUBSAN (cosmetic).
+  - Each profile's `opt_global.h` defines INVARIANTS, WITNESS, COMPAT_MACH and its sanitizer option. `-asan-use-stack-safety=0` comes from `kern.mk`'s amd64 branch.
+  - Each staged `mach.ko` carries exactly its own sanitizer's runtime references: `__asan_` 14, `__msan_` 13, kcsan 29, `__ubsan_` 7, none in RELEASE.
+  - All five image hashes match. The op-388 premise image still hashes `031885…`, and the op-364 image's mtime is unchanged.
+  - KASAN spot check: BOM = source = in-image for the kernel, `mach.ko`, `mach.ko.debug` and launchd. `loader.conf` differs from op-364's only in `kernel=` and `mach_name=`.
+  - Helper `9d718966` only adds an `rmx-stage-kernel/v1` branch; the v1 path reads the same.
+  - **Correction:** the symbol evidence misreads `nm` type `i` (ifunc) as local. Only `knote_enqueue` is LOCAL in every profile; `copyin`, `copyout`, `mem*` and `sched_relinquish` are IFUNC GLOBAL (recorded in id-045).
+
+  Two follow-ons:
+  - op-391's brief runs the helper by path "at dd78a31", which now runs `9d718966`. A NOTICE to gatekeeper1 has it extract and run dd78a31 exactly.
+  - op-395's draft pinned dd78a31, whose v1 schema accepts only alpha2's PID-1 premise, so its staging would have blocked as op-396's did. Its authority and staging text now let it add a test-image schema on top of `9d718966`.
+
+  Gate: L, as briefed, so op-397 goes to validator2 (falsification).
+- state delta: op-396 draft → issued → returned; op-397 created as draft; op-395 brief amended (still draft); id-047 READY → IN WORK; id-045 gained the profile check.
+- evidence: `git show 42d1fdbf 7ccf16fa` in `build/op396/source`; `readelf -sW` on each profile's `kernel.full`; `nm -u` on each BOM's `mach.ko` source; `sha256` of the six images (background run); `git show 9d718966 -- scripts/bhyve/rmx-stage-image.exs`; `diff` of the two `loader.conf` files.
+- next: Coordinator: send op-397, relay the gatekeeper1 NOTICE, decide on pushing `testing-1` to the public rmxOS origin (needed for closure), and send op-395 when ready.
