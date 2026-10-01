@@ -1206,3 +1206,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: op-401 (explorer1) amends the contract.
+
+### j-20261001-012 — op-401 returned; checked; two blind reviews drafted
+
+- time / kind: 2026-10-01T09:17:17Z / ACTION
+- outcome: The Coordinator sent op-401 and relayed its REPORT (DONE). Checked first-hand:
+  - `f1df370` is on origin, and the note's sha256 is 1277d769….
+  - Spot checks at 2884304b hold: systrace sets return `arg0 = arg1 = retval` (`systrace.c:221-222`); `waitpid_loop` calls `waitpid(-1, NULL, WNOWAIT)` (`runtime.c:651`); `Reap failed` and `W_EXITCODE(-1, SIGSEGV)` are at `core.c:3725-3727`; there is no `proc:::reparent` SDT probe, hence `fbt::proc_reparent`.
+  - The note fails closed: ambiguous thread mapping or status leaves an axis INCONCLUSIVE.
+
+  The gate is both Validators (PID-1 critical path): op-402 (validator1, completeness) and op-403 (validator2, falsification), blind to each other.
+- state delta: op-401 draft → issued → returned; op-402 and op-403 created as drafts.
+- evidence: the spot-check reads above.
+- next: Send op-402 and op-403.
