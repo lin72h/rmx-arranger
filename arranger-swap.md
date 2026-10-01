@@ -1099,3 +1099,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-396 draft → issued → returned; op-397 created as draft; op-395 brief amended (still draft); id-047 READY → IN WORK; id-045 gained the profile check.
 - evidence: `git show 42d1fdbf 7ccf16fa` in `build/op396/source`; `readelf -sW` on each profile's `kernel.full`; `nm -u` on each BOM's `mach.ko` source; `sha256` of the six images (background run); `git show 9d718966 -- scripts/bhyve/rmx-stage-image.exs`; `diff` of the two `loader.conf` files.
 - next: Coordinator: send op-397, relay the gatekeeper1 NOTICE, decide on pushing `testing-1` to the public rmxOS origin (needed for closure), and send op-395 when ready.
+
+### j-20261001-003 — op-397 sent; gatekeeper1 NOTICE relayed; testing-1 published
+
+- time / kind: 2026-10-01T07:46:34Z / ACTION
+- outcome: The Coordinator sent op-397 to validator2 and relayed the helper NOTICE to gatekeeper1 for op-391. With the Coordinator's yes, the Arranger pushed `testing-1` to the public rmxOS origin, pushing by hash so that exactly the reviewed commits were published: `refs/heads/testing-1` = `7ccf16fa` (parent `42d1fdbf`, on `2884304b`). The branch did not exist on origin before. op-396's commits on rmxOS are now on origin. `rmx-implementer@9d718966` will be pushed at closure. The Coordinator asked for op-395, so the brief is shown again; it stays draft until it is sent.
+- state delta: op-397 draft → issued.
+- evidence: `git ls-remote --heads origin testing-1` → 7ccf16fa410c8764c91b1cdaf3f3be683e4ad549; `git log origin/alpha2..testing-1` lists two commits.
+- next: op-397's REPORT, then the closure decision on op-396. op-395 is sent when the Coordinator says so.

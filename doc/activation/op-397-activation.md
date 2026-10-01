@@ -1,12 +1,12 @@
 ---
 id: op-397
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-047
 gate: self
 authority: none beyond the defaults: read-only; no image mounts, no guest runs
-updated: 2026-10-01T07:38Z
+updated: 2026-10-01T07:46Z
 ---
 # op-397 — Validator 2: review op-396 — mach.ko built with its kernel, and five kernel profiles
 
