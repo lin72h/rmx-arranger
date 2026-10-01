@@ -1,12 +1,12 @@
 ---
 id: op-399
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: both
 authority: stage: one workload overlay onto a copy of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31 (its own doas allowlist); guest attempts: 1 on that overlay image; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-01T08:05Z
+updated: 2026-10-01T08:09Z
 ---
 # op-399 — Gatekeeper 1: corrected reaper premise — runner, overlay and one PID-1 cell with the pinned classifier (continues op-398)
 

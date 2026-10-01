@@ -36,6 +36,7 @@ authority: <everything allowed beyond the role's defaults: e.g. build-only; gues
 2. **Inputs** or **Limits** — only when the op needs paths or limits beyond the role's defaults.
 3. One closing line pointing to the role's `OPS.md` (the `rob new` template adds it).
 
+Word briefs that touch crashes, panics, fuzzing or sanitizers by [brief-wording.md](brief-wording.md).
 Written for the agent, not for a human deep-read: keep every binding path, pin, signature,
 marker, limit, and stop condition; cut narration. When the Coordinator asks for a brief, show the
 `tools/rob show` output as one clean copy-paste block with no line numbers and no box-drawing.

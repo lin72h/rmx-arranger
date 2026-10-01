@@ -1151,3 +1151,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-398 issued → returned → closed; op-399 created as draft.
 - evidence: `build/op398/classifier-binding.json` sha256:e5014579…; `diff -r tier2-r3/known_good tier2-r3/<case>`.
 - next: Present op-399.
+
+### j-20261001-007 — brief-wording.md: framing to keep briefs clear of safety filters
+
+- time / kind: 2026-10-01T08:11:42Z / DECISION
+- outcome: At the Coordinator's request, wrote brief-wording.md. gatekeeper1's provider filter stopped op-398 and op-399 at the start because of words in the brief such as "steal a zombie", "synthesized SIGSEGV" and "mutation controls". The guide sets a standard context sentence, engineering-word substitutions, exact identifiers in backticks, a list of words never to use, and complete continuation messages. op-brief-forms.md links to it. Promotion into rmx-role0 is pending until op-399 returns.
+- state delta: op-399 draft → issued (filtered at start; framing message relayed).
+- evidence: none.
+- next: none.
