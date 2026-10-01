@@ -133,7 +133,7 @@ KASAN. Copying that structure brings rmxOS closer to macOS as well as to FreeBSD
 ### What runs
 
 The same suites in every profile: the Mach ATF suite (op-395), the Mach and dispatch slice
-(op-372), the PID-1 cell (op-391), and FreeBSD's kern, file and kqueue tests with `mach.ko` loaded.
+(op-372), the PID-1 cell (op-398), and FreeBSD's kern, file and kqueue tests with `mach.ko` loaded.
 
 ### Every failure can be debugged afterwards (id-053)
 
@@ -180,7 +180,7 @@ regression test in `tests/sys/mach`, written before its fix as in op-395.
 1. **op-396 (Implementer):** build `mach.ko` with the kernel; add the `RMXOS-KASAN`, `-KMSAN`,
    `-KCSAN` and trial `-KUBSAN` configurations; build P0 to P4 from alpha2; stage one image per
    profile. No guests.
-2. **Gatekeeper, after op-391:** boot P0 and P1 from those images, survey mode first and then gate
+2. **Gatekeeper, after op-398:** boot P0 and P1 from those images, survey mode first and then gate
    mode, and run the slice. Set up panic capture and show one vmcore opening in LLDB and in kgdb.
    This becomes CI's sanitizer leg.
 3. **Reports go to id-046.** Fixes follow the Mach round's order, with classes A to D designed first.

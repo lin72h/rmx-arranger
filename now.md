@@ -48,9 +48,9 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
    (id-047, id-053, id-048), then DTrace (2.0, id-054) and hwpmc (3.0, id-055). Plan:
    [testing-strategy.md](testing-strategy.md). op-396 (drafted) builds `mach.ko` with its kernel
    and the sanitizer profiles from alpha2. It needs the Implementer, as op-395 does, so the
-   Coordinator picks the order. The Gatekeeper's survey run follows op-391.
+   Coordinator picks the order. The Gatekeeper's survey run follows op-398 (op-391's redo).
 3. Round 2 of the Mach review (id-051, id-052): two blind reviewers on different models.
-op-391 continues as the pre-fix baseline of launchd's reaper (read its results with N1 in mind).
+The pre-fix baseline of launchd's reaper (read its results with N1 in mind) continues as op-398. op-391 stopped before staging because its own classifier did not compile (dropped 2026-10-01).
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
    will be re-drafted against the fixed candidate. op-384, op-385 and op-386 are on hold.
 
@@ -68,7 +68,7 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 | 2 | Review the corrected contract: the staging and containment package (C1–C3) and the reaper package (C4–C7) | both Validators (critical path) | closed: reviews split (validator1 CLOSE 9.5, validator2 REMEDIATE 9); Arbiter REMEDIATE; op-380 corrected the BOM (BOM-CORRECTED, verified first-hand) |
 | 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | decided 2026-09-28: MachServices plus nvlist for the preview; `xpc_domain` deferred past it (li-008) |
 | 4 | Containment helper `rmx-stage-image` and the disposable PID-1 premise image on alpha2 (base: the op-364 image; launchd identity accepted) | Implementer | closed: op-388 (image `031885…`, 28 BOM rows, host inventories equal); op-390 validator2 CLOSE 9/10 |
-| 5 | The corrected reaper premise: harness and Tier-2 classifier controls, a workload overlay on a copy of the premise image, then one cell (op-391; op-279 dropped as superseded) | Gatekeeper | op-391 drafted; needs the Coordinator's staging and guest authority |
+| 5 | The corrected reaper premise: harness and Tier-2 classifier controls, a workload overlay on a copy of the premise image, then one cell (op-398; op-391 and op-279 dropped as superseded) | Gatekeeper | op-391 BLOCKED before staging (classifier did not compile, attempt unused); redo op-398 drafted |
 | 6 | op-280's fix only if the premise is CONFIRMED; then op-202 productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | waits on 5 and 3 |
 
 The alpha2 regression milestone closed on 2026-09-28: op-364 built the image, and op-372 booted it

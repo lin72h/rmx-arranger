@@ -145,6 +145,15 @@ is ready to send.
   outside it (op-389 finding 1).
 - Check a reviewer's cited commit against the file's history; validator2 cited the parent commit
   for the op-380 note.
+- Check a NOTICE against the Limits of every op it touches. My 2026-10-01 helper NOTICE told
+  gatekeeper1 to copy the helper, while op-391's Inputs said "do not edit or copy it". When a NOTICE
+  has to override a limit, it names the limit it replaces.
+- Write a gate as "do not stage until X; fixing your own harness is part of this op", not "any
+  other result stops the op". op-391 read the latter as a hard stop over a compile error in its own
+  classifier.
+- A self-test proves only the file it ran against. op-391's controls passed on 2026-09-28, the
+  classifier changed afterwards, and it never compiled again. Bind the cell to the classifier hash
+  that passed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
 ## Pushes

@@ -60,7 +60,7 @@ a NULL kmsg) are the kind these tools report on the first run that reaches them.
 - op-397 (validator2, issued 2026-10-01): the review of op-396.
 - `testing-1` is on the public rmxOS origin at `7ccf16fa` (pushed with the Coordinator's yes,
   2026-10-01). `rmx-implementer@9d718966` is pushed when op-396 closes.
-- Next, drafted once op-396 and op-391 have both closed: Gatekeeper, P0 and P1 in survey mode and
+- Next, drafted once op-396 and op-398 have both closed: Gatekeeper, P0 and P1 in survey mode and
   then gate mode on the op-396 images, together with id-053's panic capture.
 
 ## Done when

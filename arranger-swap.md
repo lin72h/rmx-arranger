@@ -1107,3 +1107,23 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-397 draft → issued.
 - evidence: `git ls-remote --heads origin testing-1` → 7ccf16fa410c8764c91b1cdaf3f3be683e4ad549; `git log origin/alpha2..testing-1` lists two commits.
 - next: op-397's REPORT, then the closure decision on op-396. op-395 is sent when the Coordinator says so.
+
+### j-20261001-004 — op-395 sent; op-391 BLOCKED before staging, dropped; redo op-398 drafted
+
+- time / kind: 2026-10-01T07:53:40Z / ACTION
+- outcome: The Coordinator sent op-395 to the Implementer and relayed op-391's REPORT: BLOCKED, HARNESS-NOT-ACCEPTED, axes a/b/c INCONCLUSIVE, attempt 0/1. Checked first-hand:
+  - `build/op391/classify.exs` does not compile. `return_product_failure` is bound inside `if` branches (lines 66-68) and read at line 70, and the Tier-2 `results.json` stderr shows the CompileError in every case. The six "rejections" therefore prove nothing, and both required acceptances fail.
+  - The classifier was edited on 2026-09-28 21:12, after its controls passed at 21:10, and never re-run.
+  - Commit `5ba8835` is on origin, and the evidence hashes match. The extracted helper files are byte-identical to the dd78a31 blobs (`baaff6f5…`, `e1021f61…`) and were never executed.
+  - Arranger error: the 2026-10-01 NOTICE told gatekeeper1 to copy the helper, while op-391's Inputs said "do not edit or copy it". The copy is verbatim and unused, and op-398 now names it explicitly. Lesson added to LOCAL.md.
+
+  Size S: the BLOCKED return is verified, and no runtime evidence exists. op-391 is dropped and redone as op-398, which is op-391's brief plus:
+  - the classifier repair, done inside the op;
+  - the op-322 controls kept honest, each with exactly its one named difference, and W4/W5 records added to every control if the classifier needs them;
+  - the cell classified with the classifier hash that passed Tier 2;
+  - a 30-minute no-progress stop;
+  - the verbatim helper copy named;
+  - panic and backtrace quoting, so that a Mach panic (id-046) is not misread as reaper evidence. op-322 counts any panic during a wave as (a) OBSERVED.
+- state delta: op-395 draft → issued; op-391 issued → returned → dropped (superseded by op-398); op-398 created as draft; id-016, id-023 and id-042 rows, now.md and testing-strategy.md point to op-398.
+- evidence: `build/op391/tier2-notice-20261001/results.json` sha256:d2ec28c4…; `classify.exs` lines 55-75 and 100-135; `git show dd78a31:scripts/bhyve/rmx-stage-image{,.exs} | sha256`; `git merge-base --is-ancestor 5ba8835 origin/main` in rmx-gatekeeper1; op-322 at be1a3fb, lines 264-283 and 287.
+- next: Present op-398 (gatekeeper1 is idle; nothing it touches is in use).

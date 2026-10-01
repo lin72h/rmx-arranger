@@ -1,12 +1,12 @@
 ---
 id: op-395
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: both
 authority: build: kernel RMXOS-RELEASE, mach.ko and the Mach tests from the fix branch; extend rmx-stage-image with a schema for these test images and stage two test images with it; no guest runs; no push
-updated: 2026-09-29T04:03Z
+updated: 2026-10-01T07:50Z
 ---
 # op-395 — Implementer: Mach fix batch 1 — local fixes, each with an in-tree regression test
 
