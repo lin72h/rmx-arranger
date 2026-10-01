@@ -1227,3 +1227,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-403 draft → issued → returned.
 - evidence: the op-403 REPORT; `git log 07ac8fd` in rmx-validator2.
 - next: op-402's REPORT.
+
+### j-20261001-014 — op-402 REMEDIATE 9/10; reviews agree; op-404 drafted
+
+- time / kind: 2026-10-01T09:27:21Z / ACTION
+- outcome: validator1 (`669b877`, local) finds claims 1-4 hold and names five uncovered rules. With validator2's two, the union is six controls (one overlaps). Both reviews are REMEDIATE at 9/10, so they agree and need no arbitration. op-402 and op-403 are closed. op-401 stays returned until op-404 adds the controls; then it closes on a light check.
+- state delta: op-402 draft → issued → returned → closed; op-403 → closed; op-404 created as draft.
+- evidence: both REPORTs; both commits exist locally.
+- next: Send op-404.
