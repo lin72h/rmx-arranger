@@ -1194,3 +1194,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-400 draft → issued → returned → closed.
 - evidence: `serial.raw` lines 124-163; `git show 2884304b:sys/kern/init_main.c` and `git show stable/15:sys/kern/init_main.c`, line 838; `man bhyve` EXIT STATUS.
 - next: Coordinator: choose the Tier U replacement.
+
+### j-20261001-011 — Delegated: replace Tier U with kernel-side observation of PID 1 (option A)
+
+- time / kind: 2026-10-01T09:09:20Z / DECISION (Rule 9 delegation)
+- outcome: The Coordinator delegated the choice ("your call"). The Arranger chose option A:
+  - **What changes:** amend op-322's Tier U so that launchd as PID 1 is observed from the kernel side, without attaching: `syscall::wait4` filtered on `pid == 1` with the thread ID, the `proc` provider for exits, `profile` sampling of PID 1's threads, and launchd's own LastExitStatus and log lines.
+  - **Why:** no product change, no divergence from FreeBSD, and it answers (b) and (c) directly.
+  - **Rejected:** option C (letting ptrace attach to init), because it weakens an upstream protection and makes the test kernel differ from the shipped one.
+  - **Deferred:** option B (USDT probes in launchd), to Testing 2.0 (id-054).
+- state delta: none.
+- evidence: none.
+- next: op-401 (explorer1) amends the contract.
