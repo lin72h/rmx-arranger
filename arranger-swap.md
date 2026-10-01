@@ -1180,3 +1180,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-399 issued → returned → closed; id-016 → WAITING (diagnosis).
 - evidence: `serial.raw` sha256:5d382fd4…, lines 497-505; `sys/kern/kern_prot.c` and `lib/libproc/proc_create.c:125-170` at 2884304b.
 - next: Draft the PID-1 tracing diagnostic for gatekeeper1's new session.
+
+### j-20261001-010 — op-400 DONE: PID 1 cannot be ptraced (upstream P_SYSTEM); closed
+
+- time / kind: 2026-10-01T09:08:07Z / ACTION
+- outcome: Sent to gatekeeper1's new session, and returned DONE. Checked first-hand:
+  - Serial sha256 47ce9357… matches; `9a92ec8` and `f417d01` are on origin; the op-388 image still hashes 031885….
+  - Serial lines 130-161: securelevel is -1. `PT_ATTACH pid=1` returns -1 with errno 22 (EINVAL), and the dtrace grab fails. The control process (pid 1005) attaches, waits, detaches and lists `pid1005::nanosleep:entry`.
+  - Cause: `initproc->p_flag |= P_SYSTEM | P_INMEM` at `init_main.c:838`, identical in upstream stable/15 (`99c63b81`), and `sys_process.c:1153` rejects `P_SYSTEM` with EINVAL. PID 1 is untraceable by ptrace, and so by the pid provider, on FreeBSD by design.
+  - The REPORT's "bhyve exit 1 despite poweroff" is not a fault: bhyve(8) defines exit status 1 as powered off. The runner misreads it.
+
+  The Arranger does not adopt the REPORT's proposed next step (a kernel exception letting ptrace through for initproc). It weakens an upstream protection and diverges from FreeBSD (testing-strategy.md, alignment rule 1). The alternatives (kernel-side probes, USDT) go to the Coordinator.
+- state delta: op-400 draft → issued → returned → closed.
+- evidence: `serial.raw` lines 124-163; `git show 2884304b:sys/kern/init_main.c` and `git show stable/15:sys/kern/init_main.c`, line 838; `man bhyve` EXIT STATUS.
+- next: Coordinator: choose the Tier U replacement.

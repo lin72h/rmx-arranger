@@ -1,12 +1,12 @@
 ---
 id: op-400
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: self
 authority: stage: one diagnostic overlay onto a copy of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31; guest boots: 1 (diagnostic, no reaper waves); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-01T08:45Z
+updated: 2026-10-01T09:08Z
 ---
 # op-400 — Gatekeeper 1: why DTrace's pid provider cannot attach to PID 1 — one diagnostic boot
 
