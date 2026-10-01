@@ -1138,3 +1138,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-398 draft → issued; op-397 issued → returned → closed; op-396 returned → closed; id-047 → op-396 closed.
 - evidence: `readelf --dyn-syms -W` on the RELEASE `kernel.full`; `link_elf.c:1570-1595` at testing-1; `git merge-base --is-ancestor 9d718966 origin/main`; `git ls-remote --heads origin testing-1`.
 - next: op-395 and op-398 in flight. Once op-398 closes, draft the Gatekeeper's P0/P1 survey of the op-396 images (id-047, id-053).
+
+### j-20261001-006 — op-398 step 1 verified and closed; op-399 carries the cell
+
+- time / kind: 2026-10-01T08:05:10Z / ACTION
+- outcome: gatekeeper1 returned op-398 as PARTIAL, with the classifier repair only. That scope came from the Arranger's continuation message, which named only step 1. Checked first-hand:
+  - `0e767ac` is on origin, and the three evidence hashes match.
+  - `classifier-tested.exs` equals `build/op391/classify.exs` (9fe56dac…).
+  - All eight Tier-2 cases pass. Each of the six rejections fails for its own named reason (raw/workload, raw/decode, missing reap, terminal, wave order, empty trace), and each control differs from known_good only by its named mutation plus the manifest hashes and consistent log lines.
+
+  op-398 is closed for step 1. op-399 carries the rest (runner and workload host tests, overlay, one cell) with the classifier pinned. The guest attempt is still unused.
+- state delta: op-398 issued → returned → closed; op-399 created as draft.
+- evidence: `build/op398/classifier-binding.json` sha256:e5014579…; `diff -r tier2-r3/known_good tier2-r3/<case>`.
+- next: Present op-399.
