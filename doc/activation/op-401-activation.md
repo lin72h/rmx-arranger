@@ -1,12 +1,12 @@
 ---
 id: op-401
-state: returned
+state: closed
 agent: explorer1
 repo: rmx-explorer1
 idq: id-016
 gate: both
 authority: none beyond the defaults: documentation only; no guests; push rmx-explorer1 main
-updated: 2026-10-01T09:16Z
+updated: 2026-10-01T09:34Z
 ---
 # op-401 — Explorer 1: amend the PID-1 reaper contract — observe launchd as PID 1 from the kernel side
 

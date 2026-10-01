@@ -1248,3 +1248,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-404 draft → issued.
 - evidence: none.
 - next: none.
+
+### j-20261001-016 — op-404 and op-401 closed; op-405 (cell under the amended contract) drafted
+
+- time / kind: 2026-10-01T09:34:24Z / ACTION
+- outcome: op-404 returned DONE. Checked first-hand: `a04db00` is on origin; the change is append-only (+15, -0); the six controls each have a single named difference and a required result. Documentation is S under the new sizing, so op-404 and op-401 are closed. op-405 is gatekeeper1's cell under the amended contract:
+  - the classifier is updated and passes the full Tier 2 (8 + 6 controls);
+  - a separate probe preflight boot checks feasibility before the single cell attempt;
+  - the runner's misreading of bhyve exit 1 is fixed;
+  - REPORT hashes only the images and serial logs.
+
+  The gate is both Validators (runtime verdict).
+- state delta: op-404 → returned → closed; op-401 returned → closed; op-405 created as draft.
+- evidence: `git diff f1df370 a04db00`.
+- next: Send op-405.
