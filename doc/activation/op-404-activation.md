@@ -1,12 +1,12 @@
 ---
 id: op-404
-state: draft
+state: issued
 agent: explorer1
 repo: rmx-explorer1
 idq: id-016
 gate: self
 authority: none beyond the defaults: documentation only; no guests; push rmx-explorer1 main
-updated: 2026-10-01T09:27Z
+updated: 2026-10-01T09:29Z
 ---
 # op-404 — Explorer 1: add six Tier-2 controls to the op-401 kernel-side amendment (remediation from op-402 and op-403)
 

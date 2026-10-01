@@ -161,6 +161,11 @@ is ready to send.
   that passed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
+## Render after in-flight ops
+
+- rmx-explorer1 (op-404) and rmx-implementer (op-395) are stale on the 2026-10-01 REPORT and
+  sizing change; render each when its op returns (the Implementer also gets the wording rules then).
+
 ## Commit attribution (Coordinator, 2026-10-01)
 
 - Company rule: no AI attribution in commit messages. No `Co-Authored-By: Claude …` line and no

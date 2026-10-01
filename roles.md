@@ -113,7 +113,12 @@ cross-repo reach, doctrine tension), not by the size of the original op:
 |---|---|---|
 | S / M | Arranger, first-hand | the Arranger verifies it |
 | L | one Validator, chosen by the question and cost (§ Choosing a Validator) | confidence ≥8/10 |
-| XL, or on the release critical path | two Validators, by default validator1 + validator2 | both ≥8/10 **and** they agree |
+| XL: a runtime verdict, a contract, or a release decision | two Validators, by default validator1 + validator2 | both ≥8/10 **and** they agree |
+
+Proportion (Coordinator, 2026-10-01): build, staging and documentation ops are S/M by default; the
+Arranger checks them first-hand and closes. A Validator is for work that decides a result (a fix
+diff, a cell verdict, a contract); two only for the XL row. Before any single-attempt run, check
+feasibility first (probes, tools, permissions) with the cheapest possible step.
 
 - The Arranger may raise a gate one level, never lower it.
 - Whoever reviews verifies first-hand. At ≥8 the Arranger closes on the Validator's word after a

@@ -1235,3 +1235,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-402 draft → issued → returned → closed; op-403 → closed; op-404 created as draft.
 - evidence: both REPORTs; both commits exist locally.
 - next: Send op-404.
+
+### j-20261001-015 — Lighter process: REPORT hashes and review sizing
+
+- time / kind: 2026-10-01T09:33:09Z / DECISION
+- outcome: The Coordinator approved cutting validation overhead:
+  - REPORT evidence now hashes only the artifacts later work depends on; others are listed by path (rmx-role0 report partial).
+  - Build, staging and documentation ops are S/M and close on the Arranger's first-hand check.
+  - One Validator for work that decides a result; two only for runtime verdicts, contracts and release decisions.
+  - Feasibility is checked first before any single-attempt run (roles.md § Review and closure; rulebook Rule 11).
+  - Commit-ID pins stay. In-flight ops are unchanged. explorer1 and the Implementer re-render when their ops return.
+- state delta: op-404 draft → issued.
+- evidence: none.
+- next: none.

@@ -114,6 +114,9 @@ Validator by the question and by cost:
 - **Return is not closure.** When a REPORT arrives, `tools/rob set op-NNN returned`. `returned`
   means only that the agent answered. Close the op after its gate is reviewed and every
   downstream/origin blocker is clear.
+- **Size by what the work decides, not by caution** (Coordinator, 2026-10-01): build, staging and
+  documentation ops are S/M and close on the Arranger's first-hand check; see roles.md § Review
+  and closure. Briefs ask for commit IDs and only the hashes later work depends on.
 - **Size each gate S/M/L/XL** the moment work returns — the difficulty of the adjudication
   (evidence surface to re-verify, cross-plane reach, doctrine tension), not the size of the
   original op.
