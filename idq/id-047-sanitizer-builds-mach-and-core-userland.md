@@ -57,9 +57,11 @@ a NULL kmsg) are the kind these tools report on the first run that reaches them.
   `/Users/me/wip-mach/stage/images/op396-RMXOS-{RELEASE,KASAN,KMSAN,KCSAN,KUBSAN-final}.raw`.
   The Arranger checked the commits, flags, instrumentation, image hashes, BOMs and `loader.conf`
   first-hand. One correction: only `knote_enqueue` resolves through leak-locals (id-045).
-- op-397 (validator2, issued 2026-10-01): the review of op-396.
+- op-397 (validator2): CLOSE 9/10. op-396 closed 2026-10-01. validator2 repeated the evidence's
+  misreading of the ifunc symbols as leak-locals; the Arranger's `readelf --dyn-syms` and
+  `link_elf.c:1576-1583` show they resolve as globals (id-045).
 - `testing-1` is on the public rmxOS origin at `7ccf16fa` (pushed with the Coordinator's yes,
-  2026-10-01). `rmx-implementer@9d718966` is pushed when op-396 closes.
+  2026-10-01). `rmx-implementer@9d718966` is on origin.
 - Next, drafted once op-396 and op-398 have both closed: Gatekeeper, P0 and P1 in survey mode and
   then gate mode on the op-396 images, together with id-053's panic capture.
 

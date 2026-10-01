@@ -1127,3 +1127,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-395 draft → issued; op-391 issued → returned → dropped (superseded by op-398); op-398 created as draft; id-016, id-023 and id-042 rows, now.md and testing-strategy.md point to op-398.
 - evidence: `build/op391/tier2-notice-20261001/results.json` sha256:d2ec28c4…; `classify.exs` lines 55-75 and 100-135; `git show dd78a31:scripts/bhyve/rmx-stage-image{,.exs} | sha256`; `git merge-base --is-ancestor 5ba8835 origin/main` in rmx-gatekeeper1; op-322 at be1a3fb, lines 264-283 and 287.
 - next: Present op-398 (gatekeeper1 is idle; nothing it touches is in use).
+
+### j-20261001-005 — op-398 sent; op-397 CLOSE 9/10; op-396 and op-397 closed
+
+- time / kind: 2026-10-01T07:56:13Z / ACTION
+- outcome:
+  - The Coordinator sent op-398 and relayed op-397: validator2 CLOSE 9/10, all six claims hold, and the `/.rmx-staged` marker is a fourth, disclosed difference that op-397's brief left out of its "only in" list.
+  - Light provenance check: `d939da7` exists in rmx-validator2 (Validators have no origin). `testing-1` = `7ccf16fa` and `rmx-implementer@9d718966` are on origin; the Arranger pushed 9d718966 under standing permission.
+  - One review error, overruled as Arbiter: validator2 says `copyin`/`memcpy`/… resolve only through leak-locals ("i = local"). `readelf --dyn-syms` shows them `IFUNC GLOBAL` in the kernel's `.dynsym`, and `link_elf.c:1576-1583` refuses only `STB_LOCAL` symbols without `see_local`. The only real leak-locals dependency is `knote_enqueue`. The error overstates the dependency and does not affect what was built or staged, so the close stands. A NOTICE corrects validator2's new LOCAL.md lesson.
+- state delta: op-398 draft → issued; op-397 issued → returned → closed; op-396 returned → closed; id-047 → op-396 closed.
+- evidence: `readelf --dyn-syms -W` on the RELEASE `kernel.full`; `link_elf.c:1570-1595` at testing-1; `git merge-base --is-ancestor 9d718966 origin/main`; `git ls-remote --heads origin testing-1`.
+- next: op-395 and op-398 in flight. Once op-398 closes, draft the Gatekeeper's P0/P1 survey of the op-396 images (id-047, id-053).

@@ -1,12 +1,12 @@
 ---
 id: op-398
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: both
 authority: stage: one workload overlay onto a copy of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31 (its own doas allowlist); guest attempts: 1 on that overlay image; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-01T07:53Z
+updated: 2026-10-01T07:56Z
 ---
 # op-398 — Gatekeeper 1: corrected reaper premise — fix the classifier, then one PID-1 cell on the op-388 image (redo of op-391)
 

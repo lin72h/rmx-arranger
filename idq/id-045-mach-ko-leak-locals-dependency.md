@@ -44,3 +44,7 @@ that resolves to a LOCAL kernel symbol (`readelf -sW kernel.full`: `FUNC LOCAL`)
 evidence also lists `copyin`, `copyout`, `memcpy`, `memmove`, `memset` and `sched_relinquish` as
 "local/leak-locals", because `nm` prints them as `i`. In every profile, though, they are
 `IFUNC GLOBAL`: `i` marks an indirect function, not a binding.
+The lookup confirms this: `link_elf_lookup_symbol1` refuses a symbol only when it is
+`STB_LOCAL` and `see_local` is false (`sys/kern/link_elf.c:1576-1583`). `copyin`, `memcpy` and
+`sched_relinquish` are `IFUNC GLOBAL` in the kernel's `.dynsym`, so they need no leak-locals.
+validator2's op-397 review reached the opposite conclusion; corrected by NOTICE on 2026-10-01.

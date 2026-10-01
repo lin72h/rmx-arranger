@@ -1,12 +1,12 @@
 ---
 id: op-396
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-047
 gate: validator
 authority: build: kernels RMXOS-RELEASE, RMXOS-KASAN, RMXOS-KMSAN, RMXOS-KCSAN and RMXOS-KUBSAN (trial) with mach.ko, from the branch below; stage one test image per built profile with rmx-stage-image; no guest runs; no push
-updated: 2026-10-01T07:33Z
+updated: 2026-10-01T07:56Z
 ---
 # op-396 — Implementer: Testing 1.0 — mach.ko built with its kernel, and sanitizer kernel profiles
 
