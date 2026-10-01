@@ -63,8 +63,13 @@ images with BOMs, inventories and hashes.
 
 ## Limits
 
-- Do not change the module's build configuration here: building `mach.ko` under the kernel's
-  options is a later step (id-047), after op-389 #1 and #11 are fixed.
+- Do not change the module's build configuration here. Building `mach.ko` with its kernel is
+  op-396 (id-047).
+- The standalone build gives `mach.ko` empty option headers, so `CAPABILITIES` and INVARIANTS are
+  undefined in it even though the kernel has both. Code under `#ifdef CAPABILITIES` or
+  `#ifdef INVARIANTS` compiles to nothing here; for example, `kern_fdfree` (`ipc_entry.c:933-942`)
+  skips the kernel's `fde_seqc` writes. Fix 10, and every other fix, must not rely on such code
+  and must work in this build.
 - Leave op-388's premise image and everything under `/Users/me/wip-mach/stage/images/` untouched;
   put the two new images in new files there.
 

@@ -144,7 +144,7 @@ Arranger first-hand at `2884304b`: N1 and N5 hold as written.
 
 ## Findings ledger (every finding from op-389, op-392 and op-393)
 
-This is the complete list; each consult document holds the detail. "First-hand" means the
+This is the complete list; each consult document holds the detail. Rows with source "Arranger" come from the Arranger's own reading. "First-hand" means the
 Arranger traced it at `2884304b`; "reported" means the consult's own trace only. "Both" marks
 findings that both op-389 and op-392 reached.
 
@@ -176,7 +176,7 @@ findings that both op-389 and op-392 reached.
 | op-392 | S5 | Cross-task space operations use the caller's descriptor table | reported | |
 | op-392 | S6 | KBI: inserted proc/thread fields shift offsets for stock-built modules | reported | |
 | op-392 | §3 | VM wrappers ignore the target map; `setmax` dropped; errno as kern_return_t; `mach_vm_allocate` skips RLIMIT_VMEM and RACCT; OOL buffered via malloc(M_NOWAIT) | reported | |
-| op-392 | §3 | AUDIT_SYSCLOSE and seqc compiled out of `mach.ko`; debug sysctls walk entries without references; `twq_proc_exec` runs before exec can fail | reported | |
+| op-392 | §3 | AUDIT_SYSCLOSE and seqc compiled out of `mach.ko`; debug sysctls walk entries without references; `twq_proc_exec` runs before exec can fail | seqc first-hand (2026-10-01): `kern_fdfree` writes `fde_seqc` only under `CAPABILITIES` (`ipc_entry.c:933-942`), undefined in the standalone build, while the kernel's lockless lookups rely on it (`kern_descrip.c:323-328`, `3244-3268`); rest reported | id-047 (op-396's kernel build fixes the seqc part) |
 | op-392 | §3 | Workqueue per-thread state freed only on `thr_exit` | **retracted by op-393** | |
 | op-393 | N1 | Timebase ratio ~53 vs nanosecond clock; launchd's 10 s respawn throttle becomes ~0.19 s | first-hand | id-016 |
 | op-393 | N2 | Kernel MIG reply parked on the sending thread, not queued to the reply port | reported | |
@@ -188,6 +188,7 @@ findings that both op-389 and op-392 reached.
 | op-393 | N8 | `clock_sleep_trap`: wrong duration, clock and result codes | reported | |
 | op-393 | N9 | Handlers written for user pointers are called by MIG with kernel pointers (`clock_get_time`, VM attribute always fail) | reported | |
 | op-393 | N10 | Traps report kern_return_t through two conventions (-1/errno vs value) | reported | |
+| Arranger | A1 | `ipc_kmsg_alloc` zeroes messages only under INVARIANTS (`ipc_kmsg.c:386-390`): the standalone `mach.ko` does not zero them, a kernel-built one does, and the zeroing hides uninitialized message bytes from KMSAN. Whether such bytes reach user space is an open check (KMSAN, testing-strategy.md) | first-hand (2026-10-01) | id-047 |
 
 Build finding (op-389, op-392, op-393): `mach.ko` is built outside its kernel's configuration →
 id-047. Unreached routines → id-052.

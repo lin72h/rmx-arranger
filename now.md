@@ -44,6 +44,11 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
 2. Consistent automated checking (CI), built and run by the Gatekeeper and read by the Validators: the candidate built with
    `mach.ko` under its kernel's configuration, booted contained, and the Mach regression suite run
    every time (id-047 starts here).
+   **Testing 1.0** (Coordinator, 2026-10-01) starts now: sanitizers and post-mortem debugging
+   (id-047, id-053, id-048), then DTrace (2.0, id-054) and hwpmc (3.0, id-055). Plan:
+   [testing-strategy.md](testing-strategy.md). op-396 (drafted) builds `mach.ko` with its kernel
+   and the sanitizer profiles from alpha2. It needs the Implementer, as op-395 does, so the
+   Coordinator picks the order. The Gatekeeper's survey run follows op-391.
 3. Round 2 of the Mach review (id-051, id-052): two blind reviewers on different models.
 op-391 continues as the pre-fix baseline of launchd's reaper (read its results with N1 in mind).
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
