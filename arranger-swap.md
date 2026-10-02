@@ -1805,3 +1805,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-429 created as draft; op-280 needs op-429.
 - evidence: `build/op422/workload/cell-driver.sh`, lines 45-46; the op-422 plist.
 - next: Send op-429.
+
+### j-20261003-004 — op-429 sent; op-428 BLOCKED on in-place rfork; lazy Mach-space rebinding decided; op-430
+
+- time / kind: 2026-10-02T11:55:08Z / DECISION (delegated principle)
+- outcome: op-429 was sent. op-428 returned BLOCKED, with `3cb2092a` (`kern:` atomic thread-exit gate; native files kern_thread.c and proc.h) and `415112e0` (special send rights released on exit) committed. Its question: in-place `rfork` (no RFPROC) changes the fd table with no process event.
+
+  Checked: `kern_fork.c:384-420` uses fdinit (RFCFDG) or fdunshare (RFFDG), and fdcopy skips files without DFLAG_FORK (`kern_descrip.c:2563`). The new table has no Mach names.
+
+  Decided: no fourth FreeBSD hook. Mach rebinds lazily: a space stays bound to its fd table; on the Mach entry path a mismatch between `p_fd` and the space's table binds a fresh empty space under the task's binding lock and drops the old reference; task-level ports are kept, as for exec; a regression test is required. Reasons: it is rare, has no macOS equivalent, and stays Mach-local. op-428 is dropped and superseded by op-430. Rule 3 in the record is updated.
+- state delta: op-429 draft → issued; op-428 issued → returned → dropped; op-430 created as draft.
+- evidence: `git show mach-fixes-3:sys/kern/kern_fork.c`, lines 384-420; kern_descrip.c, lines 2561-2597.
+- next: Send op-430.

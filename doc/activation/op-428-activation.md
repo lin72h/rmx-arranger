@@ -1,12 +1,12 @@
 ---
 id: op-428
-state: issued
+state: dropped
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: validator
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from the branch; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T11:43Z
+updated: 2026-10-02T11:55Z
 ---
 # op-428 — Implementer: Mach fix batch 3, finish — thread-exit gate as a function-pointer hook, remaining lifetime fixes, images (continues op-427)
 
