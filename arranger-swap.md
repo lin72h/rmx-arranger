@@ -1394,3 +1394,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-407 draft → issued; op-409 issued → returned → closed; op-411 created and held (needs op-410).
 - evidence: `readelf -rW` of the fixture; `sha256` of both images.
 - next: op-410's REPORT.
+
+### j-20261002-012 — op-407 REMEDIATE 9/10: fix 6 leaves the port-set lock held in filt_machport; op-412 drafted
+
+- time / kind: 2026-10-02T03:03:09Z / ACTION
+- outcome: validator2 (`17ba614`, local) finds that 12 of the 13 fixes hold. Fix 6 (`10b9c426`) made `ipc_object_translate` always lock and moved `filt_machportattach` to the `_known` form, but left `filt_machport` on the plain call (`ipc_pset.c:623`). Its guarded unlock (line 637) then skips the normal case, and line 667 re-locks the same mutex. Checked first-hand at `5fa02fb5`: lines 609-669 and `ipc_object.c` `translate_internal` locking unless `known == object`. The finding holds. op-407 is closed. op-412 (Implementer) makes the one-call fix plus a check of the other callers, then restages the fixed image. op-411 now needs op-410 and op-412, and gets the new fixed image's path and hash before it is sent. The base image is unaffected.
+- state delta: op-407 issued → returned → closed; op-412 created as draft; op-411 needs op-410 and op-412.
+- evidence: `git show 5fa02fb5:sys/compat/mach/ipc/ipc_pset.c`, lines 609-669; `ipc_object.c`, lines 115-161.
+- next: Send op-412.

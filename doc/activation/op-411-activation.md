@@ -4,10 +4,10 @@ state: hold
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
-needs: op-410
+needs: [op-410, op-412]
 gate: self
 authority: guest boots: up to 6 on copies of op409-base-tests.raw and op409-fixed-tests.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T02:57Z
+updated: 2026-10-02T03:03Z
 ---
 # op-411 — Gatekeeper 1: finish the op-395 test proof on op-409's images (null_fd, the base FAIL/PASS cases, the fixed suite)
 
@@ -24,7 +24,8 @@ changed; all 13 test programs are byte-identical to op-395's.
 
 Images (work on copies):
 - base + tests: `/Users/me/wip-mach/stage/images/op409-base-tests.raw` sha256 `41c81b17e2f8c176cc76d423aac9b4cf4d812286d19d2d9f094f3082611c38c3`
-- fixed + tests: `/Users/me/wip-mach/stage/images/op409-fixed-tests.raw` sha256 `088c490a2d7412512fd3649d974678c4a87c6e7c5a76111e89596bbac18dfd5a`
+- fixed + tests: the image op-412 restages (with the fix 6 follow-up); its path and hash are added
+  here before this op is sent.
 
 Run, by direct ATF invocation as in op-408:
 1. Base: `mach_proc_info_test:null_fd` alone (expected PANIC).
