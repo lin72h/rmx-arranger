@@ -108,6 +108,13 @@ keeps swift-testing off the Lane A critical path even when Swift binaries are in
 Orthogonal axes; a feature wants both green. The parity gate is where this doctrine and the
 three pillars live; the regression gate is the swift-rmxOS suite's own concern.
 
+## FreeBSD's own tests vs ours (Coordinator, 2026-10-02)
+
+FreeBSD's in-tree tests (ATF/Kyua under `/usr/tests`) are run as they are; we do not rewrite them.
+Every new rmxOS test follows this partition (Zig / swift-testing / Elixir) consistently, and does
+not adopt ATF for upstream form. A new Zig test must still run one case at a time by name and leave
+a per-case machine-readable result, so a case that stops the kernel can get a boot of its own.
+
 ## One-line rule of thumb
 
 **Testing the floor or the wire → Zig. Testing Swift, C++, or a macOS API as a developer

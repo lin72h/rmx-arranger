@@ -94,9 +94,12 @@ KASAN. Copying that structure brings rmxOS closer to macOS as well as to FreeBSD
    under INVARIANTS (`compat/mach/ipc/ipc_kmsg.c:386-390`). That is a defect in its own right, and it
    also hides uninitialized message bytes from KMSAN. Every such place is listed (op-396) and fixed
    through id-046.
-4. **Regression tests are ATF under `tests/sys/mach`, run by Kyua** (op-395): FreeBSD's form. Parity
-   probes stay as `test-pillar-partition.md` says. FreeBSD's own `/usr/tests/sys` suites for kern,
-   file and kqueue run as well, because Mach changes those subsystems.
+4. **Tests (Coordinator, 2026-10-02).** FreeBSD's existing tests (ATF and Kyua, `/usr/tests/sys`
+   for kern, file and kqueue) run as they are, because Mach changes those subsystems. New rmxOS
+   tests use the project's own modern stack, consistently, as `test-pillar-partition.md` sets out:
+   Zig for the substrate (Mach traps, IPC, the C ABI), swift-testing for the high level, and Elixir
+   to drive runs. They need not be FreeBSD-upstreamable. op-395's tests are Zig programs that link
+   ATF; they stay until a migration op moves them to the Zig convention.
 5. **Annotate private allocators the way UMA does** (`kasan_mark`, `kmsan_mark`). Today every Mach
    allocation goes through UMA or malloc(9) (`ipc_init.c:184-186`, `task.c:1144`,
    `mach_thread.c:264`, `ipc_kmsg.c:765-773`), so no annotations are needed yet. A private cache

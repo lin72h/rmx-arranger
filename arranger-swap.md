@@ -1297,3 +1297,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-406 → issued → returned → closed; op-407 draft → issued; op-408 created as draft.
 - evidence: op-406 serial lines 217-232; `ldd` and `nm` of `build/op395/mach_fileops_test`.
 - next: Send op-408.
+
+### j-20261002-003 — Coordinator: FreeBSD tests as they are; new tests on our modern stack
+
+- time / kind: 2026-10-02T01:06:36Z / DECISION
+- outcome: FreeBSD's existing in-tree tests (ATF and Kyua) are run unchanged. New rmxOS tests use the project's own stack consistently (Zig for the substrate, swift-testing for the high level, Elixir to drive runs) and need not be upstreamable. A new Zig test must run one case at a time by name and leave a per-case result. This replaces testing-strategy.md rule 4's "ATF under tests/sys/mach". op-395's ATF-linked Zig tests stay until a migration op, and op-408 runs them as they are. Also added to the gatekeeper0 OPS template: check guest commands against the image before any boot, and fix own-harness problems in-op (re-rendered gatekeeper1).
+- state delta: none.
+- evidence: none.
+- next: none.

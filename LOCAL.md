@@ -128,6 +128,11 @@ is ready to send.
 - The macOS side (mm4, the mx-a64z seats, and the platform-arch naming) was designed in from the
   start and still needs polish.
 
+## Test framework (Coordinator, 2026-10-02)
+
+- Run FreeBSD's existing ATF/Kyua tests as they are. New rmxOS tests: Zig / swift-testing / Elixir,
+  consistently (test-pillar-partition.md). Never brief a new test in ATF or C for upstream form.
+
 ## Worklog and journal times
 
 - `worklog.md` (Coordinator, 2026-09-29): add a section for each major milestone, headed with the
