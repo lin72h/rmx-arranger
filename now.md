@@ -49,6 +49,8 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
    [testing-strategy.md](testing-strategy.md). op-396 (drafted) builds `mach.ko` with its kernel
    and the sanitizer profiles from alpha2. It needs the Implementer, as op-395 does, so the
    Coordinator picks the order. The Gatekeeper's survey run follows op-398 (op-391's redo).
+   Design (2026-10-02): keep fd-backed port names for 1.0 and do op-394 steps 2-4; step 5 (XNU
+   name table) is deferred, see [mach-names-step5-deferred.md](mach-names-step5-deferred.md).
 3. Round 2 of the Mach review (id-051, id-052): two blind reviewers on different models.
 The pre-fix baseline of launchd's reaper (read its results with N1 in mind) continues as op-398. op-391 stopped before staging because its own classifier did not compile (dropped 2026-10-01).
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it

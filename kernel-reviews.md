@@ -55,3 +55,8 @@ advisor1). It is not urgent.
 State the lineage, put every reference tree on disk, ask for findings only (assumption, the lines
 on both sides, the failure, confidence, the smallest check), and ask for design causes. Forbid
 reading the other reviewers' work. Audit-shaped briefs (op-383) returned bookkeeping.
+
+## Design decision (Coordinator, 2026-10-02)
+
+1.0 keeps NextBSD's fd-backed port names and does op-394's steps 2-4; the XNU name table (step 5)
+is deferred: [mach-names-step5-deferred.md](mach-names-step5-deferred.md) (id-056).

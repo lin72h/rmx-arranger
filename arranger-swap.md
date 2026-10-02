@@ -1331,3 +1331,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `git log -1` of each commit in `nx/NextBSD`; `NextBSD-NextBSD-CURRENT/sys/compat/mach/ipc/ipc_entry.c:327-331`.
 - next: Coordinator decisions.
+
+### j-20261002-006 — Coordinator: 1.0 keeps fd-backed Mach names; step 5 deferred (id-056)
+
+- time / kind: 2026-10-02T02:30:30Z / DECISION
+- outcome: The Coordinator kept 1.0's aim of reviving NextBSD:
+  - **1.0:** port names stay file descriptors (op-394 A1), with B2, C1 and D2 through op-394's steps 2-4.
+  - **Deferred past 1.0:** step 5 (the XNU-style name table, and possibly C3), as id-056.
+  - **Record:** mach-names-step5-deferred.md lists nine limitations of fd-backed names with a 1.0 rule for each, the rules that keep step 5 possible (all name handling through the step-2 entry API; no name/fd casts outside named functions; tests check Mach behaviour, not fd numbers), and the triggers to revisit.
+
+  Linked from now.md, kernel-reviews.md and the IDQ index.
+- state delta: id-056 raised (DEFERRED POST-1.0).
+- evidence: none.
+- next: Draft fix batch 2 (step 2) once op-395 closes.
