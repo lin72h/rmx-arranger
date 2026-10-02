@@ -1,11 +1,11 @@
 ---
 id: op-394
-state: draft
+state: closed
 agent: advisor2
 repo: rmx-advisor2
 idq: id-046
 authority: none
-updated: 2026-10-02T01:09Z
+updated: 2026-10-02T01:39Z
 ---
 # op-394 — Advisor 2: design proposal — Mach names, task state, and the receive model on FreeBSD 15
 

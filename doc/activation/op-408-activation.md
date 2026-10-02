@@ -1,12 +1,12 @@
 ---
 id: op-408
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 20 on copies of the two op-395 images, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T01:00Z
+updated: 2026-10-02T01:08Z
 ---
 # op-408 — Gatekeeper 1: run the Mach regression suite on op-395's two images by direct ATF invocation (redo of op-406)
 

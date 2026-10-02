@@ -1305,3 +1305,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: none.
+
+### j-20261002-004 — op-394 design proposal returned and closed; decision pending
+
+- time / kind: 2026-10-02T01:39:42Z / ACTION
+- outcome: advisor2 returned `rmx-advisor2@6c4667b`, a 300-line proposal that recommends:
+  - **A2:** a Mach-owned name table with generation tags and fileports for file transfer;
+  - **B2:** per-incarnation task and thread objects with full death and unwind;
+  - **C1:** messages queued, with kqueue for readiness only, and the dispatch receive adapter shipped in the same image;
+  - **D2:** a bounded cross-task MIG subset, gated on B and A.
+
+  It introduces them in six booting steps that take batch 1 as done, and it lists the decisions needed before code. Spot checks: `port.h:219-230` (generations under `#if 0`) and `ipc_tt.c:870-878` (`convert_port_to_task` returns `current_task()`) are exact. Closed as a consult (S). The Coordinator decides the direction.
+- state delta: op-394 draft → issued → returned → closed.
+- evidence: the two spot checks above.
+- next: Coordinator: adopt A2, B2, C1 and D2 or not; then draft fix batch 2 as step 2.
