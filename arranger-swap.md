@@ -1677,3 +1677,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-425 issued → draft (correction).
 - evidence: `git branch --list launchd-fixes-1` is empty; there is no build/op425.
 - next: Show op-425.
+
+### j-20261002-036 — op-425 sent; workflow-report.md created with the first workflow review
+
+- time / kind: 2026-10-02T09:19:11Z / ACTION
+- outcome: op-425 was sent. At the Coordinator's request, created workflow-report.md, a dated log of workflow reviews. The first entry covers op-391 to op-425 (35 ops):
+  - what works: verification catching real bugs, parallel lanes, cost tiering, the relay steering;
+  - what costs time: brief quality (about ten guest ops lost, many to Arranger brief errors, now standing rules), relay ambiguity (op-407, op-425), filter stops;
+  - the "graph engineering" mapping, and proposals: "sent op-NNN" and `tools/rob graph`.
+- state delta: op-425 draft → issued.
+- evidence: `tools/rob list` counts for op-391 onward.
+- next: op-424 and op-425 REPORTs; the Coordinator's batch-3 decisions.
