@@ -1491,3 +1491,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-415 draft → issued; op-414 issued → returned → closed; op-416 hold → draft; op-417 created and held.
 - evidence: op-364 `evidence/command-returns.txt`, line 33; `grep bhyveload` in rmx-gatekeeper1 build/op360.
 - next: Send op-416.
+
+### j-20261002-020 — op-416 sent; op-415 DONE: KASAN and KMSAN surveys clean; closed
+
+- time / kind: 2026-10-02T04:05:37Z / ACTION
+- outcome: op-416 was sent. op-415 returned DONE after 2 of 4 boots. Checked first-hand:
+  - `a02d5e1` is on origin, and both serial hashes match (88301b6d…, 7c1089aa…).
+  - Lines 9, 131 and 172 show `RMXOS-KASAN` and `RMXOS-KMSAN` from `testing-1@7ccf16fa` booted from `/boot/RMXOS-K?SAN/kernel`.
+  - The survey settings were applied (`warn_only 1`, `panic_on_violation 0`).
+  - No sanitizer, assertion or panic line appears; every keyword match is an identity or settings line.
+
+  The slice passed 8/8 on both. Reading: the instrumented profiles work end to end. It does not show Mach is clean, because the slice is small and the code is alpha2. op-415 is closed. Next for id-047: the 27-case Mach suite under KASAN on the fixed branch, after op-416.
+- state delta: op-416 draft → issued; op-415 issued → returned → closed.
+- evidence: both serial logs, lines 9-307.
+- next: op-416's REPORT.

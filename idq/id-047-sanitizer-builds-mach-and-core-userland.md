@@ -62,6 +62,11 @@ a NULL kmsg) are the kind these tools report on the first run that reaches them.
   `link_elf.c:1576-1583` show they resolve as globals (id-045).
 - `testing-1` is on the public rmxOS origin at `7ccf16fa` (pushed with the Coordinator's yes,
   2026-10-01). `rmx-implementer@9d718966` is on origin.
+- op-410 (RELEASE) and op-415 (KASAN, KMSAN), 2026-10-02: the correct kernels booted (checked from
+  serial lines 9, 131 and 172), the kernel-built `mach.ko` loaded, and the op-372 slice passed 8/8 on
+  each, with no sanitizer or assertion report. The slice is small and alpha2 code is under test, so
+  this shows the instrumented profiles work, not that Mach is clean. Next: the Mach regression suite
+  (27 cases) under KASAN on the fixed branch.
 - Next, drafted once op-396 and op-398 have both closed: Gatekeeper, P0 and P1 in survey mode and
   then gate mode on the op-396 images, together with id-053's panic capture.
 

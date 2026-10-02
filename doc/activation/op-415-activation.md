@@ -1,13 +1,13 @@
 ---
 id: op-415
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-047
 needs: []
 gate: self
 authority: guest boots: up to 4 on copies of op413-RMXOS-KASAN.raw (4 GiB) and op413-RMXOS-KMSAN.raw (8 GiB), 20-minute cap each; loader variables through bhyveload -e; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T03:50Z
+updated: 2026-10-02T04:05Z
 ---
 # op-415 — Gatekeeper 1: KASAN and KMSAN survey boots on op-413's images — op-372 slice (Instrumentation 1.0)
 
