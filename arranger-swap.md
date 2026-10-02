@@ -1319,3 +1319,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-394 draft → issued → returned → closed.
 - evidence: the two spot checks above.
 - next: Coordinator: adopt A2, B2, C1 and D2 or not; then draft fix batch 2 as step 2.
+
+### j-20261002-005 — op-394 follow-ups: XNU-reuse revision and the NextBSD fd rationale
+
+- time / kind: 2026-10-02T02:22:35Z / ACTION
+- outcome: The Coordinator consulted advisor2 directly after op-394 closed. Two follow-up commits in rmx-advisor2:
+  - `519ec47`: the proposal revised to reuse XNU's namespace and right-accounting code through FreeBSD adapters, keep direct receive through an XNU-style kqueue callback (C3), and carry Capsicum rights on fileports.
+  - `02bc161`: why NextBSD made port names fds. Checked first-hand: the five cited Matt Macy commits in `nx/NextBSD` (27c6e39d, a9c4bf05, 8e81d12c with +117/-2053, 298a8e33, 45010950), f3af7791 (non-passable), cbda4630 (Capsicum boot fix), and `ipc_entry.c:329` (CAP_KQUEUE rights) all match. Conclusion: the fd choice was an ownership and integration decision (allocation, limits, refcount lifetime, kqueue, file transfer, Capsicum compatibility); inspection came later and was a side benefit.
+
+  Open for the Coordinator: the direction (XNU table, with NextBSD's six functions as requirements); C1 or C3 (the Arranger suggests C1 for the preview, because C3 changes FreeBSD's kqueue); pushing `mach-fixes-1`. Next per advisor2: pin the XNU donor release (two trees on disk).
+- state delta: none.
+- evidence: `git log -1` of each commit in `nx/NextBSD`; `NextBSD-NextBSD-CURRENT/sys/compat/mach/ipc/ipc_entry.c:327-331`.
+- next: Coordinator decisions.
