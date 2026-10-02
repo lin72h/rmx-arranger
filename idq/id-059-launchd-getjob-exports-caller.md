@@ -1,7 +1,7 @@
 # id-059 — launchd's GetJob exports the caller's job instead of the requested one
 
 - id: **id-059**
-- state: **READY — op-425 drafted**
+- state: **IN WORK — fixed in op-425 (`launchd-fixes-1@42bf6205`); runtime check pending**
 - raised: **2026-10-02 by the Arranger, from op-422 (gatekeeper1 `2db74d1`)**
 - parent: id-016; related: id-042
 
@@ -12,6 +12,14 @@ exports the job it found (`job_export(j)`). The one at line 566 finds the reques
 exports `ctx->j`, the calling client's job (line 570). `launchctl dump LABEL` therefore reports the
 caller, not the named job. In op-422, all 30 requests returned the anonymous `launchctl` job, so no
 managed job's `LastExitStatus` could be read.
+
+## Fix (2026-10-02)
+
+op-425: `job_export(j)` (`42bf6205`, on `903c8fc2`) with the regression test
+`tests/sys/launchd/launchd_getjob.zig` (`named_job`: FAIL before, PASS after). Apple's launchd
+842.92.1 exports the requested job; the faulty line came unchanged from NextBSD (`ipc.c:570`). The
+other `job_export(ctx->j)` (line 507) answers `CHECKIN`, a job asking for itself, which is correct.
+Runtime: next guest run that includes launchd.
 
 ## Done when
 

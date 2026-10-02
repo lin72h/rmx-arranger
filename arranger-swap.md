@@ -1696,3 +1696,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: none.
+
+### j-20261002-038 — op-425 verified and closed: launchd GetJob fix
+
+- time / kind: 2026-10-02T09:23:00Z / ACTION
+- outcome: op-425 returned DONE. Checked first-hand:
+  - `42bf6205` (on 903c8fc2) changes `job_export(ctx->j)` to `job_export(j)` and adds `tests/sys/launchd/launchd_getjob.zig`.
+  - The NextBSD source has the same bug at `ipc.c:570`, so the donor claim holds.
+  - The remaining `job_export(ctx->j)` at line 507 is CHECKIN (a job asking for itself), which is correct.
+
+  `rmx-implementer@5d4d7c6a` was pushed. op-425 is closed (S). The named_job runtime check goes to the next guest run with launchd. `launchd-fixes-1` is not on the public origin yet.
+- state delta: op-425 issued → returned → closed.
+- evidence: `git show 42bf6205`; `grep job_export(ctx->j)` in the NextBSD tree and at 42bf6205.
+- next: op-424's REPORT; the batch-3 decisions.
