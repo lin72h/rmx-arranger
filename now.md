@@ -39,6 +39,8 @@ is deferred (j-20260928-002).
 Every component depends on Mach, so upper components (libdispatch, libnotify, launchd, libxpc)
 wait until the Mach foundation is fixed and re-reviewed. In order:
 1. Fix the id-046 findings, each with an in-tree regression test that fails before the fix.
+   **Batch 1 done (2026-10-02):** 13 fixes plus follow-ups, 27/27 proven before and after (op-418),
+   `mach-fixes-1` on origin. Batch 2 (op-394 step 2) is op-420.
    Design classes A (port names as fds) and B (Mach state on reused proc/thread slots) are
    decided before point fixes land in those areas (kernel-reviews.md).
 2. Consistent automated checking (CI), built and run by the Gatekeeper and read by the Validators: the candidate built with

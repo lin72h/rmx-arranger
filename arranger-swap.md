@@ -1566,3 +1566,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-420 and op-421 draft → issued; op-419 issued → returned → closed.
 - evidence: serial lines 94-216; `git show 2884304b:usr.sbin/makefs/zfs/fs.c`, lines 430-436.
 - next: Reports from op-420 and op-421; the Coordinator's push decision.
+
+### j-20261002-026 — mach-fixes-1 published; op-395 (Mach fix batch 1) closed
+
+- time / kind: 2026-10-02T06:59:48Z / ACTION
+- outcome: With the Coordinator's yes, the Arranger pushed `mach-fixes-1` to the public rmxOS origin by hash: `refs/heads/mach-fixes-1` = `903c8fc2`, 18 commits on `2884304b`. It is a new branch, and no existing branch changed. op-395's gates are all met:
+  - validator2's review (op-407; its fix-6 finding fixed in op-412 and verified);
+  - the runtime proof (op-418, 27/27 before and after);
+  - the Implementer repo's commits (`d4a8015`, `59afc2fc`, `59fd6cba`) on origin.
+
+  op-395 is closed. Mach fix batch 1 is done. now.md, id-046 and the index are updated.
+- state delta: op-395 returned → closed.
+- evidence: `git ls-remote --heads origin mach-fixes-1` → 903c8fc2…; `git merge-base --is-ancestor` for the three Implementer commits.
+- next: op-420 and op-421 REPORTs.

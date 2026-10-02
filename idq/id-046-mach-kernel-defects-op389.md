@@ -147,7 +147,8 @@ Arranger first-hand at `2884304b`: N1 and N5 hold as written.
 op-418 (rmx-gatekeeper1 `9157b8c`): all 27 cases match on both images. Base: 14 PANIC, 12 FAIL
 with their own reasons, and 1 control PASS; fixed: 27/27 PASS. Branch `mach-fixes-1` at `903c8fc2`
 (13 fixes, the fix-6 follow-up, the fixture rebuild, MODULE_VERSION, fd_exhaustion IPC_SPACE, and
-bounded clock tests). op-395 closes once the branch is on origin.
+bounded clock tests). The branch is on the public rmxOS origin (pushed with the Coordinator's yes,
+2026-10-02), and op-395 is closed. Batch 2 (step 2) is op-420.
 
 ## Findings ledger (every finding from op-389, op-392 and op-393)
 
