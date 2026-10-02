@@ -1,12 +1,12 @@
 ---
 id: op-425
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-059
 gate: self
 authority: build: launchd from the branch; no image staging; no guest runs; no push
-updated: 2026-10-02T09:10Z
+updated: 2026-10-02T09:13Z
 ---
 # op-425 — Implementer: launchd GetJob exports the requested job, not the caller (id-059)
 
