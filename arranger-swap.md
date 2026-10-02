@@ -1344,3 +1344,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-056 raised (DEFERRED POST-1.0).
 - evidence: none.
 - next: Draft fix batch 2 (step 2) once op-395 closes.
+
+### j-20261002-007 — op-408: 13 of 13 base panics reproduced; fixture module unloadable; op-409 drafted
+
+- time / kind: 2026-10-02T02:32:10Z / ACTION
+- outcome: op-408 returned BLOCKED after 14 of 20 boots. Checked first-hand:
+  - `18f721d` is on origin.
+  - B01-B13 reproduced their expected base panics; those results stand.
+  - B14 failed because `rmx_translate_fixture.ko` has 5 `R_X86_64_32` relocations, which the kernel linker refuses (`kldload: unexpected relocation type 10`). It is loaded by mach_translate, mach_proc_info and mach_timeout.
+
+  gatekeeper1 stopped the whole run instead of skipping the 3 dependent programs. The gatekeeper0 OPS template now says to skip dependent cases and finish the rest (gatekeeper1 re-rendered). op-408 is closed. op-409 (Implementer, new session) rebuilds the fixture with kmod.mk flags, checks its relocations, and restages both images. Then one Gatekeeper run finishes the remaining base cases and the whole fixed suite.
+- state delta: op-408 issued → returned → closed; op-409 created as draft.
+- evidence: `readelf -rW rmx_translate_fixture.ko`; `git grep` of the fixture users.
+- next: Send op-409.
