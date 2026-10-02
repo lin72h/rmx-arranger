@@ -1284,3 +1284,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-395 issued → returned; op-405 issued → returned; op-406 and op-407 created as drafts.
 - evidence: `git log 2884304b..mach-fixes-1`; `sha256` of both images; `build/op405/runtime-preflight/…/guest-records/trace.err`.
 - next: Send op-406 and op-407. Coordinator: the Zig-tests question and pushing `mach-fixes-1`.
+
+### j-20261002-002 — op-406 BLOCKED (no Kyua in the image); closed; redo op-408 drafted
+
+- time / kind: 2026-10-02T01:00:30Z / ACTION
+- outcome: op-406 was sent and returned BLOCKED after 1 of 20 boots. The serial log at line 232 shows `-sh: kyua: not found`. Checked first-hand:
+  - `1a53555` is on origin.
+  - op-364's METALOG has no `./usr/bin/kyua` and no `./usr/tests`.
+  - The test programs link ATF statically (only libc and libthr are dynamic), so they run directly with `-l` and `-r <file> <case>`.
+
+  Arranger error: the brief prescribed `kyua` without checking the image, against the feasibility-first rule. op-406 is closed (its evidence stands). op-408 is the same run by direct ATF invocation, with in-op harness fixes and a command-versus-image check before the first boot. op-407 was sent to validator2.
+- state delta: op-406 → issued → returned → closed; op-407 draft → issued; op-408 created as draft.
+- evidence: op-406 serial lines 217-232; `ldd` and `nm` of `build/op395/mach_fileops_test`.
+- next: Send op-408.

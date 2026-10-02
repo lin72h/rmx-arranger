@@ -1,12 +1,12 @@
 ---
 id: op-407
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-046
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-02T00:35Z
+updated: 2026-10-02T01:00Z
 ---
 # op-407 — Validator 2: review op-395 — 13 Mach fixes and their regression tests
 
