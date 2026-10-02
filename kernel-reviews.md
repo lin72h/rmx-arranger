@@ -60,3 +60,26 @@ reading the other reviewers' work. Audit-shaped briefs (op-383) returned bookkee
 
 1.0 keeps NextBSD's fd-backed port names and does op-394's steps 2-4; the XNU name table (step 5)
 is deferred: [mach-names-step5-deferred.md](mach-names-step5-deferred.md) (id-056).
+
+## Road to round 2 (Arranger, 2026-10-02)
+
+Round 2 starts when the code it reviews is the 1.0 design, built and tested:
+1. **Batch 1 closed:** op-395 plus op-412, proven by op-411, with `mach-fixes-1` on origin.
+2. **Step 2:** entry, uref and reference APIs on the fd backend, closing with descriptor
+   removal revoking the name (op-389 #2; op-392 S2, S3, S4).
+3. **Step 3:** one task and thread object per lifetime, with full teardown (op-389 #4; op-392 F1
+   and F2; op-393 N5's prerequisite).
+4. **Step 4 plus C1 under A1:** queued MIG replies, safe wakeups, and receive in `mach_msg` with
+   kqueue signalling readiness only, plus the libdispatch adapter (op-392 F5; op-393 N2; op-389
+   #6, #7, #15; op-392 F4). advisor2's revised proposal ties its receive model to step 5, so this
+   needs a short design note first: "C1 on the fd backend".
+5. **D2 subset:** child-task setters after step 3; foreign name-space calls stay off.
+6. **Checking in place:** the Mach regression suite and a KASAN survey run on the fixed branch.
+
+### Guardrail for round 2
+
+The reviewers' brief states the decided design and links
+[mach-names-step5-deferred.md](mach-names-step5-deferred.md). Port names stay fds in 1.0. Reviewers
+check the code against that record's nine rules and do not re-propose the name table or C3.
+A finding that only step 5 could fix is tagged "needs step 5" and filed under id-056, not as a
+1.0 defect. Round 2 also covers the areas no review has reached (id-052).

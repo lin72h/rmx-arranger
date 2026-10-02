@@ -1428,3 +1428,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-412 issued → returned → closed; op-411 and op-413 hold → draft.
 - evidence: `git show 1045a24b`; `build/op412/evidence/caller-audit-v2.txt`.
 - next: Send op-411 and op-413.
+
+### j-20261002-015 — Road to round 2 and its guardrail; receive model needs a "C1 under A1" note
+
+- time / kind: 2026-10-02T03:29:30Z / DECISION
+- outcome:
+  - **Readiness for Mach review round 2**, recorded in kernel-reviews.md and id-051: batch 1 closed; step 2 (entries); step 3 (lifetimes); step 4 plus receive in `mach_msg` (C1) with the dispatch adapter; the D2 subset; the regression suite and KASAN on the fixed branch.
+  - **Guardrail:** the round-2 brief carries the step-5 deferral, so reviewers judge the code against mach-names-step5-deferred.md and do not re-propose the name table or C3. Findings that only step 5 could fix go to id-056. id-052's areas are included.
+  - **Gap found:** advisor2's revision (`519ec47`, lines 196-222, 280-301) ties the receive-model fix to step 5, while the 1.0 record keeps C1. A short design note, "C1 on the fd backend", must precede step 4, or op-389 #6 and op-392 F4 would wait for the overhaul.
+- state delta: none.
+- evidence: the proposal lines cited.
+- next: After op-411, draft batch 2 (step 2) and the C1 design note.

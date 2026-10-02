@@ -19,6 +19,12 @@ review of each fix, then a second blind round with two reviewers on different mo
 new design and the unreached areas, stopping when the overlap is high. After that, sanitizers
 (id-047) and fuzzing (id-048).
 
+## Readiness and guardrail (2026-10-02)
+
+See kernel-reviews.md § Road to round 2: batch 1 closed, steps 2-4 with C1 on the fd backend,
+the D2 subset, and checking on the fixed branch. The round-2 brief carries the step-5 deferral
+(id-056), so reviewers do not re-propose the name table, and it includes id-052's areas.
+
 ## Done when
 
 Round 2 has returned, its findings are bound to the IDQ, and the overlap between its reviewers is
