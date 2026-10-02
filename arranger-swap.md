@@ -1373,3 +1373,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: none.
+
+### j-20261002-010 — Correction: op-407 was never sent
+
+- time / kind: 2026-10-02T02:49:14Z / CORRECTION
+- outcome: j-20261002-002 recorded op-407 as issued without the Coordinator saying it was sent. The Coordinator confirms it was not sent, so op-407 is back to draft (rob --force, as a correction). Rule: an op becomes issued only on the Coordinator's word.
+- state delta: op-407 issued → draft (correction).
+- evidence: none.
+- next: Show op-407 again.
