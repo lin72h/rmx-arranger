@@ -584,3 +584,43 @@ PROMOTE to pillar 3.
 - The Swift concurrency executor: does Swift 6 concurrency map cleanly onto
   rmxOS's Darwin libdispatch, or are there custom-executor needs?
 - What C-surface gaps in rmxOS would block the Swift build (so I prioritize them)?
+
+## Restart (Coordinator, 2026-10-02)
+
+The Coordinator restarted the integration: start with Swift on rmxOS's **real libdispatch** once the
+current Mach test proof (op-395, op-416) is done.
+
+### Where each side stands
+
+- **Swift (swift-rx lane, `/Users/me/wip-rnx/swift-rx-implementer`):** Swift 6.4.0 release
+  (`swift-6.4-RELEASE`, assertions on) builds and installs on FreeBSD 15 x86-64 as the RNX
+  `swift64` port, under `/usr/local/swift`. FreeBSD's own `lang/swift6` reached 6.4.0 on
+  2026-09-30 (`freebsd-ports@14d51afd`), and the swift-rx implementer compared the two on 2026-10-02
+  (`vx/VX-X64Z-OFFICIAL-SWIFT640-PORT-COMPARISON-2026-10-02.md`). Non-ObjC LLDB and the sourcekit-lsp
+  file watcher are closed locally (CHANGELOG). Uncommitted port and recipe changes are in progress.
+- **rmxOS:** Apple-derived libdispatch in base (`lib/libdispatch`, `/usr/lib/libdispatch.so.5`,
+  `libBlocksRuntime.so.0`), used by libxpc, launchd and notifyd. The Mach foundation round is in
+  progress (batch 1 nearly proven); the libdispatch deep review waits for it.
+
+### The first integration problem (checked 2026-10-02)
+
+The installed Swift toolchain ships its own swift-corelibs `libdispatch.so` (soname `libdispatch.so`,
+`RUNPATH $ORIGIN`) and `libBlocksRuntime.so`; `libswiftDispatch.so` links both. On rmxOS a Swift
+program would therefore run two dispatch runtimes in one process: Swift's Dispatch and concurrency on
+the corelibs copy, and libxpc, notify and launchd APIs on rmxOS's. Two main queues and two thread
+pools, and the Mach and workqueue behaviour rmxOS provides never reaches Swift.
+
+### First step: one libdispatch per process (Lane B1, started by the Coordinator)
+
+1. **Build `libswiftDispatch` and `libswift_Concurrency` against rmxOS's `libdispatch.so.5` and
+   `libBlocksRuntime.so.0`**, using rmxOS's dispatch headers, and do not install the toolchain's
+   corelibs libdispatch on rmxOS. List every symbol the Swift overlay needs that rmxOS's libdispatch
+   lacks or spells differently (private SPI, `dispatch_*_f`, QoS calls).
+2. **Run in an rmxOS guest:** a Swift program that uses Dispatch queues, a `DispatchSource` on a Mach
+   port, and Swift concurrency (`async`/`await`, `Task`), and show with `procstat -v` that only
+   rmxOS's `libdispatch.so.5` is mapped.
+3. **Compare with macOS** (mm4) for the same program's observable behaviour.
+
+The June gate (Lane B waits for a solidity signal) still describes the risk: dispatch's workqueue
+attribution is untested, and libdispatch's review is paused. This step is a bring-up whose findings
+feed the libdispatch review; it is not a claim that Swift concurrency is ready.

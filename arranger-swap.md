@@ -1505,3 +1505,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-416 draft → issued; op-415 issued → returned → closed.
 - evidence: both serial logs, lines 9-307.
 - next: op-416's REPORT.
+
+### j-20261002-021 — Swift integration restarted: first step is one libdispatch per process
+
+- time / kind: 2026-10-02T04:11:50Z / DECISION
+- outcome: The Coordinator restarted the Swift integration, starting with Swift on rmxOS's real libdispatch after the current Mach test proof.
+  - **Found:** the installed Swift 6.4 toolchain ships corelibs `libdispatch.so` and `libBlocksRuntime.so` (RUNPATH `$ORIGIN`), and `libswiftDispatch.so` links both. On rmxOS that means two dispatch runtimes per process (Swift on corelibs; libxpc, notify and launchd on rmxOS's `libdispatch.so.5`).
+  - **First step**, recorded in swift-rmxos-integration-plan.md § Restart: build `libswiftDispatch` and `libswift_Concurrency` against rmxOS's libdispatch; run Dispatch, a Mach-port source and Swift concurrency in a guest, showing one libdispatch mapped; then compare with macOS.
+  - **Ownership of the Swift-side build** (the swift-rx agents) is to be confirmed by the Coordinator.
+- state delta: none.
+- evidence: `readelf -d` of `/usr/local/swift/lib/swift/freebsd/libdispatch.so` and `libswiftDispatch.so`; the swift-rx implementer's git log, CHANGELOG and 2026-10-02 comparison note.
+- next: Coordinator: who arranges the swift-rx agents.
