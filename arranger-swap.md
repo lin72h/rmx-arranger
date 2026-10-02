@@ -1579,3 +1579,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-395 returned → closed.
 - evidence: `git ls-remote --heads origin mach-fixes-1` → 903c8fc2…; `git merge-base --is-ancestor` for the three Implementer commits.
 - next: op-420 and op-421 REPORTs.
+
+### j-20261002-027 — op-405 closed; reaper redo op-422 drafted for the idle gatekeeper1
+
+- time / kind: 2026-10-02T07:00:43Z / ACTION
+- outcome: op-405's evidence stands: the classifier passes 22/22 and the exit-status fix works. It is closed. op-422 redoes the collector fix (`dtrace -e` on the host), the probe preflight and the one cell under the kernel-side contract, with in-op harness fixes. It is a pre-fix baseline on op-388 (without N1). The gate is both Validators (runtime verdict). op-280 now needs op-422.
+- state delta: op-405 returned → closed; op-422 created as draft; op-280 needs op-422.
+- evidence: none new.
+- next: Send op-422.
