@@ -1839,3 +1839,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-431 and op-432 draft → issued.
 - evidence: none.
 - next: op-430's REPORT (batch 3); its review goes to validator3.
+
+### j-20261003-007 — op-432 returns: validator2 CLOSE 9/10 on op-429's PREMISE-NOT-OBSERVED
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: validator2 (falsification) found that every failure mode would have shown in the evidence, and re-ran the indexed classifier on the cell's own manifest, getting the same verdict. Checked first-hand:
+  - `ae2c77c` resolves in rmx-validator2;
+  - the cell serial is `b1882605…`, the original classifier `8bca5ac0…`, and the a04db00 note `64ac5f91…`;
+  - `reviews/op-432/scratch/reclassify.out` is byte-identical to `build/op429/evidence/classifier-indexed.stdout` (verdict PREMISE-NOT-OBSERVED);
+  - `WNOWAIT` is 8 at alpha2 `sys/sys/wait.h:81`;
+  - markers.log has 1,105 lines; the serial has no panic, KASSERT, `Reap failed` or `-245` lines.
+  Hygiene notes, none blocking: the classifier's hash binds in `final-classifier-binding.json`, not in the cell manifest; when the classifier rejects input it marks every axis INCONCLUSIVE (conservative, as the original does).
+- state delta: op-432 issued → returned.
+- evidence: the hashes and `cmp` above.
+- next: op-431 (validator1). If it also reaches ≥8 and agrees, close op-429, op-431 and op-432; op-280 stays held with no fix; the PID-1 path moves to op-202.
