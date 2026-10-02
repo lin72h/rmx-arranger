@@ -1365,3 +1365,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-409 draft → issued; op-410 created as draft.
 - evidence: `build/op372/guest-sequence.tsv` (serial transfer, identity checks).
 - next: Send op-410.
+
+### j-20261002-009 — Naming: "instrumentation" is the umbrella; testing-strategy.md → instrumentation-strategy.md
+
+- time / kind: 2026-10-02T02:46:04Z / DECISION
+- outcome: The Coordinator named the umbrella. Instrumentation covers sanitizers and coverage, DTrace and hwpmc/hwt. Each tool is an instrument, and a build with one compiled in is an instrumented profile. The tiers are now Instrumentation 1.0, 2.0 and 3.0. The file is renamed and the live documents (now.md, the IDQ, the step-5 record, the safety guide, the op-410 draft) are updated. The term is defined in terminology.md §7. Journal entries and closed ops keep the old names. The strategy also gains a Swift row for SE-0550 (`@instrumentation`; swiftlang/swift-evolution#3522 merged a revision, and the proposal text is still in review).
+- state delta: none.
+- evidence: none.
+- next: none.

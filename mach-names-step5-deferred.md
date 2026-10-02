@@ -56,7 +56,7 @@ Revisit after 1.0, or earlier if any of these happens:
 - a defect that A1 cannot fix without breaking NextBSD's fd semantics;
 - a macOS parity requirement that needs name generations, or names independent of fd limits;
 - libdispatch or libxpc parity that needs direct-receive kevents (C3);
-- the regression tests and sanitizer runs (Testing 1.0) are strong enough to carry the switch.
+- the regression tests and sanitizer runs (Instrumentation 1.0) are strong enough to carry the switch.
 
 The design for step 5 is ready in advisor2's proposal (`519ec47`): adapt XNU's namespace and
 right-accounting code through FreeBSD adapters, and keep NextBSD's functions as requirements:

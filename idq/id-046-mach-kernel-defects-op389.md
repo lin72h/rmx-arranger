@@ -188,7 +188,7 @@ findings that both op-389 and op-392 reached.
 | op-393 | N8 | `clock_sleep_trap`: wrong duration, clock and result codes | reported | |
 | op-393 | N9 | Handlers written for user pointers are called by MIG with kernel pointers (`clock_get_time`, VM attribute always fail) | reported | |
 | op-393 | N10 | Traps report kern_return_t through two conventions (-1/errno vs value) | reported | |
-| Arranger | A1 | `ipc_kmsg_alloc` zeroes messages only under INVARIANTS (`ipc_kmsg.c:386-390`): the standalone `mach.ko` does not zero them, a kernel-built one does, and the zeroing hides uninitialized message bytes from KMSAN. Whether such bytes reach user space is an open check (KMSAN, testing-strategy.md) | first-hand (2026-10-01) | id-047 |
+| Arranger | A1 | `ipc_kmsg_alloc` zeroes messages only under INVARIANTS (`ipc_kmsg.c:386-390`): the standalone `mach.ko` does not zero them, a kernel-built one does, and the zeroing hides uninitialized message bytes from KMSAN. Whether such bytes reach user space is an open check (KMSAN, instrumentation-strategy.md) | first-hand (2026-10-01) | id-047 |
 
 Build finding (op-389, op-392, op-393): `mach.ko` is built outside its kernel's configuration →
 id-047. Unreached routines → id-052.

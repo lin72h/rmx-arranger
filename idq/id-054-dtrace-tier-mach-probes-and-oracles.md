@@ -1,10 +1,10 @@
 # id-054 — Mach has no DTrace probes of its own, and its invariants are not assertions yet
 
 - id: **id-054**
-- state: **WAITING — priority low (Testing 2.0, after Testing 1.0; Coordinator, 2026-10-01)**
+- state: **WAITING — priority low (Instrumentation 2.0, after Instrumentation 1.0; Coordinator, 2026-10-01)**
 - raised: **2026-10-01 by the Coordinator ("2.0 will be DTrace")**
 - parent: id-042; milestone: li-001 (Mach IPC invariants under load); related: id-013, id-047
-- strategy: [testing-strategy.md](../testing-strategy.md), Testing 2.0
+- strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 2.0
 
 ## Problem
 

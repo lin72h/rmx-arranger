@@ -44,9 +44,9 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
 2. Consistent automated checking (CI), built and run by the Gatekeeper and read by the Validators: the candidate built with
    `mach.ko` under its kernel's configuration, booted contained, and the Mach regression suite run
    every time (id-047 starts here).
-   **Testing 1.0** (Coordinator, 2026-10-01) starts now: sanitizers and post-mortem debugging
+   **Instrumentation 1.0** (Coordinator, 2026-10-01) starts now: sanitizers and post-mortem debugging
    (id-047, id-053, id-048), then DTrace (2.0, id-054) and hwpmc (3.0, id-055). Plan:
-   [testing-strategy.md](testing-strategy.md). op-396 (drafted) builds `mach.ko` with its kernel
+   [instrumentation-strategy.md](instrumentation-strategy.md). op-396 (drafted) builds `mach.ko` with its kernel
    and the sanitizer profiles from alpha2. It needs the Implementer, as op-395 does, so the
    Coordinator picks the order. The Gatekeeper's survey run follows op-398 (op-391's redo).
    Design (2026-10-02): keep fd-backed port names for 1.0 and do op-394 steps 2-4; step 5 (XNU

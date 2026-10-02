@@ -1,10 +1,10 @@
 # id-055 — No performance measurement of Mach IPC, dispatch or launchd; guests cannot use hardware counters
 
 - id: **id-055**
-- state: **WAITING — priority low (Testing 3.0, after Testing 2.0; Coordinator, 2026-10-01); needs bare metal**
+- state: **WAITING — priority low (Instrumentation 3.0, after Instrumentation 2.0; Coordinator, 2026-10-01); needs bare metal**
 - raised: **2026-10-01 by the Coordinator ("3.0 will be hwpmc")**
 - parent: id-042; related: id-054
-- strategy: [testing-strategy.md](../testing-strategy.md), Testing 3.0
+- strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 3.0
 
 ## Problem
 

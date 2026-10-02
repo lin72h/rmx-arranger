@@ -14,7 +14,7 @@ reaping bug in our own init system with words such as "steal a managed job's zom
 words read like attack research. Each time, a short framing message restarted the work. A
 filtered session returns nothing, and it can stop partway through an op.
 
-Testing 1.0 adds more of these words (sanitizers, fuzzing, fault injection, panics), so brief
+Instrumentation 1.0 adds more of these words (sanitizers, fuzzing, fault injection, panics), so brief
 wording is now part of brief quality.
 
 ## Rules

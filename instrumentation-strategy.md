@@ -1,11 +1,17 @@
-# Testing strategy: 1.0 sanitizers and debugging, 2.0 DTrace, 3.0 hwpmc
+# Instrumentation strategy: 1.0 sanitizers and debugging, 2.0 DTrace, 3.0 hwpmc
 
 Status: Arranger doctrine, living. Direction from the Coordinator, 2026-10-01 (j-20261001-001).
 Problems: id-047 (sanitizers), id-048 (fuzzing), id-053 (post-mortem debugging), id-054 (DTrace),
 id-055 (hwpmc). Milestone tie: li-001 (Mach invariants under load).
 
-"Testing 1.0, 2.0 and 3.0" name the tiers of this strategy. They are not rmxOS releases and have
-nothing to do with the 1.0-preview milestone.
+**Naming (Coordinator, 2026-10-02).** *Instrumentation* is the umbrella term for everything that
+makes the system check or report on itself while it runs: compiler-inserted sanitizers and
+coverage, DTrace probes, and hardware performance counters and traces. Each tool is an
+*instrument*. A build with an instrument compiled in is an *instrumented profile*, such as
+`RMXOS-KASAN`. Swift uses the same word (SE-0550's `@instrumentation`).
+
+"Instrumentation 1.0, 2.0 and 3.0" name the tiers of this strategy. They are not rmxOS releases and
+have nothing to do with the 1.0-preview milestone.
 
 ## The idea
 
@@ -69,6 +75,7 @@ KASAN. Copying that structure brings rmxOS closer to macOS as well as to FreeBSD
 | libFuzzer | `-fsanitize=fuzzer,address` | | message decoders (id-048) |
 | Source coverage | `-fprofile-instr-generate -fcoverage-mapping`; llvm-cov, llvm-profdata in base | | userland coverage |
 | XRay | runtime in base | | 3.0 option for function-level tracing |
+| Swift code | `-sanitize=address,thread` in the Swift driver; per-function opt-out with SE-0550's `@instrumentation(disable: …)` and `#if instrumentation(…)` once rmxOS's Swift toolchain has it (the proposal is still in review) | TSan cannot see kernel-created workqueue threads; SE-0550 can exempt just the affected functions | the swift-testing tier, later |
 
 ### Debugging, tracing and performance
 
@@ -111,7 +118,7 @@ KASAN. Copying that structure brings rmxOS closer to macOS as well as to FreeBSD
 8. **Upstream what is not Mach:** sanitizer reports in FreeBSD code, KUBSAN repairs, KMSAN
    interceptor gaps, and LLDB kernel-core problems (llvm-project#180061).
 
-## Testing 1.0: sanitizers and post-mortem debugging
+## Instrumentation 1.0: sanitizers and post-mortem debugging
 
 ### Profiles
 
@@ -191,7 +198,7 @@ regression test in `tests/sys/mach`, written before its fix as in op-395.
    coverage.
 5. **On the fixed branch:** P0 and P1 for every candidate; the other profiles for each milestone.
 
-## Testing 2.0: DTrace (id-054)
+## Instrumentation 2.0: DTrace (id-054)
 
 Make Mach's behaviour observable in FreeBSD's way, and turn invariants into assertions (li-001).
 
@@ -214,7 +221,7 @@ Make Mach's behaviour observable in FreeBSD's way, and turn invariants into asse
 - **Comparison with macOS:** run DTrace's own test suite (`WITH_DTRACE_TESTS`) once on rmxOS. On
   mm4, run the same D scripts wherever the providers match.
 
-## Testing 3.0: hwpmc (id-055)
+## Instrumentation 3.0: hwpmc (id-055)
 
 Performance on real hardware.
 

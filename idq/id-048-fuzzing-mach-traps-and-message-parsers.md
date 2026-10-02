@@ -4,7 +4,7 @@
 - state: **WAITING — priority medium (Coordinator, 2026-09-28); userland harnesses can start any time; the kernel side needs id-047 and a containment decision**
 - raised: **2026-09-28 by the Coordinator, from the Arranger's workflow review**
 - parent: id-042 (1.0-preview); related: id-047, id-046, id-013
-- strategy: [testing-strategy.md](../testing-strategy.md), Testing 1.0 (fuzzing)
+- strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 1.0 (fuzzing)
 
 ## Problem
 

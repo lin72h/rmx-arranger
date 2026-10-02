@@ -1,10 +1,10 @@
 # id-053 — A guest panic leaves too little to debug: no dumps, no LLDB path, no Mach debugger commands
 
 - id: **id-053**
-- state: **WAITING — priority medium, with id-047 (Testing 1.0; Coordinator, 2026-10-01); starts with id-047's first Gatekeeper run**
+- state: **WAITING — priority medium, with id-047 (Instrumentation 1.0; Coordinator, 2026-10-01); starts with id-047's first Gatekeeper run**
 - raised: **2026-10-01 by the Coordinator ("in 1.0 will be LLDB-related features")**
 - parent: id-042 (1.0-preview); related: id-047, id-048, id-046
-- strategy: [testing-strategy.md](../testing-strategy.md), Testing 1.0
+- strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 1.0
 
 ## Problem
 

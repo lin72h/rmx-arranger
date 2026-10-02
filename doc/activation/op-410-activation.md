@@ -8,7 +8,7 @@ gate: self
 authority: guest boots: up to 4 on copies of op396-RMXOS-RELEASE.raw and op396-RMXOS-KASAN.raw, 15-minute cap each; loader variables through bhyveload -e; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
 updated: 2026-10-02T02:34Z
 ---
-# op-410 — Gatekeeper 1: first sanitizer boots — op-372 slice on the op-396 RELEASE and KASAN images (Testing 1.0 survey)
+# op-410 — Gatekeeper 1: first sanitizer boots — op-372 slice on the op-396 RELEASE and KASAN images (Instrumentation 1.0 survey)
 
 ## Outcome
 
@@ -16,7 +16,7 @@ Context: ordinary testing of our own open-source OS (rmxOS: FreeBSD 15 with Appl
 Mach IPC). A sanitizer kernel checks our kernel code's memory use while normal tests run. Everything
 runs in disposable bhyve guests with no network.
 
-First Testing 1.0 run: boot two op-396 images and run your op-372 Mach and dispatch slice on each,
+First Instrumentation 1.0 run: boot two op-396 images and run your op-372 Mach and dispatch slice on each,
 then report every sanitizer or assertion message.
 
 Images (alpha2 code, `mach.ko` built with its kernel; work on copies):

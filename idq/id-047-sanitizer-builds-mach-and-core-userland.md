@@ -1,10 +1,10 @@
 # id-047 — No sanitizer coverage of the Mach kernel code or the core userland
 
 - id: **id-047**
-- state: **IN WORK → op-396 (returned; under review in op-397)** (Coordinator started Testing 1.0, 2026-10-01)
+- state: **IN WORK → op-396 (returned; under review in op-397)** (Coordinator started Instrumentation 1.0, 2026-10-01)
 - raised: **2026-09-28 by the Coordinator, from the Arranger's workflow review**
 - parent: id-042 (1.0-preview); related: id-046, id-048, id-053, id-013
-- strategy: [testing-strategy.md](../testing-strategy.md), Testing 1.0
+- strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 1.0
 
 ## Problem
 
@@ -30,7 +30,7 @@ a NULL kmsg) are the kind these tools report on the first run that reaches them.
 - **Run controls:** `debug.kasan.panic_on_violation`, `debug.kmsan.panic_on_violation` and
   `debug.kassert.warn_only`.
 - **Userland:** `WITH_ASAN` and `WITH_UBSAN`; clang's runtimes are built in base. Full inventory in
-  testing-strategy.md.
+  instrumentation-strategy.md.
 
 ## Scope
 

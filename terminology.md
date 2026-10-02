@@ -151,6 +151,12 @@ via li-1000. A milestone closes when its truly-green criterion holds on first-ha
 - **Parity cycle** — input → author → macOS (spec + human checkpoint) → rmxOS → match/ledger
   → close. See `explorer-parity-cycle-workflow.md`.
 
+- **instrumentation / instrument / instrumented profile** (Coordinator, 2026-10-02): the umbrella
+  for sanitizers and coverage, DTrace probes, and hwpmc/hwt; each tool is an *instrument*; a build
+  with one compiled in is an *instrumented profile*. Tiers: Instrumentation 1.0 (sanitizers, LLDB),
+  2.0 (DTrace), 3.0 (hwpmc). Defined in [instrumentation-strategy.md](instrumentation-strategy.md);
+  replaces "Testing 1.0/2.0/3.0".
+
 ## 8. Test/evidence vocabulary — soak-testing & chaos-testing (2026-06-23)
 
 Two members of the testing strategy. One is the established, proven term; the other is a named
