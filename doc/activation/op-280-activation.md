@@ -1,8 +1,8 @@
 ---
 id: op-280
 state: hold
-needs: [op-422]
-updated: 2026-10-02T07:00Z
+needs: [op-429]
+updated: 2026-10-02T11:44Z
 legacy-state: Hold
 ---
 # op-280 — Implementer: fix op-264 Finding A — serialize/relocate the `waitpid_loop` cross-thread reaper (RESERVED, gated on op-279 evidence)

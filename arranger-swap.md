@@ -1792,3 +1792,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-427 issued → returned → dropped; op-428 created as draft.
 - evidence: `git log ee883a74..mach-fixes-3`; `git diff --name-only`; the kern_thread.c diff.
 - next: Send op-428.
+
+### j-20261003-003 — Reaper redo op-429 drafted (op-422's three harness fixes)
+
+- time / kind: 2026-10-02T11:44:58Z / ACTION
+- outcome: At the Coordinator's request, op-429 (gatekeeper1) is drafted:
+  - markers written to both the console and a guest file, with sequence numbers; the cause of op-422's transcript gap is unknown, because `cell-driver.sh:45` already redirects to /dev/console;
+  - `ps -p 1` replaces `pgrep -x`;
+  - LastExitStatus is read through GetJobs with exact label selection, working around id-059 on the alpha2 launchd.
+
+  A preflight shows all three working before the one cell. op-280 now needs op-429.
+- state delta: op-429 created as draft; op-280 needs op-429.
+- evidence: `build/op422/workload/cell-driver.sh`, lines 45-46; the op-422 plist.
+- next: Send op-429.
