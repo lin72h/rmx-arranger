@@ -63,9 +63,12 @@ commits:
 
 Step 3 (batch 3) adds two more, delegated to the Arranger on 2026-10-02 (j-20261002-039):
 - an "exec committed" event, after the final credentials and before the return to user space;
-- a non-blocking thread-exit gate in the common `thread_exit`.
+- a non-blocking thread-exit gate in the common `thread_exit`;
+- a "thread published" event right after `thread_link` (non-sleeping, under `PROC_LOCK`), added
+  2026-10-02 when op-426 showed the design's thread binding point had no native hook
+  (j-20261002-043).
 
-Both are EVENTHANDLER-style, as separate `kern:` commits.
+All are EVENTHANDLER-style, as separate `kern:` commits.
 
 In every case the struct keeps its size, and only Mach uses these hooks, so other file types and
 processes are unchanged. Any further change to FreeBSD's own code needs a Coordinator decision first

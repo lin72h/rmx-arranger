@@ -142,6 +142,9 @@ is ready to send.
 
 ## Lessons for briefs
 
+- When a design names hook points, check each against the hooks FreeBSD actually has before capping
+  native changes; op-426 stopped on a thread-binding point (after `thread_link`) with no hook.
+
 - The Coordinator cannot see tool output. Every op meant for relay goes into the reply text as one
   copy-paste block, every time; never write "brief above" when it was only in a tool result
   (Coordinator, 2026-10-02).

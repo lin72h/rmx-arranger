@@ -1748,3 +1748,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: none.
+
+### j-20261002-043 — op-426 BLOCKED on a missing thread hook; third hook allowed (delegated); op-427 continues batch 3
+
+- time / kind: 2026-10-02T10:05:17Z / DECISION (delegated principle)
+- outcome: op-426 returned BLOCKED. It committed `b9ad6f42` (the F1 fix, on ee883a74), changed no native files, and stopped correctly: op-394's hook plan binds new threads after `thread_link` and before they run (`kern_thr.c:266-274`), and FreeBSD has no hook there. Arranger error: the brief capped native changes at two without checking each hook point in the design against FreeBSD (Rule 16; lesson in LOCAL.md).
+
+  Decided under the Coordinator's principle (stability over avoiding native change): allow a third EVENTHANDLER hook, "thread published", right after `thread_link`. It is non-sleeping under PROC_LOCK; the Mach object is prepared in thread_ctor and only linked in the event. The rejected alternative was lazy binding on first Mach use: no native change, but more Mach-side complexity and edge cases (cross-thread calls).
+
+  op-426 is dropped and superseded by op-427, which carries its commit. The allowed list in mach-names-step5-deferred.md is updated.
+- state delta: op-426 issued → returned → dropped; op-427 created as draft.
+- evidence: `git show b9ad6f42`; `kern_thr.c` lines 262-276 at 2884304b.
+- next: Send op-427; the Coordinator's push decision.
