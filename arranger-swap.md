@@ -1730,3 +1730,13 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-426 created as draft.
 - evidence: none.
 - next: Send op-426.
+
+### j-20261002-041 — op-426 sent; op-424 proves batch 2 (4/4 before and after, 31/31 on the fixed image)
+
+- time / kind: 2026-10-02T09:55:27Z / ACTION
+- outcome: op-426 was sent. op-424 returned DONE. Checked first-hand: `f04d76a` is on origin; the serial hashes match (2ffc1850…, 6e6e6eaa…). The table has 31 rows: the 4 new cases are FAIL on the base (no fixture-load reasons) and PASS on the fixed image; the 27 batch-1 cases are NOT-RUN on the base, by design, and PASS on the fixed image. op-424 is closed.
+
+  op-420 closes once `mach-fixes-2` is on origin. Correction: op-425 was closed while `launchd-fixes-1` was only local, against the origin rule. Both branches go to the Coordinator for a push decision.
+- state delta: op-426 draft → issued; op-424 issued → returned → closed.
+- evidence: `build/op424/findings.md` table; serial hashes.
+- next: The Coordinator's push decision for mach-fixes-2 and launchd-fixes-1.

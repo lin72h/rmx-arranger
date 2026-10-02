@@ -1,12 +1,12 @@
 ---
 id: op-426
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: validator
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from the branch; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T09:40Z
+updated: 2026-10-02T09:55Z
 ---
 # op-426 — Implementer: Mach fix batch 3 — op-394 step 3: task and thread lifetimes, exec and exit
 
