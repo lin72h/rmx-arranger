@@ -1601,3 +1601,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-422 draft → issued; op-421 issued → returned → closed.
 - evidence: the note's §1 "Revocation needs a small native retirement helper".
 - next: The Coordinator's (a)/(b) decision.
+
+### j-20261002-029 — Coordinator: (b) native close semantics for 1.0; the EOF helper is deferred
+
+- time / kind: 2026-10-02T07:34:33Z / DECISION
+- outcome: The Coordinator chose (b), the safe option. 1.0 keeps FreeBSD's native close behaviour: closing a Mach name silently removes its knotes, and port death is reported through Mach notifications and `mach_msg` errors. op-421's native EOF retirement helper (changes to kern_event.c and kern_descrip.c) is deferred with step 5 (id-056). mach-names-step5-deferred.md gains a "Receive model for 1.0" section and a revisit trigger. kernel-reviews.md step 4 points to op-421 minus the helper.
+- state delta: none.
+- evidence: none.
+- next: op-420 and op-422 REPORTs.

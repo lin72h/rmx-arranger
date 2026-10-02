@@ -71,8 +71,8 @@ Round 2 starts when the code it reviews is the 1.0 design, built and tested:
    and F2; op-393 N5's prerequisite).
 4. **Step 4 plus C1 under A1:** queued MIG replies, safe wakeups, and receive in `mach_msg` with
    kqueue signalling readiness only, plus the libdispatch adapter (op-392 F5; op-393 N2; op-389
-   #6, #7, #15; op-392 F4). advisor2's revised proposal ties its receive model to step 5, so this
-   needs a short design note first: "C1 on the fd backend".
+   #6, #7, #15; op-392 F4). Design: advisor2's op-421 note (`5bfc3e1`), without its native EOF
+   retirement helper (the Coordinator chose native close semantics, 2026-10-02).
 5. **D2 subset:** child-task setters after step 3; foreign name-space calls stay off.
 6. **Checking in place:** the Mach regression suite and a KASAN survey run on the fixed branch.
 

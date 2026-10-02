@@ -38,6 +38,18 @@ These are the traps of "name = fd". Each rule says how 1.0 code avoids the trap.
 | 8 | Exec keeps or drops fds by fd rules, not Mach rules. | Exec policy for special and bootstrap ports is defined in step 3; Mach entries are cleaned by Mach's exec hook, not by `close-on-exec`. |
 | 9 | Direct receive inside kqueue's readiness check loses messages (op-389 #6, op-392 F4). | C1: kqueue reports readiness only; receive happens in `mach_msg`. libdispatch uses its receive adapter. No direct-receive kevents in 1.0. |
 
+## Receive model for 1.0 (Coordinator, 2026-10-02)
+
+The design for C1 on the fd backend is advisor2's op-421 note (`rmx-advisor2@5bfc3e1`), with one
+change. Its "native EOF retirement helper" is **not** adopted for 1.0. That helper would change
+FreeBSD's `kern_event.c` and `kern_descrip.c` so that closing a Mach name delivers one EOF event per
+kqueue registration before the fd number is reused.
+
+1.0 keeps FreeBSD's native close behaviour instead: closing a Mach name silently removes its
+kqueue registrations, as for any fd. Consumers learn about port death the Mach way, through
+dead-name notifications and `mach_msg` errors. libdispatch cancels a source before destroying its
+port. The EOF helper is deferred with step 5 (id-056).
+
 ## Keeping step 5 possible later
 
 So that 1.0 code does not lock us into fds:
@@ -55,7 +67,8 @@ So that 1.0 code does not lock us into fds:
 Revisit after 1.0, or earlier if any of these happens:
 - a defect that A1 cannot fix without breaking NextBSD's fd semantics;
 - a macOS parity requirement that needs name generations, or names independent of fd limits;
-- libdispatch or libxpc parity that needs direct-receive kevents (C3);
+- libdispatch or libxpc parity that needs direct-receive kevents (C3), or an EOF event when a Mach
+  name is revoked (op-421's native EOF retirement helper);
 - the regression tests and sanitizer runs (Instrumentation 1.0) are strong enough to carry the switch.
 
 The design for step 5 is ready in advisor2's proposal (`519ec47`): adapt XNU's namespace and
