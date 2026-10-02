@@ -1909,3 +1909,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-435 draft → issued; op-202 hold → dropped (superseded by op-436); op-436 created as a draft.
 - evidence: serial lines 95-159 and 890-904 of the op-429 cell; `launchctl.c:699-765` and `runtime.c:275-281` at `42bf6205`; the op-364 image re-hashed as `8f546a93…`, op-417's as `1f4cf949…`.
 - next: Send op-436.
+
+### j-20261003-012 — op-436 sent; batch 3 not accepted: op-433 REMEDIATE (two teardown defects), op-434 35/39; remediation op-437 held behind op-436
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-436 was sent.
+  - **op-433 (validator3, 9/10, REMEDIATE; `63fb8916`).** Two defects, both confirmed first-hand:
+    - `mach_task_exit` reads `FIRST_THREAD_IN_PROC(p)->td_machdata` unchecked, and `mach_task_dtor` reaches it when the first `thread_alloc` fails (`kern_fork.c:1099-1102`).
+    - `ith_kmsg` is released in no retirement path; `git grep` shows only the mqueue and mach_msg users.
+    The hook scope, the non-blocking callbacks and lazy rebinding passed.
+  - **op-434 (gatekeeper1, FAILED; `45befb8` on origin).** Serial hashes `3c07f3d3…` and `76e2941c…` verified. Fixed image 35/39: all 31 standing cases pass, as do 4 of the 8 new cases. `task_control_death`, `thread_control_death`, `rfork_unshare` and `rfork_clean_table` fail before their named checks; the base rfork cases time out (status 124). No panic.
+  op-437 (Implementer remediation) is drafted. It is held because the Implementer is on op-436, a different branch. Batch 3 stays unpublished and op-430 stays returned until op-437 is proved.
+- state delta: op-436 draft → issued; op-433 and op-434 issued → returned; op-437 created and held.
+- evidence: `task.c:1127-1150` and `kern_fork.c:1095-1110` at `db592723`; `findings.md`; the serial lines quoted.
+- next: After op-436 returns, send op-437; then re-run the review (validator3) and the proof (gatekeeper1). op-433 and op-434 close with op-430.
