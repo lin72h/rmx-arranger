@@ -1,12 +1,12 @@
 ---
 id: op-405
-state: draft
+state: returned
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: both
 authority: stage: overlays onto copies of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31; guest boots: 2 (one probe preflight, one cell); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-01T09:34Z
+updated: 2026-10-02T00:33Z
 ---
 # op-405 — Gatekeeper 1: PID-1 reaper cell under the kernel-side contract — probe preflight boot, then one cell
 

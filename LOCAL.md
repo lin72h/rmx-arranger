@@ -156,15 +156,13 @@ is ready to send.
 - Write a gate as "do not stage until X; fixing your own harness is part of this op", not "any
   other result stops the op". op-391 read the latter as a hard stop over a compile error in its own
   classifier.
+- Compile every D script and harness program on the host before any guest boot (`dtrace -e -s`);
+  op-405 spent a boot on a `%lld`/uint64_t compile error. A harness bug found in preflight is an
+  in-op fix, not a stop.
 - A self-test proves only the file it ran against. op-391's controls passed on 2026-09-28, the
   classifier changed afterwards, and it never compiled again. Bind the cell to the classifier hash
   that passed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
-
-## Render after in-flight ops
-
-- rmx-explorer1 (op-404) and rmx-implementer (op-395) are stale on the 2026-10-01 REPORT and
-  sizing change; render each when its op returns (the Implementer also gets the wording rules then).
 
 ## Commit attribution (Coordinator, 2026-10-01)
 

@@ -1262,3 +1262,25 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-404 → returned → closed; op-401 returned → closed; op-405 created as draft.
 - evidence: `git diff f1df370 a04db00`.
 - next: Send op-405.
+
+### j-20261002-001 — op-395 returned (13 fixes, verified); op-405 BLOCKED on a collector format bug; op-406/op-407 drafted
+
+- time / kind: 2026-10-02T00:35:58Z / ACTION
+- outcome:
+  - **op-395** (Implementer) returned DONE. Checked first-hand:
+    - `mach-fixes-1` = 13 commits on 2884304b, head `5fa02fb5`; 33 files, +1134 -83, confined to compat/mach, sys/sys/mach, libmach and tests/sys/mach.
+    - 13 ATF programs (27 cases) with EXPECTATIONS.md.
+    - Both image hashes match (d7cf4506…, ca61f2fa…). `rmx-implementer@d4a8015` is on origin.
+    - The tests are ATF programs written in Zig, linking ATF's C ABI and run by Kyua. That satisfies the brief and the test-pillar doctrine, but a stock buildworld has no Zig, which conflicts with the FreeBSD-alignment goal. Raised to the Coordinator.
+
+    Gate: one Validator (op-407, validator2) plus gatekeeper1's runtime proof (op-406). `mach-fixes-1` is not on the public origin; pushing it needs the Coordinator's yes.
+  - **op-405** (gatekeeper1) returned BLOCKED. Checked first-hand:
+    - `664bff8` and `00bd1c8` are on origin; the preflight serial hash matches; Tier 2 passes 22/22 (classifier 8bca5ac0…).
+    - The preflight's own D collector failed to compile at `kernel.d:6` (`%lld` with a uint64_t `timestamp`). No probe was shown to be infeasible, and the cell boot is unused.
+    - Lesson: the harness host test should compile every D script on the host (`dtrace -e -s`) before any boot, and a harness bug found in preflight should be fixed in-op rather than stopping the op.
+
+    The follow-up op waits until op-406 frees gatekeeper1.
+  - Re-rendered rmx-implementer and rmx-explorer1. Every instance is current, and the Implementer starts a new session.
+- state delta: op-395 issued → returned; op-405 issued → returned; op-406 and op-407 created as drafts.
+- evidence: `git log 2884304b..mach-fixes-1`; `sha256` of both images; `build/op405/runtime-preflight/…/guest-records/trace.err`.
+- next: Send op-406 and op-407. Coordinator: the Zig-tests question and pushing `mach-fixes-1`.
