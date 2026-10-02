@@ -1784,3 +1784,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `git show 2884304b:sys/kern/kern_thread.c`, thread_exit (line 935) and its HWPMC_HOOKS block.
 - next: none.
+
+### j-20261003-002 — op-427 BLOCKED on the exit-hook question (answer not yet relayed); op-428 continues
+
+- time / kind: 2026-10-02T11:40:04Z / ACTION
+- outcome: op-427 returned BLOCKED before the j-20261003-001 answer reached it. It committed `842c3a59` (`kern:` exec committed event), `3956111e` (lifetime regression tests) and `119b7a51` (`kern:` thread published, covering kern_thr.c and kern_kthread.c). The native files are kern_exec.c, kern_thr.c, kern_kthread.c, kern_thread.c (only the event list definition) and eventhandler.h, all within the allowed hooks. op-427 is dropped and superseded by op-428, which carries the answer (an hwpmc-style function-pointer hook under PROC_SLOCK) and finishes batch 3.
+- state delta: op-427 issued → returned → dropped; op-428 created as draft.
+- evidence: `git log ee883a74..mach-fixes-3`; `git diff --name-only`; the kern_thread.c diff.
+- next: Send op-428.

@@ -1,12 +1,12 @@
 ---
 id: op-427
-state: issued
+state: dropped
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: validator
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from the branch; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T10:07Z
+updated: 2026-10-02T11:40Z
 ---
 # op-427 — Implementer: Mach fix batch 3, continued — task and thread lifetimes with three FreeBSD hooks (continues op-426)
 
