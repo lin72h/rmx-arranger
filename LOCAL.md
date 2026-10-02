@@ -155,6 +155,8 @@ is ready to send.
   outside it (op-389 finding 1).
 - Check a reviewer's cited commit against the file's history; validator2 cited the parent commit
   for the op-380 note.
+- When two ops are ready and the Coordinator says "sent", record only the one named; ask if unsure.
+  op-407 and op-425 were both wrongly marked sent this way.
 - Check a NOTICE against the Limits of every op it touches. My 2026-10-01 helper NOTICE told
   gatekeeper1 to copy the helper, while op-391's Inputs said "do not edit or copy it". When a NOTICE
   has to override a limit, it names the limit it replaces.

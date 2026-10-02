@@ -1669,3 +1669,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-424 and op-425 draft → issued; op-423 issued → returned → closed.
 - evidence: `git log 156f754` in rmx-validator2.
 - next: op-424 and op-425 REPORTs; then batch 3 (step 3).
+
+### j-20261002-035 — Correction: op-425 was never sent
+
+- time / kind: 2026-10-02T09:10:22Z / CORRECTION
+- outcome: j-20261002-034 recorded op-424 and op-425 both as issued after an ambiguous "sent". The Implementer has no trace of op-425 (no launchd-fixes-1 branch, build directory or record), so op-425 is back to draft. This is the second such error after op-407; LOCAL.md now says to record only the op the Coordinator names and to ask when unsure.
+- state delta: op-425 issued → draft (correction).
+- evidence: `git branch --list launchd-fixes-1` is empty; there is no build/op425.
+- next: Show op-425.
