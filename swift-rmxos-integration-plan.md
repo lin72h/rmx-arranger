@@ -612,6 +612,8 @@ pools, and the Mach and workqueue behaviour rmxOS provides never reaches Swift.
 
 ### First step: one libdispatch per process (Lane B1, started by the Coordinator)
 
+Tracked in [swift-real-libdispatch.md](swift-real-libdispatch.md) (id-058).
+
 1. **Build `libswiftDispatch` and `libswift_Concurrency` against rmxOS's `libdispatch.so.5` and
    `libBlocksRuntime.so.0`**, using rmxOS's dispatch headers, and do not install the toolchain's
    corelibs libdispatch on rmxOS. List every symbol the Swift overlay needs that rmxOS's libdispatch

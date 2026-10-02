@@ -85,6 +85,11 @@ the rx-x64z seat). Image staging uses the ZFS dataset `zroot/wip-mach-stage` at
 `/Users/me/wip-mach/stage` (64 GB quota, owned by `me`), a device distinct from `/` as the PID-1
 contract requires (j-20260928-035).
 
+## Swift integration (restarted 2026-10-02)
+
+Swift on rmxOS's real libdispatch, one copy per process: [swift-real-libdispatch.md](swift-real-libdispatch.md)
+(id-058). Starts after the Mach batch-1 proof.
+
 ## In parallel
 
 Advisor review round (Coordinator, 2026-09-28): the goal is a correct architecture, with defects
