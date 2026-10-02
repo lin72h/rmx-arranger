@@ -31,7 +31,9 @@ For each commit, check:
    (fix 10 in particular).
 4. Lock, reference and lifetime rules around the changed lines still hold.
 
-Gatekeeper op-406 checks runtime results separately; you need not run anything.
+The Gatekeeper checks runtime results separately (op-408 and its follow-up); you need not run
+anything. op-409 adds one test-fixture build commit on the same branch after `5fa02fb5`; it is
+not part of this review.
 
 Distinguishing question: does any of the 13 commits leave its defect reachable, or introduce a new
 one on the changed path?
