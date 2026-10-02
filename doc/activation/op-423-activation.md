@@ -1,12 +1,12 @@
 ---
 id: op-423
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-046
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-02T09:00Z
+updated: 2026-10-02T09:01Z
 ---
 # op-423 — Validator 2: review op-420 — Mach batch 2 (entry and reference handling on the fd backend, plus two FreeBSD hooks)
 

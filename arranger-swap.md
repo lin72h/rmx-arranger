@@ -1636,3 +1636,20 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-420 issued → returned; op-423 created as draft; op-424 created and held.
 - evidence: `git log` and `git diff --name-only 903c8fc2..ee883a74`; kern_descrip.c call sites at ee883a74; `sha256` of both images.
 - next: Send op-423.
+
+### j-20261002-032 — op-423 sent; op-422 preflight passed, cell not accepted; launchd GetJob bug (id-059)
+
+- time / kind: 2026-10-02T09:02:24Z / ACTION
+- outcome: op-423 was sent. op-422 returned BLOCKED after 3 of 3 boots; `2db74d1` is on origin.
+  - **Preflight r2 PASSED:** all eight kernel-side streams for PID 1 recorded.
+  - **Cell: HARNESS-NOT-ACCEPTED,** with (a), (b) and (c) INCONCLUSIVE:
+    1. the driver's serial markers stop after STARTED (cause unknown);
+    2. `pgrep -x launchd` excludes ancestors, a harness bug;
+    3. all 30 `launchctl dump LABEL` replies export the caller.
+  - **Diagnostics only:** the 50 kernel statuses match the workload, and the detached thread peaked at 0.006 of a core.
+  - Item 3 is a launchd bug, checked first-hand: `sbin/launchd/ipc.c:570` `job_export(ctx->j)`, against `job_export(j)` at line 445. Raised as id-059, with op-426 for the Implementer.
+
+  op-422 is closed. op-424 (batch-2 proof) is released first (Mach first). The reaper cell is redrafted after op-424, with the transcript fix, an ancestor-safe PID check, and job status read through GetJobs with exact label selection.
+- state delta: op-423 draft → issued; op-422 issued → returned → closed; op-424 hold → draft; id-059 raised; op-426 created as draft.
+- evidence: `build/op422/findings.md`, lines 23-31; `git show 2884304b:sbin/launchd/ipc.c`, lines 436-452 and 560-575.
+- next: Send op-424 and op-426.
