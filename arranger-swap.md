@@ -1870,3 +1870,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-431 issued → returned; op-429, op-431 and op-432 returned → closed.
 - evidence: the `stat` birth and modify times of the three files; `build/op429/cell-config.sh:3`; `run-op360-alignment-r1.sh:37,159,272-276`; the cell's `host-orchestration.log` lines 1-2 and 29-31.
 - next: Re-draft op-202 against the current candidate once batch 3 (op-430) lands, or decide whether it goes on op-388's alpha2.
+
+### j-20261003-009 — op-430 returns batch 3 (Mach lifetimes); review op-433 (validator3) and proof op-434 (gatekeeper1) drafted
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-430 returned DONE: `mach-fixes-3` at `db592723`, 12 commits over `mach-fixes-2`, local only; two staged images; 39 cases, untested in a guest. Checked first-hand:
+  - native changes `mach-fixes-2..mach-fixes-3`, excluding Mach and tests: 24 lines in 6 files, exactly the three allowed hooks;
+  - the exit gate is an atomic function pointer, called with `PROC_SLOCK` asserted (`kern_thread.c:949-956`); `mach.ko` installs it and refuses unload with EBUSY (`mach_module.c:296`);
+  - lazy rebinding exists (`task.c:1034-1055`, plus `:1193-1197` for exec);
+  - both image hashes match; each stage's host-before equals its host-after;
+  - BOMs: 36 identical paths; all test files are byte-identical, and only the kernel, `mach.ko` and their debug files differ;
+  - `EXPECTATIONS.md` § Batch 3: 8 new cases, all FAIL before and PASS after (no PANIC expected).
+  Sizing: L, a kernel code review, so one Validator: validator3, this week's default (j-20261003-006). The proof (op-434) is read-and-run only, safe in parallel with the review.
+- state delta: op-430 issued → returned; op-433 and op-434 created as drafts.
+- evidence: `git diff --stat mach-fixes-2 mach-fixes-3`; `sha256sum` of both images; the BOM comparison.
+- next: Send op-433 and op-434. After both: push `mach-fixes-3` (needs the Coordinator's yes), close op-430, then step 4 and re-draft op-202.
