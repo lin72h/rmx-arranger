@@ -1,12 +1,12 @@
 ---
 id: op-419
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-057
 gate: self
 authority: guest boots: up to 2 on a copy of op417-alpha2-zfs-gpt.raw, 15-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T06:47Z
+updated: 2026-10-02T06:57Z
 ---
 # op-419 — Gatekeeper 1: boot the first ZFS-root rmxOS image (op-417) and run the op-372 slice
 

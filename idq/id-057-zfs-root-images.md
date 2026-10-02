@@ -1,7 +1,7 @@
 # id-057 — rmxOS images use UFS; ZFS root is an important rmxOS feature
 
 - id: **id-057**
-- state: **READY — op-414 drafted (held while the Implementer runs op-413)**
+- state: **IN WORK — first ZFS image boots (op-417, op-419); makefs flag patch queued**
 - raised: **2026-10-02 by the Coordinator**
 - parent: id-042 (1.0-preview); related: id-016 (PID-1 image), id-047 (instrumented profiles)
 
@@ -28,6 +28,19 @@ ZFS is an important rmxOS feature, so the images we test and ship should use a Z
   `zfs`, and sets `vfs.root.mountfrom="zfs:<pool>/ROOT/default"`.
 - The PID-1 contract's staging and BOM rules (op-318/op-322/op-380) still apply; where they name
   UFS paths or devices, the first ZFS image records the equivalent.
+
+## Progress (2026-10-02)
+
+- op-417 built `op417-alpha2-zfs-gpt.raw` (pool `rmxroot`, `ROOT/default`, no boot code); op-419
+  booted it. The pool is ONLINE, `RMXOS-RELEASE` runs, ownership and modes follow the mtree manifest
+  (`root:wheel`, `su` setuid, `master.passwd` 0600), `mach.ko` loads, and the op-372 slice passes
+  8/8 (rmx-gatekeeper1 `fb253ff`).
+- **Gap:** `makefs -t zfs` drops BSD file flags: it hard-codes each znode's flags
+  (`usr.sbin/makefs/zfs/fs.c:434-435`) and ignores the manifest's `flags=` (for example `schg` on
+  `su`); FFS images keep them. Fix: map `st_flags` to ZFS's pflags in makefs's ZFS backend. That is
+  a FreeBSD upstream candidate, queued for the Implementer after batch 2.
+- launchd jobs were not checked: op-364's contents boot `/sbin/init`. The PID-1 image (op-388
+  contents) moves to ZFS when the PID-1 work next builds an image.
 
 ## Done when
 

@@ -1,12 +1,12 @@
 ---
 id: op-421
-state: draft
+state: issued
 agent: advisor2
 repo: rmx-advisor2
 idq: id-046
 gate: self
 authority: none: read-only design note
-updated: 2026-10-02T06:47Z
+updated: 2026-10-02T06:56Z
 ---
 # op-421 — Advisor 2: design note — receive in mach_msg with kqueue signalling readiness only (C1), on the fd backend (A1)
 

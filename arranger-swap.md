@@ -1553,3 +1553,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-419 draft → issued; op-420 and op-421 created as drafts.
 - evidence: the proposal's step list, lines 280-292.
 - next: Send op-420 and op-421; the Coordinator's push decision for `mach-fixes-1`.
+
+### j-20261002-025 — op-420 and op-421 sent; op-419: the ZFS-root image boots; makefs drops file flags
+
+- time / kind: 2026-10-02T06:57:31Z / ACTION
+- outcome: op-420 and op-421 were sent. op-419 returned FAILED on its acceptance list only because `su` lacks `schg`. Checked first-hand:
+  - `fb253ff` is on origin; serial hash 62fc69a7….
+  - Lines 94-216: the root is mounted from `zfs:rmxroot/ROOT/default`; the pool is ONLINE; RMXOS-RELEASE runs; `/`, `su` (setuid `-r-sr-xr-x`), `master.passwd` (0600) and `launchd` are `root:wheel`, so the mtree manifest's ownership works. Every file carries only `uarch`.
+  - Cause: makefs's ZFS backend hard-codes the znode flags (`fs.c:434-435`) and ignores manifest flags. This is a FreeBSD upstream candidate.
+
+  "launchd jobs untested" came from the Arranger's brief: op-364's contents boot /sbin/init. op-419 is accepted as the ZFS boot proof with the flag gap recorded in id-057, and closed.
+- state delta: op-420 and op-421 draft → issued; op-419 issued → returned → closed.
+- evidence: serial lines 94-216; `git show 2884304b:usr.sbin/makefs/zfs/fs.c`, lines 430-436.
+- next: Reports from op-420 and op-421; the Coordinator's push decision.
