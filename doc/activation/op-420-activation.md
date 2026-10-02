@@ -1,12 +1,12 @@
 ---
 id: op-420
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: validator
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from the branch; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T06:56Z
+updated: 2026-10-02T08:58Z
 ---
 # op-420 — Implementer: Mach fix batch 2 — op-394 step 2: entry and reference handling on the fd backend
 

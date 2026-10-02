@@ -1622,3 +1622,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `grep` of `sys/sys/file.h` and `sys/kern/kern_descrip.c` in build/op420/source.
 - next: Relay the NOTICE.
+
+### j-20261002-031 — op-420 (batch 2) returned and checked; op-423 review ready; op-424 proof held
+
+- time / kind: 2026-10-02T09:00:05Z / ACTION
+- outcome: op-420 returned DONE. Checked first-hand:
+  - `mach-fixes-2` has 7 commits from 903c8fc2 to ee883a74 (+754 -366, 21 files).
+  - Outside compat/mach, sys/sys/mach and tests, only `sys/kern/kern_descrip.c` and `sys/sys/file.h` change, as separate `kern:` commits bc8852bd and 0df2b329.
+  - Every removal path reaches the post-close hook: kern_close, close_range and close-on-exec through closefp; dup2 replacement through closefp(…, delfp …); fdclose through closefp when the hook is set; exit through fdescfree_fds directly.
+  - Both image hashes match.
+
+  The gate is one Validator: op-423 (validator2), ready now. The runtime proof op-424 (gatekeeper1) is held behind op-422. Commits are not yet on origin.
+- state delta: op-420 issued → returned; op-423 created as draft; op-424 created and held.
+- evidence: `git log` and `git diff --name-only 903c8fc2..ee883a74`; kern_descrip.c call sites at ee883a74; `sha256` of both images.
+- next: Send op-423.
