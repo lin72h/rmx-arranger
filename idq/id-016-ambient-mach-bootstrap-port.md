@@ -11,6 +11,7 @@
   and the kernel primitive that would let it (`posix_spawnattr_setbport_np`) **does not exist**. Ambient
   bootstrap requires a deliberate architectural move (options a-d below); it will not emerge from running
   launchd correctly.
+  - **2026-10-03 reaper premise NOT OBSERVED:** op-429's one cell on the op-388 image showed none of the three failure modes over 50 exits (validator1 and validator2 at 9/10; Arbiter ruling j-20261003-008 records two deviations). The result is bounded to this workload. op-280 stays held with no fix; the path moves to op-202, then op-203.
   - **2026-07-12 PID-1 preview ruling:** the Coordinator closed op-317's topology fork in favor of
     non-`-u` PID-1 launchd via `init_path`, using the op-201 `/etc/rc` chain-load hybrid as the proven
     starting point. This promotes PID-1 productionization, root-rw/base-service closure, reaper

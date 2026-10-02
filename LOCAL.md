@@ -193,3 +193,8 @@ older lessons.
 - Promote into validator0's falsification patterns: "a self-confirming gate cannot see a wrong
   path: check each destination against its consumer" (validator2, op-379). validator1 missed it in
   op-378 (it judged sufficiency on the documents alone), which is a calibration data point.
+
+- **Freeze the classifier before the cell (op-429, 2026-10-03).** "If you change it, re-run the
+  controls first" let a speed rewrite happen after the cell. Briefs say: the classifier is frozen
+  and its controls pass before the cell boots; any later rewrite is a declared deviation with an
+  equivalence proof.

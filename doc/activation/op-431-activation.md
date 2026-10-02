@@ -1,12 +1,12 @@
 ---
 id: op-431
-state: issued
+state: closed
 agent: validator1
 repo: rmx-validator1
 idq: id-016
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-02T12:27Z
+updated: 2026-10-02T12:43Z
 ---
 # op-431 — Validator 1: review op-429 — PID-1 reaper verdict PREMISE-NOT-OBSERVED
 

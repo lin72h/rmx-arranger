@@ -1,12 +1,12 @@
 ---
 id: op-429
-state: returned
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: both
 authority: stage: overlays onto copies of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31; guest boots: up to 3 (at most two preflights, then one cell); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T12:24Z
+updated: 2026-10-02T12:43Z
 ---
 # op-429 — Gatekeeper 1: PID-1 reaper cell, redo — op-422's three harness fixes, preflight with the full driver sequence, then one cell
 

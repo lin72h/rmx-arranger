@@ -1853,3 +1853,20 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-432 issued → returned.
 - evidence: the hashes and `cmp` above.
 - next: op-431 (validator1). If it also reaches ≥8 and agrees, close op-429, op-431 and op-432; op-280 stays held with no fix; the PID-1 path moves to op-202.
+
+### j-20261003-008 — op-431 returns (validator1 REMEDIATE 9/10); Arbiter ruling: accept with two recorded deviations; op-429, op-431, op-432 closed
+
+- time / kind: 2026-10-03 / DECISION (Arbiter)
+- outcome: Both reviews score 9/10 and agree that the evidence supports PREMISE-NOT-OBSERVED. They differ only on the record: validator2 says CLOSE; validator1 (`172c9df`) says REMEDIATE until two deviations are on record. This entry is that record (a new record; gatekeeper1's disposition is not edited). Checked first-hand:
+  1. **Classifier created and validated after the cell.** The cell's serial log was written from 12:04:32Z to 12:08:30Z (2026-10-02). `classify-indexed.exs` was born at 12:12:52Z, its 22 Tier-2 controls passed at 12:13:14Z, and the classification ran at 12:13:56Z. The contract (`a04db00` note, line 83) says Tier-2 controls "run before any commissioned runtime cell". findings.md line 5 states the order truthfully but does not call it a deviation. The op-429 brief contributed: "If you change it, run the 22 Tier-2 controls again first" did not say first relative to what.
+     **Ruling: accepted.** The rule exists so that a classifier cannot be fitted to a cell's data. Here:
+     - the original classifier `8bca5ac0…` passed Tier-2 before the cell;
+     - both Validators diffed the rewrite and found only an index substitution, with identical predicates;
+     - its 22 control outputs are identical to the original's;
+     - validator2's re-run on the cell manifest is byte-identical (`cmp`, j-20261003-007).
+     **Going forward:** the classifier is frozen, and its Tier-2 controls pass, before the cell boots. A later rewrite (for speed, say) is a declared deviation and needs the same equivalence proof.
+  2. **`containment_access_probe_rc=not-run` in all three attempts: a logging artifact, not a gap.** op-429's configs set `CELL_PREFLIGHT=build/op429/preflight.sh`, which replaces the op360 runner's `preflight()`. The runner's `doas bhyvectl --get-stats` probe therefore keeps its default `not-run`, as in op-410 and op-422. The same unique-VM check ran at the runner's launch step (line 272): `prelaunch_vm_state_rc=1`, "could not be opened", and at teardown `targeted_final_vm_state=absent`. `host-before.json` equals `host-after.json`.
+  Closure: two reviews at 9 or above; the disagreement resolved narrowly as above. `b546000` is on rmx-gatekeeper1's origin; the validator repos are local-only (roles.md:130). The result is bounded: no incidence in this preview workload, not proof of absence. op-280 stays held with no fix needed (op-322 §7). The PID-1 path moves to op-202 (productionization).
+- state delta: op-431 issued → returned; op-429, op-431 and op-432 returned → closed.
+- evidence: the `stat` birth and modify times of the three files; `build/op429/cell-config.sh:3`; `run-op360-alignment-r1.sh:37,159,272-276`; the cell's `host-orchestration.log` lines 1-2 and 29-31.
+- next: Re-draft op-202 against the current candidate once batch 3 (op-430) lands, or decide whether it goes on op-388's alpha2.
