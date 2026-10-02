@@ -1,15 +1,15 @@
 ---
-id: op-414
-state: closed
+id: op-417
+state: hold
 agent: implementer
 repo: rmx-implementer
 idq: id-057
-needs: []
+needs: op-416
 gate: self
 authority: build a ZFS-root image from the op-364 staging tree with makefs -t zfs and mkimg, as a new file under /Users/me/wip-mach/stage/images/; no guest runs; no zpool import on the host; no push
 updated: 2026-10-02T03:50Z
 ---
-# op-414 — Implementer: build a ZFS-root rmxOS image with makefs -t zfs (pool rmxroot), alongside the UFS images
+# op-417 — Implementer: build a ZFS-root rmxOS image with makefs -t zfs (pool rmxroot), no boot code — redo of op-414
 
 ## Outcome
 
@@ -21,9 +21,10 @@ first one: the same contents as the op-364 image, with a ZFS root.
 
 - Build from op-364's staging tree (`/Users/me/wip-mach/rmx-implementer/build/op364-20260928T001637Z/staging/`)
   with `makefs -t zfs`: pool `rmxroot` (never `zroot`, which is the host's pool), boot environment
-  dataset `rmxroot/ROOT/default`, and `bootfs` set to it. Then `mkimg` with the ZFS boot code from the
-  alpha2 build (`gptzfsboot`, and the EFI loader if the runner boots by UEFI). Never import the
-  pool on the host.
+  dataset `rmxroot/ROOT/default`, and `bootfs` set to it. Then `mkimg -s gpt -p freebsd-zfs:=<pool image>`,
+  with no boot code, as op-364 did for UFS (`mkimg -s gpt -p freebsd-ufs:=…`). The runner boots with
+  `bhyveload`, which uses the host's `userboot.so` and reads ZFS, so `pmbr` and `gptzfsboot` are not
+  needed (op-414 stopped on a requirement the brief wrongly added). Never import the pool on the host.
 - `loader.conf`: `kernel="RMXOS-RELEASE"` (a directory name; op-410 showed the `.../kernel` form
   falls back silently), `zfs_load="YES"`, `vfs.root.mountfrom="zfs:rmxroot/ROOT/default"`, and the
   same console and `mach_load` lines as op-364.

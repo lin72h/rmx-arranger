@@ -1479,3 +1479,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-414 draft → issued; op-411 issued → returned → closed; op-415 hold → draft; op-416 created and held.
 - evidence: `build/op411/findings.md`, lines 44-66; `git grep MODULE_` at `1045a24b`.
 - next: Send op-415.
+
+### j-20261002-019 — op-414 BLOCKED on boot code the runner does not need; op-416 released; op-417 (ZFS redo) held
+
+- time / kind: 2026-10-02T03:50:27Z / ACTION
+- outcome: op-415 was sent. op-414 returned BLOCKED because `gptzfsboot` and `pmbr` are absent from the build trees. Checked first-hand:
+  - op-364 built its image with `mkimg -s gpt -p freebsd-ufs:=…` and no boot code (command-returns.txt:33).
+  - gatekeeper1's runner boots with `bhyveload`, which uses the host's `/boot/userboot.so` (run-op360 scripts).
+
+  The boot-code requirement was the Arranger's over-specification (an Arranger error). op-414 is closed. op-416 (the Mach proof fixes) is released first, since it has priority. op-417 is op-414 without boot code and is held behind op-416.
+- state delta: op-415 draft → issued; op-414 issued → returned → closed; op-416 hold → draft; op-417 created and held.
+- evidence: op-364 `evidence/command-returns.txt`, line 33; `grep bhyveload` in rmx-gatekeeper1 build/op360.
+- next: Send op-416.
