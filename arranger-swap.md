@@ -1817,3 +1817,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-429 draft → issued; op-428 issued → returned → dropped; op-430 created as draft.
 - evidence: `git show mach-fixes-3:sys/kern/kern_fork.c`, lines 384-420; kern_descrip.c, lines 2561-2597.
 - next: Send op-430.
+
+### j-20261003-005 — op-430 sent; op-429 returns the reaper verdict PREMISE-NOT-OBSERVED; two blind reviews drafted
+
+- time / kind: 2026-10-02T12:24:59Z / ACTION
+- outcome: op-430 was sent. op-429 returned DONE: **PREMISE-NOT-OBSERVED**, with (a), (b) and (c) NOT-OBSERVED across 50 exits. Checked first-hand:
+  - `b546000` is on origin; serial hashes match (cell b1882605…, preflights 1dcb32c3… and 9f96fa05…).
+  - The managed statuses equal the kernel statuses per wave (W1 0, W2 256, W3 139; W4 and W5 unmanaged 0 and 139).
+  - The detached thread's CPU is near zero; the 1,105 markers match.
+  - The indexed classifier `78899afa…` passed the 22 controls (01:13:14) before classifying the cell (01:13:56), with the original kept at `8bca5ac0…`.
+
+  Gate: both Validators (runtime verdict, PID-1 critical path): op-431 (validator1, completeness) and op-432 (validator2, falsification), blind. If accepted, op-280 (launchd reaper fix) stays held without a fix, per op-322 §7, and the PID-1 path moves to productionization (op-202). The result is bounded: no incidence in this workload, not proof of absence.
+- state delta: op-430 draft → issued; op-429 issued → returned; op-431 and op-432 created as drafts.
+- evidence: `build/op429/findings.md`, lines 1-40; serial hashes; tier2-indexed results and stdout timestamps.
+- next: Send op-431 and op-432.
