@@ -1609,3 +1609,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: op-420 and op-422 REPORTs.
+
+### j-20261002-030 — op-420's native FreeBSD changes reviewed in flight; NOTICE; allowed list recorded
+
+- time / kind: 2026-10-02T07:55:51Z / DECISION
+- outcome: The Coordinator saw op-420 editing FreeBSD files and asked whether that is safe. Checked the work tree (uncommitted; commit `9e0d19e2` holds the Mach uref work):
+  - `file.h` adds `fo_fdpostclose` in a spare slot (`fo_spares[7]` to `[6]`, struct size unchanged) and `DFLAG_NODUP 0x08`, next to PASSABLE, SEEKABLE and FORK.
+  - `kern_descrip.c` gains about 15 lines: the post-close calls at 1422 and 2740, and dup rejection at 1079 and 4038.
+  - Both follow from op-420's rules (descriptor-removal revocation and dup rejection), which FreeBSD cannot provide natively. Expected and safe in design.
+
+  The NOTICE asks for separate `kern:`/`sys:` commits, the native files listed in the REPORT, and every removal path shown calling the hook. It caps native changes at these two mechanisms. mach-names-step5-deferred.md records them as the only FreeBSD-side changes allowed for 1.0 without a new decision.
+- state delta: none.
+- evidence: `grep` of `sys/sys/file.h` and `sys/kern/kern_descrip.c` in build/op420/source.
+- next: Relay the NOTICE.

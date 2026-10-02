@@ -50,6 +50,21 @@ kqueue registrations, as for any fd. Consumers learn about port death the Mach w
 dead-name notifications and `mach_msg` errors. libdispatch cancels a source before destroying its
 port. The EOF helper is deferred with step 5 (id-056).
 
+## FreeBSD-side changes allowed for 1.0 (2026-10-02)
+
+FreeBSD has no native way to revoke a name on descriptor removal or to refuse `dup`, so step 2
+(op-420) adds two small mechanisms in FreeBSD's own extension style, as separate `kern:`/`sys:`
+commits:
+- `fo_fdpostclose` in a spare slot of `struct fileops` (`sys/sys/file.h`), called after the
+  descriptor lock is released, for every removal path (close, closefrom, dup2 replacement,
+  close-on-exec, exit);
+- `DFLAG_NODUP` (`0x08`): `dup`, `dup2` and `fcntl(F_DUPFD)` refuse such descriptors with
+  `EOPNOTSUPP`.
+
+The struct keeps its size, and only Mach sets them, so other file types are unchanged. Any further
+change to FreeBSD's own code needs a Coordinator decision first (as with the deferred kqueue EOF
+helper).
+
 ## Keeping step 5 possible later
 
 So that 1.0 code does not lock us into fds:
