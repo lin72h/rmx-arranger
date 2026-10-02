@@ -1,7 +1,7 @@
 # id-059 — launchd's GetJob exports the caller's job instead of the requested one
 
 - id: **id-059**
-- state: **READY — op-426 drafted**
+- state: **READY — op-425 drafted**
 - raised: **2026-10-02 by the Arranger, from op-422 (gatekeeper1 `2db74d1`)**
 - parent: id-016; related: id-042
 

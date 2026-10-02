@@ -1653,3 +1653,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-423 draft → issued; op-422 issued → returned → closed; op-424 hold → draft; id-059 raised; op-426 created as draft.
 - evidence: `build/op422/findings.md`, lines 23-31; `git show 2884304b:sbin/launchd/ipc.c`, lines 436-452 and 560-575.
 - next: Send op-424 and op-426.
+
+### j-20261002-033 — Correction: the GetJob op is op-425, not op-426
+
+- time / kind: 2026-10-02T09:02:42Z / CORRECTION
+- outcome: j-20261002-032 named the launchd GetJob op "op-426", but `rob new` assigned op-425, and the brief was not written at first. op-425 now holds the brief, and id-059 and the index say op-425.
+- state delta: none.
+- evidence: none.
+- next: Send op-424 and op-425.
