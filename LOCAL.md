@@ -142,6 +142,9 @@ is ready to send.
 
 ## Lessons for briefs
 
+- Resolve every REPORT commit with `git rev-parse <short>` before pushing or citing it; op-426's REPORT
+  gave `a4820eaacb66…` for the real `a4820eaaacb66…` and the push by hash failed.
+
 - When a design names hook points, check each against the hooks FreeBSD actually has before capping
   native changes; op-426 stopped on a thread-binding point (after `thread_link`) with no hook.
 

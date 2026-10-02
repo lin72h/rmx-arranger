@@ -1768,3 +1768,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-427 draft → issued; op-420 returned → closed.
 - evidence: `git ls-remote --heads origin mach-fixes-2 launchd-fixes-1`.
 - next: op-427's REPORT.
+
+### j-20261002-045 — Correction: rmx-implementer@a4820eaa reached origin only on the retry
+
+- time / kind: 2026-10-02T10:07:46Z / CORRECTION
+- outcome: j-20261002-044 said `a4820eaa` was on origin, but that push had failed. op-426's REPORT gave the full hash with one character missing (`a4820eaacb66…`; the real hash is `a4820eaaacb66f29a2f1215d40215807a2632ccd`). Pushed again by the resolved hash; it is now on origin. Lesson in LOCAL.md: resolve REPORT hashes with `git rev-parse` first.
+- state delta: none.
+- evidence: `git merge-base --is-ancestor a4820eaaacb66f29a2f1215d40215807a2632ccd origin/main`.
+- next: none.
