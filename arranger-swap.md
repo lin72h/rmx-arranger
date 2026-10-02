@@ -1357,3 +1357,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-408 issued → returned → closed; op-409 created as draft.
 - evidence: `readelf -rW rmx_translate_fixture.ko`; `git grep` of the fixture users.
 - next: Send op-409.
+
+### j-20261002-008 — op-409 sent; op-410 (first sanitizer survey) drafted
+
+- time / kind: 2026-10-02T02:34:44Z / ACTION
+- outcome: op-409 is sent to the Implementer. While it runs, gatekeeper1 is idle, so op-410 runs the op-372 slice (which copies its binaries in over serial, so needs no image change) on the op-396 RELEASE and KASAN images in survey mode. The loader variables go through `bhyveload -e`. op-410 is the first Testing 1.0 runtime evidence and the first boot of an in-kernel-built `mach.ko`. It uses different images from op-409, so the two do not conflict. Size M; the Arranger reviews.
+- state delta: op-409 draft → issued; op-410 created as draft.
+- evidence: `build/op372/guest-sequence.tsv` (serial transfer, identity checks).
+- next: Send op-410.
