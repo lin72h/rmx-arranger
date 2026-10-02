@@ -1,13 +1,13 @@
 ---
 id: op-417
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-057
-needs: op-416
+needs: []
 gate: self
 authority: build a ZFS-root image from the op-364 staging tree with makefs -t zfs and mkimg, as a new file under /Users/me/wip-mach/stage/images/; no guest runs; no zpool import on the host; no push
-updated: 2026-10-02T03:50Z
+updated: 2026-10-02T04:17Z
 ---
 # op-417 — Implementer: build a ZFS-root rmxOS image with makefs -t zfs (pool rmxroot), no boot code — redo of op-414
 

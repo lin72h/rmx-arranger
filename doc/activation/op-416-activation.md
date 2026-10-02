@@ -1,13 +1,13 @@
 ---
 id: op-416
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 needs: []
 gate: self
 authority: build: mach.ko (fixed branch, and the base build with only the MODULE_VERSION line), libmach and the tests; restage the base + tests and fixed + tests images; no guest runs; no push
-updated: 2026-10-02T04:05Z
+updated: 2026-10-02T04:17Z
 ---
 # op-416 — Implementer: resolve op-411's three mismatch causes — mach MODULE_VERSION, fd_exhaustion result code, bounded clock tests — and restage both test images
 

@@ -1516,3 +1516,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `readelf -d` of `/usr/local/swift/lib/swift/freebsd/libdispatch.so` and `libswiftDispatch.so`; the swift-rx implementer's git log, CHANGELOG and 2026-10-02 comparison note.
 - next: Coordinator: who arranges the swift-rx agents.
+
+### j-20261002-022 — op-416 verified and closed; op-418 (final batch-1 proof) and op-417 (ZFS) ready
+
+- time / kind: 2026-10-02T04:17:11Z / ACTION
+- outcome: op-416 returned DONE. Checked first-hand:
+  - Commits on `mach-fixes-1`: `923b3229` adds `MODULE_VERSION(mach, 1)`. `2b20aee8` makes `kern_finstall` returning EMFILE give KERN_NO_SPACE, hence MACH_MSG_IPC_SPACE, matching XNU `ipc_kmsg_copyout_port`'s "No room in space" at lines 3637-3643 and the A1 rule that fd limits are the name space. `903c8fc2` bounds the clock tests.
+  - The base `mach.ko` is 2884304b plus only MODULE_VERSION.
+  - Both image hashes match.
+  - `rmx-implementer@59fd6cba` was pushed and is on origin.
+
+  op-416 is closed. op-418 (gatekeeper1) is the final batch-1 proof in 3 boots; it reruns the fixture programs on the base image too, because op-411's base FAILs there came from the load failure, and it asks for each FAIL's printed reason. op-417 (ZFS image) is released to the idle Implementer.
+- state delta: op-416 issued → returned → closed; op-417 hold → draft; op-418 created as draft.
+- evidence: `git show` of the three commits; `build/op416/evidence/xnu-copyout.txt`; `sha256` of both images.
+- next: Send op-418 and op-417.
