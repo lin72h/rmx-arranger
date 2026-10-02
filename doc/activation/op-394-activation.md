@@ -1,13 +1,13 @@
 ---
 id: op-394
 state: draft
-agent: advisor1
-repo: rmx-advisor1
+agent: advisor2
+repo: rmx-advisor2
 idq: id-046
 authority: none
-updated: 2026-09-29T04:03Z
+updated: 2026-10-02T01:09Z
 ---
-# op-394 — Advisor 1: design proposal — Mach names, task state, and the receive model on FreeBSD 15
+# op-394 — Advisor 2: design proposal — Mach names, task state, and the receive model on FreeBSD 15
 
 ## Outcome
 
@@ -45,8 +45,10 @@ decided before any code, and what can wait. Under about 300 lines, in a new docu
   an option you propose.
 - NextBSD, read-only: `/Users/me/wip-mach/nx/NextBSD-NextBSD-CURRENT/`. XNU, read-only:
   `/Users/me/wip-mach/reference/xnu-xnu-12377.121.6/`.
-- The three reviews. The blind round is over, so you may read advisor2's now:
-  `/Users/me/wip-mach/rmx-advisor2/op-389-mach-freebsd12-assumptions-alpha2.md`, and your own
-  op-392 and op-393 documents.
+- The three reviews: your own op-389
+  (`/Users/me/wip-mach/rmx-advisor2/op-389-mach-freebsd12-assumptions-alpha2.md`), and advisor1's
+  op-392 and op-393 (`/Users/me/wip-mach/rmx-advisor1/op-392-mach-freebsd15-assumptions-findings.md`,
+  `/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md`). The blind round is
+  over, so you may read them.
 
 Re-read OPS.md first: defaults and the REPORT block.
