@@ -144,6 +144,9 @@ in a role template or instance file, where Validators would see them and could b
 | validator3 (model seated per session by the Coordinator) | general | luna-max 1, sol-medium 3, astra-medium 6, astra-max 8, astra-ultra 9 |
 
 - The default pair for XL or critical-path gates is validator1 + validator2 (cost 1 in total).
+- **Week of 2026-10-03 (Coordinator):** validator3 is fast and free. Use it as the default single
+  Validator for L gates, and as one of the two for XL gates (with validator1 or validator2 by the
+  question). Revert to the usual costs after the week, or when the Coordinator says.
 - For an L gate, use validator1 when the question is completeness and validator2 when it is
   falsification.
 - Use validator3 as a third opinion when the pair disagrees or scores below 8, or when a question

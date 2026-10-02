@@ -1831,3 +1831,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-430 draft → issued; op-429 issued → returned; op-431 and op-432 created as drafts.
 - evidence: `build/op429/findings.md`, lines 1-40; serial hashes; tier2-indexed results and stdout timestamps.
 - next: Send op-431 and op-432.
+
+### j-20261003-006 — op-431 and op-432 sent; validator3 preferred this week (fast, free)
+
+- time / kind: 2026-10-02T12:27:45Z / DECISION
+- outcome: op-431 (validator1) and op-432 (validator2) were sent. The Coordinator says validator3 is fast and free this week. roles.md § Choosing a Validator gains a dated rule: validator3 is the default single Validator for L gates and one of the two for XL gates, until the week ends or the Coordinator says otherwise.
+- state delta: op-431 and op-432 draft → issued.
+- evidence: none.
+- next: op-430's REPORT (batch 3); its review goes to validator3.

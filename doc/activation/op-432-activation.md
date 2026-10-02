@@ -1,12 +1,12 @@
 ---
 id: op-432
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-016
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-02T12:24Z
+updated: 2026-10-02T12:27Z
 ---
 # op-432 — Validator 2: review op-429 — PID-1 reaper verdict PREMISE-NOT-OBSERVED
 
