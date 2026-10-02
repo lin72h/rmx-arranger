@@ -61,9 +61,27 @@ commits:
 - `DFLAG_NODUP` (`0x08`): `dup`, `dup2` and `fcntl(F_DUPFD)` refuse such descriptors with
   `EOPNOTSUPP`.
 
-The struct keeps its size, and only Mach sets them, so other file types are unchanged. Any further
-change to FreeBSD's own code needs a Coordinator decision first (as with the deferred kqueue EOF
-helper).
+Step 3 (batch 3) adds two more, delegated to the Arranger on 2026-10-02 (j-20261002-039):
+- an "exec committed" event, after the final credentials and before the return to user space;
+- a non-blocking thread-exit gate in the common `thread_exit`.
+
+Both are EVENTHANDLER-style, as separate `kern:` commits.
+
+In every case the struct keeps its size, and only Mach uses these hooks, so other file types and
+processes are unchanged. Any further change to FreeBSD's own code needs a Coordinator decision first
+(as with the deferred kqueue EOF helper).
+
+## Known differences from macOS in 1.0
+
+Each is a deliberate choice to keep 1.0 stable; each can be closed later.
+
+| Area | macOS | rmxOS 1.0 | Tracked |
+|---|---|---|---|
+| Port names | Mach-owned table with generations; independent of fd limits | fds: no generations, counted in `RLIMIT_NOFILE` | id-056 |
+| Name revocation and kqueue | XNU delivers events through its own filter callbacks | registrations are silently removed, as for any fd | id-056 |
+| Direct-receive kevents | supported (libdispatch uses them) | readiness only; receive in `mach_msg` | id-056 |
+| Exec | XNU resets exception ports and task identity tokens by its own rules | ordinary exec keeps the task and its bootstrap and registered ports; setuid exec gives fresh control ports; exception-port and identity-token details not matched | batch 3 |
+| `POSIX_SPAWN_CLOEXEC_DEFAULT` | supported | absent from libc; possible because FreeBSD 15 has `O_CLOFORK` | swift-real-libdispatch.md |
 
 ## Keeping step 5 possible later
 

@@ -1709,3 +1709,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-425 issued → returned → closed.
 - evidence: `git show 42bf6205`; `grep job_export(ctx->j)` in the NextBSD tree and at 42bf6205.
 - next: op-424's REPORT; the batch-3 decisions.
+
+### j-20261002-039 — Delegated (Rule 9): batch-3 exec policy and two more FreeBSD hooks
+
+- time / kind: 2026-10-02T09:40:24Z / DECISION (delegated by the Coordinator)
+- outcome: The Coordinator delegated both batch-3 questions under the principle "match macOS, but not at the cost of stability; document differences and fix them later".
+  - **Exec policy:** an ordinary exec keeps the task identity and its bootstrap and registered ports, and the Mach name space and thread ports are rebuilt (op-394 B2). A credential-changing exec (setuid/setgid) gives the task fresh control ports, as XNU's `ipc_task_reset` does. Deferred as documented differences: XNU's exception-port reset rules and task identity tokens.
+  - **FreeBSD-side hooks:** allowed are an "exec committed" event (after the final credentials, before the return to user space) and a non-blocking thread-exit gate in the common `thread_exit`. Both in FreeBSD's EVENTHANDLER style, as separate `kern:` commits. Without them, setuid revocation races the credential change and thread state is torn down late.
+  - Mach names stay outside `FD_CLOEXEC` and `FD_CLOFORK` (rules 7 and 8): Mach's own hooks govern them.
+
+  The allowed-list in mach-names-step5-deferred.md grows by these two. A "Known differences from macOS in 1.0" section starts there.
+- state delta: none.
+- evidence: op-394 § B (`rmx-advisor2@519ec47`, lines 92-180).
+- next: Draft batch 3.

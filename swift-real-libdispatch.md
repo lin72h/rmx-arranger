@@ -63,6 +63,13 @@ reaching the Mach and workqueue behaviour rmxOS provides. Swift on macOS has one
 3. Does the Swift runtime belong in rmxOS's base (as `/usr/lib/swift`, the macOS way, Lane A1) for
    this step, or stay in `/usr/local/swift` until later?
 
+## Later items
+
+- `POSIX_SPAWN_CLOEXEC_DEFAULT` in rmxOS's `posix_spawn`. It is Darwin-only (swiftlang/swift-subprocess#79
+  emulates it elsewhere with fork, close and exec). FreeBSD 15 already has `O_CLOFORK`/`FD_CLOFORK`
+  (`sys/sys/fcntl.h` at alpha2), so rmxOS could implement it natively, and Swift's `Subprocess` would
+  take its Darwin path.
+
 ## Log
 
 - 2026-10-02: tracker opened; the two-libdispatch problem found; steps 0-4 defined (j-20261002-021).
