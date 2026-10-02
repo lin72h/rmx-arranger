@@ -142,6 +142,10 @@ is ready to send.
 
 ## Lessons for briefs
 
+- The Coordinator cannot see tool output. Every op meant for relay goes into the reply text as one
+  copy-paste block, every time; never write "brief above" when it was only in a tool result
+  (Coordinator, 2026-10-02).
+
 The general brief checklist is rulebook Rule 16; these are the specific cases behind it and
 older lessons.
 
