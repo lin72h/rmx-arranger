@@ -1760,3 +1760,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-426 issued → returned → dropped; op-427 created as draft.
 - evidence: `git show b9ad6f42`; `kern_thr.c` lines 262-276 at 2884304b.
 - next: Send op-427; the Coordinator's push decision.
+
+### j-20261002-044 — op-427 sent; mach-fixes-2 and launchd-fixes-1 published; op-420 (batch 2) closed
+
+- time / kind: 2026-10-02T10:07:06Z / ACTION
+- outcome: op-427 was sent. With the Coordinator's yes, both branches were pushed by hash to the public rmxOS origin as new branches: `mach-fixes-2` = `ee883a74` and `launchd-fixes-1` = `42bf6205`. `rmx-implementer@a4820eaa` (op-426's record) is on origin. op-420 (batch 2) is closed: review CLOSE 9/10, runtime proof op-424, commits on origin. op-425's closure is now valid, since `launchd-fixes-1` is on origin. id-046, the index and now.md are updated.
+- state delta: op-427 draft → issued; op-420 returned → closed.
+- evidence: `git ls-remote --heads origin mach-fixes-2 launchd-fixes-1`.
+- next: op-427's REPORT.

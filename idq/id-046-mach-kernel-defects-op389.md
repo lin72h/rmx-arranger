@@ -150,6 +150,12 @@ with their own reasons, and 1 control PASS; fixed: 27/27 PASS. Branch `mach-fixe
 bounded clock tests). The branch is on the public rmxOS origin (pushed with the Coordinator's yes,
 2026-10-02), and op-395 is closed. Batch 2 (step 2) is op-420.
 
+## Batch 2 proven (2026-10-02)
+
+op-420 (op-394 step 2, `mach-fixes-2` at `ee883a74`): validator2 CLOSE 9/10 (op-423); op-424 4/4
+before and after, plus all 27 batch-1 cases on the fixed image. Retires op-389 #2 and op-392 S2, S3
+and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
+
 ## Findings ledger (every finding from op-389, op-392 and op-393)
 
 This is the complete list; each consult document holds the detail. Rows with source "Arranger" come from the Arranger's own reading. "First-hand" means the
