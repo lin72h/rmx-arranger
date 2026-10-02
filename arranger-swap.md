@@ -1740,3 +1740,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-426 draft → issued; op-424 issued → returned → closed.
 - evidence: `build/op424/findings.md` table; serial hashes.
 - next: The Coordinator's push decision for mach-fixes-2 and launchd-fixes-1.
+
+### j-20261002-042 — op-426 clarification: shared fd table means a shared Mach space and names
+
+- time / kind: 2026-10-02T09:57:26Z / DECISION (Arranger, within the Coordinator's delegated principle)
+- outcome: The Implementer asked whether a shared-fd `rfork` child may use the parent's Mach names. Answer: yes. Processes sharing an fd table share its Mach space and names, and the space is retained until the last process using the table exits, with no per-task denial. Reasons: under A1 the names are the shared fds, so denial would need owner checks on every lookup (risk without benefit); there is no macOS equivalent; ordinary fork, vfork and posix_spawn copy the table; exec unshares it. Rule 3 in mach-names-step5-deferred.md is updated.
+- state delta: none.
+- evidence: none.
+- next: none.
