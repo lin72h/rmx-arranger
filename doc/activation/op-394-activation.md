@@ -40,6 +40,9 @@ decided before any code, and what can wait. Under about 300 lines, in a new docu
 
 - rmxOS: `/Users/me/wip-mach/rmx-implementer/wip-rmxos` at `2884304b67fc454ee60187ce4731fca01cbefe6a`
   (read with `git show`, `git diff`, and `git log` only); `origin/releng/12.0` is in the same repo.
+- Fix batch 1 (op-395, under review): branch `mach-fixes-1` at `5fa02fb5b0ebead338aa20e94e4dfe4bd586f5dd`
+  in the same repo, 13 local fixes with tests. Treat them as done, and say if any conflicts with
+  an option you propose.
 - NextBSD, read-only: `/Users/me/wip-mach/nx/NextBSD-NextBSD-CURRENT/`. XNU, read-only:
   `/Users/me/wip-mach/reference/xnu-xnu-12377.121.6/`.
 - The three reviews. The blind round is over, so you may read advisor2's now:
