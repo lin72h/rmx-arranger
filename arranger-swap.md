@@ -1439,3 +1439,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the proposal lines cited.
 - next: After op-411, draft batch 2 (step 2) and the C1 design note.
+
+### j-20261002-016 — Coordinator: rmxOS images move to ZFS root (id-057); op-414 drafted, held
+
+- time / kind: 2026-10-02T03:33:14Z / DECISION
+- outcome: ZFS is an important rmxOS feature, so new images use a ZFS root. This is independent of the Mach work. Checked:
+  - the host's `makefs` supports `-t zfs` (unprivileged build, no mount);
+  - the host pool is `zroot`, so the guest pool is `rmxroot`;
+  - op-364's image has `zfs.ko` and `opensolaris.ko`, and the ZFS boot code must come from the build.
+
+  Pinned UFS images stay as they are. op-414 (Implementer) builds the first ZFS-root image from op-364's staging tree, with `kernel=` in directory form. It is held until op-413 returns. A Gatekeeper boot check follows.
+- state delta: id-057 raised (READY); op-414 created and held.
+- evidence: `makefs` usage and man page (zfs options); `zpool list`; op-364 METALOG.
+- next: op-411 and op-413 REPORTs.
