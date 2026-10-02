@@ -37,7 +37,7 @@ Run plan, with your existing runner (exit status 1 means powered off):
 - Fixed image: one boot running the whole suite.
 
 Result: one table with every case, its expected and observed result on each image, and the serial
-line or Kyua report behind each observation. List every mismatch separately. A case that does not
+line or ATF result file behind each observation. List every mismatch separately. A case that does not
 fail on the base image does not prove its fix.
 
 Evidence by path; hash only each boot's raw serial log. Commits on origin.
