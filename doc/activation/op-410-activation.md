@@ -1,12 +1,12 @@
 ---
 id: op-410
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-047
 gate: self
 authority: guest boots: up to 4 on copies of op396-RMXOS-RELEASE.raw and op396-RMXOS-KASAN.raw, 15-minute cap each; loader variables through bhyveload -e; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T02:47Z
+updated: 2026-10-02T03:09Z
 ---
 # op-410 — Gatekeeper 1: first sanitizer boots — op-372 slice on the op-396 RELEASE and KASAN images (Instrumentation 1.0 survey)
 

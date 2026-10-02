@@ -1402,3 +1402,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-407 issued → returned → closed; op-412 created as draft; op-411 needs op-410 and op-412.
 - evidence: `git show 5fa02fb5:sys/compat/mach/ipc/ipc_pset.c`, lines 609-669; `ipc_object.c`, lines 115-161.
 - next: Send op-412.
+
+### j-20261002-013 — op-410: RELEASE survey clean; KASAN boots ran RELEASE (kernel= form); op-413 held behind op-412
+
+- time / kind: 2026-10-02T03:09:27Z / ACTION
+- outcome: op-410 was sent and returned PARTIAL after 4 of 4 boots; `ca5ac4a` is on origin.
+  - **P0 RELEASE (A2):** `mach.ko` built with its kernel (assertions compiled in) loaded, all eight slice cases passed, and there were no KASSERT or sanitizer reports. That is the first boot of the in-kernel-built module.
+  - **P1 KASAN (A3/A4):** booted the RELEASE kernel, and the KASAN `mach.ko` failed to load (`__asan_load4_noabort`).
+  - **Cause, from `stand/lua/config.lua:717-800`:** `kernel=` names a /boot directory and the loader appends `/kernel`. op-396's `kernel="RMXOS-KASAN/kernel"`, required by the helper's kernel-profile check, makes the loader fall back. op-364 and op-388 use the same form and work only by fallback.
+
+  op-410 is closed (the RELEASE result stands). op-413 (Implementer) fixes the helper check and restages KASAN and KMSAN; it is held until op-412 frees the Implementer. gatekeeper1's queue: op-411, the KASAN survey retry, the reaper redo.
+- state delta: op-410 issued → returned → closed; op-413 created and held.
+- evidence: `build/op410/findings.md`, lines 9 and 59-78; `git show 2884304b:stand/lua/config.lua`, lines 717-800.
+- next: op-412's REPORT.
