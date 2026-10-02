@@ -1,3 +1,9 @@
+---
+id: op-202
+state: dropped
+updated: 2026-10-02T13:19Z
+legacy-state: Hold
+---
 # op-202 — Implementer: productionize the op-201 hybrid PID-1 boot (init_path + rc-chainload plist) into the SHIPPED image's real-boot config + close the root-rw remount residual
 
 op-202 | role: **Implementer** (cost-30) | EXU: **wip-gpt / wip-rmxos** | state: **[Hold — PROMOTED TO 1.0-PREVIEW, but this legacy brief is NOT dispatchable. WAITING on op-318's exact PID-1 topology/image/BOM/containment contract, the disposable-image reaper premise, and any warranted op-280 correction before normalization.]** | parent id: id-016 (launchd bootstrap) + id-042 (preview ship gate) | L1i: li-1006 / li-008 | cost: 30 | authored 2026-06-29; scope promoted 2026-07-12 by Coordinator ruling

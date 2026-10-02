@@ -74,7 +74,7 @@ containment and staging, then a small regression slice); NFS/Kerberos per op-340
 | 3 | Decide the launchd service-plane bar: MachServices plus nvlist, or literal dormant `xpc_domain` | Coordinator | decided 2026-09-28: MachServices plus nvlist for the preview; `xpc_domain` deferred past it (li-008) |
 | 4 | Containment helper `rmx-stage-image` and the disposable PID-1 premise image on alpha2 (base: the op-364 image; launchd identity accepted) | Implementer | closed: op-388 (image `031885…`, 28 BOM rows, host inventories equal); op-390 validator2 CLOSE 9/10 |
 | 5 | The corrected reaper premise: harness and Tier-2 classifier controls, a workload overlay on a copy of the premise image, then one cell | Gatekeeper | closed 2026-10-03: op-429 **PREMISE-NOT-OBSERVED** (bounded to this cell); op-431 and op-432 both 9/10; Arbiter accepted two recorded deviations (j-20261003-008) |
-| 6 | op-280 stays held (premise not observed, no fix); next op-202 productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | next: re-draft op-202 |
+| 6 | op-280 stays held (premise not observed, no fix); next op-436 (supersedes op-202) productionization (non-`-u` PID-1, root read-write, getty, base services, the SIGUSR1-halt risk recorded) and the op-203 robustness soak | Implementer, then Gatekeeper | op-436 drafted 2026-10-03; Gatekeeper acceptance and op-203 soak follow |
 
 The alpha2 regression milestone closed on 2026-09-28: op-364 built the image, and op-372 booted it
 contained (`mach.ko` loads with leak-locals 1; Mach 4/4, dispatch 4/4; clean power-off; TWQ

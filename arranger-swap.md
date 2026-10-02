@@ -1893,3 +1893,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-433 and op-434 draft → issued; op-435 created as a draft.
 - evidence: `rmx-advisor2/op-421-c1-on-fd-backend.md`, lines 29-47, 78-97 and 109.
 - next: Send op-435.
+
+### j-20261003-011 — op-435 sent; op-436 drafted to supersede op-202 (launchd PID 1 by default); op-429's cell shows /etc/rc running twice
+
+- time / kind: 2026-10-03 / DECISION
+- outcome: op-435 was sent. The Coordinator asked for op-202. Its June brief is legacy and long, so op-436 supersedes it and keeps its scope (op-322 §6): config productionized in the tree, root read-write, base services, getty, the SIGUSR1 risk. op-202 → dropped (superseded).
+  New fact, checked first-hand in op-429's cell serial: `/etc/rc` ran twice. `launchctl bootstrap -S System` runs it through `runcom()` (`launchctl.c:699-753`), and op-388's `com.rmxos.rc-chainload` plist runs it again. One `ps` listing shows two `cron` (974, 1816) and two FreeBSD `syslogd` groups, a failed second `devd` ("Device busy") and duplicate routes. Also present: `sh: /etc/bootstrap: not found`, `asld` running alongside FreeBSD `syslogd`, and no getty.
+  The reaper verdict is unaffected: its axes concern PID 1's waits, not rc. op-436 gives these six points as the brief's known facts.
+  Delegated choices (macOS behaviour, weighed against stability):
+  - prefer launchctl's built-in rc path, as on macOS;
+  - keep FreeBSD init as a recovery fallback;
+  - stage images for both UFS and ZFS roots (id-057);
+  - branch from `launchd-fixes-1` (`42bf6205`, Mach batch 1 plus the GetJob fix);
+  - no kernel changes; the Gatekeeper accepts in a later op.
+- state delta: op-435 draft → issued; op-202 hold → dropped (superseded by op-436); op-436 created as a draft.
+- evidence: serial lines 95-159 and 890-904 of the op-429 cell; `launchctl.c:699-765` and `runtime.c:275-281` at `42bf6205`; the op-364 image re-hashed as `8f546a93…`, op-417's as `1f4cf949…`.
+- next: Send op-436.
