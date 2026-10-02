@@ -1776,3 +1776,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `git merge-base --is-ancestor a4820eaaacb66f29a2f1215d40215807a2632ccd origin/main`.
 - next: none.
+
+### j-20261003-001 — op-427 question: the thread-exit gate is a function-pointer hook, not a released spin lock
+
+- time / kind: 2026-10-02T11:34:58Z / DECISION (Arranger, within the delegated principle)
+- outcome: The Implementer asked whether the thread-exit gate may briefly release PROC_SLOCK, because the EVENTHANDLER dispatcher takes a blocking mutex. Answer: no. Use a plain function-pointer hook under the existing locks, as hwpmc already does in `thread_exit` (`PMC_CALL_HOOK_UNLOCKED(td, PMC_FN_THR_EXIT, …)` with PROC_SLOCK held). The handler is atomic-only; draining and freeing stay in thread_dtor; the pointer is set at mach.ko load (Mach is non-unloadable). This keeps FreeBSD's exit locking unchanged. The allowed list in mach-names-step5-deferred.md is updated.
+- state delta: none.
+- evidence: `git show 2884304b:sys/kern/kern_thread.c`, thread_exit (line 935) and its HWPMC_HOOKS block.
+- next: none.

@@ -63,7 +63,9 @@ commits:
 
 Step 3 (batch 3) adds two more, delegated to the Arranger on 2026-10-02 (j-20261002-039):
 - an "exec committed" event, after the final credentials and before the return to user space;
-- a non-blocking thread-exit gate in the common `thread_exit`;
+- a non-blocking thread-exit gate in the common `thread_exit`: a plain function-pointer hook called
+  under the existing `PROC_SLOCK`, as hwpmc's `PMC_CALL_HOOK_UNLOCKED` is there, not an EVENTHANDLER
+  (whose mutex would block), and never by releasing the spin lock (op-427 question, 2026-10-03);
 - a "thread published" event right after `thread_link` (non-sleeping, under `PROC_LOCK`), added
   2026-10-02 when op-426 showed the design's thread binding point had no native hook
   (j-20261002-043).
