@@ -1,13 +1,13 @@
 ---
 id: op-414
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-057
 needs: []
 gate: self
 authority: build a ZFS-root image from the op-364 staging tree with makefs -t zfs and mkimg, as a new file under /Users/me/wip-mach/stage/images/; no guest runs; no zpool import on the host; no push
-updated: 2026-10-02T03:40Z
+updated: 2026-10-02T03:41Z
 ---
 # op-414 — Implementer: build a ZFS-root rmxOS image with makefs -t zfs (pool rmxroot), alongside the UFS images
 

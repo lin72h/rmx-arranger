@@ -1,13 +1,13 @@
 ---
 id: op-411
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 needs: []
 gate: self
 authority: guest boots: up to 6 on copies of op409-base-tests.raw and op412-fixed-tests.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T03:18Z
+updated: 2026-10-02T03:42Z
 ---
 # op-411 — Gatekeeper 1: finish the op-395 test proof on op-409's images (null_fd, the base FAIL/PASS cases, the fixed suite)
 

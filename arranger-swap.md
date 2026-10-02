@@ -1466,3 +1466,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-413 issued → returned → closed; op-414 hold → draft; op-415 created and held.
 - evidence: `git show 59afc2fc`; the op413-KASAN BOM's loader.conf; `sha256` of both images.
 - next: Send op-414.
+
+### j-20261002-018 — op-411: 20 of 27 confirmed; three causes behind seven mismatches; op-415 released; op-416 held
+
+- time / kind: 2026-10-02T03:43:04Z / ACTION
+- outcome: op-414 was sent. op-411 returned FAILED after 5 of 6 boots; `13f1212` is on origin. 20 of 27 cases match, including op-408's 13 base panics and `short_buffer` (which confirms op-412's lock fix). The seven mismatches have three causes:
+  1. **The fixture cannot load (4 cases):** `MODULE_DEPEND(…, mach, 1, 1, 1)` against a `mach.ko` with no `MODULE_VERSION`. Checked first-hand at `1045a24b`.
+  2. **fd_exhaustion on the fixed image:** `IPC_KERNEL` returned where the test expects `IPC_SPACE`. A semantic question to settle against XNU.
+  3. **Base clock absolute and past:** an outer timeout, because the defect sleeps too long; the tests should bound their own wait.
+
+  op-411 is closed. op-416 (Implementer) takes all three and restages; it is held until op-414 returns. op-415 (KASAN/KMSAN survey) is released, since gatekeeper1 is idle.
+- state delta: op-414 draft → issued; op-411 issued → returned → closed; op-415 hold → draft; op-416 created and held.
+- evidence: `build/op411/findings.md`, lines 44-66; `git grep MODULE_` at `1045a24b`.
+- next: Send op-415.
