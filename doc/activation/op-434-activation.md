@@ -1,12 +1,12 @@
 ---
 id: op-434
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 4 on copies of op430-base-tests.raw and op430-deliverable-fixed-tests.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T13:06Z
+updated: 2026-10-02T13:13Z
 ---
 # op-434 — Gatekeeper 1: Mach batch-3 before/after proof on op-430's images, plus the batch-1 and batch-2 suites on the fixed image
 

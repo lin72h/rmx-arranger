@@ -1885,3 +1885,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-430 issued → returned; op-433 and op-434 created as drafts.
 - evidence: `git diff --stat mach-fixes-2 mach-fixes-3`; `sha256sum` of both images; the BOM comparison.
 - next: Send op-433 and op-434. After both: push `mach-fixes-3` (needs the Coordinator's yes), close op-430, then step 4 and re-draft op-202.
+
+### j-20261003-010 — op-433 and op-434 sent; op-435 drafted for advisor2 (step-4 plan without the EOF helper)
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-433 (validator3) and op-434 (gatekeeper1) were sent. The Coordinator says advisor2 is free today. op-421's note relies on the native EOF retirement helper (§1, §3, §4.1), which 1.0 does not adopt (2026-10-02). Its libdispatch, launchd and libxpc death handling therefore needs re-planning before step 4 can be briefed. op-435 asks advisor2 for the step-4 plan on `mach-fixes-3`: death via dead-name notifications and `mach_msg` errors, the kernel part, the D2 subset, commit order with tests first, and open risks. The note is read-only; it runs in parallel with op-433 and op-434.
+- state delta: op-433 and op-434 draft → issued; op-435 created as a draft.
+- evidence: `rmx-advisor2/op-421-c1-on-fd-backend.md`, lines 29-47, 78-97 and 109.
+- next: Send op-435.

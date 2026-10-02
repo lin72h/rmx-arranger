@@ -1,12 +1,12 @@
 ---
 id: op-433
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-02T13:06Z
+updated: 2026-10-02T13:13Z
 ---
 # op-433 — Validator 3: review op-430 — Mach batch 3 (task and thread lifetimes, three FreeBSD hooks, lazy space rebinding)
 
