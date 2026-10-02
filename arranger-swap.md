@@ -1541,3 +1541,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-417 and op-418 issued → returned → closed; op-419 created as draft.
 - evidence: `build/op418/findings.md`; op-417's `commands.jsonl` (makefs with the METALOG.op417 source) and its pool logs.
 - next: Send op-419; the Coordinator's push decision; then batch 2 (step 2) and the C1 note.
+
+### j-20261002-024 — op-419 sent; batch 2 (op-420, step 2) and the C1-under-A1 note (op-421) drafted
+
+- time / kind: 2026-10-02T06:47:46Z / ACTION
+- outcome: op-419 was sent. The Implementer and advisor2 are idle, so two drafts are ready:
+  - **op-420 (Implementer):** op-394 step 2 on a new branch `mach-fixes-2`, test-first, gate one Validator. It carries the step-5 deferral rules 1, 2 and 4 inline, and targets op-389 #2 and op-392 S2/S3/S4.
+  - **op-421 (advisor2):** the short design note for C1 on the fd backend, closing the gap recorded in j-20261002-015.
+
+  They use different agents and do not conflict.
+- state delta: op-419 draft → issued; op-420 and op-421 created as drafts.
+- evidence: the proposal's step list, lines 280-292.
+- next: Send op-420 and op-421; the Coordinator's push decision for `mach-fixes-1`.
