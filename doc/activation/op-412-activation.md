@@ -1,12 +1,12 @@
 ---
 id: op-412
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: build: mach.ko from mach-fixes-1; restage the fixed + tests image with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T03:09Z
+updated: 2026-10-02T03:16Z
 ---
 # op-412 — Implementer: fix 6 follow-up — balance the port-set lock in filt_machport, rebuild, restage the fixed image
 

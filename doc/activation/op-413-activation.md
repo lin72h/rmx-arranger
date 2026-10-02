@@ -1,13 +1,13 @@
 ---
 id: op-413
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-047
-needs: op-412
+needs: []
 gate: self
 authority: change rmx-stage-image's rmx-stage-kernel/v1 loader check; restage op-396's KASAN and KMSAN images as new files; no guest runs; no push
-updated: 2026-10-02T03:09Z
+updated: 2026-10-02T03:16Z
 ---
 # op-413 — Implementer: correct the kernel= line in instrumented-profile images (it names a directory), restage the KASAN and KMSAN images
 

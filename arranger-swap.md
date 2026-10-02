@@ -1415,3 +1415,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-410 issued → returned → closed; op-413 created and held.
 - evidence: `build/op410/findings.md`, lines 9 and 59-78; `git show 2884304b:stand/lua/config.lua`, lines 717-800.
 - next: op-412's REPORT.
+
+### j-20261002-014 — op-412 verified and closed; op-411 and op-413 released
+
+- time / kind: 2026-10-02T03:16:49Z / ACTION
+- outcome: op-412 returned DONE. Checked first-hand:
+  - `1045a24b` (on `acfc34cd`) changes only `filt_machport` to `ipc_object_translate_known(…, entry->ie_object, …)`.
+  - The caller audit finds no other seeded-output and conditional-unlock pattern (`mach_port_get_set_status` unlocks unconditionally; `thread_activation_create` is under `notyet`).
+  - The image hash matches (154d638b…).
+
+  op-412 is closed (S). op-411 gets the new fixed image and is ready (gatekeeper1). op-413 is ready (Implementer). They use different images and agents.
+- state delta: op-412 issued → returned → closed; op-411 and op-413 hold → draft.
+- evidence: `git show 1045a24b`; `build/op412/evidence/caller-audit-v2.txt`.
+- next: Send op-411 and op-413.
