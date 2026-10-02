@@ -1587,3 +1587,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-405 returned → closed; op-422 created as draft; op-280 needs op-422.
 - evidence: none new.
 - next: Send op-422.
+
+### j-20261002-028 — op-422 sent; op-421 C1-on-fd-backend note returned and closed; one decision open
+
+- time / kind: 2026-10-02T07:33:04Z / ACTION
+- outcome: op-422 was sent. op-421 returned DONE (`rmx-advisor2@5bfc3e1`, 120 lines). The design:
+  - a readiness-only, fd-backed `EVFILT_MACHPORT` with independent pins and no Mach locks under knlist locks;
+  - one queued receive path (MIG replies queued, no waiter handoff) and complete LARGE/trailer handling;
+  - a libdispatch manager-side `mach_msg` drain loop, plain `mach_msg` kept for launchd and libxpc, and a nonblocking libxpc pipe receive;
+  - introduction against steps 2-4, and an honest "needs step 5" list.
+
+  One item changes FreeBSD itself: a native "EOF retirement" helper in kern_event.c and kern_descrip.c, so that closing a Mach name delivers one EOF per registration before fd reuse. It goes to the Coordinator as (a) adopt it, or (b) keep native close semantics (silent knote deletion; death reported through Mach notifications). The Arranger recommends (b), per the alignment rule and the C3 precedent. op-420 is unaffected under (b). op-421 is closed as a consult.
+- state delta: op-422 draft → issued; op-421 issued → returned → closed.
+- evidence: the note's §1 "Revocation needs a small native retirement helper".
+- next: The Coordinator's (a)/(b) decision.
