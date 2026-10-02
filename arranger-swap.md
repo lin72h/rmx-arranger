@@ -1661,3 +1661,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: Send op-424 and op-425.
+
+### j-20261002-034 — op-424 and op-425 sent; op-423 CLOSE 9/10 on Mach batch 2
+
+- time / kind: 2026-10-02T09:07:52Z / ACTION
+- outcome: op-424 and op-425 were sent. op-423 (validator2, `156f754`, local) returned CLOSE 9/10. All five checks hold: the targets are fixed at their causes; no conflicting lock order; every removal path funnels through idempotent hooks; the FreeBSD-side change keeps the ABI and leaves other file types unchanged; batch 1 is intact. Its "next" names op-421 for the runtime run, which is a slip for op-424. op-423 is closed. op-420 stays returned until op-424's runtime proof and `mach-fixes-2` reach origin.
+- state delta: op-424 and op-425 draft → issued; op-423 issued → returned → closed.
+- evidence: `git log 156f754` in rmx-validator2.
+- next: op-424 and op-425 REPORTs; then batch 3 (step 3).
