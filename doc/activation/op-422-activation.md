@@ -5,7 +5,7 @@ agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: both
-authority: stage: overlays onto copies of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31; guest boots: 2 (one probe preflight, one cell); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
+authority: stage: overlays onto copies of the op-388 image with the verbatim dd78a31 helper copy in build/op391/helper-dd78a31; guest boots: up to 3 (at most two probe preflights, then one cell); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
 updated: 2026-10-02T07:00Z
 ---
 # op-422 — Gatekeeper 1: PID-1 reaper cell under the kernel-side contract — fixed collector, probe preflight, then one cell (redo of op-405)
