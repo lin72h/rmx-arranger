@@ -1381,3 +1381,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-407 issued → draft (correction).
 - evidence: none.
 - next: Show op-407 again.
+
+### j-20261002-011 — op-407 sent; op-409 verified and closed; op-411 held behind op-410
+
+- time / kind: 2026-10-02T02:57:17Z / ACTION
+- outcome: The Coordinator sent op-407. op-409 returned DONE. Checked first-hand:
+  - `acfc34cd` sits on `5fa02fb5` and changes only the fixture.
+  - The new `rmx_translate_fixture.ko` has only R_X86_64_64, PC32, PLT32 and 32S relocations, all accepted at `elf_machdep.c:296-349`.
+  - Both image hashes match (41c81b17…, 088c490a…).
+
+  op-409 is closed (S). op-411 finishes the op-395 proof in 3 boots and is held until op-410 frees gatekeeper1. `mach-fixes-1` (now 14 commits) still needs the Coordinator's yes to push.
+- state delta: op-407 draft → issued; op-409 issued → returned → closed; op-411 created and held (needs op-410).
+- evidence: `readelf -rW` of the fixture; `sha256` of both images.
+- next: op-410's REPORT.

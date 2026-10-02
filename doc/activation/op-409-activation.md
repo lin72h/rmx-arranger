@@ -1,12 +1,12 @@
 ---
 id: op-409
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: build: the tests/sys/mach fixture module and the test set; restage the two op-395 test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T02:34Z
+updated: 2026-10-02T02:57Z
 ---
 # op-409 — Implementer: rebuild the Mach test fixture module so the kernel can load it, and restage op-395's images
 
