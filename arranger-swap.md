@@ -1722,3 +1722,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: op-394 § B (`rmx-advisor2@519ec47`, lines 92-180).
 - next: Draft batch 3.
+
+### j-20261002-040 — Batch 3 (op-426, op-394 step 3) drafted
+
+- time / kind: 2026-10-02T09:40:49Z / ACTION
+- outcome: op-426 (Implementer) is drafted: B2 lifecycles on a new branch `mach-fixes-3` from `mach-fixes-2`. It carries the delegated exec policy, the fd-flag rule, the two allowed hooks and the shared-table rule inline. Targets: op-389 #4 and #11, op-392 F2 and F1, and op-393 N5's prerequisite. Gate: one Validator, then the Gatekeeper's proof. Ready: the Implementer is idle, and op-424 only reads `mach-fixes-2`.
+- state delta: op-426 created as draft.
+- evidence: none.
+- next: Send op-426.
