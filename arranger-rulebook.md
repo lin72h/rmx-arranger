@@ -164,6 +164,31 @@ Activation headers, IDQ files, and Git remain authoritative; the journal links t
 pre-unified record is frozen in `doc/archive/arranger-swap-legacy-frozen-cp103.md`. Source: Coordinator,
 2026-07-22; single-seat simplification 2026-09-27 (j-20260927-001).
 
+**Rule 16 — Brief quality: check before you send.** Most lost guest boots in October 2026 came
+from briefs, not product (workflow-report.md, 2026-10-02). Before showing a brief:
+- **Feasibility first.** For any limited-attempt run, prove the mechanism works with the cheapest
+  step (a probe, a host check) before the brief spends an attempt on it (op-399: PID 1 cannot be
+  traced on FreeBSD).
+- **Check every tool and path against the real artifact.** Read the image's BOM or METALOG for each
+  command the guest will run, and the existing pipeline for each build step (op-406: no `kyua`;
+  op-414: boot code op-364 never used).
+- **Require only what the outcome needs.** Each requirement in a brief needs a reason from the
+  artifact or a decision; do not add plausible extras.
+- **Verify facts you pass on, and cite the line.** A value copied from an earlier op is unchecked
+  until read in source (op-396's `kernel=".../kernel"` booted the wrong kernel in op-410).
+- **Say "do not proceed until X", not "stop the op".** Harness and tool fixes are in-op work;
+  BLOCKED is for causes outside the agent's harness. Budgets include the reruns this allows.
+- **Put unseen context inline.** Agents cannot read this repo; decision records and rules they must
+  follow go in the brief itself (op-420).
+- **Continuation messages and NOTICEs name every remaining step**, and are checked against the
+  Limits of every op they touch (op-398, op-391).
+- **Redo briefs update every stale reference:** op numbers, image paths and hashes, authority lines.
+- **Wording** follows `safety-flag-avoidance.md`. **Evidence asks** name commit IDs and hash only
+  what later work depends on.
+- **Recording:** an op becomes `issued` only when the Coordinator names it as sent (op-407,
+  op-425).
+Source: Coordinator, 2026-10-02.
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The

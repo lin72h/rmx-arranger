@@ -1688,3 +1688,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-425 draft → issued.
 - evidence: `tools/rob list` counts for op-391 onward.
 - next: op-424 and op-425 REPORTs; the Coordinator's batch-3 decisions.
+
+### j-20261002-037 — Rule 16 "Brief quality" added to the rulebook
+
+- time / kind: 2026-10-02T09:21:33Z / DECISION
+- outcome: The Coordinator asked whether the briefing strategy improved and is documented. The lessons were scattered in LOCAL.md. They are now rulebook Rule 16 (arranger0 template, rendered), a check before any brief is shown: feasibility first; tools and paths checked against the real artifact; only required requirements; facts verified with a cited line; "do not proceed until" rather than "stop the op", with budgets for reruns; unseen context inline; complete continuation messages and NOTICEs; redo briefs updated throughout; wording and evidence rules; "issued" only on the Coordinator's word. LOCAL.md keeps the specific cases; workflow-report.md lists the change.
+- state delta: none.
+- evidence: none.
+- next: none.

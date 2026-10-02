@@ -142,6 +142,10 @@ is ready to send.
 
 ## Lessons for briefs
 
+The general brief checklist is rulebook Rule 16; these are the specific cases behind it and
+older lessons.
+
+
 - A read-only brief should say that read-only commands (`--version`, `git log`) are allowed.
 - Ask a reviewer for findings, not status: "where does X rely on Y in a way that fails; for each,
   the lines on both sides, the failure, and the smallest check". op-383 (audit-shaped) returned
@@ -155,14 +159,6 @@ is ready to send.
   outside it (op-389 finding 1).
 - Check a reviewer's cited commit against the file's history; validator2 cited the parent commit
   for the op-380 note.
-- When two ops are ready and the Coordinator says "sent", record only the one named; ask if unsure.
-  op-407 and op-425 were both wrongly marked sent this way.
-- Check a NOTICE against the Limits of every op it touches. My 2026-10-01 helper NOTICE told
-  gatekeeper1 to copy the helper, while op-391's Inputs said "do not edit or copy it". When a NOTICE
-  has to override a limit, it names the limit it replaces.
-- Write a gate as "do not stage until X; fixing your own harness is part of this op", not "any
-  other result stops the op". op-391 read the latter as a hard stop over a compile error in its own
-  classifier.
 - Compile every D script and harness program on the host before any guest boot (`dtrace -e -s`);
   op-405 spent a boot on a `%lld`/uint64_t compile error. A harness bug found in preflight is an
   in-op fix, not a stop.

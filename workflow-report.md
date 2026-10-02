@@ -65,5 +65,6 @@ a framework.
 
 ### Changes adopted from this review
 
-- Record an op as sent only when the Coordinator names it; ask if unsure (LOCAL.md).
+- Record an op as sent only when the Coordinator names it; ask if unsure.
+- The brief lessons are consolidated as rulebook Rule 16, "Brief quality: check before you send".
 - Proposed, pending the Coordinator: the "sent op-NNN" reply convention, and `tools/rob graph`.
