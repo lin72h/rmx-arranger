@@ -1452,3 +1452,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-057 raised (READY); op-414 created and held.
 - evidence: `makefs` usage and man page (zfs options); `zpool list`; op-364 METALOG.
 - next: op-411 and op-413 REPORTs.
+
+### j-20261002-017 — op-413 verified and closed; op-414 released; op-415 (KASAN/KMSAN survey) held behind op-411
+
+- time / kind: 2026-10-02T03:40:18Z / ACTION
+- outcome: op-413 returned DONE. Checked first-hand:
+  - `59afc2fc` changes the helper's kernel-profile check to `kernel="<config>"`, with its generator and self-test.
+  - The KASAN image's loader.conf reads `kernel="RMXOS-KASAN"`.
+  - Both image hashes match (b1f44761…, a3eff4dc…).
+  - The Arranger pushed `59afc2fc` (private repo); it is on origin.
+
+  op-413 is closed (S). op-414 (ZFS image) is released, since the Implementer is idle. op-415 (KASAN and KMSAN survey, 8 GiB for KMSAN, kernel-identity check before the slice) is held behind op-411.
+- state delta: op-413 issued → returned → closed; op-414 hold → draft; op-415 created and held.
+- evidence: `git show 59afc2fc`; the op413-KASAN BOM's loader.conf; `sha256` of both images.
+- next: Send op-414.
