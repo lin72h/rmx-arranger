@@ -142,6 +142,13 @@ Arranger first-hand at `2884304b`: N1 and N5 hold as written.
 - advisor1's proposal: fix N3, N4 and the `clock_sleep` divisor now; N1 together with the libmach
   clock change; N2 as a design fix; F2 teardown before N5.
 
+## Batch 1 proven (2026-10-02)
+
+op-418 (rmx-gatekeeper1 `9157b8c`): all 27 cases match on both images. Base: 14 PANIC, 12 FAIL
+with their own reasons, and 1 control PASS; fixed: 27/27 PASS. Branch `mach-fixes-1` at `903c8fc2`
+(13 fixes, the fix-6 follow-up, the fixture rebuild, MODULE_VERSION, fd_exhaustion IPC_SPACE, and
+bounded clock tests). op-395 closes once the branch is on origin.
+
 ## Findings ledger (every finding from op-389, op-392 and op-393)
 
 This is the complete list; each consult document holds the detail. Rows with source "Arranger" come from the Arranger's own reading. "First-hand" means the

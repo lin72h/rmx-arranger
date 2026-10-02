@@ -1,12 +1,12 @@
 ---
 id: op-418
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 5 on copies of op416-base-tests.raw and op416-fixed-tests.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-02T04:21Z
+updated: 2026-10-02T06:43Z
 ---
 # op-418 — Gatekeeper 1: final Mach batch-1 test proof on op-416's images (base null_fd, base FAIL/PASS set, whole fixed suite)
 

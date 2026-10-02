@@ -1530,3 +1530,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-416 issued → returned → closed; op-417 hold → draft; op-418 created as draft.
 - evidence: `git show` of the three commits; `build/op416/evidence/xnu-copyout.txt`; `sha256` of both images.
 - next: Send op-418 and op-417.
+
+### j-20261002-023 — Mach batch 1 PROVEN (op-418, 27/27); op-417 ZFS image built; op-419 drafted
+
+- time / kind: 2026-10-02T06:43:01Z / ACTION
+- outcome:
+  - **op-418** returned DONE. Checked first-hand: `9157b8c` is on origin; the three serial hashes match. The findings table has 27 rows: 14 PANIC/PANIC base with PASS/PASS fixed, 12 FAIL/FAIL base with PASS/PASS fixed, and 1 control PASS everywhere. No fixture-load reason appears. Batch 1 is proven at runtime.
+  - **op-417** returned DONE. Checked: the image hash is 1f4cf949…; the pool `rmxroot` has the datasets `ROOT` and `ROOT/default`; loader.conf has `kernel="RMXOS-RELEASE"`, `zfs_load` and the ZFS mountfrom. Open point: the BOM lists all 32,844 staging files as 501:20 with no setuid on su. The image's ownership should come from the mtree manifest passed to makefs, but an offline zdb read was inconclusive. op-419 checks ownership in the guest.
+  - Both are closed. op-395 waits only on `mach-fixes-1` being on origin (the Coordinator's yes).
+- state delta: op-417 and op-418 issued → returned → closed; op-419 created as draft.
+- evidence: `build/op418/findings.md`; op-417's `commands.jsonl` (makefs with the METALOG.op417 source) and its pool logs.
+- next: Send op-419; the Coordinator's push decision; then batch 2 (step 2) and the C1 note.
