@@ -2061,3 +2061,21 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: id-046 ledger; `rmx-implementer/docs/op395-mach-fixes.md` fix table.
 - next: unchanged.
+
+### j-20261003-025 — op-439 accepts launchd PID 1 by default on ZFS (16/16); op-439 closed; id-060 opened; op-436 awaits push
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-439 DONE and accepted. `5998d41` is on origin, and all 7 serial hashes match. 16/16 checks pass:
+  - PID 1 is `/sbin/launchd`; rc once, with one cron, syslogd and devd and no errors;
+  - root read-write before services, with early writes to `/` and `/var/run`;
+  - login, logout and getty respawn;
+  - notifyd running; native syslogd only, and a `logger` message lands;
+  - `shutdown -p`, SIGUSR1 halt, SIGUSR2 power-off, SIGINT reboot, SIGTERM single-user, `reboot -r` back to launchd PID 1;
+  - an overdue calendar job does not halt PID 1.
+  B02 was a HARNESS-FAIL: a halted VM stayed allocated past the cap until a targeted destroy. The collector was fixed, and the check repeated in B07.
+  Opened id-060 (low): an overdue calendar job ran only once a GetJobs request woke launchd (the sanity check sits in the event path, `core.c:3541`); reroot printed four duplicate routes.
+  Timing: about 61 minutes (14:42-15:43). The boots totalled about 10 minutes, about 6 of them B02's cap. The rest was overlay composition, verification and harness preparation.
+  op-436 can close once `pid1-boot-1` (`969f2151`) and the rmx-implementer commits are on origin; that needs the Coordinator's yes.
+- state delta: op-439 issued → returned → closed.
+- evidence: `build/op439/findings.md`; the serial hashes.
+- next: Send op-441 (gatekeeper1 is free); ask about pushing `pid1-boot-1`.
