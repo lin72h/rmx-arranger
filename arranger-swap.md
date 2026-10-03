@@ -1923,3 +1923,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-436 draft → issued; op-433 and op-434 issued → returned; op-437 created and held.
 - evidence: `task.c:1127-1150` and `kern_fork.c:1095-1110` at `db592723`; `findings.md`; the serial lines quoted.
 - next: After op-436 returns, send op-437; then re-run the review (validator3) and the proof (gatekeeper1). op-433 and op-434 close with op-430.
+
+### j-20261003-013 — op-435 returns the step-4 plan; Arranger decides its four contracts; op-435 closed
+
+- time / kind: 2026-10-03 / DECISION (delegated)
+- outcome: advisor2's plan (`42dc8247`) has six test-first commits, C1 without the EOF helper, and no new FreeBSD change. Checked first-hand at `db592723`: launchd's two setter calls (`core.c:8610,8617`), the caller substitution (`ipc_tt.c:901-902`), the N6 window (`ipc_object.c:666-695`) and the N7 drop (`ipc_notify.c:434-438`).
+  Decisions, recorded in mach-names-step5-deferred.md § Step 4 decisions:
+  - D2 is two setters only, with the note's error codes;
+  - launchd's exception configuration is stored but not delivered;
+  - legacy buffered updates are ignored, with no FreeBSD hook;
+  - the consumer ownership contract and one-space kqueue rule, with no FreeBSD guard;
+  - N6 is added to step 4; N7 stays a known limitation.
+  The design note is an S/M return, verified by the Arranger.
+- state delta: op-435 issued → returned → closed.
+- evidence: the cited lines; the note's §5.
+- next: Brief step 4 to the Implementer after batch 3 is accepted (op-437, then the re-review and re-proof).

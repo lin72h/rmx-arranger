@@ -1,12 +1,12 @@
 ---
 id: op-435
-state: draft
+state: closed
 agent: advisor2
 repo: rmx-advisor2
 idq: id-046
 gate: self
 authority: none: read-only design note; commit in rmx-advisor2
-updated: 2026-10-02T13:14Z
+updated: 2026-10-03T00:02Z
 ---
 # op-435 — Advisor 2: step-4 plan for 1.0 — revise op-421's receive design without the EOF helper, plus the D2 subset, against mach-fixes-3
 

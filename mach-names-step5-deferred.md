@@ -76,6 +76,35 @@ In every case the struct keeps its size, and only Mach uses these hooks, so othe
 processes are unchanged. Any further change to FreeBSD's own code needs a Coordinator decision first
 (as with the deferred kqueue EOF helper).
 
+## Step 4 decisions (Arranger under delegation, 2026-10-03)
+
+Plan: advisor2's op-435 note (`rmx-advisor2@42dc8247`, `op-435-mach-step4-c1-d2-plan.md`). It
+supersedes op-421's EOF parts. Its six commits (pins, LARGE/trailer boundary, queued replies and
+waits, consumer adaptation, pure C1 with public KNOTE, D2) are the step-4 order. Decided under
+the Coordinator's rule (match macOS where it is cheap; keep 1.0 stable):
+
+1. **D2 for 1.0 is two setters only:** `task_set_special_port` (seatbelt, access and debug-control
+   selectors) and `task_set_exception_ports` on a foreign task, which is what launchd's child setup
+   calls (`sbin/launchd/core.c:8610,8617`). Caller substitution (`ipc_tt.c:901-902`) is replaced by
+   truthful typed conversion. Every other foreign task, space or VM call stays disabled, with the
+   note's error contract (`MIG_BAD_ID`, `KERN_NOT_SUPPORTED`, `KERN_INVALID_TASK`,
+   `KERN_INVALID_ARGUMENT`).
+2. **Exception ports:** accept and store launchd's configuration (CRASH|GUARD|RESOURCE,
+   STATE_IDENTITY|MACH_EXCEPTION_CODES); reject unknown bits. Delivery of Darwin exceptions is not
+   in 1.0.
+3. **Updates to existing kevent registrations** that carry receive buffers are ignored and return
+   readiness only; a new buffered registration fails with `ENOTSUP`. No FreeBSD hook for uniform
+   `ENOTSUP`.
+4. **Consumer ownership contract:** an owner keeps a receive name and its membership until
+   cancellation completes, including events already copied (libdispatch's manager batch fence,
+   launchd's drain before set replacement, libxpc's cancellation count); watched names are
+   released with `mach_port_deallocate`, never closed. A kqueue is used within one Mach space and
+   rebuilt after table changes or exec; no FreeBSD guard for this.
+5. **N6** (concurrent first copyouts can split one send right into two names) is fixable on A1
+   and is added to step 4 as its own test-first commit. **N7** (a dead-name notification dropped
+   when allocation fails) stays a known limitation; with no EOF it is a quiet consumer's only miss,
+   so it is tracked for after 1.0 or for an allocation-pressure test.
+
 ## Known differences from macOS in 1.0
 
 Each is a deliberate choice to keep 1.0 stable; each can be closed later.
@@ -86,6 +115,9 @@ Each is a deliberate choice to keep 1.0 stable; each can be closed later.
 | Name revocation and kqueue | XNU delivers events through its own filter callbacks | registrations are silently removed, as for any fd | id-056 |
 | Direct-receive kevents | supported (libdispatch uses them) | readiness only; receive in `mach_msg` | id-056 |
 | Exec | XNU resets exception ports and task identity tokens by its own rules | ordinary exec keeps the task and its bootstrap and registered ports; setuid exec gives fresh control ports; exception-port and identity-token details not matched | batch 3 |
+| Cross-task task calls | broadly supported | only `task_set_special_port` (3 selectors) and `task_set_exception_ports` on another task | step 4 (op-435) |
+| Mach exception delivery | delivered | launchd's exception-port configuration is stored; Darwin exceptions are not delivered | step 4 (op-435) |
+| Dead-name notification under memory pressure | not dropped | may be dropped (N7) | id-046 |
 | `POSIX_SPAWN_CLOEXEC_DEFAULT` | supported | absent from libc; possible because FreeBSD 15 has `O_CLOFORK` | swift-real-libdispatch.md |
 
 ## Keeping step 5 possible later
