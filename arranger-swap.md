@@ -2404,3 +2404,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the child's parent-log.md.
 - next: The Coordinator relays to the zenoh-swift Arranger: read parent-log entries p-20261004-003 to -005. rmxOS: op-447 when convenient.
+
+### j-20261004-013 — W-005: li-000 is the default L1i entry (op → id-000 → li-000)
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: As with id-000, a project starts with every op in id-000, and id-000 in li-000, the project's goal. Milestones are added only when the work calls for them. In `~/wip-workflow`, W-005 (tag at `e709a07`):
+  - method § Ops, the IDQ and the L1i, with the three-tier CPU table (L1 instruction cache → instruction decode queue → micro-ops);
+  - the scaffold's id-000 names li-000, and the scaffold's now.md § Goal (li-000);
+  - base op-brief-forms.
+  The W-005 commit had emptied the scaffold's `workflow.lock`: my edit opened the file for writing before reading it. Restored in `e709a07`, where the tag was moved before any use. `tools/roles` now fails clearly on a lock with no layer lines (`02f7a3a`; roles 18/18). rmxOS took W-005: lock bumped; terminology.md §6 names `li-000` as the root of the L1i (roadmap.md, with the li-M000 milestone indexes under it); now.md § Workflow.
+- state delta: none.
+- evidence: the scaffold renders at W-005 with no unresolved markers; `tools/roles check`.
+- next: unchanged (op-447 when convenient; zenoh-swift learns W-004 and W-005 through the Coordinator).

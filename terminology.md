@@ -139,7 +139,10 @@ and closure. Old workflow terms: §9.
 
 **L1i numbering:** `li-MNNN`, where M is the milestone (1 = 1.0-preview, index
 [l1i/li-1000.md](l1i/li-1000.md); 2 = service-usable 1.0; 9 = infrastructure) and `li-M000` is the
-milestone index. Filenames are number-only. The older flat `li-001…li-008` map into this scheme
+milestone index. **`li-000`** is the root of the tier, the project's goal as a whole: in rmxOS that is
+[roadmap.md](roadmap.md), with the milestone indexes under it. As in every project of the shared
+workflow, the default chain is op → `id-000` → `li-000` (`~/wip-workflow/docs/method.md` § Ops, the
+IDQ and the L1i, W-005). Filenames are number-only. The older flat `li-001…li-008` map into this scheme
 via li-1000. A milestone closes when its truly-green criterion holds on first-hand evidence.
 
 ## 7. Other standing terms (pointers, defined elsewhere)
