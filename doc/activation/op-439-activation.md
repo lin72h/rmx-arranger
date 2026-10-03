@@ -1,12 +1,12 @@
 ---
 id: op-439
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: self
 authority: guest boots: up to 7 on copies of op436-boot-zfs.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T01:33Z
+updated: 2026-10-03T01:41Z
 ---
 # op-439 — Gatekeeper 1: accept op-436 — launchd PID 1 by default on the ZFS-root image (op-438's checks plus op-436's list)
 

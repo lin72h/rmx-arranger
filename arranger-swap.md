@@ -2017,3 +2017,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-439 brief edited (still draft).
 - evidence: `ls -ltr rmx-implementer/build/op436`.
 - next: Send op-437 and op-439.
+
+### j-20261003-021 — op-437 and op-439 sent
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-437 (Implementer, batch-3 remediation) and op-439 (gatekeeper1, ZFS acceptance of op-436) were sent.
+- state delta: op-437 hold → draft → issued; op-439 draft → issued.
+- evidence: none.
+- next: Wait for both REPORTs. After op-437: re-review (validator3) and re-proof (gatekeeper1).
