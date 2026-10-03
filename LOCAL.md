@@ -228,3 +228,8 @@ older lessons.
 - **Child projects: stay at the front panel (2026-10-04).** In a child project, check only its
   Arranger repo: `git -C <child-arranger>`, `tools/roles render <child>-arranger`. Never use
   `tools/roles check` or `list` there (they read every instance), and never use `git -C` on its agent repos.
+
+- **A child's decisions are its own (2026-10-04).** The Combinator covers decisions as well as access:
+  a child project's ops, charter and proposals are settled by its Arranger with the Coordinator.
+  Give a view only when asked. Messages to a child go through the Coordinator's manual relay;
+  `parent-log.md` records only the parent's changes.

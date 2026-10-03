@@ -2392,3 +2392,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `tools/rob check`, `tools/roles check`; the W-004 test runs.
 - next: Message zenoh-swift's Arranger (parent-log p-20261004-004). Withdraw the TF-002 relay line given earlier: the finding goes out as an op once that Arranger converts it.
+
+### j-20261004-012 — Coordinator decisions: zenoh-swift's own decisions are its scope; relay stays manual; op-447 no hurry
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome:
+  1. The diagnostic swift-nio op and zenoh-swift's charter questions are that project's scope, not this Arranger's (the Combinator rule applied to decisions as well as access).
+  2. Messages as files (the proposed W-005) is not adopted now: the Coordinator relays everything manually on the terminal.
+  3. The op-447 restart has no hurry.
+  Correction in the child: p-20261004-003 had widened `parent-log.md` to carry the parent's messages and announced the file-based relay. Its header is restored to changes only, and p-20261004-005 records the correction and the scope point (`agent-arranger@2a8f8e7`). Lesson in LOCAL.md.
+- state delta: none.
+- evidence: the child's parent-log.md.
+- next: The Coordinator relays to the zenoh-swift Arranger: read parent-log entries p-20261004-003 to -005. rmxOS: op-447 when convenient.
