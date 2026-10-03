@@ -206,3 +206,7 @@ older lessons.
 - **One image, ZFS root (2026-10-03).** New rmxOS images are ZFS-root only, unless a use case needs
   UFS. Briefs ask builders to reuse an existing world build when its inputs are unchanged; the
   slow part is world builds, not composing images.
+
+- **Self-check first (2026-10-03).** Implementer ops that stage test images end with the
+  Implementer's own guest run; no Gatekeeper proof brief until that is green. Three test-only
+  rounds on one case (op-437 to op-443) were the reason.

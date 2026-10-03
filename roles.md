@@ -13,7 +13,7 @@ agents read only their own repo.
 |---|---|---|---|
 | **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
 | **Arranger** (holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
-| **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits | grade its own work |
+| **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits; self-checks its own test images in contained guests (not evidence) | grade its own work; dispose evidence |
 | **Explorer**: explorer1 (rx-x64z), explorer2 (mx-a64z) | `rmx-explorer1` here; `rmx-explorer2` on mm4 | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
 | **Gatekeeper**: gatekeeper1 (rx-x64z), gatekeeper2 (mx-a64z) | `rmx-gatekeeper1` here; `rmx-gatekeeper2` on mm4 | establishes runtime fact in contained guests; owns evidence dispositions (accepted / not-accepted / consumed); guards closed work against macOS-truth and regression | accept on harness or stub facts |
 | **Validators**: validator1 (GLM), validator2 (DS4P), validator3 | `rmx-validator1`, `rmx-validator2`, `rmx-validator3` | independent correctness review of returned ops, with a 1–10 confidence. GLM finds what is *missing* (enumeration, completeness); DS4P finds what is *breakable* (falsification) | write, run guests, or dispose evidence |
@@ -37,6 +37,15 @@ Explorer and Gatekeeper instances are named on the "ruler" grammar in terminolog
 5. The Gatekeeper guards closed work against macOS-truth and regression.
 
 Ops for different agents run in parallel and may close in any order.
+
+**Streamlining (Coordinator, 2026-10-03).** These rules cut round trips:
+- The Implementer runs its own test images in contained guests before returning (its OPS.md §
+  Self-check). The Gatekeeper's proof is briefed only after a green self-check, and it stays the
+  acceptance.
+- A REPORT that comes back proves its op was sent: the Arranger records it as issued and returned
+  without asking.
+- After two failed rounds on the same item, the Arranger simplifies the check or the approach
+  instead of briefing a third patch.
 
 ## Edges
 

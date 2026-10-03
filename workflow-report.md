@@ -4,6 +4,32 @@ Periodic reviews of how the workflow performs: what works, what costs time, and 
 result. Newest first. Decisions and op history stay in the journal (`arranger-swap.md`); milestones
 in `worklog.md`.
 
+## 2026-10-03 — Churn on Mach batch 3; streamlining adopted
+
+The Coordinator called the churn painful and asked for everything that streamlines the workflow.
+
+**What happened.** One test case, `thread_control_death`, took four proof rounds:
+- op-434: it failed during setup (a fixture fault);
+- op-441: it reached its check, but waited 1 s against a 5-10 s reaper;
+- op-443: it panicked in a fixture symbol lookup.
+None of these was a product defect. Each needed a full Implementer → Gatekeeper → Arranger →
+Implementer round, because only the Gatekeeper could boot a guest. The product fixes themselves
+passed review at 9/10 (op-433, op-440).
+
+**Adopted (2026-10-03):**
+- **Implementer self-check** (kernel-testing.md § 4.2): the Implementer boots its own staged test
+  images in contained guests and runs the cases it touched, plus the full suite, before returning.
+  This is in its OPS.md (`rmx-implementer@538e488`) and roles.md § Streamlining.
+- The Gatekeeper proof is briefed only after a green self-check.
+- Test design prefers user-visible behaviour over kernel fixtures.
+- Two failed rounds on one item → simplify, not a third patch.
+- A returned REPORT counts as proof of sending (no more "which op was sent?" questions).
+- Earlier the same day: one ZFS image instead of two; no world builds for kernel batches; agents clean up
+  their own large files.
+
+**Next:** payload disks (kernel-testing.md § 4.1) and build reuse (§ 4.4). Measure brief-to-proof
+hours per batch, and Gatekeeper FAILs caused by test or harness faults.
+
 ## 2026-10-02 — Review after the Mach batch-1 and batch-2 rounds
 
 Asked by the Coordinator. Scope: op-391 to op-425 (35 ops in about two days: 31 closed,

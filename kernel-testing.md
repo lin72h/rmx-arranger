@@ -1,6 +1,6 @@
 # Kernel testing: making the loop faster
 
-Status: proposal, 2026-10-03. Asked by the Coordinator ("is bhyve the right way for this rapid
+Status: proposal, 2026-10-03; **§ 4.2 adopted the same day** (Coordinator: "do everything you can to streamline"), as the Implementer's OPS.md § Self-check. § 4.1 (payload disks) and § 4.4 (build reuse) are next. Asked by the Coordinator ("is bhyve the right way for this rapid
 kernel work? it seems very slow"). Nothing here is in force until the Coordinator decides; the
 role change in § 4.2 needs that decision explicitly. Related: [instrumentation-strategy.md](instrumentation-strategy.md)
 (what we run), [test-pillar-partition.md](test-pillar-partition.md) (which tests),

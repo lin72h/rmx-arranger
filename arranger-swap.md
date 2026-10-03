@@ -2126,3 +2126,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-442 draft → issued → returned (forced); op-443 created as a draft.
 - evidence: `git diff --stat cf398822 mach-fixes-3`; `sha256` of both images.
 - next: Send op-443.
+
+### j-20261003-031 — op-443 PARTIAL (fixture panic); streamlining adopted: Implementer self-check guests; op-444 drafted
+
+- time / kind: 2026-10-03 / DECISION (Coordinator)
+- outcome: op-443 (`b255431`, on origin): `thread_control_death` panicked on both images in the fixture's `linker_file_lookup_symbol` call (`885be9ea`'s `&__this_linker_file`). The other 40 fixed cases pass; the repeats are untested. Recorded as issued and returned from its REPORT.
+  The Coordinator: the churn is painful; streamline everything. Adopted:
+  - Implementer self-check guests: OPS.md § Self-check (`rmx-implementer@538e488`, template and render); roles.md row and § Streamlining; kernel-testing.md § 4.2 marked adopted.
+  - Rulebook Rule 16 gains "Streamlining": proof only after a green self-check; user-visible tests over kernel fixtures; two failed rounds → simplify; a returned REPORT = sent.
+  - workflow-report.md gains the 2026-10-03 entry.
+  op-444: replace the fixture lookup with a user-visible Mach call on the dead thread port (or only the bounded inactive check), and self-check base 10/10, fixed 41/41 plus 20 repeats before returning.
+- state delta: op-443 draft → issued → returned; op-444 created as a draft.
+- evidence: `build/op443/panic-backtraces.md`; `git show 885be9ea`; `kern_linker.c:911-923`.
+- next: Send op-444. After its green self-check: one Gatekeeper proof, then close batch 3.

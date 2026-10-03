@@ -189,6 +189,14 @@ from briefs, not product (workflow-report.md, 2026-10-02). Before showing a brie
   op-425).
 Source: Coordinator, 2026-10-02.
 
+- **Streamlining (2026-10-03).**
+  - Every Implementer op that stages test images ends with its own guest self-check. Draft the
+    Gatekeeper proof only after the REPORT shows a green self-check.
+  - Prefer tests of user-visible behaviour over kernel fixtures; a fixture that needs run-time
+    symbol lookup or private ABI is a last resort (op-441 to op-443).
+  - Two failed rounds on one item: stop and simplify, do not brief a third patch.
+  - A returned REPORT means the op was sent; record it without asking.
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The
