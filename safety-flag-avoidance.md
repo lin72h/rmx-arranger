@@ -1,6 +1,6 @@
 # Safety-flag avoidance: keep engineering briefs from tripping safety filters
 
-Status: Arranger guide (living), 2026-10-01. Applies to every brief, NOTICE and continuation
+Status: Arranger guide (living), 2026-10-01. Applies to every brief, cast and continuation
 message, and matters most for seats on models with strict filters (gatekeeper1, advisor2).
 It complements [op-brief-forms.md](op-brief-forms.md); advisor0's AGENTS.md § Framing is the
 Advisor-side version.

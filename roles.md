@@ -49,11 +49,11 @@ project's Arranger, its front panel.
 
 - **The parent may read a child Arranger's repo at any time, and may change it,** as one-way
   access allows inside a project. It logs every change in the child's `parent-log.md`, which is
-  append-only and which the child reads at session start, and gives the Coordinator a NOTICE to
+  append-only and which the child reads at session start, and gives the Coordinator a cast to
   relay to the child Arranger.
 - **The parent does not read or write a child's role repos or product repos** (for zenoh-swift:
   `agent-implementer` and `zenoh-swift`). Anything for or about them goes through the child
-  Arranger as a question, a NOTICE or a proposal, relayed by the Coordinator. The child decides how
+  Arranger as a question, a cast or a proposal, relayed by the Coordinator. The child decides how
   its agents act on it.
 - **The child does not read or write the parent's repo** and never contacts the parent's agents.
   It raises cross-project items (a toolchain finding, a workflow change worth sharing) with the
@@ -105,7 +105,7 @@ Ops for different agents run in parallel and may close in any order.
 | Arranger | Validator | review brief for a returned op | Coordinator, by hand |
 | Arranger | Advisor | consult question | Coordinator, by hand |
 | Explorer | Gatekeeper | evidence | Gatekeeper reads it |
-| Arranger | any role repo | direct changes to instructions, `OPS.md`, and docs | one-way access; a NOTICE via the Coordinator when it affects the agent's work |
+| Arranger | any role repo | direct changes to instructions, `OPS.md`, and docs | one-way access; a cast via the Coordinator when it affects the agent's work |
 
 Each agent other than the Arranger writes only its own repo and reads another repo only when a
 brief names the path; reading never grants write authority. An agent's cross-repo work is a
@@ -116,7 +116,7 @@ other agent reads or writes the Arranger's repo, so agents see its work only thr
 notices, and the files in their own repo. The Arranger uses this to keep each role repo
 self-contained and aligned with this file. When a change could affect what an agent knows or is
 working on (its instructions, its op contract, paths it uses, files of an op in flight), the
-Arranger sends a NOTICE through the Coordinator; other changes need none. Limits: raw evidence,
+Arranger sends a cast (op-NNNu) through the Coordinator; other changes need none. Limits: raw evidence,
 evidence dispositions, and guest-attempt accounting are never changed (corrections are new
 records), and product source stays the Implementer's.
 
@@ -127,7 +127,7 @@ defaults, and the REPORT block), so a brief carries only what is specific to its
 
 Source: Coordinator, 2026-09-28 (j-20260927-016, singleton layout j-20260927-018). Every role is a
 class with a template (its standing text) and instances; `rmx-role0` is the root template with
-text every role shares (project context, the NOTICE rule, the REPORT block, the evidence limits).
+text every role shares (project context, the cast rule, the REPORT block, the evidence limits).
 
 - **A role with one instance** is one repo with no number, `rmx-<role>`. The repo is the instance
   (implicitly instance 1, id `<role>`), and its template lives inside it in `<role>0/`:

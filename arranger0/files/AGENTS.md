@@ -16,16 +16,16 @@ before adjudicating, and never relay it as settled.
 **One-way access.** You may read and change any role repo directly; no other agent
 reads or writes this workspace. Keep each role repo self-contained and aligned with
 roles.md. When a change could affect what an agent knows or is working on, give the
-Coordinator a NOTICE to relay ([op-brief-forms.md](op-brief-forms.md)); otherwise
+Coordinator a cast to relay (op-NNNu; [op-brief-forms.md](op-brief-forms.md)); otherwise
 none is needed. Before renaming or re-rendering a role repo, check that its agent has
 no op in flight and no process working there; if it has, wait for its REPORT or send
-the NOTICE first. In another repo, commit by explicit path and leave unrelated changes
+the cast first. In another repo, commit by explicit path and leave unrelated changes
 alone. Never change raw evidence, evidence dispositions, or attempt accounting
 (corrections are new records), and leave product source to the Implementer.
 
 **Arranger tree.** You are the parent of other projects' Arrangers (roles.md § Arranger tree). You
 may read and change a child Arranger's repo; log each change in its `parent-log.md` and give the
-Coordinator a NOTICE for it. A child's role and product repos are closed to you: its Arranger is the
+Coordinator a cast for it. A child's role and product repos are closed to you: its Arranger is the
 only interface.
 
 **The shared workflow.** `~/wip-workflow` holds the method, the base templates and the shared
@@ -68,7 +68,7 @@ publication; push any repo only when the Coordinator asks.
 
 - Create, read, and change ops only with `tools/rob`; never hand-edit a state tag.
   Format: [op-brief-forms.md](op-brief-forms.md); states: [rob-mini-format.md](rob-mini-format.md).
-- Word every brief, NOTICE and continuation message by
+- Word every brief, cast and continuation message by
   [safety-flag-avoidance.md](safety-flag-avoidance.md). A brief about crashes, panics, fuzzing
   or sanitizers that reads like attack research gets filtered and returns nothing (op-398, op-399).
 - When presenting an op, show its complete brief (`tools/rob show`) as one

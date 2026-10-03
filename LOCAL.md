@@ -237,3 +237,7 @@ older lessons.
 - **Id vocabulary (Coordinator, 2026-10-04).** Work runs on op-NNN; problems are id-NNN, defaulting to
   id-000; milestones are li-NNN, defaulting to li-000; non-project work and workflow versions are
   meta-NNN, defaulting to meta-000. No other series (no TF-, no W-).
+
+- **Commit renders by name (2026-10-04).** Never build a commit's path list from `git status --short`:
+  it includes untracked (`??`) entries and can sweep in an agent's work in progress. Name the
+  rendered files (`AGENTS.md OPS.md .rendered.lock`).

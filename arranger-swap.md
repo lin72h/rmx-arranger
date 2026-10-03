@@ -2462,3 +2462,20 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-451 idq set to meta-007 (still closed).
 - evidence: `git tag` (meta-001..meta-007 only); `tools/roles check` (rmxOS); `tools/roles render agent-arranger` (child: up to date).
 - next: The Coordinator relays the NOTICE to the zenoh-swift Arranger (meta labels).
+
+### j-20261004-018 — Casts (meta-008): an op without a reply replaces the NOTICE (op-NNNu unicast, op-NNNb broadcast); op-452b and op-453u drafted
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator formalized the NOTICE as an op without a reply. In Erlang terms it is a cast; in networking terms, unicast to one agent (`op-NNNu`) or broadcast to all direct subagents (`op-NNNb`). Multicast and anycast may follow; `m` is unavailable as their suffix (rmxOS's historical mm4 series). Casts share the op sequence and retire when sent (draft → closed).
+  - `~/wip-workflow` meta-008 (tagged at `c3f22be`): the method (calls and casts), forms § Cast, base op-brief-forms § Casts, base self-contained text, base AGENTS and rulebook wording, improving, AGENTS, scaffold roles.md and lock. `rob new ... cast=u|b`; casts refuse issued/returned with a hint; `agent=all repo=all` passes check; calls and casts share next-id. Tests: rob 25/25, roles 18/18; scaffold demo `op-001u` sent and retired.
+  - rmxOS took meta-008:
+    - lock pinned;
+    - rmx-role0 self-contained (`9110bcb`) and the OPS.md of validator0, explorer0, gatekeeper0 and advisor0 now name casts;
+    - arranger0 AGENTS and rulebook: Rule 21, calls and casts;
+    - op-brief-forms § Casts, roles.md and safety-flag-avoidance.md updated;
+    - all 10 instances re-rendered and committed in each repo: implementer `aa960e2`, gatekeeper1 `f9250b3`, explorer1, validator1-3, advisor1-3.
+  - Casts drafted: op-452b (broadcast to every rmxOS agent: NOTICEs are now casts) and op-453u (unicast to zenoh-swift's Arranger: the meta-NNN rename and meta-005 to meta-008). op-453u replaces the NOTICE given earlier. Both briefs are under 80 characters a line.
+  Correction: the first gatekeeper1 commit failed. Its path list came from `git status --short`, which includes untracked files. Recommitted with explicit paths; the other commits were checked to hold only rendered files. Lesson in LOCAL.md.
+- state delta: op-452b and op-453u created as drafts.
+- evidence: `tools/roles check` (10 instances, 0 need attention); `git show --stat` of each render commit.
+- next: The Coordinator relays op-452b (to agents with open sessions; the others read their re-rendered AGENTS.md at their next session) and op-453u; each retires when sent.

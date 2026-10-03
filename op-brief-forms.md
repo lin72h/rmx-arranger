@@ -60,16 +60,21 @@ Validators add four lines after `outcome`: `question:` (the distinguishing quest
 (primary | indirect | none, and what was read first-hand), `score: <n>/10 — because …`, and
 `verdict: CLOSE | DO-NOT-CLOSE | REMEDIATE`. Their `OPS.md` holds the exact block.
 
-## NOTICE (Arranger → agent, relayed by the Coordinator)
+## Casts: ops without a reply (op-NNNu, op-NNNb) — replaces the NOTICE (meta-008)
 
-Send one when an Arranger change in an agent's repo could affect what the agent knows or is
-working on; skip it otherwise. A change to a role's `OPS.md` alone needs none, because every brief
-ends with "Re-read OPS.md first: defaults and the REPORT block." A notice is not an op: no REPORT
-and no state. If the agent has an op in flight, relay the notice before that op's REPORT is due.
+An op is a **call** (a brief answered by a REPORT) or a **cast** (a message that expects no reply,
+after Erlang's `gen_server:cast`). Casts take the next op number with a suffix: **op-NNNu** unicast
+to one agent (`tools/rob new "<title>" agent=<id> repo=<repo> cast=u`); **op-NNNb** broadcast to all
+direct subagents (`agent=all repo=all cast=b`). Send one when an Arranger change could affect what an
+agent knows or is working on (a change to `OPS.md` alone needs none). A cast retires when sent:
+`tools/rob set op-NNNu closed`. Body:
 
 ```text
-NOTICE from the Arranger — <YYYY-MM-DD>
-changed:  <repo-relative paths>
-meaning:  <what is different for you, one to three lines>
+## Message
+
+changed:  <repo-relative paths, with commits>
+meaning:  <what is different for the reader, one to three lines>
 action:   none | re-read <files> before your next step | <specific instruction>
+
+This is a cast: no REPORT is expected.
 ```

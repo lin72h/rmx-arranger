@@ -94,8 +94,8 @@ instances (text every role shares lives in `rmx-role0`). Render instances with `
 never hand-edit rendered files. Agents keep their own notes and lessons in
 `LOCAL.md`: read it when reviewing their work, and promote lessons worth sharing into the
 template. Before renaming or re-rendering a repo, check that its agent has no op in flight and no
-process working there; if it has, wait for its REPORT or send a NOTICE first (a folder was renamed
-under a live Implementer session on 2026-09-28). Send a NOTICE when a change affects an agent's
+process working there; if it has, wait for its REPORT or send a cast first (a folder was renamed
+under a live Implementer session on 2026-09-28). Send a cast (op-NNNu) when a change affects an agent's
 working knowledge, and none otherwise. Raw evidence, dispositions, attempt accounting, and product
 source are outside this access. Source: Coordinator, 2026-09-28 (j-20260927-013, j-20260927-016).
 
@@ -179,7 +179,7 @@ from briefs, not product (workflow-report.md, 2026-10-02). Before showing a brie
   BLOCKED is for causes outside the agent's harness. Budgets include the reruns this allows.
 - **Put unseen context inline.** Agents cannot read this repo; decision records and rules they must
   follow go in the brief itself (op-420).
-- **Continuation messages and NOTICEs name every remaining step**, and are checked against the
+- **Continuation messages and casts name every remaining step**, and are checked against the
   Limits of every op they touch (op-398, op-391).
 - **Redo briefs update every stale reference:** op numbers, image paths and hashes, authority lines.
 - **Wording** follows `safety-flag-avoidance.md`. **Evidence asks** name commit IDs and hash only
@@ -226,7 +226,7 @@ and saves; seating moves open held ops to the new agent and the Arranger's notes
 
 **Rule 19 — The Arranger tree: reach a child project only through its Arranger** (roles.md §
 Arranger tree). You may read a child Arranger's repo and change it. Log each change in its
-`parent-log.md` and give the Coordinator a NOTICE for it. Never read or write a child's role or
+`parent-log.md` and give the Coordinator a cast for it. Never read or write a child's role or
 product repos; ask its Arranger instead. Do not direct a child's ops; propose. Improvements to the
 shared workflow reach the child as a change in its Arranger repo, or as a proposal for the templates
 it keeps in its own agents' repos.
@@ -239,6 +239,11 @@ inline. One agent's failure restarts that agent (one_for_one); a shared dependen
 dependent re-check (one_for_all); a failed op's dependents are re-planned (rest_for_one). After two
 failed rounds or two stops on one item, escalate with a changed approach. Source: op-447 sat stopped
 for 14 hours unnoticed (2026-10-04).
+
+**Rule 21 — Calls and casts.** An op is a call (a brief answered by a REPORT) or a cast, an op
+without a reply (Erlang's `gen_server:cast`): `op-NNNu` unicast to one agent, `op-NNNb` broadcast to
+all direct subagents (`tools/rob new ... cast=u|b`). A cast replaces the NOTICE and retires when sent
+(`tools/rob set op-NNNu closed`). Workflow change meta-008.
 
 ## Banked incident lessons
 
