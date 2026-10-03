@@ -2107,3 +2107,13 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-440 issued → returned.
 - evidence: the cited lines.
 - next: op-441. If it matches, close op-430, op-433, op-434, op-437, op-440 and op-441, and ask to push `mach-fixes-3`.
+
+### j-20261003-029 — op-441 40/41: thread control port goes inactive only at zombie reap; decision: lazy disable kept; op-442 drafted
+
+- time / kind: 2026-10-03 / DECISION (delegated)
+- outcome: op-441 FAILED, 40/41 (`eae58f4`, on origin); base 10/10 as expected; `failed_creation` shows constructed 0 on base and 1 on fixed. `thread_control_death` reached its check for the first time and observed the port active. From source at `cf398822`, the test waits only 1 s (`mach_lifetime.zig:89-94`). Mach disables the port in the thread destructor, which runs when FreeBSD frees the zombie thread from a 5-second callout, and only after 5 s of age (`kern_thread.c:596,742,857`).
+  Decision: keep the lazy disable for 1.0, with nothing added to the spin-locked exit gate. The case changes to check that the port is unusable right after join (a product defect if not) and inactive within a reaper bound. The difference is recorded in mach-names-step5-deferred.md § Known differences.
+  op-442 goes to the Implementer, and its proof follows. This is the second round trip a quick Implementer guest run would have saved (kernel-testing.md § 4.2).
+- state delta: op-441 issued → returned; op-442 created as a draft.
+- evidence: the cited lines; `build/op441/findings.md` lines 43 and 68-69.
+- next: Send op-442.

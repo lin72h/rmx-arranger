@@ -1,12 +1,12 @@
 ---
 id: op-441
-state: issued
+state: returned
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 4 on copies of op437-base-tests.raw and op437-fixed-tests.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T02:58Z
+updated: 2026-10-03T03:09Z
 ---
 # op-441 — Gatekeeper 1: Mach batch-3 before/after proof, redo on op-437's images (41 cases)
 

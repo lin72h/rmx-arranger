@@ -115,6 +115,7 @@ Each is a deliberate choice to keep 1.0 stable; each can be closed later.
 | Name revocation and kqueue | XNU delivers events through its own filter callbacks | registrations are silently removed, as for any fd | id-056 |
 | Direct-receive kevents | supported (libdispatch uses them) | readiness only; receive in `mach_msg` | id-056 |
 | Exec | XNU resets exception ports and task identity tokens by its own rules | ordinary exec keeps the task and its bootstrap and registered ports; setuid exec gives fresh control ports; exception-port and identity-token details not matched | batch 3 |
+| Thread control port after thread exit | dies at thread termination | unusable at once (binding marked dying), but reported active until FreeBSD frees the zombie thread, about 5-10 s later | batch 3 (op-442) |
 | Cross-task task calls | broadly supported | only `task_set_special_port` (3 selectors) and `task_set_exception_ports` on another task | step 4 (op-435) |
 | Mach exception delivery | delivered | launchd's exception-port configuration is stored; Darwin exceptions are not delivered | step 4 (op-435) |
 | Dead-name notification under memory pressure | not dropped | may be dropped (N7) | id-046 |
