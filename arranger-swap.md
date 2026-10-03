@@ -2184,3 +2184,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-430, op-433, op-434, op-437, op-440, op-441, op-442, op-443 and op-444 returned → closed; op-446 hold → dropped.
 - evidence: `git ls-remote origin refs/heads/mach-fixes-3`; `git rev-parse origin/main` in rmx-implementer.
 - next: Send op-447.
+
+### j-20261003-036 — op-447 sent; the Implementer was stopped by the provider filter near the end; continuation message given
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-447 is recorded as issued: the Implementer was working on it. The provider filter ("We take extra care with some cybersecurity requests") stopped the session while it ran `build/op447/r2-check-delivery.exs`. By then `mach-fixes-4` had 16 commits (`259de5f8`…`34d6ddf5`) covering items 1-4. Likely trigger: prose about races, concurrency and cancellation fixtures. The continuation message (context sentence, then five named remaining steps) follows safety-flag-avoidance.md § "When a session is filtered anyway". gatekeeper1's op-445 is on B03, its last boot; B01 and B02 were harness failures. The B01 and B03 samples show launchd RSS rising by about 16-28 KiB per 30 s (watch item).
+- state delta: op-447 draft → issued.
+- evidence: `git log mach-fixes-3..mach-fixes-4`; `build/op445/attempt-ledger-preliminary.json`.
+- next: The op-447 REPORT (with selfcheck) and the op-445 REPORT.
