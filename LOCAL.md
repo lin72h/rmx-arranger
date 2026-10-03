@@ -241,3 +241,10 @@ older lessons.
 - **Commit renders by name (2026-10-04).** Never build a commit's path list from `git status --short`:
   it includes untracked (`??`) entries and can sweep in an agent's work in progress. Name the
   rendered files (`AGENTS.md OPS.md .rendered.lock`).
+
+- **Check for a live agent, not only file times (2026-10-04).** The Coordinator may resume a stopped
+  agent without telling this seat. Before rendering an agent's repo or reporting it stopped, list
+  agent processes (`ps -axo pid,etime,command | grep -E 'codex|claude'`) and read each one's cwd
+  (`procstat -f <pid>`). File times alone missed op-447's resume (j-20261004-022).
+- **Run `tools/roles` from the real path (2026-10-04).** From the alias `rmx-arranger1` it finds 0
+  instances and reports no problems; `cd -P` first, until the tool resolves the path itself.

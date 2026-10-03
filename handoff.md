@@ -12,16 +12,12 @@ Delete or rewrite this file once its open items are done.
 - [hold]: op-152, op-209, op-251, op-280, op-305, op-308, op-384, op-385, op-386, op-449
 ```
 
-- **op-447** (Implementer, Mach step 4 part 1, `expected: 2h`): the Implementer's session stopped on
-  2026-10-03 at about 20:28 and has not been restarted (the Coordinator said "no hurry"). State:
-  - `wip-rmxos` branch `mach-fixes-4`: 16+ commits through `b1ef1670`, on `mach-fixes-3@844112f4`;
-    rmx-implementer at `bef5ebd`; record `docs/op447-mach-step4-part1.md`; work in `build/op447/`;
-  - round-5 images staged: `/Users/me/wip-mach/stage/images/op447-base-tests-r5.raw` and
-    `op447-fixed-tests-r5.raw`;
-  - base self-check r5 passed (11/11 new cases fail as recorded,
-    `build/op447/selfcheck-r5/selfcheck-base-7.json`); the fixed-image r5 run never happened
-    (`build/op447/logs/selfcheck-fixed-r5.log` is empty); 7 of 8 self-check boots used.
-  The restart prompt is below; give it in a **fresh** Implementer session.
+- **op-447** (Implementer, Mach step 4 part 1, `expected: 2h`): **corrected at the next session
+  start (j-20261004-022):** the Implementer had been resumed at about 12:21 on 2026-10-04, before
+  this handoff was written. It ran the fixed-image self-check (boot 8, `fixed-all: 52/52 as
+  expected`), freed four object trees, and committed its record (`rmx-implementer@6fdf7c5`). The
+  session is idle at its prompt and its REPORT is awaited. `mach-fixes-4` is unchanged at
+  `b1ef1670` (19 commits on `mach-fixes-3@844112f4`), and the round-5 image pair is staged.
 - **op-452b** (broadcast cast: "NOTICEs are now casts"): delivered by asking the rmxOS agents to
   reload their instructions. Retire it (`tools/rob set op-452b closed`) once the Coordinator says
   the reloads are done.
@@ -30,37 +26,10 @@ Delete or rewrite this file once its open items are done.
   queue and log via syslog(3) when no drainer; 15-minute before and after RSS self-check. Send it
   after op-447 returns (the Implementer is one agent). Expected time 1.5-2 h.
 
-### op-447 restart prompt (positive wording; carries the work inline)
+### op-447 restart prompt
 
-```
-Context: ordinary debugging and testing of our own open-source OS (rmxOS: FreeBSD 15 with Apple's
-open-source Mach, launchd and libdispatch). Everything runs on the host or in a disposable bhyve VM
-with no network.
-
-You are resuming op-447 in a new session (Mach step 4 part 1: kernel bug fixes with regression
-tests, on branch `mach-fixes-4` of `wip-rmxos`). Re-read AGENTS.md and OPS.md. Your earlier session's
-work stands:
-- commits on `mach-fixes-4` through `b1ef1670`, and in this repo through `bef5ebd`;
-- your op record `docs/op447-mach-step4-part1.md`, and scripts and logs in `build/op447/`;
-- staged images `/Users/me/wip-mach/stage/images/op447-base-tests-r5.raw` and
-  `/Users/me/wip-mach/stage/images/op447-fixed-tests-r5.raw`;
-- the base self-check of round 5 passed: 11/11 new cases fail as recorded
-  (`build/op447/selfcheck-r5/selfcheck-base-7.json`).
-
-Remaining work, all of it:
-1. Run the fixed-image self-check on `op447-fixed-tests-r5.raw` with your `tools/selfcheck` runner:
-   every case, the 41 earlier ones and the new ones, all expected to pass. Its log
-   `build/op447/logs/selfcheck-fixed-r5.log` is empty, so that run did not happen. You have used 7
-   self-check boots; this op allows up to 3 more.
-2. If a case fails for a test or setup reason, fix it, re-stage only what changed and run it again.
-   If it fails because of the kernel change, record the cause at file:line and report it.
-3. Finish `docs/op447-mach-step4-part1.md`: each item (pins and revalidation, the LARGE and trailer
-   boundary, queued replies and receive waits, N6) with its commits, tests and expected results,
-   plus the self-check counts.
-4. Clean up superseded images and scratch disks from earlier rounds, keeping the round-5 pair, and
-   say what you freed.
-5. Return the REPORT with the `selfcheck:` line, both image hashes and BOMs (by path), and the commits.
-```
+No longer needed: the Implementer was resumed (j-20261004-022). The prompt is in Git at
+`da1ec59`.
 
 ## The main task: Mach foundation, then PID-1 launchd
 

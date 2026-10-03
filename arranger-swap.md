@@ -2516,3 +2516,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `handoff.md`.
 - next: In the new session, read handoff.md, then restart op-447 when the Coordinator wants.
+
+### j-20261004-022 — Session start: op-447 was resumed and its remaining steps are done (REPORT not yet relayed); two corrections; `roles check` reads 0 through the alias path
+
+- time / kind: 2026-10-04 / ACTION + CORRECTION
+- outcome: Start-of-session checks after the handoff (2026-10-03 23:5x UTC, 12:5x NZDT).
+  - op-447: the Implementer was resumed at about 12:21 (`codex resume`; its process runs in `rmx-implementer`, idle at its prompt since about 12:25). Since then: the fixed-image self-check, boot 8 (`build/op447/logs/selfcheck-fixed-r5-resumed.log`: `fixed-all: 52/52 as expected`; `selfcheck-r5/selfcheck-fixed-all-8.json`); four object trees freed, 1,419,340 KiB (`logs/cleanup-objects.log`); its record committed (`rmx-implementer@6fdf7c5`, 200 lines). Only the round-5 image pair is staged. `mach-fixes-4` is unchanged at `b1ef1670` (19 commits on `mach-fixes-3`). Seen at a glance only: the full check waits for the REPORT (handoff § The main task).
+  - Correction to the handoff and j-20261004-018: the handoff (12:47) said the Implementer had not been restarted, but it had been, at about 12:21. j-018 also re-rendered `rmx-implementer` (`aa960e2`, 12:32) while that session was live there with op-447 in flight; AGENTS.md says to check for that first. Effect: only rendered files changed, in their own commit after the agent's last one; the agent's tree is clean; the live session keeps its earlier instructions until it reloads (op-452b).
+  - `tools/roles check` printed "0 instances, 0 need attention". This shell started in the alias `rmx-arranger1`; the wrapper takes the logical `pwd`, and the tool derives the instance prefix from the folder name. From the real path: 10 instances, 0 need attention. A false green in a shared tool; a fix is proposed to the Coordinator as meta-011.
+  - `tools/rob check`: one known problem, op-384 needs the dropped op-387 (left until the libdispatch deep dive is re-drafted).
+  - IDQ index rows id-016, id-042 and id-046 brought up to the op states in `rob list`: op-202 and op-203 dropped; op-436, op-439 and op-445 closed; op-449 held; op-398 closed; op-427 dropped; op-447 issued.
+  - Workflow: the pin meta-010 is the newest tag. Git: clean and in sync with origin before this entry.
+- state delta: none.
+- evidence: `ps` and `procstat -f 99954` (cwd `rmx-implementer`, state `I+`); the files above; `tools/roles check` from both paths.
+- next: The Coordinator relays op-447's REPORT; verify it, then the Gatekeeper proof and the Validator review. op-452b retires when the reloads are done; op-449 follows op-447.
