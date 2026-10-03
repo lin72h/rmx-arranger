@@ -2155,3 +2155,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-445 draft → issued.
 - evidence: none.
 - next: Wait for both REPORTs.
+
+### j-20261003-034 — op-444 returns with the first green self-check; final proof op-446 held behind op-445; step 4 part 1 (op-447) drafted
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-444 DONE. Checked first-hand:
+  - `mach-fixes-3` is now at `844112f4`, one test-only commit (4 files, -33 lines; the fixture symbol lookup removed);
+  - both image hashes match (`1b6238b7…`, `160c3843…`);
+  - `tools/selfcheck` is contained (bhyve `-c 2 -m 4G`, one virtio-blk, serial stdio, no network or shares);
+  - selfcheck: base 10/10, fixed 41/41, 20/20 repeats at 4.9-10.0 s, matching the 5 s zombie reaper.
+  The immediate thread-call check was dropped (no supported call tells live from exited threads), as the brief allowed.
+  gatekeeper1 is on op-445, so the final proof op-446 is held. To keep the Implementer busy, step 4 part 1 (op-447: op-435 § 4 items 1-3 plus N6, kernel only, branch `mach-fixes-4` from `844112f4`) is drafted now. Batch 3's product is unchanged since its proof candidate, so the risk is low.
+- state delta: op-444 issued → returned; op-446 created and held; op-447 created as a draft.
+- evidence: `git diff --stat 885be9ea mach-fixes-3`; `tools/selfcheck/run.exs` bhyve line; the selfcheck table.
+- next: Send op-447; send op-446 when op-445 returns.

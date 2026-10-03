@@ -1,12 +1,12 @@
 ---
 id: op-444
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: build: the Mach tests from mach-fixes-3 (kernel and mach.ko only if a product change is needed); stage base and fixed test images with rmx-stage-image; self-check guests per OPS.md; no push
-updated: 2026-10-03T04:52Z
+updated: 2026-10-03T05:28Z
 ---
 # op-444 — Implementer: batch 3 — make thread_control_death a simple user-visible check, and self-check it in your own guests
 
