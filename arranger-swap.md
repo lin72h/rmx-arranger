@@ -1969,3 +1969,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: as above.
 - evidence: none.
 - next: unchanged.
+
+### j-20261003-017 — Staging cleanup: 40 old images deleted, hashes kept
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The Coordinator asked for old staged images to be cleaned up. 40 images of closed or superseded ops were deleted from `stage/images`, plus two unreferenced op-430 intermediates (`op430-fixed-tests`, `op430-final-fixed-tests`). Before deletion, no process had them open and no bhyve was running. Each file's sha256 and mtime are recorded in `doc/stage/deleted-images-20261003.tsv`; the BOMs and stage records in `stage/artifacts` and every op's evidence are untouched.
+  Kept:
+  - `op388-alpha2-pid1-premise` (the PID-1 baseline);
+  - `op417-alpha2-zfs-gpt` (op-436's base);
+  - `op430-base-tests` and `op430-deliverable-fixed-tests` (op-434 is still open);
+  - `op413-RMXOS-KASAN` and `op413-RMXOS-KMSAN` (the instrumented reference);
+  - all `op436-*` (in flight).
+  `zroot/wip-mach-stage` went from 54G used, 9.9G free, to 12.6G used, 51.4G free.
+- state delta: none.
+- evidence: `doc/stage/deleted-images-20261003.tsv`; `zfs list zroot/wip-mach-stage`.
+- next: unchanged.

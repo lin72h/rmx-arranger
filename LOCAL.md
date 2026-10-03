@@ -198,3 +198,7 @@ older lessons.
   controls first" let a speed rewrite happen after the cell. Briefs say: the classifier is frozen
   and its controls pass before the cell boots; any later rewrite is a declared deviation with an
   equivalence proof.
+
+- **Staging space (2026-10-03).** Images take about 1 GB each on disk (8 GB sparse). Clean up when an op
+  closes its line of work. Keep images that open ops or the next step reference. Record sha256s in
+  `doc/stage/` before deleting, and never delete while a VM runs.
