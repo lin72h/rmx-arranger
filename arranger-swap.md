@@ -2147,3 +2147,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-444 draft → issued; op-203 hold → dropped (superseded by op-445); op-445 created as a draft.
 - evidence: the op-436 BOM lists `dtraceall.ko`.
 - next: Send op-445.
+
+### j-20261003-033 — op-445 sent
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-445 (gatekeeper1, PID-1 soak) was sent. In flight: op-444 (Implementer) and op-445 (gatekeeper1).
+- state delta: op-445 draft → issued.
+- evidence: none.
+- next: Wait for both REPORTs.
