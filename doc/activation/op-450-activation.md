@@ -9,7 +9,7 @@ authority: your own repo and agents, as your rules allow; no push
 expected: 90m
 updated: 2026-10-03T23:14Z
 ---
-# op-450 — zenoh-swift Arranger: take the workflow changes, or delay them; report
+# op-450 — zenoh-swift Arranger: take workflow changes or delay them; report
 
 ## Outcome
 
