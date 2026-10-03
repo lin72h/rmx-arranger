@@ -3,13 +3,13 @@ id: op-450
 state: draft
 agent: zenoh-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
-idq: id-000
+idq: meta-000
 gate: self
 authority: your own repo and agents, as your rules allow; no push
 expected: 90m
-updated: 2026-10-03T23:08Z
+updated: 2026-10-03T23:14Z
 ---
-# op-450 — zenoh-swift Arranger: take W-001 to W-005, or delay them; report
+# op-450 — zenoh-swift Arranger: take the workflow changes, or delay them; report
 
 ## Outcome
 
@@ -22,7 +22,7 @@ are yours: each Arranger gates workflow changes into its own scope.
 
 Read first:
 - your parent-log.md, entries p-20261004-003 to -005;
-- ~/wip-workflow/CHANGELOG.md, W-001 to W-005.
+- ~/wip-workflow/CHANGELOG.md: W-001 to W-006, then op-451.
 
 Then, for each item, take it now or delay it with a reason:
 1. Tools (W-001): replace tools/rob and tools/roles with the wrappers
@@ -30,7 +30,7 @@ Then, for each item, take it now or delay it with a reason:
    that rob board, rob check, rob list and roles check print the same
    through the old and the new tools.
 2. Lock (W-003): add workflow.lock with the line
-   layer: workflow ~/wip-workflow W-005
+   layer: workflow ~/wip-workflow op-451
    and ignore .workflow/ (the scaffold has both files).
 3. Templates (W-001): role0 to parent base-role0; arranger0 to
    base-arranger0; implementer0 to base-implementer0, with your
@@ -41,6 +41,8 @@ Then, for each item, take it now or delay it with a reason:
    id-002 into id-000.
 5. Rules (W-002, W-005): supervision and li-000. They come with the
    templates; until then, follow them as written in the method.
+6. meta-000 (op-451): work that is not the project's own, such as
+   this op and your onboarding op-002, takes idq meta-000.
 
 Record each decision in your journal and in now.md § Workflow.
 

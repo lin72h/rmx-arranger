@@ -2424,3 +2424,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-450 created as a draft.
 - evidence: `tools/rob show op-450` (0 lines over 80); `tools/rob check` (op-450 clean).
 - next: The Coordinator relays op-450 to the zenoh-swift Arranger.
+
+### j-20261004-015 — op-451: meta-000 for non-project work; workflow changes become ops (versions tagged by op id)
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator proposed meta-000 as the home of workflow changes and all other non-project logistics. Done as op-451 (`idq: meta-000`, `agent: arranger`, `repo: /Users/me/wip-workflow`), the first workflow change made as an op:
+  - `wip-workflow@cb09443`, tagged `op-451`, which is now the version name; W-001 to W-006 stay as earlier tags;
+  - meta-000 sits beside id-000 and outside the L1i; `rob check` accepts it with no files; `rob board` marks meta ops `(meta)`; rob 24/24, roles 18/18;
+  - method, improving, AGENTS, README, base op-brief-forms, the scaffold lock (pinned at op-451; renders clean) and a CHANGELOG entry headed op-451.
+  op-450 (draft) moves to `idq: meta-000`, now covers op-451 (item 6; lock line `op-451`), and still has no line over 80 characters. rmxOS took op-451: lock bumped; now.md § Workflow. op-451 closed (Arranger's own op, verified by the tests and the scaffold render).
+- state delta: op-451 created → issued → returned → closed; op-450 idq set to meta-000 (still draft).
+- evidence: `rob board` shows `op-450 (meta)` and `op-451 (meta)`; test results; scaffold render.
+- next: The Coordinator relays op-450.
