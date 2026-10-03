@@ -2293,3 +2293,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the repro transcript (scratch package, deleted).
 - next: The Coordinator relays TF-001 and the zenoh message.
+
+### j-20261004-004 — zenoh-swift onboarding finished (Coordinator); side task closed
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator declared the zenoh-swift project and its first two agents onboarded. Its Arranger completed op-002 (setup verified, three setup fixes, toolchain-findings rule and register), and op-001 (groundwork) is sent to its Implementer. workflow-report.md gains the 2026-10-04 entry; LOCAL.md gains the seeding lessons. From here the zenoh-swift Arranger runs that project; this Arranger returns to rmxOS.
+- state delta: none (rmxOS).
+- evidence: `agent-arranger@e958ac0`, `agent-implementer@fa40b5f`.
+- next: rmxOS: the op-447 REPORT (Mach step 4 part 1, with selfcheck); op-449 after it.

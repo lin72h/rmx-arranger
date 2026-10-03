@@ -4,6 +4,26 @@ Periodic reviews of how the workflow performs: what works, what costs time, and 
 result. Newest first. Decisions and op history stay in the journal (`arranger-swap.md`); milestones
 in `worklog.md`.
 
+## 2026-10-04 — A second project set up from this workflow (zenoh-swift)
+
+The Coordinator started zenoh-swift (`/Users/me/wip-rbzq`), a Swift port of Rust Zenoh. It is the
+first worked example of **dynamic roles** (roles.md § Dynamic roles, Rule 18): the Arranger seat
+first, then an Implementer seated at once for performance and to exercise the expansion, with the
+other roles held by its Arranger.
+
+- **What carried over:**
+  - `tools/rob` and `tools/roles`, generalized (folder prefix from the Arranger repo's name; root template inside the Arranger repo);
+  - the template system;
+  - a distilled rulebook with this project's recent lessons built in: self-check, cheapest step first with expected times, simplify after two failed rounds, read the source before a long run, positive-only wording.
+- **What worked:** the new Arranger's onboarding (op-002) treated the setup as a claim and verified
+  it. It caught three setup mistakes: `--scratch-path` does not keep a package clean;
+  `CARGO_TARGET_DIR` must be absolute; the default Swift build system drops warnings on this host.
+  Verification, not trust, between Arrangers too.
+- **New rule from the Coordinator:** Swift toolchain gaps are reported as relay-ready findings to
+  the toolchain's own agent, never worked around locally without approval. TF-001 (no libclang in
+  `swift6-rx`) is the first, reproduced before relaying.
+- Onboarding of both agents finished on 2026-10-04 (Coordinator); its op-001 (groundwork) runs.
+
 ## 2026-10-03 — Churn on Mach batch 3; streamlining adopted
 
 The Coordinator called the churn painful and asked for everything that streamlines the workflow.

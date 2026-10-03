@@ -214,3 +214,8 @@ older lessons.
 - **Read the source before a long run (2026-10-03).** op-445's RSS growth was explained in minutes
   from `log.c`, while the hour-long isolation run (op-448) was dropped unsent. Look for the cause
   in the source first; commission a run only for what the source cannot settle.
+
+- **Seeding a new project (2026-10-04, zenoh-swift).**
+  - Check tool behaviour on the host before writing it into another project's rules (`--scratch-path`, relative `CARGO_TARGET_DIR`).
+  - Once its Arranger is seated, send it messages through the Coordinator instead of editing its repo.
+  - Toolchain gaps go to the Coordinator for the toolchain's own agent, reproduced first.
