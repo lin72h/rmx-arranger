@@ -2095,3 +2095,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-440 draft → issued; op-436 returned → closed.
 - evidence: `git ls-remote origin refs/heads/pid1-boot-1`; `git rev-parse origin/main`.
 - next: op-440 and op-441 REPORTs; then close batch 3 and push `mach-fixes-3`. PID-1 next: re-draft op-203 (soak) on `pid1-boot-1`, including id-060.
+
+### j-20261003-028 — op-440 returns: validator3 CLOSE 9/10 on batch-3 remediation
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: Checked first-hand:
+  - `076e1193` resolves; the review hash is `fdb61c18…`;
+  - at `cf398822`, `ipc_thread_terminate` takes `ith_kmsg`, clears the slot and destroys the reply (`ipc_tt.c:355-370`);
+  - `mach_task_exit` retires the first thread only if one exists (`task.c:1147-1149`).
+  validator3 finds that no fixture correction weakens its check. Its one condition: on the fixed image, `failed_creation` must also print `observed_constructed=1`. op-441's brief already requires that.
+- state delta: op-440 issued → returned.
+- evidence: the cited lines.
+- next: op-441. If it matches, close op-430, op-433, op-434, op-437, op-440 and op-441, and ask to push `mach-fixes-3`.

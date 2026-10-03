@@ -1,12 +1,12 @@
 ---
 id: op-440
-state: issued
+state: returned
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 gate: self
 authority: none beyond the defaults: read-only; no guests
-updated: 2026-10-03T02:59Z
+updated: 2026-10-03T03:06Z
 ---
 # op-440 — Validator 3: re-review Mach batch 3 after op-437 — two teardown fixes and the corrected lifetime fixtures
 
