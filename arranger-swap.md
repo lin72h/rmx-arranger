@@ -2490,3 +2490,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the grep table of the agents' files; `tools/roles check`.
 - next: The Coordinator asks the agents to reload (op-452b retires when done) and relays op-453u.
+
+### j-20261004-020 — op-453u sent and retired; the workflow records the session's remaining decisions (meta-010)
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: op-453u (to the zenoh-swift Arranger: reread parent-log p-005 and -006 and CHANGELOG meta-005 to meta-009) was sent and is retired (draft → closed). op-452b stays a draft until the rmxOS agents have reloaded. The Coordinator asked whether the workflow repo is up to date. Three of this session's decisions were missing there, and are now meta-010 (`wip-workflow@4f44594`):
+  - a child project's decisions are its own, and the parent gives a view only when asked (method § The Arranger tree);
+  - the preferred cast is a reread instruction, and parent-log records only changes (forms);
+  - renders are committed by naming the rendered files (base Rule 13).
+  The scaffold renders clean. rmxOS took meta-010: lock, now.md; the same lessons were already in LOCAL.md.
+- state delta: op-453u draft → closed.
+- evidence: `tools/rob board`; the scaffold render.
+- next: the op-452b reloads; op-447 when convenient.

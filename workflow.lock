@@ -1,4 +1,4 @@
 # The template layers this project renders from, most general first, each pinned at a Git
 # revision (a workflow change tag, `meta-NNN`). Only the Arranger changes this file: bump a
 # revision to take a change, then re-render (~/wip-workflow docs/method.md § Layers and scopes).
-layer: workflow ~/wip-workflow meta-009
+layer: workflow ~/wip-workflow meta-010
