@@ -2350,3 +2350,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-447 issued (expected added); op-449 hold (expected added).
 - evidence: `tools/rob board`.
 - next: The Coordinator restarts op-447 (its prompt is in the conversation); NOTICE for zenoh-swift about W-002.
+
+### j-20261004-009 — Layers and scopes (W-003): only Arrangers read the workflow; each Arranger gates propagation into its scope
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: Subagents never access the workflow layer; only each project's Arranger does. The Arranger propagates workflow changes into its project's rules and may deliberately delay one. The layers mirror the Arranger tree, so future mid-level Arrangers can keep scope layers.
+  In `~/wip-workflow` (W-003):
+  - `tools/roles` reads `workflow.lock` (`layer: <name> <path> <rev>`, most general first) and exports each layer at its revision into `<repo>/.workflow/`, so a project renders the version its Arranger chose. Tests: roles 17/17, with a pinned layer holding while the workflow moves, and a scope layer between the base and a project.
+  - Base `self-contained` text (agents: your rendered files are your instructions; you never read the workflow); base AGENTS workflow paragraph and Rule 18 (the gate; deliberate delay recorded).
+  - method § Layers and scopes; improving and onboarding updated; the scaffold has `workflow.lock`, `.gitignore` and now.md § Workflow; tags W-001, W-002, W-003.
+  - The scaffold renders pinned with no unresolved markers, and agent files carry no workflow path.
+  rmxOS took W-003: `workflow.lock` pinned at W-003; `.workflow/` ignored; `roles list` identical with the lock (rmxOS templates do not derive from a base yet); AGENTS.md (arranger0 template, rendered) states the gate; now.md § Workflow.
+- state delta: none.
+- evidence: `tools/roles list` before and after (identical); `tools/roles check`.
+- next: NOTICE for zenoh-swift (W-001..W-003); the op-447 restart.

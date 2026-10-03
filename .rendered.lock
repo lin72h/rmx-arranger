@@ -5,13 +5,13 @@
       "template": "rmx-role0"
     },
     {
-      "digest": "d8026b4224814812170c6a1d7aad13bbf9e2d9afd234234167aecd72588a33a0",
+      "digest": "fa73e7831d69aa9297ab5ac823e371c8f3610c43ee42e3fa58daf815135e7093",
       "template": "rmx-arranger/arranger0"
     }
   ],
   "class": "arranger0",
   "files": {
-    "AGENTS.md": "6505b53a8ac4731e59fbd5791ab668735faf248d0313de9a12f5c05d892b39e0",
+    "AGENTS.md": "b746ff0b15c40f8a807d2473d49bb4c1e1a81b4657ef55170650d1fe61dabeea",
     "arranger-rulebook.md": "5c015ad3d782b9d00ffc459328284d3b135e643990dd0ecb1d403524c89e847d"
   }
 }

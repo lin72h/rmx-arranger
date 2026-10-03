@@ -59,6 +59,11 @@ The pre-fix baseline of launchd's reaper (read its results with N1 in mind) cont
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
    will be re-drafted against the fixed candidate. op-384, op-385 and op-386 are on hold.
 
+## Workflow
+
+Taken: W-003 (`workflow.lock`; the shared tools since W-001). rmxOS's templates do not derive from the
+base templates yet: moving them is a separate, planned step (agents in flight). Delayed: none.
+
 ## Critical path
 
 Decisions in force: j-20260922-001 (cold build of the exact candidate, manual review, accepted

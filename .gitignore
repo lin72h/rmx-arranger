@@ -1,1 +1,3 @@
 .DS_Store
+# Pinned template layers, exported by tools/roles from workflow.lock
+.workflow/

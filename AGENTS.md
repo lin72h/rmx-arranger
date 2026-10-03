@@ -40,7 +40,11 @@ only interface.
 **The shared workflow.** `~/wip-workflow` holds the method, the base templates and the shared
 `tools/rob` and `tools/roles` (this repo's `tools/` are wrappers around them). As root of the
 Arranger tree you maintain it: follow its `AGENTS.md` and `docs/improving.md`, and announce each
-change to project Arrangers through the Coordinator.
+change to project Arrangers through the Coordinator. As rmxOS's Arranger you are also this project's
+gate for those changes, like any project's: [workflow.lock](workflow.lock) pins the layers rmxOS
+renders from; take a change by bumping it and re-rendering, or delay it deliberately with the reason
+in the journal and `now.md`. rmxOS's agents never read the workflow; they see it only as rendered
+into their repos.
 
 **Templates.** Every role has a template and instances, rooted at `rmx-role0`. A role
 with one instance is one repo, `rmx-<role>`, holding its template in `<role>0/` (this
