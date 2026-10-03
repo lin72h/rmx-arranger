@@ -2216,3 +2216,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (op-447 stays issued).
 - evidence: none.
 - next: The op-447 REPORT (selfcheck) and the op-445 REPORT.
+
+### j-20261003-040 — Rule: every op shown carries an expected time; soaks no longer than needed
+
+- time / kind: 2026-10-03 / DECISION (Coordinator)
+- outcome: The Coordinator said op-445's 1.5+ hours without a forecast was painful. op-445 timeline: setup about 30 min; B01 and B02 harness faults about 20 min; B03 soak plus shutdown about 70 min; write-up about 20 min (findings.md updated 20:06). Rulebook Rule 16 Streamlining adds an Expected time on every op shown, flags for long runs, soaks only as long as the question needs, and rough guides. op-447 estimate: 1-2 h remaining.
+- state delta: none.
+- evidence: `build/op445` file times; `OP445_MARK|141-142` shutdown markers.
+- next: The op-445 REPORT (expected within about 20 min) and the op-447 REPORT.

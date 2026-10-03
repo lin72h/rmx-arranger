@@ -195,6 +195,11 @@ Source: Coordinator, 2026-10-02.
     symbol lookup or private ABI is a last resort (op-441 to op-443).
   - Two failed rounds on one item: stop and simplify, do not brief a third patch.
   - A returned REPORT means the op was sent; record it without asking.
+  - Every op shown to the Coordinator carries an **Expected time** (setup + run + write-up), and
+    long runs are flagged before sending. Soaks are as short as the question allows; hour-plus
+    soaks are for li-004. Rough guides (2026-10-03): Implementer fix with self-check 1-3 h;
+    Gatekeeper proof of an existing suite 30-60 min; code review 30-60 min; Advisor note 1-2 h;
+    soak about 30 min of setup plus its length.
   - A test-only change on product a Gatekeeper has already proven needs only a green self-check;
     the next batch's proof re-runs the case. Do not brief a separate re-proof (op-446).
 
