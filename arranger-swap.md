@@ -2416,3 +2416,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the scaffold renders at W-005 with no unresolved markers; `tools/roles check`.
 - next: unchanged (op-447 when convenient; zenoh-swift learns W-004 and W-005 through the Coordinator).
+
+### j-20261004-014 — op-450 drafted: the zenoh-swift Arranger takes W-001 to W-005, or delays them, and reports (workflow W-006 tool support)
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator asked whether to send the zenoh-swift Arranger an op rather than a NOTICE. Yes, for three reasons: everything that moves is an op (W-004); adoption is work with a decision in it, the child's under W-003; and the REPORT tells the parent what was taken, for projects.md. op-450 sits in this queue, as the parent's, with `agent: zenoh-arranger` and `repo: /Users/me/wip-rbzq/agent-arranger`, `expected: 90m`. It asks the child to take or delay, item by item: the tools, the lock, the templates, ops for findings with the IDQ folded into id-000, and the rules. Its REPORT block is inline. Every line of the brief is under 80 characters for the terminal relay. Tool support in W-006 (`wip-workflow@6ddc140`): `rob check` accepts an absolute repo path; `rob show` puts the header fields on separate lines past 80 characters. Tests: rob 23/23.
+- state delta: op-450 created as a draft.
+- evidence: `tools/rob show op-450` (0 lines over 80); `tools/rob check` (op-450 clean).
+- next: The Coordinator relays op-450 to the zenoh-swift Arranger.
