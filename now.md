@@ -95,6 +95,10 @@ Swift on rmxOS's real libdispatch, one copy per process: [swift-real-libdispatch
 
 ## In parallel
 
+Kernel testing speed: proposal in [kernel-testing.md](kernel-testing.md) (payload disks, an Implementer
+inner loop, no world builds for kernel batches). It awaits the Coordinator.
+
+
 Advisor review round (Coordinator, 2026-09-28): the goal is a correct architecture, with defects
 as its evidence. One seat, in sequence (Advisors are expensive).
 advisor2: op-383 (Mach consult; closed) → op-389 (Mach deep dive; closed, 14 confirmed defects →

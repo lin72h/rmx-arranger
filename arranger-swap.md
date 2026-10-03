@@ -2025,3 +2025,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-437 hold → draft → issued; op-439 draft → issued.
 - evidence: none.
 - next: Wait for both REPORTs. After op-437: re-review (validator3) and re-proof (gatekeeper1).
+
+### j-20261003-022 — kernel-testing.md: proposal to speed up the kernel test loop
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The Coordinator asked whether bhyve testing is the right way, since it seems slow. Answer: bhyve is right; the pipeline around it is slow. kernel-testing.md proposes:
+  - a fixed base image plus a small payload disk;
+  - an Implementer inner loop through the same contained runner (a role-boundary change that needs the Coordinator);
+  - the Gatekeeper's proof once per batch;
+  - no world builds for kernel batches;
+  - a rollout: decision, runner op, pilot on Mach step 4, measures.
+  It is linked from now.md.
+- state delta: none.
+- evidence: op-436 build timeline; op-434 boot durations.
+- next: The Coordinator decides on § 4.2.
