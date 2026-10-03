@@ -95,8 +95,8 @@ on the host. With payloads, add a host-side dry run of the payload manifest and 
 
 ## 5. Later options (not proposed now)
 
-- **In-kernel unit tests.** FreeBSD's `ktest` framework (`sys/tests/ktest`) runs kernel test
-  functions inside a running kernel. That suits Mach internals such as entry, right and queue
+- **In-kernel unit tests.** FreeBSD's `ktest` framework (`sys/tests/ktest.c`, modules under
+  `sys/modules/ktest/`, present at alpha2) runs kernel test functions inside a running kernel. That suits Mach internals such as entry, right and queue
   invariants; it still needs a guest, but needs no user-space fixtures.
 - **A long-lived test guest** that loads new `mach.ko` builds without rebooting. This is limited:
   batch 3 makes `mach.ko` refuse to unload (EBUSY), and hook changes need a new kernel anyway.
