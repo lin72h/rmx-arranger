@@ -2301,3 +2301,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: `agent-arranger@e958ac0`, `agent-implementer@fa40b5f`.
 - next: rmxOS: the op-447 REPORT (Mach step 4 part 1, with selfcheck); op-449 after it.
+
+### j-20261004-005 — op-447 found stalled since 20:28 on 2026-10-03; restart prompt prepared; correction to the previous prompt
+
+- time / kind: 2026-10-04 / ACTION + CORRECTION
+- outcome: The Implementer's op-447 session stopped at about 20:28 with no REPORT. Last state:
+  - `mach-fixes-4` at `b1ef1670`; rmx-implementer at `bef5ebd`;
+  - round-5 images staged (`op447-base-tests-r5.raw` 20:16, `op447-fixed-tests-r5.raw` 20:19);
+  - base self-check r5: 11/11 new cases fail as expected (`selfcheck-r5/selfcheck-base-7.json`);
+  - the fixed-image r5 log `logs/selfcheck-fixed-r5.log` is empty, so that run never happened;
+  - 7 of 8 self-check boots used; no bhyve running.
+  A restart prompt for a new session was given to the Coordinator, with up to 3 more self-check boots proposed. Correction: the continuation in j-20261003-037 pointed the Implementer at this repo's activation file, which agents must never read (op-brief-forms.md). The new prompt carries the remaining work inline.
+  Also seen: the Swift toolchain agent is building `swift6-rx` here (the TF-001 qualification, `make -j32`); its package install should be timed so it does not swap the toolchain under zenoh-swift's op-001.
+- state delta: none.
+- evidence: `build/op447` file times; `stage/images` listing; empty r5 fixed log.
+- next: The Coordinator restarts the Implementer with the prompt.

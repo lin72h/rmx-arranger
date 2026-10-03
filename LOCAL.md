@@ -219,3 +219,8 @@ older lessons.
   - Check tool behaviour on the host before writing it into another project's rules (`--scratch-path`, relative `CARGO_TARGET_DIR`).
   - Once its Arranger is seated, send it messages through the Coordinator instead of editing its repo.
   - Toolchain gaps go to the Coordinator for the toolchain's own agent, reproduced first.
+
+- **Restart prompts carry the work inline (2026-10-04).** Never point an agent at a file in
+  rmx-arranger, not even the brief. Name the agent's own records (`docs/opNNN-*.md`, `build/opNNN/`)
+  and list the remaining steps. Also check stalled agents on a timer: op-447 sat stopped for 14 hours
+  unnoticed.
