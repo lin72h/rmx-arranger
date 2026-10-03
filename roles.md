@@ -67,6 +67,10 @@ project's Arranger, its front panel.
 |---|---|---|
 | zenoh-swift | `/Users/me/wip-rbzq/agent-arranger` | 2026-10-04 |
 
+The workflow itself, which every project in the tree shares (the method, base templates, tools and
+onboarding kit), lives in `~/wip-workflow`, maintained by this Arranger as the tree's root
+(Coordinator, 2026-10-04). Its `projects.md` mirrors this table.
+
 ## How work flows
 
 1. A problem lives in an IDQ file (`idq/id-NNN`). The milestone's critical path is in `now.md`.

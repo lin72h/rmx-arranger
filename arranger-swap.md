@@ -2328,3 +2328,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `agent-arranger` commits `864eea6` and the p-002 correction.
 - next: The Coordinator relays the NOTICE to the zenoh-swift Arranger; then the op-447 restart.
+
+### j-20261004-007 — ~/wip-workflow created: the shared base templates, tools and method; rmxOS now runs the shared tools
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator asked for the workflow to live in `~/wip-workflow`, serving as both the shared base class and the source of truth. Built and committed (`wip-workflow@7c131a3`, change W-001):
+  - `docs/` (method, forms, onboarding, improving);
+  - base templates `base-role0`, `base-arranger0`, `base-implementer0`, generalized from zenoh-swift's;
+  - one copy of `tools/rob` and `tools/roles`, driven by `ROB_ROOT`, `ROB_FLOOR`, `ROLES_REPO` and `WORKFLOW_HOME`; base templates are searched after a project's own; tests: rob 17/17, roles 15/15;
+  - `scaffold/` for new projects (a demo rendered with no unresolved markers);
+  - README, AGENTS (maintainer), CHANGELOG, projects.md.
+  rmxOS adopted the tools first. Before the swap, ten comparisons between the old and the central tools were identical (`rob board`, `check`, `list`, `next-id`, `show op-447`, `show op-152`; `roles list`, `check`, `diff rmx-implementer`, `diff rmx-validator1`). `tools/rob` and `tools/roles` are now the scaffold's wrappers, and `tools/test` was removed (the tests live centrally). This Arranger maintains the workflow as root of the tree: AGENTS.md (arranger0 template, rendered) and roles.md say so. rmxOS's own templates move onto the bases later, in a separate step, because agents are in flight.
+- state delta: none.
+- evidence: the identical comparisons; `tools/rob board` and `tools/roles check` through the wrappers.
+- next: Give the Coordinator the W-001 proposal for the zenoh-swift Arranger; then the op-447 restart.

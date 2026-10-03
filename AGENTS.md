@@ -37,6 +37,11 @@ may read and change a child Arranger's repo; log each change in its `parent-log.
 Coordinator a NOTICE for it. A child's role and product repos are closed to you: its Arranger is the
 only interface.
 
+**The shared workflow.** `~/wip-workflow` holds the method, the base templates and the shared
+`tools/rob` and `tools/roles` (this repo's `tools/` are wrappers around them). As root of the
+Arranger tree you maintain it: follow its `AGENTS.md` and `docs/improving.md`, and announce each
+change to project Arrangers through the Coordinator.
+
 **Templates.** Every role has a template and instances, rooted at `rmx-role0`. A role
 with one instance is one repo, `rmx-<role>`, holding its template in `<role>0/` (this
 repo: `arranger0/`); a role with several has a template repo `rmx-<role>0` and numbered
