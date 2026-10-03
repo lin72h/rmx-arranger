@@ -2364,3 +2364,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `tools/roles list` before and after (identical); `tools/roles check`.
 - next: NOTICE for zenoh-swift (W-001..W-003); the op-447 restart.
+
+### j-20261004-010 — Parent review of zenoh-swift's op-001 and toolchain work; message p-20261004-003 delivered by file; W-004 (file-based relay) proposed
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator relayed the zenoh-swift Arranger's op-001 reply, garbled in places by terminal copy (chunks of about 25-30 characters lost from long lines). That Arranger had raised the same problem: two briefs lost text in relay, so op-001 missed `z_querier`. Read first-hand in its Arranger repo:
+  - op-001 is closed PARTIAL (j-20261004-009): the smoke was re-run, 10 hashes match, and id-002 stays open on TF-002;
+  - TF-001 was fixed by the toolchain agent (`swift6-rx-6.4.0_1`, libclang): verified, workaround removed everywhere, pin moved (j-20261004-010, `dd9097b`);
+  - TF-002 is a clean three-file reduction (MemberImportVisibility attributes libc struct members to a C target including the header).
+  The parent's answer went into its `parent-log.md` as p-20261004-003 (`agent-arranger@5949b42`; the header now also covers messages): W-001..W-003 to adopt at its pace; the review; its two proposals. The diagnostic swift-nio op is the Coordinator's call (parent's view: approve, time-boxed, scratch only). Briefs as files: agreed, proposed to the Coordinator as W-004. The relay to it is one short line with a checksum. TF-002 goes to the toolchain agent by pointer to the register.
+- state delta: none (rmxOS).
+- evidence: its journal j-009 and j-010, toolchain-findings.md § TF-002, id-000; `sha256` of its parent-log.md, `4d54736094fc`.
+- next: The Coordinator relays the two short lines and decides on the diagnostic op and W-004; the op-447 restart is still pending.
