@@ -2376,3 +2376,19 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: its journal j-009 and j-010, toolchain-findings.md § TF-002, id-000; `sha256` of its parent-log.md, `4d54736094fc`.
 - next: The Coordinator relays the two short lines and decides on the diagnostic op and W-004; the op-447 restart is still pending.
+
+### j-20261004-011 — W-004: everything is an op (no TF- ids); id-000 is the default IDQ entry
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator: do not use TF- ids; everything is an op-NNN (the op is the workflow's CPU micro-op: issued, executed out of order, retired after verification). A project without the complexity for an IDQ keeps only id-000, and every op implicitly belongs to it, which makes adding ids later smooth.
+  In `~/wip-workflow`, W-004 (`f9474d2`, tag at `036f2fe`):
+  - method § Ops and the IDQ (the CPU metaphor; id-000) and § Findings (a finding is an op for its owner, `repo: outside:<owner>`);
+  - forms § Finding as an op brief; base Rule 16; base op-brief-forms (outside owners, default idq);
+  - scaffold `idq/id-000.md` as the single default entry;
+  - the base `op-brief-forms.md` loses a zenoh-swift toolchain paragraph that had leaked in during W-001 (my copy-edit had missed silently);
+  - `rob new` defaults to `idq: id-000`, id-000 is valid with no IDQ files, `repo: outside:<owner>` passes check, `rob show` always prints idq. Tests: rob 21/21, roles 17/17; the scaffold renders clean at W-004.
+  W-NNN stays the workflow's version label (what `workflow.lock` pins), not a work id.
+  rmxOS took W-004: lock bumped; swift-real-libdispatch.md says findings are ops for the toolchain agent; rmxOS's existing id-000.md is already its index, which matches the method.
+- state delta: none.
+- evidence: `tools/rob check`, `tools/roles check`; the W-004 test runs.
+- next: Message zenoh-swift's Arranger (parent-log p-20261004-004). Withdraw the TF-002 relay line given earlier: the finding goes out as an op once that Arranger converts it.

@@ -55,8 +55,10 @@ reaching the Mach and workqueue behaviour rmxOS provides. Swift on macOS has one
 - **Swift toolchain issues go to the Coordinator** (2026-10-04): a defect or gap in the compiler,
   SwiftPM, the build system or the runtime libraries is recorded as a finding (command, output,
   minimal reproduction, expected behaviour, impact) and relayed to the toolchain agent. No local
-  patches or workarounds unless the Coordinator approves one as temporary. zenoh-swift's TF-001
-  (the default build system drops warnings: no libclang in `swift6-rx`) is the first.
+  patches or workarounds unless the Coordinator approves one as temporary. Each finding is an op
+  for the toolchain agent (`agent: swift-toolchain`, `repo: outside:swift-toolchain`), like any
+  other op: no separate finding ids (workflow W-004). zenoh-swift's first finding (no libclang in
+  `swift6-rx`, fixed in `6.4.0_1`) is the example.
 
 ## Open questions
 
