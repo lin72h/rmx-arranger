@@ -1998,3 +1998,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `tools/roles list`.
 - next: Relay the NOTICE to the Implementer; re-render rmx-implementer after op-436.
+
+### j-20261003-019 — op-436 returns (launchd PID 1 by default); acceptance op-439 drafted; op-437 now sendable
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-436 DONE. `pid1-boot-1` at `969f2151` (6 commits on `42bf6205`, local), with nothing under `sys/` changed. Image hashes verified (UFS `d1e32784…`, ZFS `caddd3b3…`); loader default `init_path="/sbin/launchd:/sbin/init:/rescue/init"`.
+  The record covers all six points plus the op-438 race. runcom runs `/etc/rc autoboot`, waits, and verifies root read-write before loading system jobs. Native syslogd owns logging (asld and aslmanager are installed `Disabled`). A launchd console getty job. Native init signals go through the kqueue, and the calendar check calls its callback directly. Added beyond the brief: `reboot -r` hands off to `/rescue/init`. This is in scope, since FreeBSD's shutdown tools must keep working.
+  Host slip from the record: a stray restore left `rmx-implementer/` with group `wheel`; restored to `staff` like its 20 siblings. rmx-implementer re-rendered with the cleanup rule (`8195e8f`). The `op436-selftest-*` images were not cleaned up, so op-437 now asks for that.
+  Sizing: the runtime acceptance (op-439) is the gate for this config/userland change. A Validator code review is not added: the acceptance tests the behaviour directly, and it is not a release.
+- state delta: op-436 issued → returned; op-439 created as a draft; op-437 brief gains the cleanup line (still held).
+- evidence: `git diff --stat 42bf6205 pid1-boot-1`; `sha256` of both images; `stat` of the repo directories.
+- next: Send op-437 (Implementer) and op-439 (gatekeeper1); they are independent.

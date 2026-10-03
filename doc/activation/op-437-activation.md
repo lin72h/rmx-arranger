@@ -54,5 +54,7 @@ base and fixed; both image hashes and BOMs (by path).
 - Batch 3 scope only: no step-4 receive-model work, no D2.
 - FreeBSD-side changes: only the three batch-3 hooks as they are; any other change, stop and report.
 - No push of `wip-rmxos`.
+- Clean-up from op-436: the `op436-selftest-*` images in `/Users/me/wip-mach/stage/images` are yours; delete them
+  (their fixture records stay in `stage/artifacts/op436-selftest-final5/`).
 
 Re-read OPS.md first: defaults and the REPORT block.
