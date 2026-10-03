@@ -52,11 +52,19 @@ reaching the Mach and workqueue behaviour rmxOS provides. Swift on macOS has one
 - Swift-side tests follow the test-pillar doctrine (swift-testing for Swift behaviour); the guest
   check uses our Gatekeeper's runner.
 - Brief wording follows [safety-flag-avoidance.md](safety-flag-avoidance.md).
+- **Swift toolchain issues go to the Coordinator** (2026-10-04): a defect or gap in the compiler,
+  SwiftPM, the build system or the runtime libraries is recorded as a finding (command, output,
+  minimal reproduction, expected behaviour, impact) and relayed to the toolchain agent. No local
+  patches or workarounds unless the Coordinator approves one as temporary. zenoh-swift's TF-001
+  (the default build system drops warnings: no libclang in `swift6-rx`) is the first.
 
 ## Open questions
 
-1. Who directs the swift-rx agents (`/Users/me/wip-rnx/swift-rx-{implementer,explorer,gatekeeper}`):
-   their own Arranger, with this file as the rmxOS-side contract, or this Arranger?
+1. ~~Who directs the swift-rx agents?~~ **Answered (Coordinator, 2026-10-04):** a separate agent
+   maintains the Swift toolchain (`swift6-rx-6.4.0`), and the Coordinator relays to it. Toolchain
+   issues found here are reported to the Coordinator as relay-ready findings, never worked around
+   on our side (see Rules). Who builds Swift's Dispatch overlay against rmxOS (step 1) is still
+   to settle with the Coordinator.
 2. Which toolchain target: the swift-rx `swift64` port (x86-64-v3, assertions on) or FreeBSD's
    `lang/swift6` 6.4.0 layout? The swift-rx comparison (2026-10-02) recommends keeping the RNX layout
    and testing the official one as well.

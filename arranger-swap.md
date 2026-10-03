@@ -2285,3 +2285,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `tools/roles check`.
 - next: unchanged.
+
+### j-20261004-003 — Swift toolchain issues are reported via the Coordinator, never worked around; TF-001 reproduced
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: A separate agent maintains the new Swift 6.4 toolchain (`swift6-rx-6.4.0`), and zenoh-swift is the first project on it. Projects report toolchain issues to the Coordinator as relay-ready findings and do not patch or work around them; a workaround needs the Coordinator's approval and stays temporary. The Arranger reproduced zenoh-swift's TF-001 first-hand: the default build system shows no source warning and prints "Could not read serialized diagnostics file: unable to find libclang in any registered toolchain"; `--build-system native` shows the `unused` warning; `/usr/local/swift/lib` has no libclang. The TF-001 block for the toolchain agent and a decision message for the zenoh-swift Arranger were given to the Coordinator (not edited directly: that seat is held). swift-real-libdispatch.md: open question 1 answered, and the rule added.
+- state delta: none.
+- evidence: the repro transcript (scratch package, deleted).
+- next: The Coordinator relays TF-001 and the zenoh message.
