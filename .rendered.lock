@@ -1,7 +1,7 @@
 {
   "chain": [
     {
-      "digest": "973d713082af7360659b27de3b264a5ca1967af35013fb6ea8d5adf70f76043e",
+      "digest": "c96260be267ef6b80da18345309b8f9d3d14060b301a664c77247767e90fa4fa",
       "template": "rmx-role0"
     },
     {
@@ -11,7 +11,7 @@
   ],
   "class": "arranger0",
   "files": {
-    "AGENTS.md": "f122231cca6c492a365de38e73d4587fe1757c594a6844788bccc3ca48cc7d6c",
+    "AGENTS.md": "7fa9bf16166f74b4c9e32c3e74ef69149cd229e72d27c3351ecaca0beeaa3bbc",
     "arranger-rulebook.md": "d49ea3b490a00fdc708a52858e9b219d9793e3772f9939d370c4e8d2cf49ec99"
   }
 }

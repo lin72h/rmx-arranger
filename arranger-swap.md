@@ -2200,3 +2200,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: The op-447 REPORT.
+
+### j-20261003-038 — Shared project context rewritten without trigger words; re-rendered everywhere except gatekeeper1 (mid op-445)
+
+- time / kind: 2026-10-03 / CORRECTION
+- outcome: The shared partial (`rmx-role0/partials/project-context.md`, rendered into every AGENTS.md) listed the words to avoid and mentioned security testing and the provider filter, so every session started with trigger words. It now gives positive guidance only (`rmx-role0@03e80a6`). Re-rendered and committed in rmx-arranger, rmx-implementer, advisor1-3, explorer1 and validator1-3. rmx-gatekeeper1 waits for op-445's REPORT (render later); the mm4 instances take it at their pending render. safety-flag-avoidance.md rule 6 adds: do not point agents at the guide.
+- state delta: none.
+- evidence: `grep -l exploit rmx-*/AGENTS.md` lists only gatekeeper1 (and its old symlink).
+- next: Re-render rmx-gatekeeper1 after op-445.
