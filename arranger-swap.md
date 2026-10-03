@@ -2224,3 +2224,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `build/op445` file times; `OP445_MARK|141-142` shutdown markers.
 - next: The op-445 REPORT (expected within about 20 min) and the op-447 REPORT.
+
+### j-20261003-041 — op-445 soak: reaping and job churn healthy; launchd RSS grows about 2 MiB/h; op-445 closed; isolation op-448 drafted
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-445 DONE (`c1a55c5` on origin; B03 serial `95e45573…` verified). 3,600 s soak:
+  - 36,000 orphans reaped (zombies 0 or 1);
+  - job churn and KeepAlive healthy;
+  - PID 1 and services continuous;
+  - clean shutdown.
+  PID-1 RSS rose almost linearly from 4,436 to 6,580 KiB (about 18 KiB per 30 s) and kept 2,160 KiB after the drain, so it is not accepted as resource-healthy. Calendar: 60 of 61 runs on time in a busy guest; one 42.8 s late after a 59 s clock step (added to id-060).
+  B01 and B02 were harness faults; scratch cleanup 26.8 GB. op-445 closes: its question is answered, and the growth is the new item. rmx-gatekeeper1 was re-rendered with the positive project context (`AGENTS.md`).
+  op-448 isolates the growth in one boot: orphans only, then jobs only, then idle with a calendar job. Expected time about 1.5 h, stated in the brief per the new rule.
+- state delta: op-445 issued → returned → closed; op-448 created as a draft.
+- evidence: `build/op445/tables/health.md`; `findings.md` lines 3, 12 and 14.
+- next: Send op-448.

@@ -1,12 +1,12 @@
 ---
 id: op-445
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: self
 authority: guest boots: up to 3 on copies of op436-boot-zfs.raw, a 75-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T05:01Z
+updated: 2026-10-03T07:08Z
 ---
 # op-445 — Gatekeeper 1: launchd PID-1 robustness soak on op-436's ZFS image — orphan reaping, job churn, PID-1 health, calendar without wake-ups (supersedes op-203)
 

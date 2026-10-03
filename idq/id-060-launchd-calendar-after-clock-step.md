@@ -26,3 +26,10 @@
   periodic sanity timer, with a guest check that steps the clock and waits with no other activity.
   Candidate for the op-203 soak's list.
 - (2): one native-init reroot on the same image for comparison.
+
+## op-445 observations (2026-10-03, gatekeeper1 `c1a55c5`)
+
+In a busy guest (orphan and job churn producing constant child exits), with no `launchctl` calls
+within 20 s of any due time, 60 of 61 per-minute calendar runs fired within 3-18 ms of their
+deadlines. The one after the clock was stepped forward 59 s fired 42.8 s late. Delivery in an
+otherwise idle guest is op-448's phase 4.
