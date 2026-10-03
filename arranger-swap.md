@@ -2449,3 +2449,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-450 draft → dropped.
 - evidence: the child's journal j-011, `workflow.lock`, `tools/rob board` (op-003 and op-004 drafts).
 - next: The Coordinator relays the NOTICE; the op-447 restart when convenient.
+
+### j-20261004-017 — Workflow versions are meta-NNN (Coordinator: never W-NNN); tags renamed; both projects re-pinned
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator: never use the term W-XXX; use meta-NNN. Each workflow change is a meta-NNN entry. Its Git tag in `~/wip-workflow` is the version projects pin, and ops do the work (`idq: meta-NNN`, as id-NNN problems are served by ops); meta-000 stays the default for non-project work.
+  - W-001 to W-006 became meta-001 to meta-006 on the same commits; the meta-000 change, with this rename, is meta-007 (`wip-workflow@47b5fdf`). The old W and `op-451` tags are deleted, after both projects were re-pinned.
+  - Workflow repo: CHANGELOG headings and text, README, method, improving, AGENTS, the scaffold lock (meta-007) and now.md, projects.md, test fixtures. `rob` accepts any meta-NNN without project files (a workflow change is recorded in the workflow's CHANGELOG). Tests: rob 24/24, roles 18/18.
+  - rmxOS: lock pinned at meta-007; now.md, terminology.md and swift-real-libdispatch.md say meta-NNN; op-451's idq corrected to meta-007, the change it served. Stale `.workflow/` exports removed.
+  - zenoh-swift (parent change, logged as p-20261004-006, `agent-arranger@a2050a8`): its lock moved from W-004 to meta-004 (same commit, render unchanged, verified "up to date"); now.md labels renamed. projects.md records its adoption: meta-001 (tools), meta-003 (lock), meta-004 (findings as ops).
+  Journals stay as written (append-only), so earlier entries keep the old labels.
+- state delta: op-451 idq set to meta-007 (still closed).
+- evidence: `git tag` (meta-001..meta-007 only); `tools/roles check` (rmxOS); `tools/roles render agent-arranger` (child: up to date).
+- next: The Coordinator relays the NOTICE to the zenoh-swift Arranger (meta labels).

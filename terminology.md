@@ -142,7 +142,7 @@ and closure. Old workflow terms: §9.
 milestone index. **`li-000`** is the root of the tier, the project's goal as a whole: in rmxOS that is
 [roadmap.md](roadmap.md), with the milestone indexes under it. As in every project of the shared
 workflow, the default chain is op → `id-000` → `li-000` (`~/wip-workflow/docs/method.md` § Ops, the
-IDQ and the L1i, W-005). Filenames are number-only. The older flat `li-001…li-008` map into this scheme
+IDQ and the L1i; workflow change meta-005). Filenames are number-only. The older flat `li-001…li-008` map into this scheme
 via li-1000. A milestone closes when its truly-green criterion holds on first-hand evidence.
 
 ## 7. Other standing terms (pointers, defined elsewhere)

@@ -57,7 +57,7 @@ reaching the Mach and workqueue behaviour rmxOS provides. Swift on macOS has one
   minimal reproduction, expected behaviour, impact) and relayed to the toolchain agent. No local
   patches or workarounds unless the Coordinator approves one as temporary. Each finding is an op
   for the toolchain agent (`agent: swift-toolchain`, `repo: outside:swift-toolchain`), like any
-  other op: no separate finding ids (workflow W-004). zenoh-swift's first finding (no libclang in
+  other op: no separate finding ids (workflow change meta-004). zenoh-swift's first finding (no libclang in
   `swift6-rx`, fixed in `6.4.0_1`) is the example.
 
 ## Open questions

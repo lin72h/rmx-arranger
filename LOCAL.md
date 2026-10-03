@@ -233,3 +233,7 @@ older lessons.
   a child project's ops, charter and proposals are settled by its Arranger with the Coordinator.
   Give a view only when asked. Messages to a child go through the Coordinator's manual relay;
   `parent-log.md` records only the parent's changes.
+
+- **Id vocabulary (Coordinator, 2026-10-04).** Work runs on op-NNN; problems are id-NNN, defaulting to
+  id-000; milestones are li-NNN, defaulting to li-000; non-project work and workflow versions are
+  meta-NNN, defaulting to meta-000. No other series (no TF-, no W-).

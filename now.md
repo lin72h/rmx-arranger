@@ -61,7 +61,7 @@ The pre-fix baseline of launchd's reaper (read its results with N1 in mind) cont
 
 ## Workflow
 
-Taken: op-451 (`workflow.lock`; the shared tools since W-001). rmxOS's templates do not derive from the
+Taken: meta-007 (`workflow.lock`; the shared tools since meta-001). rmxOS's templates do not derive from the
 base templates yet: moving them is a separate, planned step (agents in flight). Delayed: none.
 
 ## Critical path
