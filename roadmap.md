@@ -150,6 +150,13 @@ The donor-import → build → stage → guest-boot path is a button, not a ritu
   release pipeline (id-012) is unexercised end-to-end; id-014/op-113 is its first blocker, with
   likely more breakage behind it. **This sits on the 1.0-preview critical path** (the preview floor
   includes a bootable image) — flagged to the Coordinator as a newly-surfaced risk.
+- **status (2026-10-03):** builds and boots are now routine but slow. Full world builds dominate
+  (op-436: about 10 of 12 hours), and the Implementer finds its own test faults only after a
+  Gatekeeper run. The proposal to speed up the loop is
+  [kernel-testing.md](kernel-testing.md): a fixed base image plus a small payload disk, an
+  Implementer inner loop in contained guests, the Gatekeeper's proof once per batch, and no world
+  builds for kernel batches. It awaits the Coordinator; the pilot is Mach step 4. New images are
+  ZFS-root by default (id-057).
 
 ### li-007 — libxpc as a core preview service  *(runtime + conformance)* → dedicated file
 The C-side IPC service fabric (Mach-native transport + **nvlist serialization, LOCKED**). Promoted out of
@@ -189,6 +196,10 @@ launchd core service (li-008) ──┘    ← service host; li-003 spine is its
 The DTrace instrumentation work is the *instrument* that lets us run li-001 and li-004 credibly — it
 is necessary tooling, not the finish line. The finish line is the soak (li-004) retiring + libxpc
 (li-002) resolved.
+
+Tooling plans: [instrumentation-strategy.md](instrumentation-strategy.md) (Instrumentation 1.0:
+sanitizers and LLDB; 2.0: DTrace; 3.0: hwpmc) and [kernel-testing.md](kernel-testing.md) (a faster
+build, stage and boot loop for kernel work).
 
 ## Near-term move (the template)
 
