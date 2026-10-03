@@ -1,3 +1,9 @@
+---
+id: op-203
+state: dropped
+updated: 2026-10-03T04:53Z
+legacy-state: Hold
+---
 # op-203 — Gatekeeper: PID-1 launchd robustness soak (orphan reaping + shutdown/reboot + pid1 crash floor) → harden the op-201/op-202 hybrid against the highest bar (pid1 crash == kernel panic)
 
 op-203 | role: **Gatekeeper** (FREE) | EXU: **rmx-gatekeeper-rx-x64z** | state: **[Hold — PROMOTED TO 1.0-PREVIEW; gated on op-318, the corrected op-279→op-280 evidence chain, and normalized op-202. Legacy soak body must be repinned and made fail-closed before dispatch.]** | parent id: id-016 + id-042 | L1i: li-1006 / li-008 | cost: free | authored 2026-06-29; scope promoted 2026-07-12 by Coordinator ruling

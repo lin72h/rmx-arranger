@@ -2139,3 +2139,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-443 draft → issued → returned; op-444 created as a draft.
 - evidence: `build/op443/panic-backtraces.md`; `git show 885be9ea`; `kern_linker.c:911-923`.
 - next: Send op-444. After its green self-check: one Gatekeeper proof, then close batch 3.
+
+### j-20261003-032 — op-444 sent; op-445 drafted: PID-1 robustness soak (supersedes op-203)
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-444 was sent. The Coordinator asked for the PID-1 soak. op-445 supersedes the legacy op-203 and keeps its scope (orphan reaping under load, PID-1 crash floor, shutdown at the end). It runs on op-436's accepted ZFS image, which includes `dtraceall.ko`. One 60-minute boot carries four concurrent loads: orphan churn at about 10 per second, launchd job churn, PID-1 health sampling, and id-060's calendar timing without wake-ups (observed only, no pass bar). Budget: 3 boots, 75-minute cap. Independent of Mach batch 3.
+- state delta: op-444 draft → issued; op-203 hold → dropped (superseded by op-445); op-445 created as a draft.
+- evidence: the op-436 BOM lists `dtraceall.ko`.
+- next: Send op-445.
