@@ -1938,3 +1938,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-435 issued → returned → closed.
 - evidence: the cited lines; the note's §5.
 - next: Brief step 4 to the Implementer after batch 3 is accepted (op-437, then the re-review and re-proof).
+
+### j-20261003-014 — op-438 drafted: PID-1 acceptance checks and a baseline, ahead of op-436
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The Implementer is still on op-436, and the other seats are idle. gatekeeper1 builds op-436's acceptance checks now: PID 1, rc once, root read-write, login prompt, services, power-off, SIGUSR1. It runs them once on op-388's image as a baseline, so acceptance becomes a single run when op-436 returns. It touches no repo or image the Implementer uses.
+- state delta: op-438 created as a draft.
+- evidence: none.
+- next: Send op-438.
