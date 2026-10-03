@@ -2239,3 +2239,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-445 issued → returned → closed; op-448 created as a draft.
 - evidence: `build/op445/tables/health.md`; `findings.md` lines 3, 12 and 14.
 - next: Send op-448.
+
+### j-20261003-042 — PID-1 RSS growth traced in source to launchd's undrained log queue; op-448 dropped; fix op-449 queued
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The Coordinator asked why an hour-long run was needed instead of reading the code. Fair: read first. At `pid1-boot-1@969f2151`:
+  - `_launchd_syslog` appends every message at LOG_NOTICE or above to `_launchd_logq`, unbounded (`log.c:237-238`, `:73-105`);
+  - as PID 1, `launchd_log_push` only waits for a drain request (`log.c:306-329`);
+  - the only drainer is asld (`usr.sbin/asl/syslogd.c`, `_vprocmgr_log_drain`), which op-436 installed as `Disabled`.
+  This fits the measurement: per-job-event NOTICE and WARNING lines grow the queue; orphan reaping logs at DEBUG, so it does not; the growth is linear and retained. op-448 (unsent) is dropped. op-449 (Implementer, held until op-447 returns) bounds the queue and logs to syslog(3) when no drainer runs, with a 15-minute before/after RSS self-check. Expected time 1.5-2 h. Lesson (LOCAL.md): read the source for a cause before commissioning a long run.
+- state delta: op-448 draft → dropped; op-449 created and held.
+- evidence: the cited lines; `git grep _vprocmgr_log_drain` (only asld outside liblaunch).
+- next: Send op-449 after op-447 returns.

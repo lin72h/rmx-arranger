@@ -1,12 +1,12 @@
 ---
 id: op-448
-state: draft
+state: dropped
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: self
 authority: guest boots: up to 2 on copies of op436-boot-zfs.raw, a 70-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T07:09Z
+updated: 2026-10-03T07:12Z
 ---
 # op-448 — Gatekeeper 1: isolate launchd PID-1 memory growth — orphan churn alone, job churn alone, then idle with a calendar job
 

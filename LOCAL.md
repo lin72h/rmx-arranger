@@ -210,3 +210,7 @@ older lessons.
 - **Self-check first (2026-10-03).** Implementer ops that stage test images end with the
   Implementer's own guest run; no Gatekeeper proof brief until that is green. Three test-only
   rounds on one case (op-437 to op-443) were the reason.
+
+- **Read the source before a long run (2026-10-03).** op-445's RSS growth was explained in minutes
+  from `log.c`, while the hour-long isolation run (op-448) was dropped unsent. Look for the cause
+  in the source first; commission a run only for what the source cannot settle.
