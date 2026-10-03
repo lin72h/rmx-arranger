@@ -2079,3 +2079,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-439 issued → returned → closed.
 - evidence: `build/op439/findings.md`; the serial hashes.
 - next: Send op-441 (gatekeeper1 is free); ask about pushing `pid1-boot-1`.
+
+### j-20261003-026 — op-441 sent
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-441 (gatekeeper1, batch-3 re-proof) was sent. op-440 (validator3 re-review) is still a draft; the Coordinator asked what it is.
+- state delta: op-441 draft → issued.
+- evidence: none.
+- next: Send op-440; push `pid1-boot-1` on the Coordinator's yes.
