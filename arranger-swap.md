@@ -2436,3 +2436,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-451 created → issued → returned → closed; op-450 idq set to meta-000 (still draft).
 - evidence: `rob board` shows `op-450 (meta)` and `op-451 (meta)`; test results; scaffold render.
 - next: The Coordinator relays op-450.
+
+### j-20261004-016 — op-450 dropped: overtaken by the zenoh-swift Arranger's own adoption; a short NOTICE carries the rest
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: Before op-450 was sent, the zenoh-swift Arranger had acted on parent-log p-003 and p-004 (its j-20261004-011, `agent-arranger@fbb7413`):
+  - shared tools adopted, with before and after outputs matched;
+  - `workflow.lock` pinned at W-004;
+  - TF-002 turned into its op-003 for `swift-toolchain` (`repo: outside:swift-toolchain`), with the brief published as `outbox/op-003.md` for a pointer relay;
+  - the rest (templates onto the bases, `expected:`, the IDQ fold) planned as its own op-004.
+  op-450 is dropped as superseded; adoption is the child's to schedule. Still new to it: p-005 (manual relay; its scope), W-005 (li-000), W-006 (tools only) and op-451 (meta-000; versions named by op). These go in one short NOTICE for the Coordinator to relay. For the Coordinator: the child's `outbox/` pointer for op-003 is a file-based relay to an outside owner, which the Coordinator declined for general use; that is the Coordinator's call with the child.
+- state delta: op-450 draft → dropped.
+- evidence: the child's journal j-011, `workflow.lock`, `tools/rob board` (op-003 and op-004 drafts).
+- next: The Coordinator relays the NOTICE; the op-447 restart when convenient.

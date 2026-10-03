@@ -1,13 +1,13 @@
 ---
 id: op-450
-state: draft
+state: dropped
 agent: zenoh-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
 idq: meta-000
 gate: self
 authority: your own repo and agents, as your rules allow; no push
 expected: 90m
-updated: 2026-10-03T23:14Z
+updated: 2026-10-03T23:17Z
 ---
 # op-450 — zenoh-swift Arranger: take workflow changes or delay them; report
 
