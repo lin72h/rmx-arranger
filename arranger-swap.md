@@ -2265,3 +2265,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: none.
 - next: unchanged.
+
+### j-20261004-001 — Side task: set up the zenoh-swift workspace (two agents) from this workflow
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: The Coordinator asked for a new project, a Swift port of Rust Zenoh, at `/Users/me/wip-rbzq`, with two agents (`agent-arranger`, `agent-implementer`), to grow later. Built from this workflow:
+  - `tools/rob` and `tools/roles` copied and generalized (folder prefix derived from the Arranger repo's name; root template allowed inside the Arranger repo);
+  - templates, roles.md, a distilled rulebook, now.md and IDQ files;
+  - op-001 (groundwork) drafted.
+  Both repos are committed locally (`agent-arranger@1d6fd75`, `agent-implementer@9e4c063`). No rmxOS state changed. Stack per the Coordinator: local Swift 6.4 (`swift6-rx-6.4.0`), swift-nio, RabbitMQ later if needed.
+- state delta: none (rmxOS).
+- evidence: `/Users/me/wip-rbzq/agent-arranger/journal.md` j-20261004-001.
+- next: unchanged for rmxOS.
