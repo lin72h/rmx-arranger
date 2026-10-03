@@ -2208,3 +2208,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `grep -l exploit rmx-*/AGENTS.md` lists only gatekeeper1 (and its old symlink).
 - next: Re-render rmx-gatekeeper1 after op-445.
+
+### j-20261003-039 — Implementer restarted in a new session with the clean op-447 continuation
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The Coordinator started a new Implementer session and sent the clean continuation (context sentence, brief path, commits, build directory, positive wording guidance, five remaining steps). The new session loads the re-rendered AGENTS.md without trigger words.
+- state delta: none (op-447 stays issued).
+- evidence: none.
+- next: The op-447 REPORT (selfcheck) and the op-445 REPORT.
