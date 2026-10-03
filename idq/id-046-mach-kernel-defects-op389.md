@@ -1,7 +1,7 @@
 # id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392, op-393)
 
 - id: **id-046**
-- state: **WAITING — Coordinator: schedule an Implementer fix batch, and decide whether it gates the preview**
+- state: **IN WORK — batches 1-2 proven and on origin; batch 3 in re-review (op-440, op-441); step 4 planned (op-435); leftovers listed below (2026-10-03)**
 - raised: **2026-09-28 by the Arranger, from advisor2 op-389 (rmx-advisor2 2f6c337)**
 - parent: id-042 (1.0-preview), beside id-045
 
@@ -155,6 +155,22 @@ bounded clock tests). The branch is on the public rmxOS origin (pushed with the 
 op-420 (op-394 step 2, `mach-fixes-2` at `ee883a74`): validator2 CLOSE 9/10 (op-423); op-424 4/4
 before and after, plus all 27 batch-1 cases on the fixed image. Retires op-389 #2 and op-392 S2, S3
 and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
+
+## Status by finding (2026-10-03)
+
+| Status | Findings |
+|---|---|
+| Fixed and proven, batch 1 (`mach-fixes-1`, origin) | #3/F3, F6, #5, N3, #13, N4, #12, F7, F8, #9, #10, N8, N1 (13) |
+| Fixed and proven, batch 2 (`mach-fixes-2`, origin) | #2, S2, S3, S4 entry causes (4) |
+| Fixed, in re-review, batch 3 (`mach-fixes-3` at `cf398822`) | #4, #11, F1, F2, the N5 prerequisite; plus validator3's op-433 failed-creation unwind and parked-reply leak (5 + 2) |
+| Planned, step 4 (advisor2 op-435, `42dc8247`) | #6/F4, #7, #15, F5, N2, S1, N6, D2 subset (N5; S5's caller substitution for the two setters) (9) |
+| Accepted limitation for 1.0 | N7 (dead-name notification dropped under memory pressure; mach-names-step5-deferred.md) |
+| **Not scheduled** | #8 (failed OOL copyout double free), N9 (MIG passes kernel pointers to user-pointer handlers), N10 (two trap return conventions), #14 (failed load leaves hooks; id-045), S6 (KBI field shifts), §3 VM wrappers (target map, `setmax`, errno, RLIMIT_VMEM/RACCT, malloc M_NOWAIT), §3 AUDIT_SYSCLOSE and debug sysctls, #1 (assertion only under INVARIANTS), A1 (uninitialized message bytes, KMSAN check) |
+| Retracted | §3 workqueue per-thread state (op-393) |
+
+Proposed for the leftovers (awaiting the Coordinator): a small batch after step 4 for #8, N9, N10
+and #14; S6 and the §3 VM and audit items either fixed or recorded as known 1.0 gaps; #1 and A1
+covered by the KASAN/KMSAN runs (instrumentation 1.0).
 
 ## Findings ledger (every finding from op-389, op-392 and op-393)
 

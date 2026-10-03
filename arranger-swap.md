@@ -2053,3 +2053,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-437 issued → returned; op-440 created as a draft; op-441 created and held.
 - evidence: `git diff --stat db592723 mach-fixes-3`; `sha256` of both images; the BOM comparison.
 - next: Send op-440 now; send op-441 when op-439 returns.
+
+### j-20261003-024 — Round-1 review status recorded per finding; round-2 readiness list
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: At the Coordinator's request, id-046 gains "Status by finding": 17 fixed and proven; 7 fixed and in re-review; 9 planned for step 4; N7 accepted; about 9 not scheduled. Its state line is updated. kernel-reviews.md's road to round 2 gains step 7 (leftovers decided) and a readiness note: not ready yet. Proposed: a small leftover batch after step 4 (#8, N9, N10, #14); this awaits the Coordinator.
+- state delta: none.
+- evidence: id-046 ledger; `rmx-implementer/docs/op395-mach-fixes.md` fix table.
+- next: unchanged.

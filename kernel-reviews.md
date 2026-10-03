@@ -75,6 +75,13 @@ Round 2 starts when the code it reviews is the 1.0 design, built and tested:
    retirement helper (the Coordinator chose native close semantics, 2026-10-02).
 5. **D2 subset:** child-task setters after step 3; foreign name-space calls stay off.
 6. **Checking in place:** the Mach regression suite and a KASAN survey run on the fixed branch.
+7. **Leftovers decided:** the findings no batch covers (id-046 § Status by finding: #8, N9, N10,
+   #14, S6, the §3 VM and audit items, #1, A1) are either fixed or recorded as known 1.0 gaps.
+
+**Readiness (2026-10-03):** 1-2 done; 3 in re-review (op-440, op-441); 4-5 planned (op-435);
+6 and 7 open. Round 2 is not ready. Why it is still worth running: round 1's estimate leaves about
+12 problems unfound, and id-052's areas (host_priv and mach_host bodies, task_info/task_threads,
+most of vm_map) have never been reviewed.
 
 ### Guardrail for round 2
 
