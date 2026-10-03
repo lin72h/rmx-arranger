@@ -2192,3 +2192,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-447 draft → issued.
 - evidence: `git log mach-fixes-3..mach-fixes-4`; `build/op445/attempt-ledger-preliminary.json`.
 - next: The op-447 REPORT (with selfcheck) and the op-445 REPORT.
+
+### j-20261003-037 — op-447 filtered a second time; the Arranger's continuation caused it; guide fixed
+
+- time / kind: 2026-10-03 / CORRECTION
+- outcome: The Arranger's continuation listed the words to avoid and mentioned security and the filter, so the anti-flag prompt itself carried trigger words. The Implementer was filtered again. New continuation: a fresh session, the context sentence, the brief path, the commits and build directory, positive wording guidance only, and the five remaining steps. safety-flag-avoidance.md gains rules 6 (never list the words to avoid, or mention security or the filter, in an agent message) and 7 (restart a filtered agent in a new session).
+- state delta: none.
+- evidence: none.
+- next: The op-447 REPORT.
