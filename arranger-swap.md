@@ -2316,3 +2316,15 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `build/op447` file times; `stage/images` listing; empty r5 fixed log.
 - next: The Coordinator restarts the Implementer with the prompt.
+
+### j-20261004-006 — The Arranger tree (cross-project one-way access, the Combinator rule); zenoh-swift's Arranger is the first child
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator extended one-way access across projects. Arrangers form a tree, and this Arranger is the parent of zenoh-swift's. Each project is like a Reason Studios Combinator: its agents are inside, and its Arranger is the only interface.
+  - The parent may read and change a child Arranger's repo, logging each change in the child's `parent-log.md`, with a NOTICE through the Coordinator.
+  - The parent never reads or writes a child's role or product repos.
+  - The child never reads or writes the parent's repo.
+  Recorded here: roles.md § Arranger tree (with the child registry); rulebook Rule 19 and an AGENTS.md paragraph (arranger0 template, rendered). Recorded in the child (`agent-arranger@864eea6`): `parent-log.md` (p-20261004-001), roles.md § Parent Arranger and the Edges bullet, its arranger0 AGENTS.md (session start reads parent-log.md), rendered for agent-arranger only. Correction p-20261004-002: in the same check the parent read `agent-implementer` (`git status`, `git log -1`) and ran the child's `tools/roles check`, which reads all instances. Reads only, now logged; parent checks stay inside the child Arranger's repo.
+- state delta: none.
+- evidence: `agent-arranger` commits `864eea6` and the p-002 correction.
+- next: The Coordinator relays the NOTICE to the zenoh-swift Arranger; then the op-447 restart.

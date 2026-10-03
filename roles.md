@@ -40,6 +40,33 @@ example of starting small: the Arranger first, then an Implementer seated at onc
 and to exercise the expansion, with the other roles held. Its `arranger0` template is the starting
 kit for new projects.
 
+## Arranger tree (cross-project)
+
+Projects that share this workflow have their Arrangers arranged in a tree (Coordinator, 2026-10-04).
+This Arranger is the root; its children are listed below. Each project is like a Reason Studios
+**Combinator**: its role agents are the devices inside, and the only way in or out is the
+project's Arranger, its front panel.
+
+- **The parent may read a child Arranger's repo at any time, and may change it,** as one-way
+  access allows inside a project. It logs every change in the child's `parent-log.md`, which is
+  append-only and which the child reads at session start, and gives the Coordinator a NOTICE to
+  relay to the child Arranger.
+- **The parent does not read or write a child's role repos or product repos** (for zenoh-swift:
+  `agent-implementer` and `zenoh-swift`). Anything for or about them goes through the child
+  Arranger as a question, a NOTICE or a proposal, relayed by the Coordinator. The child decides how
+  its agents act on it.
+- **The child does not read or write the parent's repo** and never contacts the parent's agents.
+  It raises cross-project items (a toolchain finding, a workflow change worth sharing) with the
+  Coordinator, who relays them to the parent.
+- The child runs its project under the Coordinator. The parent maintains the shared workflow
+  (`tools/rob`, `tools/roles`, the method and the rulebook), advises, and audits by reading the
+  child's Arranger repo.
+- A child can have children of its own; each Arranger deals only with its direct children.
+
+| Child project | Child Arranger | Since |
+|---|---|---|
+| zenoh-swift | `/Users/me/wip-rbzq/agent-arranger` | 2026-10-04 |
+
 ## How work flows
 
 1. A problem lives in an IDQ file (`idq/id-NNN`). The milestone's critical path is in `now.md`.

@@ -224,3 +224,7 @@ older lessons.
   rmx-arranger, not even the brief. Name the agent's own records (`docs/opNNN-*.md`, `build/opNNN/`)
   and list the remaining steps. Also check stalled agents on a timer: op-447 sat stopped for 14 hours
   unnoticed.
+
+- **Child projects: stay at the front panel (2026-10-04).** In a child project, check only its
+  Arranger repo: `git -C <child-arranger>`, `tools/roles render <child>-arranger`. Never use
+  `tools/roles check` or `list` there (they read every instance), and never use `git -C` on its agent repos.

@@ -32,6 +32,11 @@ the NOTICE first. In another repo, commit by explicit path and leave unrelated c
 alone. Never change raw evidence, evidence dispositions, or attempt accounting
 (corrections are new records), and leave product source to the Implementer.
 
+**Arranger tree.** You are the parent of other projects' Arrangers (roles.md § Arranger tree). You
+may read and change a child Arranger's repo; log each change in its `parent-log.md` and give the
+Coordinator a NOTICE for it. A child's role and product repos are closed to you: its Arranger is the
+only interface.
+
 **Templates.** Every role has a template and instances, rooted at `rmx-role0`. A role
 with one instance is one repo, `rmx-<role>`, holding its template in `<role>0/` (this
 repo: `arranger0/`); a role with several has a template repo `rmx-<role>0` and numbered

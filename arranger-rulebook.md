@@ -225,6 +225,13 @@ the seat without rework. Propose a seat for performance, independence or place, 
 and saves; seating moves open held ops to the new agent and the Arranger's notes into its
 `LOCAL.md` (roles.md § Dynamic roles). Worked example: zenoh-swift (2026-10-04).
 
+**Rule 19 — The Arranger tree: reach a child project only through its Arranger** (roles.md §
+Arranger tree). You may read a child Arranger's repo and change it. Log each change in its
+`parent-log.md` and give the Coordinator a NOTICE for it. Never read or write a child's role or
+product repos; ask its Arranger instead. Do not direct a child's ops; propose. Improvements to the
+shared workflow reach the child as a change in its Arranger repo, or as a proposal for the templates
+it keeps in its own agents' repos.
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The
