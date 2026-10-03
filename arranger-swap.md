@@ -1946,3 +1946,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-438 created as a draft.
 - evidence: none.
 - next: Send op-438.
+
+### j-20261003-015 — op-438 returns PARTIAL baseline; "rc twice" is a startup race; NOTICE to the Implementer for op-436; op-438 closed
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: `51d32fb` is on origin, and the three serial hashes match (`4669935a…`, `6265f088…`, `7d6b7617…`). Baseline on op-388's image:
+  - PID 1 is `/sbin/launchd` without `-u` (PASS);
+  - root is read-write once booted (PASS);
+  - `shutdown -p` powers off cleanly (PASS);
+  - no login prompt (FAIL);
+  - SIGUSR1 from root halts the system (orderly `reboot(RB_HALT)`).
+  Read first-hand across the three serials: the double rc run is a **race**. In boots 1-2, `launchctl bootstrap` hits `launchctl: unlink(): Read-only file system` (line 108) before rc remounts root. Its job loading then stops, so rc runs once (via the chainload plist) but notifyd and the logger never load. In boot 3 the remount came first, so launchctl loaded the jobs and its `runcom()` ran rc a second time. op-436 must order this: rc's root remount before any job loading that writes, and a single rc path.
+  The final collector repair (console reopened per command) passed host PTY tests but has not run in a guest. No fourth boot is granted; its first guest run is the op-436 acceptance op, with a pre-boot check. op-438 closes as a baseline: S/M, Arranger-verified.
+- state delta: op-438 issued → returned → closed.
+- evidence: serial lines 101-115, 131 and 161 of each boot; `build/op438/findings.md`.
+- next: Relay the NOTICE to the Implementer (op-436).
