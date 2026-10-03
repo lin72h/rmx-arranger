@@ -2039,3 +2039,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: op-436 build timeline; op-434 boot durations.
 - next: The Coordinator decides on § 4.2.
+
+### j-20261003-023 — op-437 returns batch-3 remediation; re-review op-440 (validator3) drafted; re-proof op-441 held behind op-439
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: op-437 DONE. `mach-fixes-3` is now at `cf398822` (5 commits on `db592723`). Checked first-hand:
+  - native files unchanged (the same 24 lines);
+  - both image hashes match (`e5887d54…`, `69c5b871…`); BOMs differ only in the kernel, `mach.ko` and their debug files;
+  - all 12 `op436-selftest-*` images were deleted;
+  - 4 small targeted builds (kernel, module, tests, libmach), no world, about 7 minutes.
+  The four op-434 setup failures were fixture faults: `ip_active` read as Boolean; a stale lookup loop and a native `fget` in the rfork fixtures. The two op-433 defects are fixed test-first. `failed_creation` passes on base (no handlers there) and would panic at `db592723`, so its before/after is against the pre-remediation head, not `mach-fixes-2`.
+  Re-review op-440 asks validator3 whether any fixture correction weakened a case. Re-proof op-441 is held: gatekeeper1 is on op-439.
+- state delta: op-437 issued → returned; op-440 created as a draft; op-441 created and held.
+- evidence: `git diff --stat db592723 mach-fixes-3`; `sha256` of both images; the BOM comparison.
+- next: Send op-440 now; send op-441 when op-439 returns.

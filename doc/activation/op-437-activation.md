@@ -1,12 +1,12 @@
 ---
 id: op-437
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from mach-fixes-3; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-03T01:40Z
+updated: 2026-10-03T02:25Z
 ---
 # op-437 — Implementer: Mach batch 3 remediation — two teardown defects (op-433) and four lifetime cases that fail before their checks (op-434)
 
