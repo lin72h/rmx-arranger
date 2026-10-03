@@ -38,5 +38,3 @@ Check:
 Distinguishing question: could any of the six cases now pass on the fixed image while the defect it names is still present?
 
 Re-read OPS.md first: defaults and the REPORT block.
-
-Re-read OPS.md first: defaults and the REPORT block.
