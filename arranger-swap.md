@@ -1961,3 +1961,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-438 issued → returned → closed.
 - evidence: serial lines 101-115, 131 and 161 of each boot; `build/op438/findings.md`.
 - next: Relay the NOTICE to the Implementer (op-436).
+
+### j-20261003-016 — Correction: op-438 recorded as sent late
+
+- time / kind: 2026-10-03 / CORRECTION
+- outcome: The Coordinator said op-438 was sent, but it was not recorded at the time, so j-20261003-015's transitions failed. Now applied: op-438 draft → issued → returned → closed.
+- state delta: as above.
+- evidence: none.
+- next: unchanged.

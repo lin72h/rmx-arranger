@@ -1,12 +1,12 @@
 ---
 id: op-438
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 gate: self
 authority: guest boots: up to 3 on copies of op388-alpha2-pid1-premise.raw, 5-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T00:04Z
+updated: 2026-10-03T00:23Z
 ---
 # op-438 — Gatekeeper 1: launchd PID-1 boot acceptance checks, and a baseline run on op-388's image, ahead of op-436
 
