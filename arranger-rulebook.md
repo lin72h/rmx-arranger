@@ -204,6 +204,20 @@ Source: Coordinator, 2026-10-02.
   - A test-only change on product a Gatekeeper has already proven needs only a green self-check;
     the next batch's proof re-runs the case. Do not brief a separate re-proof (op-446).
 
+**Rule 17 — Weigh the cost before you issue an op (time, for now).** The Coordinator waits on
+every op, so time is the cost to minimize (Coordinator, 2026-10-03). Before drafting, ask whether
+something cheaper settles the question, and use the cheapest step that does:
+1. The Arranger reads the source or the existing records (minutes). op-445's launchd memory
+   growth was traced to `log.c` this way, and the hour-long isolation run (op-448) was dropped.
+2. A host-only check or test (minutes).
+3. The Implementer's guest self-check inside its fix op (no extra round trip).
+4. A Gatekeeper proof or review (30-60 min plus the relay).
+5. A long soak (hours): only when the question is about duration itself (li-004), and flagged.
+Every op shown carries an **Expected time** (setup + run + write-up), and the Arranger updates it
+when an agent runs long. Size runs to the question: a trend needs minutes, not an hour. Combine
+work that one agent can do in one op instead of chaining ops. Re-proofs of unchanged product are
+skipped when the next batch's proof re-runs the cases (Rule 16, Streamlining).
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The

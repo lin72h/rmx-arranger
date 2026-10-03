@@ -2251,3 +2251,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-448 draft → dropped; op-449 created and held.
 - evidence: the cited lines; `git grep _vprocmgr_log_drain` (only asld outside liblaunch).
 - next: Send op-449 after op-447 returns.
+
+### j-20261003-043 — Rulebook Rule 17: weigh the cost (time) before issuing an op
+
+- time / kind: 2026-10-03 / DECISION (Coordinator)
+- outcome: Rule 17 sets a cheapest-step-first ladder:
+  1. Arranger reads the source or records;
+  2. host check;
+  3. Implementer self-check in the fix op;
+  4. Gatekeeper proof or review;
+  5. long soak only when the question is about duration (li-004), flagged in advance.
+  It also requires an Expected time on every op shown (updated when an agent runs long), runs sized to the question, combining instead of chaining, and no re-proofs of unchanged product. Rendered into rmx-arranger.
+- state delta: none.
+- evidence: none.
+- next: unchanged.
