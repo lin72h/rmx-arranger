@@ -1,12 +1,12 @@
 ---
 id: op-436
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: self
 authority: build: userland and kernel from the new branch; stage two images with rmx-stage-image (UFS and ZFS-root); no guest runs; no push
-updated: 2026-10-03T01:33Z
+updated: 2026-10-03T03:00Z
 ---
 # op-436 — Implementer: launchd as PID 1 by default — rc once, root read-write, console login, SIGUSR1 safety; two staged images (supersedes op-202)
 
