@@ -1,12 +1,12 @@
 ---
 id: op-442
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: build: the Mach tests from mach-fixes-3 (and kernel or mach.ko only if a product change is needed); stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-03T04:04Z
+updated: 2026-10-03T05:30Z
 ---
 # op-442 — Implementer: batch 3 — thread_control_death: check the port is unusable at exit and inactive after the reaper
 

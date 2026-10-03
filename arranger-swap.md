@@ -2169,3 +2169,18 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-444 issued → returned; op-446 created and held; op-447 created as a draft.
 - evidence: `git diff --stat 885be9ea mach-fixes-3`; `tools/selfcheck/run.exs` bhyve line; the selfcheck table.
 - next: Send op-447; send op-446 when op-445 returns.
+
+### j-20261003-035 — Batch 3 accepted without a separate re-proof; mach-fixes-3 pushed; 9 ops closed, op-446 dropped
+
+- time / kind: 2026-10-03 / DECISION (Arbiter, Coordinator agreed)
+- outcome: The Coordinator asked whether we were churning again. Yes: op-446 would have re-proved product a Gatekeeper had already proven (op-441, 40/41) for a test-only change already self-checked 20/20. Batch 3 is accepted on:
+  - validator3 9/10 twice (op-433, op-440);
+  - gatekeeper1's op-441 on product unchanged since `cf398822`;
+  - the Implementer's self-check (base 10/10, fixed 41/41, 20/20).
+  Confidence 9. With the Coordinator's yes, the Arranger pushed:
+  - `wip-rmxos` `mach-fixes-3` to origin (`ls-remote`: `844112f4`);
+  - `rmx-implementer` main (`829aada`, including `tools/selfcheck`).
+  Validator repos are local only (roles.md:130). Rulebook Rule 16 Streamlining adds: a test-only change on proven product needs only a green self-check, and the next batch's proof re-runs it. The step-4 part-1 proof must therefore run all 41 batch-3 cases.
+- state delta: op-430, op-433, op-434, op-437, op-440, op-441, op-442, op-443 and op-444 returned → closed; op-446 hold → dropped.
+- evidence: `git ls-remote origin refs/heads/mach-fixes-3`; `git rev-parse origin/main` in rmx-implementer.
+- next: Send op-447.

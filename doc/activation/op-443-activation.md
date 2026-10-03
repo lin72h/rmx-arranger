@@ -1,12 +1,12 @@
 ---
 id: op-443
-state: returned
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 4 on copies of op442-base-tests.raw and op442-fixed-tests.raw, a 5-minute cap each except the repeat boot (10 minutes); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T04:50Z
+updated: 2026-10-03T05:30Z
 ---
 # op-443 — Gatekeeper 1: Mach batch-3 proof on op-442's images, plus thread_control_death repeated 20 times
 

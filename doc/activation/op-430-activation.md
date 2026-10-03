@@ -1,12 +1,12 @@
 ---
 id: op-430
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: validator
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests from the branch; stage base and fixed test images with rmx-stage-image; no guest runs; no push
-updated: 2026-10-02T13:07Z
+updated: 2026-10-03T05:30Z
 ---
 # op-430 — Implementer: Mach fix batch 3, finish — lazy Mach-space rebinding after in-place rfork, remaining lifetime fixes, images (continues op-428)
 

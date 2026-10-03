@@ -195,6 +195,8 @@ Source: Coordinator, 2026-10-02.
     symbol lookup or private ABI is a last resort (op-441 to op-443).
   - Two failed rounds on one item: stop and simplify, do not brief a third patch.
   - A returned REPORT means the op was sent; record it without asking.
+  - A test-only change on product a Gatekeeper has already proven needs only a green self-check;
+    the next batch's proof re-runs the case. Do not brief a separate re-proof (op-446).
 
 ## Banked incident lessons
 

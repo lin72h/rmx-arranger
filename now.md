@@ -41,7 +41,7 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
 1. Fix the id-046 findings, each with an in-tree regression test that fails before the fix.
    **Batch 1 done (2026-10-02):** 13 fixes plus follow-ups, 27/27 proven before and after (op-418),
    `mach-fixes-1` on origin. **Batch 2 done (2026-10-02):** op-394 step 2, proven 4/4 plus 27/27
-   (op-424), `mach-fixes-2` on origin. Batch 3 (step 3, lifetimes) is op-427.
+   (op-424), `mach-fixes-2` on origin. **Batch 3 accepted (2026-10-03):** lifetimes, `mach-fixes-3@844112f4` on origin. Step 4 part 1 is op-447.
    Design classes A (port names as fds) and B (Mach state on reused proc/thread slots) are
    decided before point fixes land in those areas (kernel-reviews.md).
 2. Consistent automated checking (CI), built and run by the Gatekeeper and read by the Validators: the candidate built with

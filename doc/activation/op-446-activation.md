@@ -1,12 +1,12 @@
 ---
 id: op-446
-state: hold
+state: dropped
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: guest boots: up to 4 on copies of op444-base-tests.raw and op444-fixed-tests.raw, a 5-minute cap each except the repeat boot (10 minutes); doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
-updated: 2026-10-03T05:28Z
+updated: 2026-10-03T05:30Z
 ---
 # op-446 — Gatekeeper 1: final Mach batch-3 proof on op-444's images (41 cases, plus thread_control_death x20)
 
