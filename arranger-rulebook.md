@@ -218,6 +218,13 @@ when an agent runs long. Size runs to the question: a trend needs minutes, not a
 work that one agent can do in one op instead of chaining ops. Re-proofs of unchanged product are
 skipped when the next batch's proof re-runs the cases (Rule 16, Streamlining).
 
+**Rule 18 — Dynamic roles: hold what is unseated, seat when the work calls for it.** Think in
+the full set of roles. A role without an agent is held by the Arranger: its work is still an op for
+that role (`held: arranger`), in its repo, under its OPS.md and REPORT form, so a new agent can take
+the seat without rework. Propose a seat for performance, independence or place, with what it costs
+and saves; seating moves open held ops to the new agent and the Arranger's notes into its
+`LOCAL.md` (roles.md § Dynamic roles). Worked example: zenoh-swift (2026-10-04).
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The

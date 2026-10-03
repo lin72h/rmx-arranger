@@ -2277,3 +2277,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: `/Users/me/wip-rbzq/agent-arranger/journal.md` j-20261004-001.
 - next: unchanged for rmxOS.
+
+### j-20261004-002 — Dynamic roles recorded as a core method (roles.md, Rule 18); zenoh-swift is the worked example
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator named dynamic roles as a core method of the workflow. Keep the full role set in mind; start with the Arranger alone, holding every role and doing each role's work in that role's form; seat agents as complexity or performance requires, so delegation later needs no rework. rmxOS roles.md gains § Dynamic roles (rmxOS is the fully grown case). The rulebook gains Rule 18 (arranger0 template, rendered). zenoh-swift is the first worked example: Arranger first, then an Implementer seated at once, other roles held (`agent-arranger@6fc6c2e`: roles.md, template, `held:` field shown by `rob`).
+- state delta: none.
+- evidence: `tools/roles check`.
+- next: unchanged.

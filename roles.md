@@ -22,6 +22,24 @@ agents read only their own repo.
 Explorer and Gatekeeper instances are named on the "ruler" grammar in terminology §2 (for example
 `rmx-explorer-rx-x64z`). The Coordinator decides; the Arranger proposes.
 
+## Dynamic roles (the method)
+
+The workflow always thinks in the full set of roles, but a role needs an agent only when the work
+calls for one (Coordinator, 2026-10-04). A project can start with the **Arranger alone, holding every
+role**: it does each role's work itself, as an op for that role (`held: arranger`), in that role's
+repo, under its OPS.md and REPORT form. When complexity or performance requires, an agent takes the
+seat. Because the work already has the role's shape, nothing needs reworking. Seat a role for
+**performance** (the Arranger's queue is the bottleneck and the work can run in parallel),
+**independence** (a second judgement, or separate evidence) or **place** (another host, platform or
+model). Held review is self-review, the method's weakest point, so it is the first reason to seat a
+Validator.
+
+rmxOS is the fully grown case: every role is seated, several with more than one instance. The
+zenoh-swift project (`/Users/me/wip-rbzq/agent-arranger`, roles.md there) is the first worked
+example of starting small: the Arranger first, then an Implementer seated at once for performance
+and to exercise the expansion, with the other roles held. Its `arranger0` template is the starting
+kit for new projects.
+
 ## How work flows
 
 1. A problem lives in an IDQ file (`idq/id-NNN`). The milestone's critical path is in `now.md`.
