@@ -1984,3 +1984,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `doc/stage/deleted-images-20261003.tsv`; `zfs list zroot/wip-mach-stage`.
 - next: unchanged.
+
+### j-20261003-018 — Rule: each agent cleans up its own large unused files
+
+- time / kind: 2026-10-03 / DECISION (Coordinator)
+- outcome: The Coordinator says each agent is responsible for cleaning up its own unused files, especially large builds. The shared partial `rmx-role0/partials/evidence-limits.md` (`0e269a9`, local only) gains "Clean up after yourself":
+  - at op end, delete your own large intermediates;
+  - keep REPORT evidence, anything an open op names, and deliverables;
+  - never touch another agent's files, and never delete while a VM uses them;
+  - record an image's sha256 before deleting it;
+  - report what was removed.
+  Rendered and committed in advisor1-3, explorer1, gatekeeper1 and validator1-3. rmx-implementer is not re-rendered while op-436 is in flight; a NOTICE carries the rule, and the re-render follows its REPORT. The mm4 instances (gatekeeper2, explorer2, advisor4) take it at their pending render. Current sizes: rmx-implementer/build 102G, rmx-gatekeeper1/build 66G.
+- state delta: none.
+- evidence: `tools/roles list`.
+- next: Relay the NOTICE to the Implementer; re-render rmx-implementer after op-436.
