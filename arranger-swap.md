@@ -2117,3 +2117,12 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-441 issued → returned; op-442 created as a draft.
 - evidence: the cited lines; `build/op441/findings.md` lines 43 and 68-69.
 - next: Send op-442.
+
+### j-20261003-030 — op-442 returns (test-only change); op-443 drafted: proof plus 20 repeats of thread_control_death
+
+- time / kind: 2026-10-03 / ACTION
+- outcome: The send of op-442 was not named, but its REPORT came back, so it is recorded as issued and then returned (`--force`; this note is the record). Checked first-hand: `mach-fixes-3` is now at `885be9ea`, 2 commits after `cf398822`, touching tests and fixtures only (4 files); both image hashes match (`024bb03f…`, `0c810513…`). The case now checks conversion right after join (fixture result 4 expected on fixed), then polls for up to 15 s.
+  The Implementer's caveat: `sys_thr_exit` wakes joiners before the exit gate marks DYING (`kern_thr.c:337-342`), so the immediate check could race. No retry was added. op-443 measures it with 20 repeats on the fixed image. If any run fails, add a short bounded retry for the DYING mark; if none does, accept and record the window.
+- state delta: op-442 draft → issued → returned (forced); op-443 created as a draft.
+- evidence: `git diff --stat cf398822 mach-fixes-3`; `sha256` of both images.
+- next: Send op-443.
