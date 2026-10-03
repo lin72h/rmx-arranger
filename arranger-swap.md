@@ -2479,3 +2479,14 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-452b and op-453u created as drafts.
 - evidence: `tools/roles check` (10 instances, 0 need attention); `git show --stat` of each render commit.
 - next: The Coordinator relays op-452b (to agents with open sessions; the others read their re-rendered AGENTS.md at their next session) and op-453u; each retires when sent.
+
+### j-20261004-019 — Decisions persist in files, so a reload delivers them; meta-009 (Arrangers check for newer workflow versions)
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator asked whether the cast decision is in each agent's files, so a reload is enough. Checked first-hand:
+  - rmxOS's nine local agents (implementer, gatekeeper1, explorer1, validator1-3, advisor1-3) carry the cast rule in their committed AGENTS.md, and in OPS.md where it applies, with no NOTICE left; a reload delivers op-452b.
+  - Exceptions: the mm4 instances (gatekeeper2, explorer2, advisor4), whose render is still pending on mm4, and zenoh-swift, whose files are its Arranger's and not yet on the base templates. Relay op-453u to it once.
+  To make a reload enough for Arrangers too, meta-009 (`wip-workflow@7cf1cb9`): the base AGENTS.md session start compares the `workflow.lock` pin with the workflow's tags, and a newer meta-NNN is a change awaiting the Arranger's decision. Scaffold pinned and renders clean. rmxOS took it: lock at meta-009; the same check in arranger0 AGENTS.md (rendered); now.md § Workflow corrected to meta-009 (it still said meta-007; the meta-008 adoption missed it).
+- state delta: none.
+- evidence: the grep table of the agents' files; `tools/roles check`.
+- next: The Coordinator asks the agents to reload (op-452b retires when done) and relays op-453u.

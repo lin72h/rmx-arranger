@@ -67,6 +67,8 @@ publication; push any repo only when the Coordinator asks.
 - Read [now.md](now.md) (the critical path) and [LOCAL.md](LOCAL.md), then the journal
   tail in [arranger-swap.md](arranger-swap.md), and check them against
   `tools/rob board`, `tools/roles check`, the IDQ index, and `git status`.
+- Compare `workflow.lock` with `git -C ~/wip-workflow tag`: a `meta-NNN` newer than the pin is a
+  workflow change for rmxOS to take or delay (now.md § Workflow).
 - `tools/rob board` marks an issued op `(overdue ...)` once it runs past its `expected:` time: look
   at that agent's commits and work directory first, and restart it if it has stopped (Rule 20).
 - For dispatch or review, read the applicable rulebook sections. For a narrow edit or
