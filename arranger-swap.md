@@ -2502,3 +2502,17 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-453u draft → closed.
 - evidence: `tools/rob board`; the scaffold render.
 - next: the op-452b reloads; op-447 when convenient.
+
+### j-20261004-021 — Session handoff written (handoff.md)
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator is clearing the session. `handoff.md` holds:
+  - the board, and why each op is where it is;
+  - op-447's state and its restart prompt, for a fresh session;
+  - when to retire op-452b, and op-449's place in the queue;
+  - the Mach and PID-1 paths, the workflow and zenoh-swift state;
+  - how the Coordinator works with this seat.
+  now.md points to it.
+- state delta: none.
+- evidence: `handoff.md`.
+- next: In the new session, read handoff.md, then restart op-447 when the Coordinator wants.

@@ -1,5 +1,7 @@
 # Now
 
+> **New session?** Read [handoff.md](handoff.md) first (2026-10-04).
+
 What matters this milestone, in order. Rewrite this page when the path changes; history lives in
 Git and the journal. Op state comes from `tools/rob board`, problem state from `idq/id-000.md`.
 
