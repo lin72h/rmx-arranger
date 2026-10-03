@@ -2342,3 +2342,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the identical comparisons; `tools/rob board` and `tools/roles check` through the wrappers.
 - next: Give the Coordinator the W-001 proposal for the zenoh-swift Arranger; then the op-447 restart.
+
+### j-20261004-008 — The supervision tree (Erlang/OTP) as a workflow inspiration (W-002); op-447 now monitored
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: The Coordinator named Erlang's supervisor tree as an inspiration for the workflow. Recorded in `~/wip-workflow` (W-002, `4beaff9`): `docs/method.md` § The supervision tree, with an OTP-to-workflow table covering supervisors and workers, let-it-crash, state on disk, monitoring, restart strategies and types, restart intensity, escalation, lean supervisors and isolation; base rulebook Rule 19; a session-start line. The shared `tools/rob` gains `expected:` and `issued-at`, and `rob board` flags issued ops past their expected time (tests 19/19; scaffold renders clean). rmxOS took W-002: rulebook Rule 20, AGENTS.md session-start line (arranger0 template, rendered), op-brief-forms.md `expected:` field. op-447 got `expected=2h` and the board now shows it overdue; op-449 got `expected=2h` for when it is sent.
+- state delta: op-447 issued (expected added); op-449 hold (expected added).
+- evidence: `tools/rob board`.
+- next: The Coordinator restarts op-447 (its prompt is in the conversation); NOTICE for zenoh-swift about W-002.

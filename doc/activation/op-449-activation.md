@@ -6,7 +6,8 @@ repo: rmx-implementer
 idq: id-016
 gate: self
 authority: build: launchd and the PID-1 ZFS image (reuse op-436's world; rebuild only sbin/launchd); stage one ZFS image with rmx-stage-image; self-check guests per OPS.md; no push
-updated: 2026-10-03T07:12Z
+expected: 2h
+updated: 2026-10-03T21:41Z
 ---
 # op-449 — Implementer: launchd PID 1 keeps every log message in memory when asld is not running — cap the queue and log to syslog
 

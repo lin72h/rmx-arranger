@@ -26,6 +26,7 @@ idq: <id-NNN this op serves>
 needs: [<op-NNN>, ...]        # optional
 gate: self | validator | both  # expected review size; S/M self, L one, XL/critical-path both
 authority: <everything allowed beyond the role's defaults: e.g. build-only; guest attempts: 1>
+expected: <upper bound of the brief's Expected time, e.g. 2h or 45m; `rob board` flags the op overdue past it>
 ```
 
 ## Brief body

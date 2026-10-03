@@ -232,6 +232,15 @@ product repos; ask its Arranger instead. Do not direct a child's ops; propose. I
 shared workflow reach the child as a change in its Arranger repo, or as a proposal for the templates
 it keeps in its own agents' repos.
 
+**Rule 20 — Supervise like OTP** (`~/wip-workflow/docs/method.md` § The supervision tree). Every op
+gets an `expected:` time (`tools/rob new ... expected=2h`). Look at overdue ops first (`tools/rob
+board` marks them), at each session start and before each reply: no progress in the agent's commits
+or work directory means its session stopped, so restart it in a fresh session with the work carried
+inline. One agent's failure restarts that agent (one_for_one); a shared dependency change makes every
+dependent re-check (one_for_all); a failed op's dependents are re-planned (rest_for_one). After two
+failed rounds or two stops on one item, escalate with a changed approach. Source: op-447 sat stopped
+for 14 hours unnoticed (2026-10-04).
+
 ## Banked incident lessons
 
 - **op-081 / op-081-R** — the bug was in the *harness*, not the code (stale KWQ-disable). The
