@@ -2009,3 +2009,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-436 issued → returned; op-439 created as a draft; op-437 brief gains the cleanup line (still held).
 - evidence: `git diff --stat 42bf6205 pid1-boot-1`; `sha256` of both images; `stat` of the repo directories.
 - next: Send op-437 (Implementer) and op-439 (gatekeeper1); they are independent.
+
+### j-20261003-020 — ZFS is the default image root; op-439 accepts the ZFS image only
+
+- time / kind: 2026-10-03 / DECISION (Coordinator)
+- outcome: The Coordinator says ZFS is rmxOS's default root. UFS is only for a use case that needs it, such as a small or high-performance setup; an installer medium does not require it. op-436's UFS image is not accepted or tested. op-439 is reworded to ZFS only, with its budget cut from 10 boots to 7. The Coordinator asked whether two images made op-436 slow. They did not. Composing both images took about 6 minutes (14:06-14:12). Most of the roughly 12 hours went into full world builds (03:18-13:03, with failures from inherited build environment) and two more world builds; the extra cost of "both" was the per-filesystem offline read-back harness. Future briefs ask for one ZFS image, and for reuse of an existing world build where its inputs are unchanged.
+- state delta: op-439 brief edited (still draft).
+- evidence: `ls -ltr rmx-implementer/build/op436`.
+- next: Send op-437 and op-439.
