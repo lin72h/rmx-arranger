@@ -1,13 +1,13 @@
 ---
 id: op-470
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-016
 authority: guest boots: up to 2 on copies of op449-boot-zfs-r4.raw, a 75-minute cap each; doas: load vmm.ko if absent, and the runner's bhyve calls; push rmx-gatekeeper1 main
 expected: 2h
 issued-at: 2026-10-04T05:15Z
-updated: 2026-10-04T05:54Z
+updated: 2026-10-04T10:15Z
 ---
 # op-470 — Gatekeeper 1: op-445 soak re-run on op-449's bounded-logger ZFS image
 

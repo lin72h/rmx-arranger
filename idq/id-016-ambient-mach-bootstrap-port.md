@@ -182,3 +182,17 @@ trust depends on the fix (id-046).
 launchd's respawn throttle runs about 53 times too fast (N1): a crashing job respawns after about
 0.19 s instead of 10 s. launchd's post-fork task-port calls act on launchd itself rather than
 the child (N5). Both bear on PID-1 behavior and on reading op-391's results.
+
+## PID-1 logging (2026-10-04, op-449, op-470)
+
+- op-449 bounded launchd's log queue and logs through `syslog(3)` when asld is not running
+  (`pid1-boot-1@21c11e10`); op-470 soak: PID-1 RSS flat (4,484/4,488 KiB vs op-445's 6,596).
+- Follow-ups, small, not on the critical path:
+  - launchd messages from before `syslogd` starts reach the console only (op-470 serial lines
+    94-95), not `/var/log/messages`; `syslog(3)` is called without `LOG_CONS`.
+  - `launchd_log_dropped()` has no caller: dropped queue entries are counted, never reported.
+  - Every job stop logs `Job was sent unexpected signal: 0` at `LOG_ERR | LOG_CONSOLE`
+    (`sbin/launchd/core.c:1080`, the `default:` case of the signal switch): signal 0 is an
+    existence check and should not log. Previously invisible because the queue was never drained.
+  - Old debug `syslog(LOG_ERR, …)` lines ("jobmgr created!!!!", "kevent_moddding") now reach
+    `/var/log/messages`.

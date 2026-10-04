@@ -1,13 +1,13 @@
 ---
 id: op-475
-state: hold
+state: draft
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 needs: op-470
 authority: 4 boots max on copies of the op468 pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
-updated: 2026-10-04T09:52Z
+updated: 2026-10-04T10:15Z
 ---
 # op-475 — Gatekeeper 1: proof of op-468 (libdispatch adaptation)
 
