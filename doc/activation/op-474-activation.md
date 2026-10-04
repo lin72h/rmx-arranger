@@ -1,12 +1,13 @@
 ---
 id: op-474
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 2h
-updated: 2026-10-04T08:20Z
+issued-at: 2026-10-04T10:25Z
+updated: 2026-10-04T10:25Z
 ---
 # op-474 — Validator 3: review of op-468 (libdispatch adaptation, step 4 part 2a)
 
