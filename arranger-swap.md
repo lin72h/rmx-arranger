@@ -2695,3 +2695,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-447 and op-461 returned → closed.
 - evidence: `git ls-remote origin refs/heads/mach-fixes-4`; `git rev-parse origin/main` in rmx-implementer (`bafabbe`).
 - next: Step 4 part 2 (op-435 § 4 items 4-6); the Implementer is on op-449, so its first op is drafted on hold.
+
+### j-20261004-041 — op-468 (step 4 part 2a, libdispatch) drafted on hold behind op-449
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: Step 4 part 2 is op-435 § 4 items 4-6: consumer adaptation (libdispatch, launchd, libxpc), pure C1 with public KNOTE, and D2. Item 4 is split by consumer for reviewable returns; libdispatch first, as op-468 (branch `mach-fixes-5` from `0924690c`; six tests first; two images; `expected: 4h`), checked against safety-flag-avoidance.md. It waits on hold (`needs: op-449`) because the Implementer is one agent. The launchd and libxpc halves, then items 5 and 6, stay in id-046 until it returns.
+- state delta: op-468 created, on hold.
+- evidence: `tools/rob show op-468`.
+- next: op-449's reply; then op-468.
