@@ -249,3 +249,5 @@ older lessons.
 - **Replies are casts (Coordinator, 2026-10-04, meta-012).** A call's answer is a reply, a unicast
   cast headed `reply to op-NNN`. Record it with `tools/rob reply op-NNN <file>`: it takes the next
   free number (never the call's, "less confusion"). j-023 had misread this (j-025).
+- **Generate ops without asking (Coordinator, 2026-10-04).** When the next step is an op, draft it and
+  show it; do not ask whether to draft it.
