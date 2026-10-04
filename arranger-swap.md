@@ -2824,3 +2824,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-477u; review file hash and `rmx-validator3@aafa03d` checked. **F1 confirmed first-hand**: on `MACH_RCV_BODY_ERROR` the kernel still puts the message with the rights and out-of-line memory already copied out (`sys/compat/mach/ipc/mach_msg.c:436-443`); the manager logs and breaks (`source.c:2793-2797`), so they are never released. **F2 ruled no change**: unregister's returned send-once right is libdispatch's own, and consuming it with the `consume_send_once_right` simpleroutine (`source.c:2994`, no-op handler `init.c:1281`) is Apple's upstream mechanism and releases exactly that right; the reviewer does not claim a leak. The op-468 rule ("release only owned urefs with `mach_port_deallocate`; never close or destroy") was aimed at borrowed names, so this path meets its intent. The reviewer's suggested control (unregister with a request pending) is added as a test because no case covers that path. op-478 (Implementer, same branch, two images, test-first) fixes F1 and adds both tests. op-475 continues on op-468's pair (still a valid proof of those six cases); the next proof covers op-478's pair.
 - state delta: op-474 returned; op-477u recorded; op-478 draft.
 - next: Close op-474 as a review (its findings are adjudicated); the Coordinator sends op-478.
+
+### j-20261004-058 — op-449 closed: pid1-boot-1@21c11e10 pushed to the public origin
+
+- time / kind: 2026-10-04 / ACTION (Coordinator's yes)
+- outcome: Pushed `pid1-boot-1` from `969f2151` to `21c11e10` on `origin` (github lin72h/rmxOS), fast-forward, verified by fetch; rmx-implementer `main` pushed to `d306eb3` (standing permission), which carries op-449's and op-468's records. op-449 closed: verified first-hand (j-049) and proven by op-470 (j-056). op-478 issued.
+- state delta: op-449 returned → closed; op-478 issued.
+- next: op-475 and op-478 replies.
