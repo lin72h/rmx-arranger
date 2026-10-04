@@ -2613,3 +2613,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-457 and op-458 issued → returned → closed; op-459u and op-460u recorded (closed); op-461 created as a draft.
 - evidence: the hashes and source lines above; `tools/roles check`.
 - next: The Coordinator sends op-461 (fresh Implementer session, or a reload). Then a Gatekeeper proof and validator3's re-review; op-449 after.
+
+### j-20261004-031 — op-461 sent
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator sent op-461 (Implementer: op-447 remediation, F1 and F2), `expected: 3h`.
+- state delta: op-461 draft → issued.
+- evidence: `tools/rob board`.
+- next: Record its reply with `rob reply`, verify, then a Gatekeeper proof and validator3's re-review; op-449 after.
