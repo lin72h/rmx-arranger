@@ -2803,3 +2803,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-472u sent; op-468 back to issued (`rob set --force`: rob has no returned → issued transition for a resumed call; candidate for meta-013). op-470 issued-at corrected to 05:15Z from gatekeeper1's first `build/op470` files (18:19 NZDT), so the overdue clock is right. Coordinator: keep bookkeeping out of replies; handle it here.
 - state delta: op-468 issued; op-470 issued; op-472u closed.
 - next: op-470's and op-468's replies.
+
+### j-20261004-055 — op-468 returned and verified; review op-474 (validator3) and proof op-475 (gatekeeper1, hold) drafted
+
+- time / kind: 2026-10-04 / REVIEW
+- outcome: Reply recorded as op-473u. Verified first-hand: `mach-fixes-5@015e7723` is 11 commits on `0924690c` touching only `lib/libdispatch/src` and `tests` (10 files, +600/-97); all six rmx-implementer commits resolve; both image hashes match; the base/fixed payload BOMs differ in 3 of 42 rows (`libdispatch.so.5`, `.a`, `.debug`) and the test program and Kyuafile are identical; the record's table gives fixed 61/61 and base 5 expected failures plus `late_death` passing (credited to the kernel's lifetime handling, which the brief allowed). `coordination.c` is a C call-recording shim; test logic is Zig. Sized L (Mach path): validator3 review (op-474, sendable now: source only) and gatekeeper1 before/after proof (op-475, hold until op-470 returns, one agent). Both checked against safety-flag-avoidance.md and for Arranger-only citations.
+- state delta: op-468 returned (op-473u); op-474 draft; op-475 hold (needs op-470).
+- next: The Coordinator sends op-474; op-475 after op-470.
