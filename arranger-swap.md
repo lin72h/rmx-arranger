@@ -2663,3 +2663,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-461 issued → returned; op-463u recorded; op-464 and op-465 created as drafts.
 - evidence: the hashes and counts above.
 - next: The Coordinator sends op-464 and op-465.
+
+### j-20261004-037 — op-464 and op-465 sent; op-449 brought up to date and ready
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator sent op-464 (gatekeeper1 proof) and op-465 (validator3 re-review). The Implementer is free and op-449 (launchd PID-1 log queue, on `pid1-boot-1`) touches nothing on the Mach branch, so it can run alongside them. Its brief was rewrapped under 80 characters, given the reply block (meta-012) and the full image path, and checked against safety-flag-avoidance.md; content unchanged. hold → draft.
+- state delta: op-464 and op-465 draft → issued; op-449 hold → draft.
+- evidence: `tools/rob board`.
+- next: The Coordinator sends op-449.

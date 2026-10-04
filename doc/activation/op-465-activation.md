@@ -1,13 +1,14 @@
 ---
 id: op-465
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 gate: self
 authority: none beyond the defaults: read-only; no guests
 expected: 90m
-updated: 2026-10-04T01:32Z
+issued-at: 2026-10-04T01:34Z
+updated: 2026-10-04T01:34Z
 ---
 # op-465 — Validator 3: re-review after op-461 (entry check, reply identity)
 
