@@ -12,7 +12,7 @@ decides.
 
 ## The operating loop
 
-**REPORT → verify first-hand → review → close, then write the next ops.** A report describes
+**Reply → verify first-hand → review → close, then write the next ops.** A reply describes
 *intent*; verification confirms *fact*. Never relay.
 
 ### Completion and avoiding churn
@@ -66,7 +66,7 @@ whether it may run yet. Format: [op-brief-forms.md](op-brief-forms.md).
 or the Arranger names one as the next dispatch, the reply contains the entire brief from
 `tools/rob show` as one clean copy-paste block. A summary, stub, or path never substitutes. The
 brief holds only what is specific to the op; the role repo's `OPS.md` holds the defaults and the
-REPORT block (op-brief-forms.md). Plain labels only, no box-drawing. The op stays `draft` until the
+reply block (op-brief-forms.md). Plain labels only, no box-drawing. The op stays `draft` until the
 Coordinator says it was sent. Source: Coordinator, 2026-06-21, 2026-07-22; simplified 2026-09-28; OPS.md split 2026-09-28.
 
 **Rule 5 — Present only what can run now; sequence the rest.** An op is ready when its `needs`
@@ -94,7 +94,7 @@ instances (text every role shares lives in `rmx-role0`). Render instances with `
 never hand-edit rendered files. Agents keep their own notes and lessons in
 `LOCAL.md`: read it when reviewing their work, and promote lessons worth sharing into the
 template. Before renaming or re-rendering a repo, check that its agent has no op in flight and no
-process working there; if it has, wait for its REPORT or send a cast first (a folder was renamed
+process working there; if it has, wait for its reply or send a cast first (a folder was renamed
 under a live Implementer session on 2026-09-28). Send a cast (op-NNNu) when a change affects an agent's
 working knowledge, and none otherwise. Raw evidence, dispositions, attempt accounting, and product
 source are outside this access. Source: Coordinator, 2026-09-28 (j-20260927-013, j-20260927-016).
@@ -110,7 +110,7 @@ completion* and *solidity-blocker* work is not. Tag ledger items `solidity-block
 **Rule 11 — Size every gate; delegate substantial independent review.**
 Choose review depth (how many reviewers) by risk and evidence surface, never by cost; choose which
 Validator by the question and by cost:
-- **Return is not closure.** When a REPORT arrives, `tools/rob set op-NNN returned`. `returned`
+- **Return is not closure.** When a reply arrives, `tools/rob reply op-NNN <file>` records it and sets the call `returned`. `returned`
   means only that the agent answered. Close the op after its gate is reviewed and every
   downstream/origin blocker is clear.
 - **Size by what the work decides, not by caution** (Coordinator, 2026-10-01): build, staging and
@@ -190,11 +190,11 @@ Source: Coordinator, 2026-10-02.
 
 - **Streamlining (2026-10-03).**
   - Every Implementer op that stages test images ends with its own guest self-check. Draft the
-    Gatekeeper proof only after the REPORT shows a green self-check.
+    Gatekeeper proof only after the reply shows a green self-check.
   - Prefer tests of user-visible behaviour over kernel fixtures; a fixture that needs run-time
     symbol lookup or private ABI is a last resort (op-441 to op-443).
   - Two failed rounds on one item: stop and simplify, do not brief a third patch.
-  - A returned REPORT means the op was sent; record it without asking.
+  - A reply that comes back means the op was sent; record it without asking.
   - Every op shown to the Coordinator carries an **Expected time** (setup + run + write-up), and
     long runs are flagged before sending. Soaks are as short as the question allows; hour-plus
     soaks are for li-004. Rough guides (2026-10-03): Implementer fix with self-check 1-3 h;
@@ -219,7 +219,7 @@ skipped when the next batch's proof re-runs the cases (Rule 16, Streamlining).
 
 **Rule 18 — Dynamic roles: hold what is unseated, seat when the work calls for it.** Think in
 the full set of roles. A role without an agent is held by the Arranger: its work is still an op for
-that role (`held: arranger`), in its repo, under its OPS.md and REPORT form, so a new agent can take
+that role (`held: arranger`), in its repo, under its OPS.md and reply form, so a new agent can take
 the seat without rework. Propose a seat for performance, independence or place, with what it costs
 and saves; seating moves open held ops to the new agent and the Arranger's notes into its
 `LOCAL.md` (roles.md § Dynamic roles). Worked example: zenoh-swift (2026-10-04).
@@ -240,10 +240,13 @@ dependent re-check (one_for_all); a failed op's dependents are re-planned (rest_
 failed rounds or two stops on one item, escalate with a changed approach. Source: op-447 sat stopped
 for 14 hours unnoticed (2026-10-04).
 
-**Rule 21 — Calls and casts.** An op is a call (a brief answered by a REPORT) or a cast, an op
+**Rule 21 — Calls and casts.** An op is a call (a brief answered by a reply cast) or a cast, an op
 without a reply (Erlang's `gen_server:cast`): `op-NNNu` unicast to one agent, `op-NNNb` broadcast to
 all direct subagents (`tools/rob new ... cast=u|b`). A cast replaces the NOTICE and retires when sent
-(`tools/rob set op-NNNu closed`). Workflow change meta-008.
+(`tools/rob set op-NNNu closed`). Workflow change meta-008. A call is answered by a **reply**, a
+unicast cast from the agent headed `reply to op-NNN`: record it with `tools/rob reply op-NNN <file>`,
+which gives it the next free number and `answers: op-NNN` and sets the call `returned` (meta-012;
+the REPORT is retired).
 
 ## Banked incident lessons
 
@@ -272,7 +275,7 @@ all direct subagents (`tools/rob new ... cast=u|b`). A cast replaces the NOTICE 
 - `roles.md` — roles, repos, edges, and the review and closure rule.
 - `terminology.md` — names, hosts, repos, workflow vocabulary, retired terms (§9).
 - `now.md` — the current critical path.
-- `op-brief-forms.md` — the op file, brief sections, and REPORT block.
+- `op-brief-forms.md` — the op file, brief sections, and reply block.
 - `rob-mini-format.md` — op states, the board, and op ids (`tools/rob`).
 - `validator-rulebook.md` — the Validators' craft; an identical copy lives in each Validator repo
   (`../rmx-validator1/`, `../rmx-validator2/`, `../rmx-validator3/`), not this workspace.

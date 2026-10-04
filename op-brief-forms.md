@@ -1,17 +1,17 @@
-# Op briefs and REPORTs
+# Op briefs, replies and casts
 
 Every op is one file, `doc/activation/op-NNN-activation.md`, created with `tools/rob new`. Its
 front matter is the op's state; its body is the brief. The Coordinator relays every brief and every
-REPORT by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form convention.)
+reply by hand. (Rewritten 2026-09-28; supersedes the short/normal/long-form convention.)
 
 ## Where each part lives
 
 - **Each role repo's `OPS.md`** is that role's standing op contract: what a brief contains, the
-  defaults that apply unless a brief says otherwise, and the REPORT block. It is rendered from the
+  defaults that apply unless a brief says otherwise, and the reply block. It is rendered from the
   role's template (roles.md § Templates and instances), and the role's `AGENTS.md` links it.
-- **The brief** carries only what is specific to its op. Never repeat the defaults or the REPORT
+- **The brief** carries only what is specific to its op. Never repeat the defaults or the reply
   block in it.
-- Until a role repo has an `OPS.md`, add that role's defaults and the REPORT block to the brief.
+- Until a role repo has an `OPS.md`, add that role's defaults and the reply block to the brief.
 - The Arranger maintains every role repo's `AGENTS.md` and `OPS.md` directly (one-way access,
   `roles.md` § Edges). Briefs never point agents at this repo.
 
@@ -43,10 +43,14 @@ marker, limit, and stop condition; cut narration. When the Coordinator asks for 
 `tools/rob show` output as one clean copy-paste block with no line numbers and no box-drawing.
 Showing a brief does not send it.
 
-## REPORT (source: `rmx-role0/partials/report.md`; this copy is for reference)
+## Reply (source: `rmx-role0/partials/report.md`; this copy is for reference)
+
+A call is answered by a **reply**, a unicast cast from the agent headed `reply to op-NNN`. Record
+it with `tools/rob reply op-NNN <file>`: it becomes the next `op-NNNu` with `answers: op-NNN`, closed
+on arrival, and the call becomes `returned` (meta-012; the reply is retired).
 
 ```text
-REPORT op-NNN
+reply to op-NNN
 agent:      <role / instance>
 outcome:    DONE | PARTIAL | BLOCKED | FAILED — one line
 evidence:   <path> sha256:<hash>   (one per line; raw artifacts, not summaries)
@@ -62,7 +66,7 @@ Validators add four lines after `outcome`: `question:` (the distinguishing quest
 
 ## Casts: ops without a reply (op-NNNu, op-NNNb) — replaces the NOTICE (meta-008)
 
-An op is a **call** (a brief answered by a REPORT) or a **cast** (a message that expects no reply,
+An op is a **call** (a brief answered by a reply cast) or a **cast** (a message that expects no reply,
 after Erlang's `gen_server:cast`). Casts take the next op number with a suffix: **op-NNNu** unicast
 to one agent (`tools/rob new "<title>" agent=<id> repo=<repo> cast=u`); **op-NNNb** broadcast to all
 direct subagents (`agent=all repo=all cast=b`). Send one when an Arranger change could affect what an
@@ -76,5 +80,5 @@ changed:  <repo-relative paths, with commits>
 meaning:  <what is different for the reader, one to three lines>
 action:   none | re-read <files> before your next step | <specific instruction>
 
-This is a cast: no REPORT is expected.
+This is a cast: no reply is expected.
 ```

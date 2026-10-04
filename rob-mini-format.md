@@ -9,7 +9,7 @@ never hand-edit a state tag. (Rewritten 2026-09-28; the older CPU-style tags are
 |---|---|---|
 | `draft` | brief complete, ready to send now, and safe to run alongside everything in flight | `issued`, `hold`, `dropped` |
 | `issued` | Coordinator confirmed it was relayed to the named agent | `returned`, `dropped` |
-| `returned` | the agent's REPORT came back; **not** yet reviewed | `closed`, `dropped` |
+| `returned` | the agent's reply came back (`tools/rob reply`); **not** yet reviewed | `closed`, `dropped` |
 | `hold` | brief exists but is not ready: waiting on an op, a decision, or a conflict with work in flight | `draft`, `dropped` |
 | `closed` | reviewed per the risk-sized rule and every blocker is clear (including origin reachability of produced commits) | — |
 | `dropped` | did not work out or was superseded; redo work gets a new op number | — |
@@ -19,7 +19,7 @@ that stops being ready goes to `hold`. So the board's `draft` line is exactly wh
 (Coordinator, 2026-09-28).
 
 Transitions happen when the fact happens: `issued` when you say "sent", `returned` when you paste
-the REPORT back, `closed` only after the review in [roles.md](roles.md) § Review and closure. A dependent op lists
+the reply back, `closed` only after the review in [roles.md](roles.md) § Review and closure. A dependent op lists
 `needs: [op-NNN]` in its header instead of using a separate waiting state.
 
 ## The board

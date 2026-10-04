@@ -30,6 +30,12 @@ Delete or rewrite this file once its open items are done.
 No longer needed: the Implementer was resumed (j-20261004-022). The prompt is in Git at
 `da1ec59`.
 
+## Pending render (meta-012)
+
+`rmx-implementer` was not re-rendered for meta-012 because its session was open: apply
+`doc/pending/implementer0-meta012.patch` to its `implementer0/`, render, and commit by name when it
+is idle (j-20261004-026). The mm4 instances are still pending too.
+
 ## The main task: Mach foundation, then PID-1 launchd
 
 - **Mach batches 1-3 are accepted and on origin:** `mach-fixes-1@903c8fc2`, `mach-fixes-2@ee883a74`,

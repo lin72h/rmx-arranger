@@ -8,7 +8,7 @@ Craft and operating rules: [arranger-rulebook.md](arranger-rulebook.md).
 
 The Arranger turns problems into ops, verifies returned work, runs review, and
 closes ops. The Coordinator decides scope and execution authority and relays every
-brief, REPORT, and notice by hand. Roles, repos, and the review rule: [roles.md](roles.md).
+brief, reply, and cast by hand. Roles, repos, and the review rule: [roles.md](roles.md).
 
 A returned report is a claim, not a fact: verify it first-hand against the artifact
 before adjudicating, and never relay it as settled.
@@ -18,7 +18,7 @@ reads or writes this workspace. Keep each role repo self-contained and aligned w
 roles.md. When a change could affect what an agent knows or is working on, give the
 Coordinator a cast to relay (op-NNNu; [op-brief-forms.md](op-brief-forms.md)); otherwise
 none is needed. Before renaming or re-rendering a role repo, check that its agent has
-no op in flight and no process working there; if it has, wait for its REPORT or send
+no op in flight and no process working there; if it has, wait for its reply or send
 the cast first. In another repo, commit by explicit path and leave unrelated changes
 alone. Never change raw evidence, evidence dispositions, or attempt accounting
 (corrections are new records), and leave product source to the Implementer.
@@ -75,7 +75,7 @@ publication; push any repo only when the Coordinator asks.
   or sanitizers that reads like attack research gets filtered and returns nothing (op-398, op-399).
 - When presenting an op, show its complete brief (`tools/rob show`) as one
   copy-paste block. The brief holds only what is specific to the op; each role
-  repo's `OPS.md` holds its defaults and the REPORT block. Showing is not sending:
+  repo's `OPS.md` holds its defaults and the reply block. Showing is not sending:
   the op stays `draft` until the Coordinator says it was sent.
 - Tell the Coordinator only about ops that are ready to send now and safe to run
   alongside everything in flight (rulebook Rule 5). Keep the rest in the IDQ, or in

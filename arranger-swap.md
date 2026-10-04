@@ -2559,3 +2559,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `grep` of the method and forms (casts: "no REPORT is expected"); this entry.
 - next: The Coordinator settles the numbering question; then meta-012.
+
+### j-20261004-026 — meta-012: a call is answered by a reply cast (numbered on arrival); the REPORT is retired; rendered to every idle rmxOS agent
+
+- time / kind: 2026-10-04 / DECISION (Coordinator) + ACTION
+- outcome: The Coordinator chose option 2 ("less confusion"): an agent's reply is a unicast cast that takes the next free op number when the Arranger records it, and names the call it answers.
+  - `~/wip-workflow` meta-012 (`b0e360b`, tagged; op-455, closed): `rob reply CALL [FILE|-]` (the reply becomes `op-NNNu` with `answers:`, closed on arrival; the call becomes `returned`), with `answers:` checked by `rob check`; method, forms, improving, README, scaffold roles.md, base op-brief-forms, rob-mini-format, base Arranger AGENTS and rulebook, base Implementer AGENTS and OPS, and the `report` partial (name and blocks kept). Tests: rob 27/27, roles 20/20; the scaffold renders with no unresolved markers and no REPORT left.
+  - rmxOS took it: lock at meta-012; rmx-role0 `124e961` (the `report` partial now heads `reply to op-NNN`), validator0 `a16a31a`, explorer0 `07c94d0`, gatekeeper0 `c4bee46`, advisor0 `a5feec6`; each OPS.md § Reply says the reply is a unicast cast numbered on arrival; arranger0 (Rule 21), op-brief-forms.md, rob-mini-format.md and roles.md updated.
+  - Rendered and committed by name (no live agent in these repos, checked with `procstat -f`): gatekeeper1 `837f44d`, explorer1 `9173410`, advisor1-3 `5f942e3` `1d09115` `ec73e73`, validator1-3 `98a1387` `67e55d7` `56d15a3`, and this repo.
+  - Not rendered: `rmx-implementer`, whose op-447 session is still open (process 297). Its implementer0 edits were taken out of its working tree into `doc/pending/implementer0-meta012.patch`, to apply and render when it is idle. mm4 instances: still pending.
+  - op-456u (draft): a cast to the zenoh-swift Arranger to reread CHANGELOG meta-011 and meta-012.
+- state delta: op-455 created → closed; op-456u created as a draft.
+- evidence: `tools/roles check` (10 instances, 1 needs attention: rmx-implementer stale, by design); the test runs; `git show --name-only` of each commit.
+- next: The Coordinator relays op-456u. Render rmx-implementer when its session is closed. The Gatekeeper and validator3 briefs for op-447.

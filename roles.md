@@ -2,7 +2,7 @@
 
 Status: canonical for the workflow: who the roles are, what may pass between them, and how
 returned work is reviewed and closed. Terms: [terminology.md](terminology.md). Op states and the
-board: [rob-mini-format.md](rob-mini-format.md). Brief and REPORT format:
+board: [rob-mini-format.md](rob-mini-format.md). Brief and reply format:
 [op-brief-forms.md](op-brief-forms.md). Current critical path: [now.md](now.md).
 The Arranger keeps every role repo aligned with this file through one-way access (§ Edges);
 agents read only their own repo.
@@ -11,7 +11,7 @@ agents read only their own repo.
 
 | Role | Repo | Does | Does not |
 |---|---|---|---|
-| **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and REPORT by hand; accepts evidence; final appeal | — |
+| **Coordinator** (human owner) | — | sets milestones and scope; relays every brief and reply by hand; accepts evidence; final appeal | — |
 | **Arranger** (holds the **Arbiter** seat) | `rmx-arranger` | turns problems into ops, verifies returns first-hand, runs review, closes ops; keeps every role repo's instructions aligned (one-way access) | write product source; change evidence or attempt accounting |
 | **Implementer** | `rmx-implementer` (origin `project-rmx`) | sole writer of product source; builds and commits; self-checks its own test images in contained guests (not evidence) | grade its own work; dispose evidence |
 | **Explorer**: explorer1 (rx-x64z), explorer2 (mx-a64z) | `rmx-explorer1` here; `rmx-explorer2` on mm4 | finds divergences from real macOS; authors parity probes; owns the mismatch ledger (`findings/nx-r64z`) | gate the Implementer |
@@ -27,7 +27,7 @@ Explorer and Gatekeeper instances are named on the "ruler" grammar in terminolog
 The workflow always thinks in the full set of roles, but a role needs an agent only when the work
 calls for one (Coordinator, 2026-10-04). A project can start with the **Arranger alone, holding every
 role**: it does each role's work itself, as an op for that role (`held: arranger`), in that role's
-repo, under its OPS.md and REPORT form. When complexity or performance requires, an agent takes the
+repo, under its OPS.md and reply form. When complexity or performance requires, an agent takes the
 seat. Because the work already has the role's shape, nothing needs reworking. Seat a role for
 **performance** (the Arranger's queue is the bottleneck and the work can run in parallel),
 **independence** (a second judgement, or separate evidence) or **place** (another host, platform or
@@ -80,7 +80,7 @@ onboarding kit), lives in `~/wip-workflow`, maintained by this Arranger as the t
    reference as its acceptance criterion; the Implementer implements to it and the Gatekeeper
    validates against it. Non-observable internals (races, invariants, performance) the
    Implementer diagnoses itself.
-3. The Coordinator relays the brief (`issued`) and later relays the REPORT back (`returned`).
+3. The Coordinator relays the brief (`issued`) and later relays the agent's reply back (`returned`, recorded with `tools/rob reply`).
 4. The return is reviewed at its size (below). The Arranger then closes the op, or drops it and
    writes a new one.
 5. The Gatekeeper guards closed work against macOS-truth and regression.
@@ -91,7 +91,7 @@ Ops for different agents run in parallel and may close in any order.
 - The Implementer runs its own test images in contained guests before returning (its OPS.md §
   Self-check). The Gatekeeper's proof is briefed only after a green self-check, and it stays the
   acceptance.
-- A REPORT that comes back proves its op was sent: the Arranger records it as issued and returned
+- A reply that comes back proves its op was sent: the Arranger records it as issued and returned
   without asking.
 - After two failed rounds on the same item, the Arranger simplifies the check or the approach
   instead of briefing a third patch.
@@ -101,7 +101,7 @@ Ops for different agents run in parallel and may close in any order.
 | From | To | Carries | Via |
 |---|---|---|---|
 | Arranger | any agent | brief (op) | Coordinator, by hand |
-| any agent | Arranger | REPORT | Coordinator, by hand |
+| any agent | Arranger | reply (a unicast cast, `op-NNNu`) | Coordinator, by hand |
 | Arranger | Validator | review brief for a returned op | Coordinator, by hand |
 | Arranger | Advisor | consult question | Coordinator, by hand |
 | Explorer | Gatekeeper | evidence | Gatekeeper reads it |
@@ -121,13 +121,13 @@ evidence dispositions, and guest-attempt accounting are never changed (correctio
 records), and product source stays the Implementer's.
 
 Each role repo has an `AGENTS.md` (standing rules) and an `OPS.md` (its op contract: brief format,
-defaults, and the REPORT block), so a brief carries only what is specific to its op.
+defaults, and the reply block), so a brief carries only what is specific to its op.
 
 ## Templates and instances
 
 Source: Coordinator, 2026-09-28 (j-20260927-016, singleton layout j-20260927-018). Every role is a
 class with a template (its standing text) and instances; `rmx-role0` is the root template with
-text every role shares (project context, the cast rule, the REPORT block, the evidence limits).
+text every role shares (project context, the cast rule, the reply block, the evidence limits).
 
 - **A role with one instance** is one repo with no number, `rmx-<role>`. The repo is the instance
   (implicitly instance 1, id `<role>`), and its template lives inside it in `<role>0/`:

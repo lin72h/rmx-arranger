@@ -246,5 +246,6 @@ older lessons.
   agent without telling this seat. Before rendering an agent's repo or reporting it stopped, list
   agent processes (`ps -axo pid,etime,command | grep -E 'codex|claude'`) and read each one's cwd
   (`procstat -f <pid>`). File times alone missed op-447's resume (j-20261004-022).
-- **REPORTs become casts (Coordinator, 2026-10-04; shape pending).** A call's answer is a cast from
-  the agent (op-NNNu), not a REPORT. j-20261004-023 misread this as "no relayed REPORTs" (j-025).
+- **Replies are casts (Coordinator, 2026-10-04, meta-012).** A call's answer is a reply, a unicast
+  cast headed `reply to op-NNN`. Record it with `tools/rob reply op-NNN <file>`: it takes the next
+  free number (never the call's, "less confusion"). j-023 had misread this (j-025).
