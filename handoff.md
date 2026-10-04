@@ -15,6 +15,17 @@ alias. Rewrite or delete this file once its open items are done.
 `tools/roles check`: 10 instances, 0 need attention (all at meta-012). Workflow pin meta-012, the
 newest tag. `rob check` has one known item: op-384 needs the dropped op-387.
 
+## Update 2026-10-04 evening (j-049 to j-052)
+
+- op-449 returned and verified first-hand (j-049); it stays `returned` until gatekeeper1's
+  op-470 soak re-run passes, then push `pid1-boot-1` (needs the Coordinator's yes) and
+  rmx-implementer, and close. op-470 and op-468 are drafted, shown in full, not yet sent.
+- Disk (j-050 to j-052): pool from 93% to 70% (270 GB free). `zroot/wip-rnx` destroyed, /tmp's
+  pre-September entries removed, volta's scratchpad cleared, `zroot/wip-volta-work` created.
+  Left for another day (Coordinator): swift-sdk's old Swift trees in `/Users/me/wip-rnx` (~162 GB;
+  the swift-sdk Arranger is the recommended remover, after saving their text files) and, after
+  swift-sdk's op-108 passes and its keep list is copied, `zroot/wip-rnx-normd`.
+
 ## In flight
 
 - **op-449** (Implementer, `pid1-boot-1`): launchd as PID 1 keeps every log message in memory when
