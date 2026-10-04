@@ -1,11 +1,12 @@
 ---
 id: op-472u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-updated: 2026-10-04T05:48Z
+issued-at: 2026-10-04T05:51Z
+updated: 2026-10-04T05:51Z
 ---
 # op-472u — Implementer: op-468 continue; the decision text is inline
 
