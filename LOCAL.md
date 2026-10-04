@@ -260,3 +260,6 @@ older lessons.
   replace each with the text itself or "this list is the complete decision".
 - **Keep bookkeeping out of replies (Coordinator, 2026-10-04).** Fix state, times and tool quirks
   myself and journal them; tell the Coordinator only what needs a decision or a relay.
+- **Pushing proven product branches (Coordinator, 2026-10-05).** Standing yes: once an op is verified,
+  reviewed and proven, push its product branch (`mach-fixes-*`, `pid1-boot-*`) to the public rmxOS
+  origin by commit hash without asking, then close. Report the push in the reply.

@@ -1,6 +1,6 @@
 ---
 id: op-478
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: libdispatch builds (no world); 2 images; 3 self-check boots; no push
 expected: 3h
 issued-at: 2026-10-04T10:40Z
-updated: 2026-10-04T11:13Z
+updated: 2026-10-04T21:09Z
 ---
 # op-478 — Implementer: op-468 remediation — release resources after a partial receive
 

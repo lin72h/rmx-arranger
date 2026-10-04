@@ -1,6 +1,6 @@
 ---
 id: op-468
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: libdispatch builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-04T05:51Z
-updated: 2026-10-04T09:47Z
+updated: 2026-10-04T21:09Z
 ---
 # op-468 — Implementer: step 4 part 2a, libdispatch (op-435 § 4 item 4)
 

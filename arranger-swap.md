@@ -2880,3 +2880,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-487u (BLOCKED, nothing committed). Confirmed `core.c:3805-3840`: `j->crashed` is set only for `SIGILL`/`SIGABRT`/`SIGFPE`/`SIGBUS`/`SIGSEGV`/`SIGSYS`/`SIGTRAP`, and draining requires it; my brief's "exits with status 1" never reaches the drain. Decision: keep upstream's rule; the drain tests use a job that ends by `SIGABRT` on purpose. op-488u carries the decision and every remaining part; op-484's stored brief corrected.
 - state delta: op-484 returned → (issued again when op-488u is sent); op-487u recorded; op-488u draft.
 - next: The Coordinator sends op-488u; the `mach-fixes-5` push still awaits a yes.
+
+### j-20261005-007 — mach-fixes-5@b2d5f5b7 pushed; op-468, op-478, op-481 closed; standing push permission
+
+- time / kind: 2026-10-05 / ACTION (Coordinator's yes)
+- outcome: Created `mach-fixes-5` on origin (github lin72h/rmxOS) at `b2d5f5b7` by hash, verified by fetch; rmx-implementer `main` pushed. Closed op-468, op-478 and op-481 (verified first-hand, review op-474 adjudicated, proofs op-475 and op-483). The Coordinator gave a standing yes for this kind of push: once an op is verified, reviewed and proven, push its product branch by hash without asking (LOCAL.md). now.md updated.
+- state delta: op-468, op-478, op-481 returned → closed.
+- next: op-488u to send (if not yet); op-484's reply.
