@@ -1,13 +1,14 @@
 ---
 id: op-481
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: libmach and libdispatch builds (no world); 2 images; 3 self-check boots; no push
 expected: 3h
-updated: 2026-10-05T00:00Z
+issued-at: 2026-10-04T19:39Z
+updated: 2026-10-04T19:39Z
 ---
 # op-481 — Implementer: fix libmach mach_msg_destroy for received complex messages
 
