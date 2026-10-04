@@ -251,3 +251,13 @@ id-047. Unreached routines → id-052.
   space. Callers: libmach `mach_msg_server*`, launchd, notifyd, libnotify, asl `dbserver`,
   `si_module`, libdispatch. Fix: op-481 (libmach, then libdispatch uses it instead of op-478's
   local walker).
+
+## launchd consumer defects (2026-10-05, found drafting op-484)
+
+- `sbin/launchd/runtime.c:580-617` `mportset_callback`: calls `job_find_by_service_port()`'s result
+  as a callback with no NULL check (under `#if 0`); a service removed after readiness gives a call
+  through NULL in PID 1.
+- `sbin/launchd/core.c:7326-7369` `machservice_drain_port`: `calloc`'d buffers used as
+  `&req_buff`/`sizeof(req_buff)` (pointer variable's address and 8-byte size), never freed; with
+  `drain_all` the loop ends only on `MACH_RCV_TIMED_OUT`. Introduced by the port (Apple uses stack
+  arrays). Fix: op-484.

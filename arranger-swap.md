@@ -2852,3 +2852,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-482u. Verified: `mach-fixes-5@b2d5f5b7` is 2 commits on `22334ca3` (libmach `mach_msg.c` +37/-?, libdispatch removes op-478's walker for `mach_msg_destroy(hdr)`, new `tests/lib/libmach`); image hashes match; the pair's BOMs differ in 6 of 44 rows (libmach and libdispatch `.so`, `.a`, `.debug`) with all 26 test files identical; record: base 2/2 as expected, fixed 65/65. Code read: the walk now reads the message's own descriptors at their user sizes (12/16/16), copying each into aligned storage; the same layout holds for unsent messages (the function's second use), and disposition handling is unchanged; `MACH_MSG_OOL_VOLATILE_DESCRIPTOR` added. op-483 drafted: gatekeeper1 proves op-478's two cases on its base, op-481's two on its base, and all 65 on the final image. Sized L with op-474's review already done; after op-483 passes, op-468/op-478/op-481 close with the `mach-fixes-5` push (Coordinator's yes).
 - state delta: op-481 returned (op-482u); op-483 draft.
 - next: The Coordinator sends op-483.
+
+### j-20261005-003 — op-483 issued; op-484 (launchd consumer adaptation) drafted with two launchd defects found
+
+- time / kind: 2026-10-05 / ACTION
+- outcome: op-483 sent. While gatekeeper1 proves, drafted op-484, the launchd half of op-435 § 4 item 4, from advisor2's plan § 1 and the source at `mach-fixes-5@b2d5f5b7`. Reading the cited code found two defects (recorded in id-046): `mportset_callback` calls a possibly NULL job callback, and `machservice_drain_port` receives into the address of its buffer pointer with an 8-byte size, leaks its buffers and loops on any non-timeout error under `drain_all`. launchd has no EOF interception to remove, so that part of the plan is moot. op-484 can run alongside op-483 (different agent; launchd only; libdispatch and libmach unchanged while they are proven).
+- state delta: op-483 issued; op-484 draft.
+- next: The Coordinator sends op-484 when ready.
