@@ -2711,3 +2711,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: `swift-rx-arranger` first commit; `tools/rob check` there.
 - next: The Coordinator sends swift-rx's op-101.
+
+### j-20261004-043 — swift-rx moves to /Users/me/wip-swift-sdk as the swift-sdk project
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: Before op-101 was sent, the Coordinator chose a new home, `/Users/me/wip-swift-sdk`, leaving `/Users/me/wip-rnx` to be removed. The Arranger repo was cloned there as `agent-arranger` (project `swift-sdk`, prefix `agent-`), and my `/Users/me/wip-rnx/swift-rx-arranger` from j-042 was removed (created today, never used). Measured: the agent's repo is 63 GB of which Git is 82 MB, on `zroot/wip-rnx-normd`, while the root dataset has 56 GB free, so the move goes by `git clone` and only the build outputs the agent names are copied. op-101 is now a plain move message: commit work in flight, inventory (rules, state, what outside Git is needed, old paths), agreement, then stop for the clone and restart. projects.md updated.
+- state delta: none (rmxOS).
+- evidence: `zfs list`, `du`, `git count-objects` on the agent's repo.
+- next: The Coordinator sends the move message.
