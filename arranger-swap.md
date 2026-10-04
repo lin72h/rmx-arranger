@@ -2596,3 +2596,20 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-457 and op-458 draft → issued.
 - evidence: `tools/rob board`.
 - next: Record each reply with `tools/rob reply`, verify, then close op-447 (and ask before pushing `mach-fixes-4`). Render rmx-implementer when its session is closed; op-449 follows.
+
+### j-20261004-030 — op-457 proof passes (52/52); op-458 review REMEDIATE (two findings, both confirmed first-hand); op-461 remediation drafted; rmx-implementer rendered for meta-012
+
+- time / kind: 2026-10-04 / ACTION
+- outcome:
+  - First replies under meta-012, recorded with `rob reply`: op-459u (to op-457) and op-460u (to op-458).
+  - op-457 (gatekeeper1, `rmx-gatekeeper1@3145fd66`, on origin): base 11/11 FAIL as expected, fixed 52/52 PASS, 2 of 4 boots. Verified: both serial sha256s equal the reply; `final-observations.json` has 52 cases and no mismatches; no panic. The one "failed" line in the fixed serial is a kernel diagnostic inside the passing `reject_kqueue` case. Closed.
+  - op-458 (validator3, `65eded4`, review sha256 `856d426b…` verified): REMEDIATE, 9/10. Both findings confirmed in `b1ef1670`:
+    - F1: `ipc_mqueue_receive` rechecks only object activity and epoch; `admitted_entry` is only released; `mach_port_fdclose` revokes the entry without touching the object, so a woken receiver can dequeue through a revoked name before postclose.
+    - F2: `ipc_kobject_server` sets only the format-0 trailer and no `msgh_audit`; `ipc_kmsg_alloc` zeroes only under INVARIANTS. F2 predates op-447.
+    Closed (the review is done; its findings go to op-461).
+  - op-447 stays returned until the remediation passes.
+  - rmx-implementer rendered for meta-012 (`570c042`; the template patch from `doc/pending/` applied): its op-447 session is idle and its reply is back. All 10 instances are current.
+  - op-461 drafted: fix F1 and F2 with tests written first, two images (base `b1ef1670` + tests), self-check, `expected: 3h`.
+- state delta: op-457 and op-458 issued → returned → closed; op-459u and op-460u recorded (closed); op-461 created as a draft.
+- evidence: the hashes and source lines above; `tools/roles check`.
+- next: The Coordinator sends op-461 (fresh Implementer session, or a reload). Then a Gatekeeper proof and validator3's re-review; op-449 after.

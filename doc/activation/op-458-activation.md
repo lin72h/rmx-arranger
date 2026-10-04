@@ -1,6 +1,6 @@
 ---
 id: op-458
-state: issued
+state: closed
 agent: validator3
 repo: rmx-validator3
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: none beyond the defaults: read-only; no guests
 expected: 2h
 issued-at: 2026-10-04T00:25Z
-updated: 2026-10-04T00:25Z
+updated: 2026-10-04T00:38Z
 ---
 # op-458 — Validator 3: review op-447 (Mach step 4 part 1)
 
