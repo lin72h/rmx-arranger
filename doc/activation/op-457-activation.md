@@ -1,13 +1,14 @@
 ---
 id: op-457
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
 authority: 4 boots max on copies of the r5 pair, 5 min each; doas vmm.ko, bhyve
 expected: 2h
-updated: 2026-10-04T00:23Z
+issued-at: 2026-10-04T00:25Z
+updated: 2026-10-04T00:25Z
 ---
 # op-457 — Gatekeeper 1: proof of op-447 (Mach step 4 part 1)
 

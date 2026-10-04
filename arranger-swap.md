@@ -2588,3 +2588,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-457 and op-458 created as drafts.
 - evidence: `tools/rob show op-457`, `op-458` (no line over 79 characters).
 - next: The Coordinator sends op-457 and op-458.
+
+### j-20261004-029 — op-457 and op-458 sent
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator sent op-457 (gatekeeper1, proof of op-447) and op-458 (validator3, review of op-447). Both `expected: 2h`.
+- state delta: op-457 and op-458 draft → issued.
+- evidence: `tools/rob board`.
+- next: Record each reply with `tools/rob reply`, verify, then close op-447 (and ask before pushing `mach-fixes-4`). Render rmx-implementer when its session is closed; op-449 follows.
