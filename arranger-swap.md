@@ -2831,3 +2831,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Pushed `pid1-boot-1` from `969f2151` to `21c11e10` on `origin` (github lin72h/rmxOS), fast-forward, verified by fetch; rmx-implementer `main` pushed to `d306eb3` (standing permission), which carries op-449's and op-468's records. op-449 closed: verified first-hand (j-049) and proven by op-470 (j-056). op-478 issued.
 - state delta: op-449 returned → closed; op-478 issued.
 - next: op-475 and op-478 replies.
+
+### j-20261004-059 — op-475 accepted and closed: op-468's pair proven independently
+
+- time / kind: 2026-10-04 / REVIEW
+- outcome: Reply recorded as op-479u. Verified: `rmx-gatekeeper1@a5cf80f7` on origin; both serial hashes match; `build/op475/results.md` shows the five base FAILs with the recorded reasons and serial lines, `late_death` PASS on base, and 61 PASS on fixed. op-475 closed. op-468 (the libdispatch step) stays returned until op-478 (F1 remediation) is back, verified and proven; then `mach-fixes-5` needs the Coordinator's yes to push.
+- state delta: op-475 returned → closed; op-479u recorded.
+- next: op-478's reply; then a gatekeeper1 proof of its pair.
