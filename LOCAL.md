@@ -263,3 +263,9 @@ older lessons.
 - **Pushing proven product branches (Coordinator, 2026-10-05).** Standing yes: once an op is verified,
   reviewed and proven, push its product branch (`mach-fixes-*`, `pid1-boot-*`) to the public rmxOS
   origin by commit hash without asking, then close. Report the push in the reply.
+- **Test images are ZFS too (Coordinator, 2026-10-05).** Every staged image, including base/fixed test
+  pairs, is ZFS-root: start from `op417-alpha2-zfs-gpt.raw` (or a later ZFS image), never op364's UFS
+  image. Name the base image in every brief that stages one.
+- **Abnormal-exit tests trip the filter (op-484, three stops).** Work that makes a job end by a fatal
+  signal on purpose stopped the Implementer three times, even in a fresh session. Keep such cases
+  out of Implementer ops; cover that code by source review, or find a trigger that needs no signal.

@@ -1,11 +1,12 @@
 ---
 id: op-489u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-updated: 2026-10-05T00:00Z
+issued-at: 2026-10-04T23:00Z
+updated: 2026-10-04T23:00Z
 ---
 # op-489u — Implementer: op-484 resume in a new session
 

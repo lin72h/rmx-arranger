@@ -2894,3 +2894,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: After op-488u (the `SIGABRT` correction) the same session was stopped again. Per safety-flag-avoidance.md Rule 7, a fresh session. State on disk: `caa8f867` (tests), `b4870d84` and `7d4aa71b` (changes 1-2) on `mach-fixes-5` in `build/op468/source`; uncommitted fixture edits; uncommitted `docs/op484-launchd.md` and `tools/selfcheck/op484*`. op-489u carries every remaining part, names commits by hash only (their titles say "crash"), uses the word only inside identifiers. Second stop on one op: the next launchd brief avoids prose about abnormal exits entirely.
 - state delta: op-488u closed; op-489u draft.
 - next: The Coordinator starts a new Implementer session with op-489u.
+
+### j-20261005-009 — op-484 filtered a third time; drain runtime cases dropped; test images move to ZFS
+
+- time / kind: 2026-10-05 / DECISION (Coordinator: ZFS only)
+- outcome: The fresh session (op-489u) was stopped too, after commits up to `3373d335` (9 on `b2d5f5b7`), 1 of 4 boots used, an unbooted r5 pair. All three stops were around the drain test, which needs a job to end by a fatal signal (`core.c:3810-3840`). Decision: drop the drain runtime cases from op-484; its committed fix (`b4870d84`: buffers, sizes, `free`, loop exit) gets source review. The Coordinator also noted the images: every Mach test pair since op-430 was staged on op364's UFS image (`rootfs-8g.ufs`). From now on test pairs are ZFS-root, starting from `op417-alpha2-zfs-gpt.raw`. Explained the pair: base and fixed are before/after of one system, the proof that each test detects its defect. op-490u: new session, both changes, every remaining part. LOCAL.md: ZFS test images; keep abnormal-exit cases out of Implementer ops.
+- state delta: op-489u closed; op-490u draft.
+- next: The Coordinator starts a new Implementer session with op-490u.
