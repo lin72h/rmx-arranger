@@ -2749,3 +2749,11 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The swift-sdk Implementer runs op-103 in the new place, and a swift-sdk Arranger session is waiting; op-104 seats it with the inherited state (op-101/102u, op-103 in flight, the Coordinator's decisions, zenoh's open op-008 and op-016). From here the swift-sdk Arranger runs that project; as with depthai and fstack, this Arranger does not read or change it again. Workflow fix noted for a later meta change: `rob new`'s closing line ("Re-read OPS.md … reply block") does not fit an Arranger's own op (no OPS.md); the base op-brief-forms still names rmxOS's mm4 series.
 - state delta: none (rmxOS).
 - next: rmxOS: op-449's reply, then op-468.
+
+### j-20261004-048 — Handoff rewritten for a context clear; op-449 overdue by time only
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator is clearing the session after today's side tasks. handoff.md rewritten: the board, op-449 (overdue 2h27m > 2h, but running: its round-4 fixed self-check VM was up at 17:14, last commit `59c79e5` 16:44), step 4 part 2 with op-468 on hold, today's decisions, the other projects handed off, meta-013 items.
+- state delta: none.
+- evidence: `tools/rob board`; `pgrep -lf bhyve`; rmx-implementer `git log`.
+- next: New session: read handoff.md; op-449's reply; then op-468.
