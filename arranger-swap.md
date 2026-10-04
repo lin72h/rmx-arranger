@@ -2530,3 +2530,16 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `ps` and `procstat -f 99954` (cwd `rmx-implementer`, state `I+`); the files above; `tools/roles check` from both paths.
 - next: The Coordinator relays op-447's REPORT; verify it, then the Gatekeeper proof and the Validator review. op-452b retires when the reloads are done; op-449 follows op-447.
+
+### j-20261004-023 — REPORTs are no longer relayed (Coordinator); op-447 returned, its REPORT built from the record; meta-011 made and taken; op-452b retired
+
+- time / kind: 2026-10-04 / DECISION (Coordinator) + ACTION
+- outcome:
+  1. **No more relayed REPORTs** (Coordinator): the Arranger builds each REPORT from the agent's committed op record and artifacts, then verifies it as before. The templates' REPORT block (each OPS.md) is to change accordingly, rendered only when the agents are idle.
+  2. **op-447 returned.** Its REPORT was built from `rmx-implementer@6fdf7c5` (`docs/op447-mach-step4-part1.md`) and checked first-hand: both image sha256s re-hashed and equal to the record; base 11/11 failed as expected and fixed 52/52 passed (41 earlier + 11 new) in the JSON records, with the raw serial logs agreeing (no panic, clean power-off; base `f4728646e723`, fixed `4d5ef4ec9c16`); 8 of 8 boots; 19 commits on `mach-fixes-4` (`844112f4..b1ef1670`), matching `commits.txt`; changes only in `sys/compat/mach/`, `sys/sys/mach/` and `tests/sys/mach/`, so no native FreeBSD file; nothing pushed.
+  3. **meta-011** (Coordinator approved): `tools/roles` resolves the Arranger repo through symlinks, and `check` fails when the prefix misses the repo's own instance. `wip-workflow@c495e65`, tagged; roles 20/20, rob 25/25; the scaffold renders and checks the same from an alias. op-454 (`idq: meta-011`) closed. rmxOS took it: lock, now.md; `tools/roles check` from `rmx-arranger1` now gives 10 instances. For zenoh-swift no action: the tools run from the workflow's tree.
+  4. **Reloads:** the Coordinator asks each agent to reload with its next task, so op-452b is retired (draft → closed) with delivery in the next briefs.
+  5. **Validator:** validator3 is still the default for the L review of op-447.
+- state delta: op-447 issued → returned; op-454 created → closed; op-452b draft → closed.
+- evidence: the hashes and counts above; `tools/rob board`; the test runs.
+- next: Gatekeeper proof of step 4 part 1 (also re-running the 41 batch-3 cases) and validator3's review; then op-449. Template change for the REPORT decision.

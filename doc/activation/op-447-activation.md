@@ -1,6 +1,6 @@
 ---
 id: op-447
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: build: kernel RMXOS-RELEASE, mach.ko, libmach and the Mach tests (no world build); stage base and fixed test images with rmx-stage-image; self-check guests per OPS.md; no push
 expected: 2h
 issued-at: 2026-10-03T06:39Z
-updated: 2026-10-03T21:40Z
+updated: 2026-10-04T00:02Z
 ---
 # op-447 — Implementer: Mach step 4, part 1 — pins and revalidation, the LARGE and trailer boundary, queued replies and receive waits, N6 (kernel only)
 

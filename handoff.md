@@ -15,12 +15,11 @@ Delete or rewrite this file once its open items are done.
 - **op-447** (Implementer, Mach step 4 part 1, `expected: 2h`): **corrected at the next session
   start (j-20261004-022):** the Implementer had been resumed at about 12:21 on 2026-10-04, before
   this handoff was written. It ran the fixed-image self-check (boot 8, `fixed-all: 52/52 as
-  expected`), freed four object trees, and committed its record (`rmx-implementer@6fdf7c5`). The
-  session is idle at its prompt and its REPORT is awaited. `mach-fixes-4` is unchanged at
+  expected`), freed four object trees, and committed its record (`rmx-implementer@6fdf7c5`). Returned
+  (j-20261004-023); next the Gatekeeper proof and validator3's review. `mach-fixes-4` is unchanged at
   `b1ef1670` (19 commits on `mach-fixes-3@844112f4`), and the round-5 image pair is staged.
 - **op-452b** (broadcast cast: "NOTICEs are now casts"): delivered by asking the rmxOS agents to
-  reload their instructions. Retire it (`tools/rob set op-452b closed`) once the Coordinator says
-  the reloads are done.
+  reload their instructions. Retired (j-20261004-023): agents reload with their next task.
 - **op-449** (Implementer, held): launchd as PID 1 keeps every log message in memory when asld is not
   running (`sbin/launchd/log.c:237-238`, drained only by asld; op-436 disabled asld). Fix: bound the
   queue and log via syslog(3) when no drainer; 15-minute before and after RSS self-check. Send it

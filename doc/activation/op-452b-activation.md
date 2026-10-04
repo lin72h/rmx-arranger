@@ -1,11 +1,12 @@
 ---
 id: op-452b
-state: draft
+state: closed
 cast: broadcast
 agent: all
 repo: all
 idq: meta-008
-updated: 2026-10-03T23:32Z
+issued-at: 2026-10-04T00:02Z
+updated: 2026-10-04T00:02Z
 ---
 # op-452b — To every rmxOS agent: NOTICEs are now casts (op-NNNu, op-NNNb)
 
