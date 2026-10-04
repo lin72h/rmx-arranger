@@ -2703,3 +2703,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-468 created, on hold.
 - evidence: `tools/rob show op-468`.
 - next: op-449's reply; then op-468.
+
+### j-20261004-042 — Side task: swift-rx (the Swift toolchain project) moved onto the shared workflow; nothing existing changed
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: The Coordinator asked to modernise `/Users/me/wip-rnx`, whose only running agent, `swift-rx-implementer`, held both roles, and to talk to that agent before anything destructive. Read-only survey: the agent's repo has about 150 uncommitted paths and a live process; its rules live in AGENTS.md plus -MX/-NX/-VX notes with old workspace paths; an earlier Arranger's notes are in `wip-opus/` (ops to op-081). Created only a new repo, `swift-rx-arranger`, from the scaffold at meta-012 (independent root, prefix `swift-rx-`, `ROB_FLOOR=100`), and drafted its op-101: the existing agent writes an inventory note (work in flight, rules to keep, pins and open items) and gives or withholds consent to rendered instructions. Registered in projects.md. As with depthai, this Arranger steps back once the project's own Arranger is seated.
+- state delta: none (rmxOS).
+- evidence: `swift-rx-arranger` first commit; `tools/rob check` there.
+- next: The Coordinator sends swift-rx's op-101.
