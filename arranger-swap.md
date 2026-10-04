@@ -2671,3 +2671,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-464 and op-465 draft → issued; op-449 hold → draft.
 - evidence: `tools/rob board`.
 - next: The Coordinator sends op-449.
+
+### j-20261004-038 — op-449 sent; op-465 re-review CLOSE 9/10 (verified), closed
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: op-449 (launchd PID-1 log queue) sent. op-465's reply recorded as op-466u: CLOSE, 9/10, both op-458 findings fixed at their causes, the three regressions detect the base defects, and `0924690c` keeps exact reference checks. Verified: `rmx-validator3@33a5f2f`; review sha256 `71574599…` and the record's `9d5d5f2e…` match; at `0924690c` the receive loop takes the space read lock and rechecks `ie_revoked` and publication (`ipc_mqueue.c:715-718`). Closed. op-447 and op-461 now wait only for op-464's runtime proof, then the push of `mach-fixes-4` (Coordinator's yes).
+- state delta: op-449 draft → issued; op-465 issued → returned → closed; op-466u recorded.
+- evidence: the hashes and lines above.
+- next: op-464's reply; then close op-447 and op-461 after the push.
