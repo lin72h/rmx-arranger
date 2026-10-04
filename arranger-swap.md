@@ -2873,3 +2873,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-486u. Verified: `rmx-gatekeeper1@40cbb350` on origin; all three serial hashes match; `build/op483/results.md`: `partial_receive_cleanup` FAIL and `pending_request_cancel` PASS on op-478's base, both `mach_destroy_test` cases FAIL on op-481's base, 65 PASS on the final image. op-483 closed. With op-474's review (F1 fixed by op-478, F2 ruled), op-475 and op-483, the libdispatch step and the libmach fix are accepted at `mach-fixes-5@b2d5f5b7`; closing needs that commit on the public origin (Coordinator's yes). op-484 is adding launchd commits on the same branch; the push is by hash, so it carries only the proven commits.
 - state delta: op-483 closed; op-486u recorded.
 - next: The Coordinator's yes to push `mach-fixes-5` at `b2d5f5b7`.
+
+### j-20261005-006 — op-484 stopped on my brief's drain trigger; op-488u continues it
+
+- time / kind: 2026-10-05 / DECISION (delegated: match macOS)
+- outcome: Reply recorded as op-487u (BLOCKED, nothing committed). Confirmed `core.c:3805-3840`: `j->crashed` is set only for `SIGILL`/`SIGABRT`/`SIGFPE`/`SIGBUS`/`SIGSEGV`/`SIGSYS`/`SIGTRAP`, and draining requires it; my brief's "exits with status 1" never reaches the drain. Decision: keep upstream's rule; the drain tests use a job that ends by `SIGABRT` on purpose. op-488u carries the decision and every remaining part; op-484's stored brief corrected.
+- state delta: op-484 returned → (issued again when op-488u is sent); op-487u recorded; op-488u draft.
+- next: The Coordinator sends op-488u; the `mach-fixes-5` push still awaits a yes.

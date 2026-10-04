@@ -1,6 +1,6 @@
 ---
 id: op-484
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: launchd builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-04T20:35Z
-updated: 2026-10-04T20:35Z
+updated: 2026-10-04T21:07Z
 ---
 # op-484 — Implementer: step 4 part 2b, launchd (op-435 § 4 item 4)
 
@@ -65,7 +65,7 @@ Tests first (Zig, against a launchd in the guest, registered like
    launchd handles it: launchd stays up (same PID 1), the removed
    service is not launched, and an unrelated service is not launched.
 2. Drain with `drain_all` (a job with `DrainMessagesOnCrash` that
-   exits with status 1 while messages are queued): every queued message is drained
+   ends by `SIGABRT` (`raise(SIGABRT)`) while messages are queued): every queued message is drained
    once, then the drain ends; launchd stays responsive.
 3. The same drain when the port is gone or a message is too large: the
    drain ends without repeating.
