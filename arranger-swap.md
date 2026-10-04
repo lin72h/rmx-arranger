@@ -2719,3 +2719,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: `zfs list`, `du`, `git count-objects` on the agent's repo.
 - next: The Coordinator sends the move message.
+
+### j-20261004-044 — Side task: the fstack project set up from the workflow scaffold (independent root)
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: As depthai: `/Users/me/wip-fstack` with `agent-arranger` and `agent-implementer` from `~/wip-workflow/scaffold` at meta-012, both rendered (2 instances, 0 need attention), an independent root; goal, stack and pins left to its Arranger. Its op-001 (onboarding) was adapted from the depthai op-001 I wrote, read from depthai's repo; that read is now logged, and from here this Arranger works from its own copies. Registered in projects.md.
+- state delta: none (rmxOS).
+- evidence: both repos' first commits; `tools/rob check` there (1 op, 0 problems).
+- next: The Coordinator sends fstack's op-001; swift-sdk's move message is still unsent.
