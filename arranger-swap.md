@@ -2781,3 +2781,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (ops).
 - evidence: `zpool get free,capacity zroot`; `zfs get quota zroot/wip-volta-work`.
 - next: volta's removal; swift-sdk's in-tree removal.
+
+### j-20261004-052 — Disk: volta's scratchpad cleared (130 GB → 78 MB); pool at 70%
+
+- time / kind: 2026-10-04 / REVIEW
+- outcome: volta-arranger removed the 81 scratchpad entries of 10 MB or more (58 by the listed patterns, 23 older work trees under the same rule) and kept 146 small entries; its guards now write to `zroot/wip-volta-work` with results-only retention. Checked first-hand: scratchpad 78 MB; `zroot/wip-volta-work` 75 MB used; pool 270 GB free, 70%, freeing 0 (62.8 GB and 93% this afternoon). Remaining: swift-sdk's old Swift trees in `/Users/me/wip-rnx` (~162 GB) and, after op-108, `zroot/wip-rnx-normd`.
+- state delta: none (ops).
+- evidence: `zpool get free,capacity,freeing zroot`; `du -sh` of the scratchpad.
+- next: The Coordinator chooses who removes swift-sdk's in-tree items.
