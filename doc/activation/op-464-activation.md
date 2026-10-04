@@ -1,6 +1,6 @@
 ---
 id: op-464
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: 4 boots max on copies of the r2 pair, 5 min each; doas vmm.ko, bhyve
 expected: 90m
 issued-at: 2026-10-04T01:34Z
-updated: 2026-10-04T01:34Z
+updated: 2026-10-04T01:47Z
 ---
 # op-464 — Gatekeeper 1: proof of op-461 (Mach step 4 part 1 remediation)
 

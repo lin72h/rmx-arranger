@@ -2679,3 +2679,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-449 draft → issued; op-465 issued → returned → closed; op-466u recorded.
 - evidence: the hashes and lines above.
 - next: op-464's reply; then close op-447 and op-461 after the push.
+
+### j-20261004-039 — op-464 proof passes (base 3/3, fixed 55/55, verified), closed; op-447 and op-461 accepted pending the push of mach-fixes-4
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: op-464's reply recorded as op-467u. Verified: `rmx-gatekeeper1@3910080f` on origin; both serial sha256s equal the reply; `final-observations.json` 55 cases, no mismatches; no panic. Closed. Step 4 part 1 (op-447 plus op-461) now has a passing proof (op-457, op-464) and a CLOSE review (op-465, 9/10). Remaining for closure: `mach-fixes-4` at `0924690c` (24 commits on `mach-fixes-3@844112f4`) on the public rmxOS origin, which needs the Coordinator's yes, and the rmx-implementer commits on its origin.
+- state delta: op-464 issued → returned → closed; op-467u recorded.
+- evidence: the hashes and counts above.
+- next: The Coordinator's yes to push; then close op-447 and op-461, update id-046 and now.md.
