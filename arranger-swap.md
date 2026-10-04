@@ -2765,3 +2765,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-449 issued → returned (gate gatekeeper1); op-469u recorded; op-470 created (draft); op-468 hold → draft.
 - evidence: `tools/rob show op-469u`; rmx-implementer `docs/op449-launchd-log-queue.md`; BOM diff above.
 - next: The Coordinator sends op-470 and op-468; on op-470's return, push and close op-449.
+
+### j-20261004-050 — Disk: zroot/wip-rnx destroyed (45 GB) on the Coordinator's yes
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: zroot was 93% full. swift-sdk's Arranger confirmed (via the Coordinator) that `zroot/wip-rnx` (the pre-March copy of its old tree; unmounted, no clones) can go now and asked for no snapshot. Destroyed it with its one snapshot `@pre-migration-rollback-2026-03-28`; pool free space went from 62.8 GB to 105 GB. Still pending: swift-sdk removes its old Swift trees in `/Users/me/wip-rnx` (about 162 GB) after saving their text files (whoever the Coordinator chooses); `zroot/wip-rnx-normd` is destroyed after op-108 (swift-sdk's rebuild) passes and its keep list is copied and checked; the Coordinator decides on `wip-kimi`, the nx- tool repos, `swift-rx-implementer/tmp` and `vx/codex-port-0.124.0`. `/tmp` (188 GB) is not yet surveyed.
+- state delta: none (ops).
+- evidence: `zpool get free zroot`.
+- next: The Coordinator chooses who removes the in-tree items.
