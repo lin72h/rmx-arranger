@@ -246,5 +246,5 @@ older lessons.
   agent without telling this seat. Before rendering an agent's repo or reporting it stopped, list
   agent processes (`ps -axo pid,etime,command | grep -E 'codex|claude'`) and read each one's cwd
   (`procstat -f <pid>`). File times alone missed op-447's resume (j-20261004-022).
-- **No relayed REPORTs (Coordinator, 2026-10-04).** Build each op's REPORT from the agent's committed
-  op record and artifacts, verify it first-hand, and show it to the Coordinator. Do not ask for one.
+- **REPORTs become casts (Coordinator, 2026-10-04; shape pending).** A call's answer is a cast from
+  the agent (op-NNNu), not a REPORT. j-20261004-023 misread this as "no relayed REPORTs" (j-025).

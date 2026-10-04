@@ -2551,3 +2551,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: the relayed REPORT; j-023's checks.
 - next: unchanged (Gatekeeper proof and validator3's review).
+
+### j-20261004-025 — Correction to j-023: REPORTs become casts (op-NNNu, op-NNNb); the shape is being settled
+
+- time / kind: 2026-10-04 / CORRECTION + DECISION (Coordinator)
+- outcome: j-20261004-023 item 1 recorded "no more relayed REPORTs; the Arranger builds the REPORT". That misread the Coordinator, who meant: the REPORT gives way to the cast feature (meta-008), so an agent's answer is itself a cast, `op-NNNu` or `op-NNNb`. This was not recorded before today: casts so far run from an Arranger down, with no reply. LOCAL.md is corrected. The open question is how a reply cast is numbered (asked of the Coordinator). After that it becomes a workflow change (meta-012): method, forms, base and rmxOS templates (OPS.md's REPORT block), and `rob`. Rendering waits until no agent has a session open.
+- state delta: none.
+- evidence: `grep` of the method and forms (casts: "no REPORT is expected"); this entry.
+- next: The Coordinator settles the numbering question; then meta-012.
