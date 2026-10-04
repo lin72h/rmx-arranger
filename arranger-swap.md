@@ -2647,3 +2647,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-462u draft → closed.
 - evidence: `tools/rob board`.
 - next: op-461's reply.
+
+### j-20261004-035 — Side task: the depthai project set up from the workflow scaffold (independent root)
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: The Coordinator asked for a new project at `/Users/me/wip-depthai`, starting like zenoh-swift with an Arranger and an Implementer. Answers: the goal is for its new Arranger to settle; stack C++ and CMake; an independent root, not a child of this Arranger. Done as the workflow's maintainer, from `~/wip-workflow/scaffold` at meta-012: `agent-arranger` (`4c8aa4b` and the op-001 fix) and `agent-implementer` (`5f48a8b`), both rendered (`roles check`: 2 instances, 0 need attention), with project facts limited to the name, workspace and stack. Its op-001 (draft) onboards its Arranger: verify the setup, set the goal and pins with the Coordinator, draft the first Implementer op. Registered in projects.md (`wip-workflow`). Since it is not a child, this Arranger does not read or change it from here on. Noticed: the base op-brief-forms names rmxOS's mm4 series (generic-text slip), to fix in a later meta change.
+- state delta: none (rmxOS).
+- evidence: both repos' first commits; `tools/rob check` there (1 op, 0 problems).
+- next: The Coordinator sends depthai's op-001 to its Arranger's first session. rmxOS: op-461's reply.
