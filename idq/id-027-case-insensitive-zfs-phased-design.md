@@ -26,3 +26,12 @@ Whole-system end state = base remediation + new boot dataset, long-arc / post-pr
 ## Carrier
 HELD — no op. Release the design work (likely a FREE Explorer/DS4P design+audit pass) only when the
 Coordinator wants P1 to move; whole-system phases stay parked pending the audit.
+
+## Coordinator direction (2026-10-04)
+
+Case-insensitivity matters for rmxOS and for the projects around it: move there **incrementally**,
+ending with the whole system case-insensitive by default, as macOS is. First step: the swift-sdk
+project's workspace gets its own dataset matching the one its toolchain was built and qualified on
+(`zroot/wip-rnx-normd`: `casesensitivity=insensitive`, `normalization=formD`, `atime=off`). Its
+behaviour there is the first evidence for this entry's property decision (deliverable 1). The
+rmxOS-side phases stay design-first.

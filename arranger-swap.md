@@ -2727,3 +2727,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: both repos' first commits; `tools/rob check` there (1 op, 0 problems).
 - next: The Coordinator sends fstack's op-001; swift-sdk's move message is still unsent.
+
+### j-20261004-045 — Coordinator: case-insensitive filesystems incrementally, system-wide in the end (id-027); swift-sdk's dataset is the first step; its compiler is rebuilt at the new path
+
+- time / kind: 2026-10-04 / DECISION (Coordinator)
+- outcome: swift-sdk's op-101 inventory showed the old tree on `zroot/wip-rnx-normd` (case-insensitive, formD) while `/Users/me/wip-swift-sdk` is a folder on the case-sensitive root dataset. The Coordinator: this matters for rmxOS too; move incrementally to case-insensitive, eventually for the whole system, like macOS's default. Recorded in id-027 (§ Coordinator direction) and its index row. First step: a dedicated `zroot/wip-swift-sdk` (insensitive, formD, atime off) mounted at `/Users/me/wip-swift-sdk`. Build cache: rebuild at the new path, so `wip-rnx` can be removed after that build passes.
+- state delta: none.
+- evidence: `zfs get casesensitivity,normalization` on both datasets.
+- next: Create the dataset (needs `doas`), then clone and copy.
