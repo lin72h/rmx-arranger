@@ -2757,3 +2757,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `tools/rob board`; `pgrep -lf bhyve`; rmx-implementer `git log`.
 - next: New session: read handoff.md; op-449's reply; then op-468.
+
+### j-20261004-049 — op-449 returned and verified first-hand; op-470 (Gatekeeper soak re-run) drafted; op-468 released
+
+- time / kind: 2026-10-04 / REVIEW
+- outcome: Reply recorded as op-469u. Verified: all 13 commits resolve; `pid1-boot-1@21c11e10` is 7 commits on `969f2151` touching only `sbin/launchd` (12 files, +311/-71); image sha256 `a97eab48…` matches; its BOM against `op436-boot-zfs`'s differs in 2 of 31,761 rows (`/sbin/launchd`, `launchd.debug`); RSS tables in the op record: old medians 4520→4956 KiB, fixed flat 4480. Code read: the enqueue bound cannot drain past an empty queue (oversize records are refused before it on both paths); the forward loop's read after free was caught in-op (`1d4a85c`). Residuals, not blockers: `launchd_log_dropped()` has no caller, so drops are counted but never reported; before `syslogd` starts, `syslog(3)` without `LOG_CONS` likely loses launchd's early-boot messages (op-470 records it); several old debug `syslog(LOG_ERR, …)` lines now reach `/var/log/messages`. Sized M with a behavioural claim, so the acceptance proof is gatekeeper1 re-running op-445's loads 1-3 on the r4 image (op-470). Closing also needs the Coordinator's yes to push `pid1-boot-1` (public) and a push of rmx-implementer (standing permission). op-468 moved hold → draft, its `needs: op-449` removed (it waited only for the Implementer to be free); safe alongside op-470 (different agent, branch and image; host 56 CPUs, 128 GB; staging 33 GB free).
+- state delta: op-449 issued → returned (gate gatekeeper1); op-469u recorded; op-470 created (draft); op-468 hold → draft.
+- evidence: `tools/rob show op-469u`; rmx-implementer `docs/op449-launchd-log-queue.md`; BOM diff above.
+- next: The Coordinator sends op-470 and op-468; on op-470's return, push and close op-449.

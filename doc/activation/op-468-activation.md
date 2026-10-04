@@ -1,14 +1,13 @@
 ---
 id: op-468
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-needs: op-449
 gate: self
 authority: libdispatch builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
-updated: 2026-10-04T01:49Z
+updated: 2026-10-04T04:56Z
 ---
 # op-468 — Implementer: step 4 part 2a, libdispatch (op-435 § 4 item 4)
 

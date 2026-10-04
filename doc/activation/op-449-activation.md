@@ -1,14 +1,14 @@
 ---
 id: op-449
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-016
-gate: self
+gate: gatekeeper1
 authority: rebuild only sbin/launchd (op-436's world); 1 ZFS image; no push
 expected: 2h
 issued-at: 2026-10-04T01:46Z
-updated: 2026-10-04T01:46Z
+updated: 2026-10-04T04:56Z
 ---
 # op-449 — Implementer: bound launchd's PID-1 log queue; log via syslog
 
