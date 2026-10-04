@@ -49,9 +49,12 @@ wording is now part of brief quality.
    both and was filtered again. Agents get positive guidance only ("describe what our code does
    wrong at <file:line> and what the test checks"). Do not point agents at this file either. The
    shared project-context text in every role's AGENTS.md is positive-only too (`rmx-role0@03e80a6`).
-7. **After a filter stop, restart in a new session.** The stopped session's history still holds the
-   text that tripped the filter. Point the new session at the brief, the commits and the build
-   directory; do not paste the filtered output.
+7. **After a filter stop, first send a follow-up message in the same session** (Coordinator,
+   2026-10-04): the context sentence, then the remaining work with every part named, the work
+   done so far by commit and path, and no mention of the stop. **Restart in a new session only
+   if the follow-up is stopped too**; the stopped session's history still holds the text that
+   tripped the filter. Point the new session at the brief, the commits and the build directory;
+   do not paste the filtered output.
 
 ## Word choices
 

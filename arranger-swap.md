@@ -2631,3 +2631,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: AGENTS.md § Ops; safety-flag-avoidance.md § Seats.
 - next: unchanged (op-461's reply).
+
+### j-20261004-033 — op-461 stopped by the Implementer's model filter; follow-up message first, restart only if it fails (Coordinator)
+
+- time / kind: 2026-10-04 / ACTION + DECISION (Coordinator)
+- outcome: The Implementer's op-461 session was stopped by its provider's filter after it had done most of the work: tests first and fixes on `mach-fixes-4` (`2d978369` F1 test, `60099afc` F1 fix, `8ebcce09` F2 test, `b9aeeb28` F2 fix), tools `876335b`, an uncommitted record `docs/op461-mach-remediation.md`, builds and library checks (19 programs, 55 cases), runner preflight, and both images staged (`op461-base-tests.raw` `a9027df3…`, `op461-fixed-tests.raw` `de113b60…`). No guest self-check had run. Likely triggers: the brief's "poisoned storage" and the review file it pointed to. The Coordinator: send a follow-up message in the same session first; restart only if the follow-up is stopped too. safety-flag-avoidance.md rule 7 now says so. A follow-up naming every remaining part (base and fixed self-checks, fixes within four boots, commit the record, clean up, reply) was given to the Coordinator.
+- state delta: none (op-461 issued).
+- evidence: the Implementer's commits, `build/op461/logs/`, `stage/images`.
+- next: The Coordinator sends the follow-up; if it is stopped too, restart in a fresh session with the same text.
