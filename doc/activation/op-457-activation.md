@@ -5,7 +5,7 @@ agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 gate: self
-authority: up to 4 boots on copies of the two r5 images, 5 min each; doas for vmm.ko and bhyve; push rmx-gatekeeper1
+authority: 4 boots max on copies of the r5 pair, 5 min each; doas vmm.ko, bhyve
 expected: 2h
 updated: 2026-10-04T00:23Z
 ---
