@@ -2735,3 +2735,10 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none.
 - evidence: `zfs get casesensitivity,normalization` on both datasets.
 - next: Create the dataset (needs `doas`), then clone and copy.
+
+### j-20261004-046 — swift-sdk moved: dataset, clones, inputs, instructions; op-103 ready
+
+- time / kind: 2026-10-04 / ACTION (Coordinator decisions)
+- outcome: `zroot/wip-swift-sdk` (insensitive, formD, atime off) at `/Users/me/wip-swift-sdk`; the three repos cloned at the agent's HEADs; 19.2 GB of required inputs copied and spot-checked (file counts, package hashes); the Implementer's instructions rendered from its kept rules with consent (`agent-implementer@4a7651a`); op-103 drafted. Details in swift-sdk's journal (j-004 to j-006). `/Users/me/wip-rnx` unchanged.
+- state delta: none (rmxOS).
+- next: The Coordinator restarts the swift-sdk Implementer there with op-103; a swift-sdk Arranger session takes over after.
