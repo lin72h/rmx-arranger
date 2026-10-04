@@ -2838,3 +2838,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-479u. Verified: `rmx-gatekeeper1@a5cf80f7` on origin; both serial hashes match; `build/op475/results.md` shows the five base FAILs with the recorded reasons and serial lines, `late_death` PASS on base, and 61 PASS on fixed. op-475 closed. op-468 (the libdispatch step) stays returned until op-478 (F1 remediation) is back, verified and proven; then `mach-fixes-5` needs the Coordinator's yes to push.
 - state delta: op-475 returned → closed; op-479u recorded.
 - next: op-478's reply; then a gatekeeper1 proof of its pair.
+
+### j-20261005-001 — op-478 returned and verified; a libmach defect found; op-481 drafted before the proof
+
+- time / kind: 2026-10-05 / REVIEW
+- outcome: Reply recorded as op-480u. Verified: `mach-fixes-5@22334ca3` is 3 commits on `015e7723` (libdispatch `source.c` +74, tests); image hashes match; all rmx-implementer commits resolve. The local walker is safe against partial copyout: the kernel visits every descriptor and sets a failed one to `MACH_PORT_NAME_NULL`/`DEAD` or address 0 (`ipc_kmsg.c` `ipc_kmsg_copyout_object`, OOL paths), which the walker skips. The op record names, and I confirmed, a defect in libmach's `mach_msg_destroy` (`mach_msg.c:247-262`: the walk starts after a stack copy and uses a fixed 16-byte stride), used by launchd, notifyd, libnotify, asl, `si_module` and `mach_msg_server`; recorded in id-046. Decision: fix it in libmach and have libdispatch call `mach_msg_destroy` (upstream's form) instead of keeping op-478's walker, then prove op-468 + op-478 + op-481 with one gatekeeper1 run, rather than proving code about to be replaced. op-481 drafted (Implementer, same branch, tests first with a stack filled with a known pattern).
+- state delta: op-478 returned (op-480u); op-481 draft.
+- next: The Coordinator sends op-481; then one proof; then the `mach-fixes-5` push.

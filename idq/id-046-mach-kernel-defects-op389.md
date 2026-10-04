@@ -240,3 +240,14 @@ findings that both op-389 and op-392 reached.
 
 Build finding (op-389, op-392, op-393): `mach.ko` is built outside its kernel's configuration →
 id-047. Unreached routines → id-052.
+
+## libmach mach_msg_destroy (2026-10-05, found in op-478)
+
+- `lib/libmach/mach/mach_msg.c:247-262` (NextBSD import `b069a16f`): for a complex message the
+  descriptor walk starts at `basep + 1`, past a stack copy of `mach_msg_base_t`, so it reads stack
+  memory instead of the message, and it steps by `sizeof(mach_msg_descriptor_t)` although a
+  received user port descriptor is 12 bytes. Effect: rights and out-of-line memory in a discarded
+  complex message are not released, and stack values can be taken for port names in our own
+  space. Callers: libmach `mach_msg_server*`, launchd, notifyd, libnotify, asl `dbserver`,
+  `si_module`, libdispatch. Fix: op-481 (libmach, then libdispatch uses it instead of op-478's
+  local walker).
