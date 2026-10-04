@@ -5,7 +5,7 @@ agent: implementer
 repo: rmx-implementer
 idq: id-016
 gate: self
-authority: rebuild sbin/launchd only (reuse op-436's world); 1 ZFS image; no push
+authority: rebuild only sbin/launchd (op-436's world); 1 ZFS image; no push
 expected: 2h
 updated: 2026-10-04T01:34Z
 ---
