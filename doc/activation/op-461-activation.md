@@ -1,6 +1,6 @@
 ---
 id: op-461
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: Mach builds (no world); stage 2 images; 4 self-check boots; no push
 expected: 3h
 issued-at: 2026-10-04T00:40Z
-updated: 2026-10-04T00:40Z
+updated: 2026-10-04T01:30Z
 ---
 # op-461 — Implementer: op-447 remediation (entry revalidation, reply audit)
 

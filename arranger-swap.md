@@ -2655,3 +2655,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (rmxOS).
 - evidence: both repos' first commits; `tools/rob check` there (1 op, 0 problems).
 - next: The Coordinator sends depthai's op-001 to its Arranger's first session. rmxOS: op-461's reply.
+
+### j-20261004-036 — op-461 returned (fixed 55/55, base 3/3); op-464 proof and op-465 re-review generated
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: op-461's reply recorded as op-463u. Verified: both r2 image sha256s equal the reply (`0128ee8c…`, `02452dd3…`); `selfcheck-base-3.json` 3 rows failed as expected, `selfcheck-fixed-all-4.json` 55 rows passed; 4 of 4 boots; five commits `b1ef1670..0924690c`, all in Mach code, headers and tests; rmx-implementer `876335b`, `3beef95`, `bafabbe`. The first fixed run failed on a test count; `0924690c` (test only) adds the queued message's destination reference for the port case, to be confirmed by the re-review. op-461 stays returned until review. Generated, wording checked against safety-flag-avoidance.md and the findings carried inline (no pointer to the review file): op-464 (gatekeeper1 before/after proof on the r2 pair, 3 new cases on base, 55 on fixed) and op-465 (validator3 re-review of F1, F2, the tests and `0924690c`). They can run in parallel. Staging space: the superseded op461 r1 pair and older pairs (op430 to op444) can go once op-447 closes.
+- state delta: op-461 issued → returned; op-463u recorded; op-464 and op-465 created as drafts.
+- evidence: the hashes and counts above.
+- next: The Coordinator sends op-464 and op-465.
