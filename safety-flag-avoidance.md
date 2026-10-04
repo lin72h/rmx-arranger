@@ -1,9 +1,15 @@
 # Safety-flag avoidance: keep engineering briefs from tripping safety filters
 
 Status: Arranger guide (living), 2026-10-01. Applies to every brief, cast and continuation
-message, and matters most for seats on models with strict filters (gatekeeper1, advisor2).
+message, for every seat: all of them run on frontier models with strict filters (§ Seats).
 It complements [op-brief-forms.md](op-brief-forms.md); advisor0's AGENTS.md § Framing is the
 Advisor-side version.
+
+## Seats (Coordinator, 2026-10-04)
+
+- The Arranger runs on Opus 5.5 (medium effort); every other running agent runs on GPT-Sol-6.1
+  (medium effort). Both are frontier models, so every brief gets the full check below, whatever
+  the seat. Update this list when the configuration changes.
 
 ## Why
 

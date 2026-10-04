@@ -2621,3 +2621,13 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-461 draft → issued.
 - evidence: `tools/rob board`.
 - next: Record its reply with `rob reply`, verify, then a Gatekeeper proof and validator3's re-review; op-449 after.
+
+### j-20261004-032 — Brief wording: AGENTS.md now requires a check against safety-flag-avoidance.md before any brief is shown; all seats are frontier models
+
+- time / kind: 2026-10-04 / CORRECTION + DECISION (Coordinator)
+- outcome: Today's briefs op-457, op-458 and op-461 were written without opening safety-flag-avoidance.md. Checked afterwards: all three open with the context sentence and use engineering wording with exact identifiers; one phrase in op-461 ("poisoned storage", in the F2 control) is borderline. op-461 was already sent; if its session is stopped, restart it fresh with "storage filled with a known non-zero pattern" (the guide's rule 7). The Coordinator: link the guide so it is not forgotten. Every agent runs on a frontier model: the Arranger on Opus 5.5 (medium), every other running agent on GPT-Sol-6.1 (medium). Done:
+  - arranger0 AGENTS.md (rendered): before showing any brief, cast or continuation message, re-read the guide and check the draft line by line;
+  - safety-flag-avoidance.md: applies to every seat; new § Seats records the models.
+- state delta: none.
+- evidence: AGENTS.md § Ops; safety-flag-avoidance.md § Seats.
+- next: unchanged (op-461's reply).
