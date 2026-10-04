@@ -2866,3 +2866,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Implementer's session was filtered while reading launchd source for op-484, before any commit or change (checked: no commits after `2cff528`, clean tree). Likely triggers in my brief: "a call through NULL in PID 1" and "crash drain" prose. Per safety-flag-avoidance.md Rule 7: op-485u, a same-session follow-up with the context sentence and every part of the work in plain engineering words (the `DrainMessagesOnCrash` key stays as an identifier), no mention of the stop. op-484's stored brief reworded to match. The Implementer also reported under 25% of its 5-hour usage left; a 4-hour op may stop on the limit and need a resume.
 - state delta: op-484 issued (it was sent); op-485u draft.
 - next: The Coordinator sends op-485u to the same session; if it is stopped too, a fresh session with op-485u.
+
+### j-20261005-005 — op-483 accepted and closed; op-468/op-478/op-481 await only the mach-fixes-5 push
+
+- time / kind: 2026-10-05 / REVIEW
+- outcome: Reply recorded as op-486u. Verified: `rmx-gatekeeper1@40cbb350` on origin; all three serial hashes match; `build/op483/results.md`: `partial_receive_cleanup` FAIL and `pending_request_cancel` PASS on op-478's base, both `mach_destroy_test` cases FAIL on op-481's base, 65 PASS on the final image. op-483 closed. With op-474's review (F1 fixed by op-478, F2 ruled), op-475 and op-483, the libdispatch step and the libmach fix are accepted at `mach-fixes-5@b2d5f5b7`; closing needs that commit on the public origin (Coordinator's yes). op-484 is adding launchd commits on the same branch; the push is by hash, so it carries only the proven commits.
+- state delta: op-483 closed; op-486u recorded.
+- next: The Coordinator's yes to push `mach-fixes-5` at `b2d5f5b7`.

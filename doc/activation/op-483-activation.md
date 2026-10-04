@@ -1,13 +1,13 @@
 ---
 id: op-483
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 5 boots max on copies of the op478 base and op481 pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
 issued-at: 2026-10-04T20:25Z
-updated: 2026-10-04T20:25Z
+updated: 2026-10-04T20:59Z
 ---
 # op-483 — Gatekeeper 1: proof of op-478 and op-481 (partial receive, libmach mach_msg_destroy)
 
