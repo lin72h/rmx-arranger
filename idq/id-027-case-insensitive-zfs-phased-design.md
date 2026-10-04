@@ -35,3 +35,8 @@ project's workspace gets its own dataset matching the one its toolchain was buil
 (`zroot/wip-rnx-normd`: `casesensitivity=insensitive`, `normalization=formD`, `atime=off`). Its
 behaviour there is the first evidence for this entry's property decision (deliverable 1). The
 rmxOS-side phases stay design-first.
+
+Refined the same day (Coordinator): **userspace is case-insensitive from day one** (workspaces,
+toolchains, our own userland), so case problems fail fast and get fixed fast. **The FreeBSD kernel
+and base move incrementally**: expect breakage there, and prepare each phase (case-collision audit,
+build and install on an insensitive tree, rollback) before it runs.
