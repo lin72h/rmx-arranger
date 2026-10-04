@@ -1,7 +1,7 @@
 # id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392, op-393)
 
 - id: **id-046**
-- state: **IN WORK — batches 1-3 accepted and on origin; step 4 part 1 is op-447; leftovers listed below (2026-10-03)**
+- state: **IN WORK — batches 1-3 and step 4 part 1 accepted and on origin (`mach-fixes-4@0924690c`, 2026-10-04); step 4 part 2 next; leftovers listed below**
 - raised: **2026-09-28 by the Arranger, from advisor2 op-389 (rmx-advisor2 2f6c337)**
 - parent: id-042 (1.0-preview), beside id-045
 
@@ -163,7 +163,8 @@ and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
 | Fixed and proven, batch 1 (`mach-fixes-1`, origin) | #3/F3, F6, #5, N3, #13, N4, #12, F7, F8, #9, #10, N8, N1 (13) |
 | Fixed and proven, batch 2 (`mach-fixes-2`, origin) | #2, S2, S3, S4 entry causes (4) |
 | Fixed and accepted, batch 3 (`mach-fixes-3` at `844112f4`, origin, 2026-10-03) | #4, #11, F1, F2, the N5 prerequisite; plus validator3's op-433 failed-creation unwind and parked-reply leak (5 + 2) |
-| Planned, step 4 (advisor2 op-435, `42dc8247`) | #6/F4, #7, #15, F5, N2, S1, N6, D2 subset (N5; S5's caller substitution for the two setters) (9) |
+| Fixed and accepted, step 4 part 1 (`mach-fixes-4` at `0924690c`, origin, 2026-10-04) | #7, #15, pset S2 lifetime, F5, N2, N6, the LARGE/trailer boundary; plus validator3's op-458 F1 (admitted-entry revalidation) and F2 (kernel-reply audit identity) |
+| Planned, step 4 part 2 (advisor2 op-435 § 4 items 4-6) | consumer adaptation; #6/F4 and S1 (pure C1, public KNOTE); D2 subset (N5; S5's caller substitution for the two setters) |
 | Accepted limitation for 1.0 | N7 (dead-name notification dropped under memory pressure; mach-names-step5-deferred.md) |
 | **Not scheduled** | #8 (failed OOL copyout double free), N9 (MIG passes kernel pointers to user-pointer handlers), N10 (two trap return conventions), #14 (failed load leaves hooks; id-045), S6 (KBI field shifts), §3 VM wrappers (target map, `setmax`, errno, RLIMIT_VMEM/RACCT, malloc M_NOWAIT), §3 AUDIT_SYSCLOSE and debug sysctls, #1 (assertion only under INVARIANTS), A1 (uninitialized message bytes, KMSAN check) |
 | Retracted | §3 workqueue per-thread state (op-393) |
@@ -171,6 +172,13 @@ and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
 Proposed for the leftovers (awaiting the Coordinator): a small batch after step 4 for #8, N9, N10
 and #14; S6 and the §3 VM and audit items either fixed or recorded as known 1.0 gaps; #1 and A1
 covered by the KASAN/KMSAN runs (instrumentation 1.0).
+
+## Step 4 part 1 accepted (2026-10-04)
+
+`mach-fixes-4` at `0924690c` (op-447, op-461), 24 commits on `mach-fixes-3`. Accepted on:
+gatekeeper1's proofs op-457 (base 11/11 fail, fixed 52/52) and op-464 (base 3/3 fail, fixed 55/55);
+validator3's op-458 (REMEDIATE, two findings) and op-465 re-review (CLOSE, 9/10). Pushed with the
+Coordinator's yes (j-20261004-040).
 
 ## Batch 3 accepted (2026-10-03)
 

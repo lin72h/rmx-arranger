@@ -2687,3 +2687,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-464 issued → returned → closed; op-467u recorded.
 - evidence: the hashes and counts above.
 - next: The Coordinator's yes to push; then close op-447 and op-461, update id-046 and now.md.
+
+### j-20261004-040 — Step 4 part 1 accepted: mach-fixes-4 pushed; op-447 and op-461 closed
+
+- time / kind: 2026-10-04 / ACTION (Coordinator's yes)
+- outcome: With the Coordinator's yes, `wip-rmxos` `mach-fixes-4` pushed to origin (`ls-remote`: `0924690c`, a new branch, 24 commits on `mach-fixes-3`). `rmx-implementer` pushed only to `bafabbe` (`829aada..bafabbe`), the last op-461 commit, so op-449's work-in-progress commit `75849fa` stays local (the Coordinator left this to the Arranger). op-447 and op-461 closed on the proofs op-457 and op-464 and the review op-465 (CLOSE 9/10). id-046 (state, status by finding, a § Step 4 part 1 accepted), the IDQ index and now.md updated.
+- state delta: op-447 and op-461 returned → closed.
+- evidence: `git ls-remote origin refs/heads/mach-fixes-4`; `git rev-parse origin/main` in rmx-implementer (`bafabbe`).
+- next: Step 4 part 2 (op-435 § 4 items 4-6); the Implementer is on op-449, so its first op is drafted on hold.
