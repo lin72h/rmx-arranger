@@ -1,12 +1,13 @@
 ---
 id: op-456u
-state: draft
+state: closed
 cast: unicast
 agent: zenoh-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
 idq: meta-012
 expected: 10m
-updated: 2026-10-04T00:17Z
+issued-at: 2026-10-04T00:20Z
+updated: 2026-10-04T00:20Z
 ---
 # op-456u — To the zenoh-swift Arranger: reread CHANGELOG meta-011 and meta-012
 

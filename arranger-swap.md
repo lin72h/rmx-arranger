@@ -2572,3 +2572,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-455 created → closed; op-456u created as a draft.
 - evidence: `tools/roles check` (10 instances, 1 needs attention: rmx-implementer stale, by design); the test runs; `git show --name-only` of each commit.
 - next: The Coordinator relays op-456u. Render rmx-implementer when its session is closed. The Gatekeeper and validator3 briefs for op-447.
+
+### j-20261004-027 — op-456u sent and retired
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The Coordinator sent op-456u (zenoh-swift Arranger: reread CHANGELOG meta-011 and meta-012). Retired (draft → closed).
+- state delta: op-456u draft → closed.
+- evidence: `tools/rob board`.
+- next: Render rmx-implementer when its session is closed; the Gatekeeper and validator3 briefs for op-447.
