@@ -2639,3 +2639,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (op-461 issued).
 - evidence: the Implementer's commits, `build/op461/logs/`, `stage/images`.
 - next: The Coordinator sends the follow-up; if it is stopped too, restart in a fresh session with the same text.
+
+### j-20261004-034 — op-462u sent; op-461 continued in the same session
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The follow-up cast op-462u (continue op-461: self-checks, record, reply) was sent, and the Implementer continued in the same session, so no restart was needed. Retired. The Coordinator: be careful next time. safety-flag-avoidance.md's word table gains "poisoned storage" → "storage filled with a known non-zero pattern". A brief also should not point agents at a review file whose own words may trip the filter; carry the finding inline in engineering words.
+- state delta: op-462u draft → closed.
+- evidence: `tools/rob board`.
+- next: op-461's reply.

@@ -70,6 +70,7 @@ wording is now part of brief quality.
 | bypass the sender/audit checks | a test-only build switch that skips sender checks so generated messages reach the parser |
 | attack surface | the interfaces that take input from other processes |
 | fault injection, inject failures | forced error paths (fail(9) points) to test error handling |
+| poisoned storage / poison bytes | storage filled with a known non-zero pattern |
 | use-after-free, overflow | keep the terms, but always as "a defect in our code at <file:line>" |
 
 ## When a session is filtered anyway

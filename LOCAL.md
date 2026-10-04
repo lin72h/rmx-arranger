@@ -251,3 +251,6 @@ older lessons.
   free number (never the call's, "less confusion"). j-023 had misread this (j-025).
 - **Generate ops without asking (Coordinator, 2026-10-04).** When the next step is an op, draft it and
   show it; do not ask whether to draft it.
+- **Carry review findings inline (2026-10-04, op-461).** A brief that points an agent at a review
+  file passes on that file's wording too. Restate each finding in engineering words in the brief,
+  checked against safety-flag-avoidance.md; cite the review by path only as background.

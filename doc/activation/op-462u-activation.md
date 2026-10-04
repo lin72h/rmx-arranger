@@ -1,12 +1,13 @@
 ---
 id: op-462u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 expected: 5m
-updated: 2026-10-04T01:06Z
+issued-at: 2026-10-04T01:07Z
+updated: 2026-10-04T01:07Z
 ---
 # op-462u — To the Implementer: op-461 continues — self-checks, record, reply
 
