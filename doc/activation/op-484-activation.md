@@ -1,13 +1,14 @@
 ---
 id: op-484
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: launchd builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
-updated: 2026-10-05T00:00Z
+issued-at: 2026-10-04T20:35Z
+updated: 2026-10-04T20:35Z
 ---
 # op-484 — Implementer: step 4 part 2b, launchd (op-435 § 4 item 4)
 
@@ -38,10 +39,9 @@ Rules and starting points (confirm or correct each from the source):
    `mportset_callback`). It lists `demand_port_set`'s members, and
    for the first one with messages calls `job_find_by_service_port()`'s
    result as a callback with no NULL check (the check is under
-   `#if 0`). If the service was removed after the readiness event,
-   that is a call through NULL in PID 1. Skip a member with no current
+   `#if 0`). Add the check: a member with no current
    job or machservice; never act for another service.
-2. **Crash drain** (`core.c:7326-7369`, `machservice_drain_port`). The
+2. **Message drain after a job exits** (`core.c:7326-7369`, `machservice_drain_port`). The
    buffers are `calloc`'d but used as `&req_buff` / `sizeof(req_buff)`
    (the address and size of the pointer variable), and never freed.
    The loop with `drain_all` ends only on `MACH_RCV_TIMED_OUT`, so any
@@ -64,10 +64,10 @@ Tests first (Zig, against a launchd in the guest, registered like
 1. A demand message queued for a MachService that is removed before
    launchd handles it: launchd stays up (same PID 1), the removed
    service is not launched, and an unrelated service is not launched.
-2. Crash drain with `drain_all` (a job with `DrainMessagesOnCrash`
-   that exits with messages queued): every queued message is drained
+2. Drain with `drain_all` (a job with `DrainMessagesOnCrash` that
+   exits with status 1 while messages are queued): every queued message is drained
    once, then the drain ends; launchd stays responsive.
-3. Crash drain when the port is gone or a message is too large: the
+3. The same drain when the port is gone or a message is too large: the
    drain ends without repeating.
 4. A service's send-death notification arriving after its job was
    removed: no other job is affected and urefs balance.
