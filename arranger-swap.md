@@ -2773,3 +2773,11 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (ops).
 - evidence: `zpool get free zroot`.
 - next: The Coordinator chooses who removes the in-tree items.
+
+### j-20261004-051 — Disk: /tmp's pre-September entries removed (59 GB); zroot/wip-volta-work created
+
+- time / kind: 2026-10-04 / ACTION (Coordinator)
+- outcome: On the Coordinator's go-ahead: removed every top-level `/tmp` entry last modified before 2026-09-01 (89,278 entries, 59.4 GB: the six root-owned `simd7-ci-buildimage-*` trees, whose base-system files needed `chflags noschg` first, plus the swift-rx-era `nx-*` trees, `freebsd-upstream-handoff-*`, openclaw and smaller items). Kept: `claude-501` (live session scratchpads), the X11/ICE socket directories, and the 1,799 entries changed since September (live agents' locks and temporary directories). Nothing was mounted under `/tmp`; the only open files were my own command's. Also created `zroot/wip-volta-work` (50 GB quota, atime off, case-sensitive, owned by me) at `/Users/me/wip-volta/_work`, which volta-arranger asked for heavy work. Pool: 157 GB free, 83% (from 62.8 GB and 93% at the start). Pending: volta-arranger removes its 130 GB scratchpad entries of 10 MB or more on the Coordinator's yes; swift-sdk's old trees and `zroot/wip-rnx-normd` as in j-050.
+- state delta: none (ops).
+- evidence: `zpool get free,capacity zroot`; `zfs get quota zroot/wip-volta-work`.
+- next: volta's removal; swift-sdk's in-tree removal.
