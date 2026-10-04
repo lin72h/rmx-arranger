@@ -2742,3 +2742,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: `zroot/wip-swift-sdk` (insensitive, formD, atime off) at `/Users/me/wip-swift-sdk`; the three repos cloned at the agent's HEADs; 19.2 GB of required inputs copied and spot-checked (file counts, package hashes); the Implementer's instructions rendered from its kept rules with consent (`agent-implementer@4a7651a`); op-103 drafted. Details in swift-sdk's journal (j-004 to j-006). `/Users/me/wip-rnx` unchanged.
 - state delta: none (rmxOS).
 - next: The Coordinator restarts the swift-sdk Implementer there with op-103; a swift-sdk Arranger session takes over after.
+
+### j-20261004-047 — swift-sdk handed to its own Arranger (op-104); the rmxOS Arranger steps back
+
+- time / kind: 2026-10-04 / ACTION
+- outcome: The swift-sdk Implementer runs op-103 in the new place, and a swift-sdk Arranger session is waiting; op-104 seats it with the inherited state (op-101/102u, op-103 in flight, the Coordinator's decisions, zenoh's open op-008 and op-016). From here the swift-sdk Arranger runs that project; as with depthai and fstack, this Arranger does not read or change it again. Workflow fix noted for a later meta change: `rob new`'s closing line ("Re-read OPS.md … reply block") does not fit an Arranger's own op (no OPS.md); the base op-brief-forms still names rmxOS's mm4 series.
+- state delta: none (rmxOS).
+- next: rmxOS: op-449's reply, then op-468.
