@@ -258,3 +258,5 @@ older lessons.
   source of its rules, even with the rules restated, makes a careful agent stop for a missing input.
   Before showing a brief, grep it for Arranger-only file names (`*.md` here, `doc/`, `idq/`) and
   replace each with the text itself or "this list is the complete decision".
+- **Keep bookkeeping out of replies (Coordinator, 2026-10-04).** Fix state, times and tool quirks
+  myself and journal them; tell the Coordinator only what needs a decision or a relay.
