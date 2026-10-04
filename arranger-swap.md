@@ -2789,3 +2789,10 @@ provenance, not current procedure. Never edit or append it.
 - state delta: none (ops).
 - evidence: `zpool get free,capacity,freeing zroot`; `du -sh` of the scratchpad.
 - next: The Coordinator chooses who removes swift-sdk's in-tree items.
+
+### j-20261004-053 — op-468 stopped on an Arranger-only citation; op-472u resumes it
+
+- time / kind: 2026-10-04 / REVIEW
+- outcome: The Coordinator sent op-468 (recorded issued on the reply's evidence); the Implementer returned BLOCKED (op-471u, `rmx-implementer@f6d7478`): the brief cited `mach-names-step5-deferred.md` § Step 4 decisions 4, which lives here, and its OPS.md says to stop on a missing named input. A correct stop and my brief's fault (the restart-prompt rule applies to citations too; lesson added to LOCAL.md). Verified: no product change, branch, build or boot. op-472u carries decision 4 verbatim, explains the one sentence the brief had not restated (a kqueue per Mach space, rebuilt after exec; no guard, no test) and names every remaining part. op-468's brief now reads "this list is the complete decision". op-470 checked: no Arranger-only citation.
+- state delta: op-468 draft → issued → returned; op-471u recorded; op-472u created (draft).
+- next: The Coordinator sends op-472u to the same Implementer session; then op-468 → issued.

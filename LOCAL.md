@@ -254,3 +254,7 @@ older lessons.
 - **Carry review findings inline (2026-10-04, op-461).** A brief that points an agent at a review
   file passes on that file's wording too. Restate each finding in engineering words in the brief,
   checked against safety-flag-avoidance.md; cite the review by path only as background.
+- **Citations count as pointers (2026-10-04, op-468).** A brief that cites an Arranger file as the
+  source of its rules, even with the rules restated, makes a careful agent stop for a missing input.
+  Before showing a brief, grep it for Arranger-only file names (`*.md` here, `doc/`, `idq/`) and
+  replace each with the text itself or "this list is the complete decision".

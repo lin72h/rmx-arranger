@@ -1,13 +1,14 @@
 ---
 id: op-468
-state: draft
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: libdispatch builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
-updated: 2026-10-04T04:56Z
+issued-at: 2026-10-04T05:48Z
+updated: 2026-10-04T05:48Z
 ---
 # op-468 — Implementer: step 4 part 2a, libdispatch (op-435 § 4 item 4)
 
@@ -30,7 +31,7 @@ contract, the libdispatch half of advisor2's plan item 4
 as they are; their part follows in a later op. Branch `mach-fixes-5`
 from `0924690c`.
 
-Rules (decided, `mach-names-step5-deferred.md` § Step 4 decisions 4):
+Rules (decided; this list is the complete decision):
 - A source keeps its borrowed receive name and its set membership
   until cancellation completes, including the manager's unregister,
   event batches already copied and queued callbacks. Records and
