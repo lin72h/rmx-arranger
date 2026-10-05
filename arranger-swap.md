@@ -2936,3 +2936,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: At the Coordinator's request, `roadmap.md` rewritten from its June–July text (kept in Git at `cc7efa3`) to a current page: the target levels, the decisions that shape the preview, the path to the preview as of today, the li-1001…1008 states, and what follows the preview. `l1i/li-1000.md` § Current state replaced (2026-07-11 → 2026-10-05; li-1003 shown as retired by op-165, li-1006 with PID 1 and the Mach adaptation, li-1010 with the 2026-10-04 direction). IDQ index rows for id-016 and id-046 brought up to date.
 - state delta: none (ops).
 - next: op-498's reply.
+
+### j-20261005-015 — Disk: zroot/wip-rnx-normd destroyed (228 GB); pool at 53%
+
+- time / kind: 2026-10-05 / ACTION (Coordinator's yes, "drop kimi")
+- outcome: swift-sdk's Arranger reported its rebuild passed (its op-108) and its keep list archived and hash-verified in `/Users/me/wip-swift-sdk/archive/wip-rnx-20261004/`. Checked: no agent process or open file in `/Users/me/wip-rnx`, no snapshots, no nested mounts, jails or exports. A plain destroy was refused (dataset busy) although `fstat`, `fuser` and `procstat` found no user; forced unmount, then destroyed. `wip-kimi` (2.1 GB) and the clean `nx-` tool repos went with it, per the Coordinator. Pool: 427 GB free, 53% (93% on 2026-10-04 afternoon). The disk cleanup is complete.
+- state delta: none (ops).
+- evidence: `zpool get free,capacity,freeing zroot`.
