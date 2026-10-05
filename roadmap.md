@@ -41,7 +41,7 @@ remaining gaps named and bounded. We certify the surface we exercise.
 | Mach foundation, fix batches 1-3 (id-046) | done (`mach-fixes-1` to `-3` on origin) |
 | Step 4 part 1: kernel reply and receive contract | done (`mach-fixes-4@0924690c`) |
 | Step 4 part 2a: libdispatch adaptation, libmach `mach_msg_destroy` fix | done (`mach-fixes-5@b2d5f5b7`) |
-| Step 4 part 2b: launchd adaptation (op-484, op-495) | reviewed and fixed; final proof op-498 |
+| Step 4 part 2b: launchd adaptation (op-484, op-495) | done (`mach-fixes-5@0f1f76d5`) |
 | Step 4 part 2c: libxpc adaptation | next |
 | Pure C1 readiness with public KNOTE; D2 (two foreign-task setters for launchd) | after libxpc (op-435 § 4 items 5-6) |
 | Mach review round 2, two blind reviewers (id-051) | after the fixes |
@@ -62,7 +62,7 @@ Full table and retirement rule: [l1i/li-1000.md](l1i/li-1000.md). In short:
 | li-1003 | libnotify/notifyd truly-green | retired (op-165) |
 | li-1004 | asl truly-green | legs 1-3 green, leg 4 open (id-011) |
 | li-1005 | libxpc as a core service | open, the long pole (id-021) |
-| li-1006 | launchd as PID-1 core service | PID 1 by default; Mach adaptation in progress (op-484) |
+| li-1006 | launchd as PID-1 core service | PID 1 by default; adapted to the step 4 contract (op-484, op-495) |
 | li-1007 | integration soak | not started |
 | li-1008 | known gaps cataloged | ongoing |
 

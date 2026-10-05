@@ -1,6 +1,6 @@
 ---
 id: op-484
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: launchd builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-05T00:41Z
-updated: 2026-10-05T00:41Z
+updated: 2026-10-05T03:09Z
 ---
 # op-484 — Implementer: step 4 part 2b, launchd (op-435 § 4 item 4)
 

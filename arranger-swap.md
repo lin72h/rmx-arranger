@@ -2943,3 +2943,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: swift-sdk's Arranger reported its rebuild passed (its op-108) and its keep list archived and hash-verified in `/Users/me/wip-swift-sdk/archive/wip-rnx-20261004/`. Checked: no agent process or open file in `/Users/me/wip-rnx`, no snapshots, no nested mounts, jails or exports. A plain destroy was refused (dataset busy) although `fstat`, `fuser` and `procstat` found no user; forced unmount, then destroyed. `wip-kimi` (2.1 GB) and the clean `nx-` tool repos went with it, per the Coordinator. Pool: 427 GB free, 53% (93% on 2026-10-04 afternoon). The disk cleanup is complete.
 - state delta: none (ops).
 - evidence: `zpool get free,capacity,freeing zroot`.
+
+### j-20261005-016 — op-498 accepted; mach-fixes-5@0f1f76d5 pushed; op-484 and op-495 closed (step 4 part 2b accepted)
+
+- time / kind: 2026-10-05 / REVIEW + ACTION (standing push yes)
+- outcome: Reply recorded as op-499u. Verified: `rmx-gatekeeper1@9fdc4920` on origin; both serial hashes match; `build/op498/results.md`: `setup_retry` FAIL on base with its reason, 69 PASS on fixed. Pushed `mach-fixes-5` `b2d5f5b7..0f1f76d5` (fast-forward) and the base-line branches `mach-fixes-5-op484-base` (`5565ec56`) and `mach-fixes-5-op495-base` (`68e847c3`) to origin; rmx-implementer `main` pushed. Closed op-498, op-484, op-495. Step 4 part 2b (launchd) accepted; now.md and roadmap updated. The drain's runtime path stays covered by source review only (j-009).
+- state delta: op-498, op-484, op-495 → closed; op-499u recorded.
+- next: draft step 4 part 2c (libxpc).

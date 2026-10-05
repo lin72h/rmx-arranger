@@ -1,13 +1,13 @@
 ---
 id: op-498
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 3 boots max on copies of the op495 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 45m
 issued-at: 2026-10-05T02:55Z
-updated: 2026-10-05T02:55Z
+updated: 2026-10-05T03:09Z
 ---
 # op-498 — Gatekeeper 1: proof of op-495 (launchd job-port setup, ZFS pair)
 
