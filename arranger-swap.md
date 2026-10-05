@@ -2950,3 +2950,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-499u. Verified: `rmx-gatekeeper1@9fdc4920` on origin; both serial hashes match; `build/op498/results.md`: `setup_retry` FAIL on base with its reason, 69 PASS on fixed. Pushed `mach-fixes-5` `b2d5f5b7..0f1f76d5` (fast-forward) and the base-line branches `mach-fixes-5-op484-base` (`5565ec56`) and `mach-fixes-5-op495-base` (`68e847c3`) to origin; rmx-implementer `main` pushed. Closed op-498, op-484, op-495. Step 4 part 2b (launchd) accepted; now.md and roadmap updated. The drain's runtime path stays covered by source review only (j-009).
 - state delta: op-498, op-484, op-495 → closed; op-499u recorded.
 - next: draft step 4 part 2c (libxpc).
+
+### j-20261005-017 — op-500 (step 4 part 2c, libxpc) drafted
+
+- time / kind: 2026-10-05 / ACTION
+- outcome: From advisor2's plan § 1 "libxpc" and the source at `mach-fixes-5@0f1f76d5`: `xpc_pipe_receive` (private, one caller: the async receive handler) blocks with `MACH_MSG_TIMEOUT_NONE` and parses the buffer after a failed receive (recorded in id-046). op-500: timeout-zero receive in the async path, return before parsing on failure, terminal receive errors cancel once with `XPC_ERROR_CONNECTION_INVALID`, cancellation gating unchanged; five tests first; two ZFS images. No abnormal-exit cases. Nothing else in flight, so it can go now.
+- state delta: op-500 draft.
+- next: The Coordinator sends op-500.

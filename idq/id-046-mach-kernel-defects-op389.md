@@ -261,3 +261,9 @@ id-047. Unreached routines → id-052.
   `&req_buff`/`sizeof(req_buff)` (pointer variable's address and 8-byte size), never freed; with
   `drain_all` the loop ends only on `MACH_RCV_TIMED_OUT`. Introduced by the port (Apple uses stack
   arrays). Fix: op-484.
+
+## libxpc consumer defects (2026-10-05, found drafting op-500)
+
+- `lib/libxpc/xpc_misc.c:450-490` `xpc_pipe_receive`: blocking `mach_msg` (`MACH_MSG_TIMEOUT_NONE`)
+  from the asynchronous receive handler (`xpc_connection.c:846-870`), so stale readiness blocks a
+  dispatch thread; on a failed receive it logs and then unpacks the buffer anyway. Fix: op-500.
