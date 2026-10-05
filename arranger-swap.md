@@ -2922,3 +2922,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-496u (it had been sent before I asked; set issued on the reply's evidence). Verified: `rmx-gatekeeper1@528461ed` on origin; both serial hashes match; `build/op493/results.md`: `demand_removed` FAIL on base with its recorded reason, `late_dead_name` PASS on base, `close_unregistered` not run on base as briefed, 68 PASS on fixed. gatekeeper1's harness handled the ZFS test images. op-493 closed. op-484 stays returned until op-495 (the two review findings) is back and proven; that proof then needs only op-495's new case on its base plus the full suite on its fixed image.
 - state delta: op-493 issued → returned → closed (op-496u).
 - next: op-495 (to send, if not yet); then a short gatekeeper1 proof of its pair.
+
+### j-20261005-013 — op-495 returned and verified; op-498 (short gatekeeper1 proof) drafted
+
+- time / kind: 2026-10-05 / REVIEW
+- outcome: Reply recorded as op-497u. Verified: `mach-fixes-5@0f1f76d5` is 2 commits on `10a3fd65` (test `68e847c3`, fix `0f1f76d5`; `sbin/launchd` and `tests/lib/launchd` only); `job_setup_machport` now creates the right in a local, publishes `j->j_port` only on success and closes through one failure path; its other callers (`core.c:1770`, `:7166`) set up new jobs, so resetting `j_port` at entry is safe; the drain matches `(mr & ~MACH_MSG_MASK) == MACH_RCV_BODY_ERROR` in `default` and calls `mach_msg_destroy`. Branches `mach-fixes-5-op484-base` (`5565ec56`) and `mach-fixes-5-op495-base` (`68e847c3`) keep the base lines. Image hashes match; both ZFS from op417, BOMs differ only in launchd, 30 test files identical; record: base 1/1 FAIL, fixed 69/69. op-498 drafted: base `setup_retry` FAIL, fixed 69 PASS.
+- state delta: op-495 issued → returned (op-497u); op-498 draft.
+- next: The Coordinator sends op-498; on PASS push `mach-fixes-5` at `0f1f76d5` (standing yes) and close op-484, op-495.

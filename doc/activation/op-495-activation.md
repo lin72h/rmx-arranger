@@ -1,13 +1,14 @@
 ---
 id: op-495
-state: draft
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 gate: self
 authority: launchd builds (no world); 2 ZFS images; 3 self-check boots; no push
 expected: 2h
-updated: 2026-10-05T03:30Z
+issued-at: 2026-10-05T02:45Z
+updated: 2026-10-05T02:45Z
 ---
 # op-495 — Implementer: op-484 remediation (masked partial-receive error; stale j_port)
 
