@@ -7,8 +7,8 @@ idq: id-046
 gate: self
 authority: launchd builds (no world); 2 images; 4 self-check boots; no push
 expected: 4h
-issued-at: 2026-10-04T20:35Z
-updated: 2026-10-04T21:07Z
+issued-at: 2026-10-05T00:41Z
+updated: 2026-10-05T00:41Z
 ---
 # op-484 — Implementer: step 4 part 2b, launchd (op-435 § 4 item 4)
 

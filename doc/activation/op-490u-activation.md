@@ -1,11 +1,12 @@
 ---
 id: op-490u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-updated: 2026-10-05T00:00Z
+issued-at: 2026-10-05T00:39Z
+updated: 2026-10-05T00:39Z
 ---
 # op-490u — Implementer: op-484 resume; ZFS images; drain case out of scope
 
