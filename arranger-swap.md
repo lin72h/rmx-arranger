@@ -2929,3 +2929,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-497u. Verified: `mach-fixes-5@0f1f76d5` is 2 commits on `10a3fd65` (test `68e847c3`, fix `0f1f76d5`; `sbin/launchd` and `tests/lib/launchd` only); `job_setup_machport` now creates the right in a local, publishes `j->j_port` only on success and closes through one failure path; its other callers (`core.c:1770`, `:7166`) set up new jobs, so resetting `j_port` at entry is safe; the drain matches `(mr & ~MACH_MSG_MASK) == MACH_RCV_BODY_ERROR` in `default` and calls `mach_msg_destroy`. Branches `mach-fixes-5-op484-base` (`5565ec56`) and `mach-fixes-5-op495-base` (`68e847c3`) keep the base lines. Image hashes match; both ZFS from op417, BOMs differ only in launchd, 30 test files identical; record: base 1/1 FAIL, fixed 69/69. op-498 drafted: base `setup_retry` FAIL, fixed 69 PASS.
 - state delta: op-495 issued → returned (op-497u); op-498 draft.
 - next: The Coordinator sends op-498; on PASS push `mach-fixes-5` at `0f1f76d5` (standing yes) and close op-484, op-495.
+
+### j-20261005-014 — roadmap.md rewritten; li-1000 current state refreshed
+
+- time / kind: 2026-10-05 / ACTION (Coordinator)
+- outcome: At the Coordinator's request, `roadmap.md` rewritten from its June–July text (kept in Git at `cc7efa3`) to a current page: the target levels, the decisions that shape the preview, the path to the preview as of today, the li-1001…1008 states, and what follows the preview. `l1i/li-1000.md` § Current state replaced (2026-07-11 → 2026-10-05; li-1003 shown as retired by op-165, li-1006 with PID 1 and the Mach adaptation, li-1010 with the 2026-10-04 direction). IDQ index rows for id-016 and id-046 brought up to date.
+- state delta: none (ops).
+- next: op-498's reply.
