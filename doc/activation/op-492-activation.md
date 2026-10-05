@@ -1,12 +1,13 @@
 ---
 id: op-492
-state: draft
+state: closed
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 2h
-updated: 2026-10-05T03:00Z
+issued-at: 2026-10-05T01:03Z
+updated: 2026-10-05T01:03Z
 ---
 # op-492 — Validator 3: review of op-484 (launchd consumer fixes, step 4 part 2b)
 
