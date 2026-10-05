@@ -2957,3 +2957,9 @@ provenance, not current procedure. Never edit or append it.
 - outcome: From advisor2's plan § 1 "libxpc" and the source at `mach-fixes-5@0f1f76d5`: `xpc_pipe_receive` (private, one caller: the async receive handler) blocks with `MACH_MSG_TIMEOUT_NONE` and parses the buffer after a failed receive (recorded in id-046). op-500: timeout-zero receive in the async path, return before parsing on failure, terminal receive errors cancel once with `XPC_ERROR_CONNECTION_INVALID`, cancellation gating unchanged; five tests first; two ZFS images. No abnormal-exit cases. Nothing else in flight, so it can go now.
 - state delta: op-500 draft.
 - next: The Coordinator sends op-500.
+
+### j-20261005-018 — op-500 returned (verified in part); remote-death semantics to correct before review
+
+- time / kind: 2026-10-05 / REVIEW (partial; session hit its usage limit)
+- outcome: Reply recorded as op-501u. Verified: `mach-fixes-5@bd6bc1b8` is 4 commits on `0f1f76d5`, libxpc and `tests/lib/libxpc` only (12 files, +590/-9); base branch `mach-fixes-5-op500-base` (`6a20061b`); both image hashes match. Rules 1-2 done as briefed (timeout-zero receive, return before parsing). Problem: the change also turns remote death (`xpc_connection_remote_dead`) and `MACH_SEND_INVALID_DEST` sends into cancellation (`XPC_ERROR_CONNECTION_INVALID`) instead of interruption. My brief's test 4 asked for INVALID, which was wrong: on macOS a client of a named service gets `XPC_ERROR_CONNECTION_INTERRUPTED` and keeps a usable connection (launchd can relaunch the service); only peer/anonymous connections become invalid. Not yet checked: BOM diff and ZFS of the op500 pair.
+- next: Decide (match macOS: named-service client → INTERRUPTED, usable; peer/anonymous → INVALID), draft a short Implementer remediation, then review (validator3) and proof (gatekeeper1).
