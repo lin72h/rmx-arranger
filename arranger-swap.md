@@ -2915,3 +2915,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-494u; review hash checked. Confirmed first-hand: (F1) `core.c:7372` matches bare `MACH_RCV_BODY_ERROR` while the kernel ORs detail bits into it, so a partial receive is not released; (F2) `job_setup_machport` (`core.c:1699-1720`) leaves the closed name in `j->j_port` on failure and `core.c:9627-9631` then returns it as success. The reviewer's note that test wrappers change state is accepted (they create test conditions; normal builds exclude them). op-492 closed. op-495 (Implementer): both fixes, a test for F2 (F1 covered by the fix's form; drain runtime cases stay out), two ZFS images, branch names for the base test lines. op-493 (gatekeeper1 proof of the r7 pair) should be held and replaced by one proof of op-484 + op-495 if not yet sent.
 - state delta: op-492 issued → returned → closed (op-494u); op-495 draft.
 - next: The Coordinator sends op-495; confirms whether op-493 went out.
+
+### j-20261005-012 — op-493 accepted and closed: op-484's ZFS pair proven (first ZFS test proof)
+
+- time / kind: 2026-10-05 / REVIEW
+- outcome: Reply recorded as op-496u (it had been sent before I asked; set issued on the reply's evidence). Verified: `rmx-gatekeeper1@528461ed` on origin; both serial hashes match; `build/op493/results.md`: `demand_removed` FAIL on base with its recorded reason, `late_dead_name` PASS on base, `close_unregistered` not run on base as briefed, 68 PASS on fixed. gatekeeper1's harness handled the ZFS test images. op-493 closed. op-484 stays returned until op-495 (the two review findings) is back and proven; that proof then needs only op-495's new case on its base plus the full suite on its fixed image.
+- state delta: op-493 issued → returned → closed (op-496u).
+- next: op-495 (to send, if not yet); then a short gatekeeper1 proof of its pair.

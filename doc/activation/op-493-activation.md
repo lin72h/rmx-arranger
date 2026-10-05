@@ -1,12 +1,13 @@
 ---
 id: op-493
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 4 boots max on copies of the op484 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
-updated: 2026-10-05T03:00Z
+issued-at: 2026-10-05T01:22Z
+updated: 2026-10-05T01:24Z
 ---
 # op-493 — Gatekeeper 1: proof of op-484 (launchd consumer fixes, ZFS pair)
 
