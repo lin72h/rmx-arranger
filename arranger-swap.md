@@ -3005,3 +3005,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-508u. Verified: `rmx-gatekeeper1@d416048f` on origin; all three serial hashes match; `build/op505/results.md` has 77 rows, no mismatches: op500 base `stale_readiness`, `failed_receive`, `local_port_gone` FAIL and `cancel_inflight` PASS; op502 base `named_pending`, `reconnect`, `lookup_failure` FAIL and `peer_pending` PASS; fixed 77/77 PASS. 3/4 boots. This proves `8cc4b37a` as built; it does not cover op-504's F1/F2, which have no test yet (op-507). No push: `mach-fixes-5` waits for op-507 and its review and proof.
 - state delta: op-505 → closed; op-508u recorded.
 - next: The Coordinator sends op-507 (still draft).
+
+### j-20261006-007 — op-507 sent
+
+- time / kind: 2026-10-06 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-507 (libxpc reconnect remediation for op-504 F1/F2).
+- state delta: op-507 draft → issued.
+- next: op-507's reply; then a short validator3 re-review and a gatekeeper1 proof of the op507 pair; push `mach-fixes-5`, close op-500, op-502, op-507.
