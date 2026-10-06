@@ -2984,3 +2984,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-503u. Verified: `mach-fixes-5@8cc4b37a` is 3 commits on `bd6bc1b8` (tests `fece185c`, test reorder `a5aa3b09`, fix `8cc4b37a`); base branch `mach-fixes-5-op502-base` at `0e946814` (cherry-pick of the reorder); base and fixed test files identical; product change only `lib/libxpc/xpc_connection.c` and `xpc_internal.h`. Image hashes match; both ZFS from op417, BOMs differ only in the three libxpc rows. Source: named clients interrupt, peers and endpoints cancel, reconnect re-resolves the name and releases the old right after its source detaches. Open point for review: the reconnect `dispatch_sync`s onto `xc_recv_queue`, so after an interruption a send on a suspended connection waits for resume (the test reorder `a5aa3b09` works around exactly this). Sync replies on the event or target queue appear to block already at `0f1f76d5`; op-504 item 5 asks validator3 to separate the two. Size L+: one Validator plus the Gatekeeper proof, run in parallel (read-only review; proof on image copies).
 - state delta: op-502 issued → returned (op-503u); op-504, op-505 draft.
 - next: The Coordinator sends op-504 and op-505; on CLOSE ≥8 and PASS, push `mach-fixes-5` at `8cc4b37a` plus the op500/op502 base branches (standing yes) and close op-500, op-502.
+
+### j-20261006-004 — op-504 and op-505 sent
+
+- time / kind: 2026-10-06 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-504 (validator3 review) and op-505 (gatekeeper1 proof), running in parallel.
+- state delta: op-504, op-505 draft → issued.
+- next: Both replies; on CLOSE ≥8 and PASS, push `mach-fixes-5` at `8cc4b37a` and the op500/op502 base branches, close op-500 and op-502.

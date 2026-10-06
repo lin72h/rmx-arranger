@@ -1,12 +1,13 @@
 ---
 id: op-504
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 2h30m
-updated: 2026-10-06T05:07Z
+issued-at: 2026-10-06T05:17Z
+updated: 2026-10-06T05:17Z
 ---
 # op-504 — Validator 3: review of op-500 + op-502 (libxpc, step 4 part 2c)
 
