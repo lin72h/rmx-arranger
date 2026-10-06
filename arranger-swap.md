@@ -2991,3 +2991,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-504 (validator3 review) and op-505 (gatekeeper1 proof), running in parallel.
 - state delta: op-504, op-505 draft → issued.
 - next: Both replies; on CLOSE ≥8 and PASS, push `mach-fixes-5` at `8cc4b37a` and the op500/op502 base branches, close op-500 and op-502.
+
+### j-20261006-005 — op-504 returned (REMEDIATE 9/10), verified; op-507 (remediation) drafted
+
+- time / kind: 2026-10-06 / REVIEW
+- outcome: Reply recorded as op-506u; review hash matches, `rmx-validator3@ce451f81` on origin. Both findings verified first-hand at `8cc4b37a`: F1, `xpc_send` → `xpc_connection_reconnect` `dispatch_sync`s onto `xc_recv_queue` (`:882`), the event-delivery queue (`:638`) that `xpc_connection_suspend` suspends, so an event handler or serial target queue that sends and then calls `xpc_connection_send_barrier` waits in a cycle; F2, `xpc_connection_arm_proc_source` returns while `xc_proc_source` is set (`:950`) and `xpc_connection_remote_proc_dead` interrupts unconditionally (`:939`), so the old server's exit interrupts the new one and the new PID is never watched. F2 matters most for a real launchd restart, where the send right stays valid and only the process watcher reports it. The brief's "8 commits" was my count error (7). Accepted REMEDIATE. op-507 drafted (Implementer): no send-path wait on the delivery or target queue; the process watcher retired and re-armed with the server; four bounded tests. The inherited sync-reply wait on the event or target queue (already at `0f1f76d5`) noted in id-021, out of op-507's scope. op-505 (gatekeeper1) is still running on the op500/op502 images and stays useful as the proof of those pairs.
+- state delta: op-504 issued → returned (op-506u); op-507 draft.
+- next: The Coordinator sends op-507; then a short validator3 re-review and a gatekeeper1 proof of the op507 pair.

@@ -140,3 +140,12 @@ the nvlist-vs-mpack *serialization-format decision* (classification feeds it, do
   depth-first after notify/asl close.
 - remaining (depth-only, not scope): wire conformance bar — match macOS nvlist wire byte-for-byte vs
   behavior-only round-trip (lean behavior-only for the preview).
+
+### 2026-10-06 — inherited synchronous-reply waits (op-504)
+
+validator3's op-504 table (`rmx-validator3@ce451f81`, `reviews/op-504/op500-op502-review.md`)
+records, at `mach-fixes-5@0f1f76d5` and later: `xpc_connection_send_message_with_reply_sync` called
+from a connection's event handler, or from its serial target queue, cannot complete, because
+receive and pending-reply delivery run on `xc_recv_queue`, which targets that queue. This was
+already in the code before op-500; op-507 leaves it out of scope. To close: a decision on Apple's
+behaviour there, then a fix with a bounded test.
