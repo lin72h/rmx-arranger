@@ -2970,3 +2970,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The rest of op-500 verified: both op500 images ZFS; BOMs differ only in the three libxpc artifacts (`libxpc.so.5`, `.a`, `.debug`) and their source paths and commits. Decision (j-018): match Apple's semantics. op-502 drafted: on a named-service client, remote death and `EPIPE` send errors interrupt (`XPC_ERROR_CONNECTION_INTERRUPTED`, pending handlers once, not cancelled); peer and endpoint connections keep op-500's cancellation; after interruption the next send re-resolves the name with `bootstrap_look_up` and a later interruption is reported again (`xc_interrupted` is never cleared at present). Three tests (named client, peer, reconnect), base `bd6bc1b8` + tests, two ZFS images. Nothing else in flight, so it can go now.
 - state delta: op-502 draft; op-500 stays returned until op-502 is accepted.
 - next: The Coordinator sends op-502; then validator3 reviews op-500 + op-502 together and gatekeeper1 proves them; push `mach-fixes-5`.
+
+### j-20261006-002 — op-502 sent
+
+- time / kind: 2026-10-06 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-502. The op-500 reply pasted again with it is the same reply already recorded as op-501u (same hashes, commits and untested line), so no new record.
+- state delta: op-502 draft → issued.
+- next: op-502's reply; then validator3 reviews op-500 + op-502 together and gatekeeper1 proves them.

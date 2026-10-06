@@ -1,12 +1,13 @@
 ---
 id: op-502
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: libxpc builds (no world); 2 ZFS images; 3 self-check boots; no push
 expected: 2h30m
-updated: 2026-10-06T03:35Z
+issued-at: 2026-10-06T03:38Z
+updated: 2026-10-06T03:38Z
 ---
 # op-502 — Implementer: op-500 remediation (remote death on a named-service client interrupts, not cancels)
 
