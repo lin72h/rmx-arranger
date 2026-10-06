@@ -1,13 +1,13 @@
 ---
 id: op-505
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 4 boots max on copies of the op500 and op502 ZFS pairs, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
 issued-at: 2026-10-06T05:17Z
-updated: 2026-10-06T05:17Z
+updated: 2026-10-06T05:39Z
 ---
 # op-505 — Gatekeeper 1: proof of op-500 + op-502 (libxpc, two ZFS pairs)
 
