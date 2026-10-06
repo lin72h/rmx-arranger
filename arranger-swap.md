@@ -3012,3 +3012,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-507 (libxpc reconnect remediation for op-504 F1/F2).
 - state delta: op-507 draft → issued.
 - next: op-507's reply; then a short validator3 re-review and a gatekeeper1 proof of the op507 pair; push `mach-fixes-5`, close op-500, op-502, op-507.
+
+### j-20261006-008 — Decision: pair identity from manifests; payload disks after libxpc
+
+- time / kind: 2026-10-06 / DECISION (Coordinator delegated: "your call")
+- outcome: The Coordinator asked why the Implementer scans both images file by file (about 31,800 objects each). The scan is not in its OPS.md; it is habit. Decided: (1) a pair's identity is shown from the METALOG and BOM diff, with no full readback of both images; gatekeeper1's boot remains the independent check. Added to implementer0's OPS.md § Self-check after op-507 returns (not re-rendered while it is in flight), with a cast. (2) kernel-testing.md § 4.1 (fixed base image plus a payload disk) is drafted as an op once the libxpc step closes. Recorded in kernel-testing.md.
+- state delta: none (ops).
+- next: op-507's reply.
