@@ -3075,3 +3075,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-517u. Verified in the fixed serial log: `mi_startup` → `mach_mod_init` → `ipc_pset_work_init` (`ipc_pset.c:193-206`) → `taskqueue_start_threads` → `kthread_add` panics "kthread_add called too soon". Cause confirmed in FreeBSD source: `kthread_add` needs `proc0.p_stats` (`kern_kthread.c:270`, set at `SI_SUB_INTRINSIC`), while a loader-loaded module inits at `SI_SUB_KLD`; FreeBSD's thread taskqueues start at `SI_SUB_TASKQ` (`taskqueue.h:184`). The Implementer stopped per its AGENTS.md attempt rule (no rerun without a new op). Commits on `mach-fixes-6`: tests `b77d97b5`, fix `051c59a5`, test correction `af37956e`; base branch `mach-fixes-6-op515-base` = `2a58d7af`. Base 7/7 recorded (5 FAIL, 2 positive controls PASS); fixed 0/87 run. op-518 drafted: start the worker from a `SYSINIT` at `SI_SUB_TASKQ`, one new fixed image, op-515's base image and results reused, one full-suite boot. Image hashes not yet checked (no acceptance claim rests on them yet).
 - state delta: op-515 issued → returned (op-517u; BLOCKED); op-518 draft.
 - next: The Coordinator sends op-518; on return, validator3 review and gatekeeper1 proof of op-515 + op-518, then op-516 (hold).
+
+### j-20261007-009 — op-518 sent; brief correction: mach.ko stays boot-time only
+
+- time / kind: 2026-10-07 / ACTION (Coordinator) + correction
+- outcome: op-518 is with the Implementer, who asked whether to keep mach.ko's lifecycle protections or enable post-boot loading. Verified: `mach_module.c:266-267` refuses loading when not `cold` and `MOD_UNLOAD` returns `EBUSY` (`:302-303`). My brief's "must also work when mach.ko is loaded after boot" and "module unload drains and frees the queue" were wrong. Answer relayed through the Coordinator: preserve the protections (boot-time only, unload `EBUSY`); make the `SI_SUB_TASKQ` start correct for a loader-preloaded module only. Post-boot loading is out of scope.
+- state delta: op-518 draft → issued.
+- next: op-518's reply.

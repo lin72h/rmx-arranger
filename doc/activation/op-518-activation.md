@@ -1,12 +1,13 @@
 ---
 id: op-518
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: kernel and mach.ko builds (no world); 1 new ZFS fixed image (op-515's base image reused); 3 self-check boots; no push
 expected: 2h
-updated: 2026-10-07T00:52Z
+issued-at: 2026-10-07T01:07Z
+updated: 2026-10-07T01:07Z
 ---
 # op-518 — Implementer: op-515 continuation (start the Mach notification worker at SI_SUB_TASKQ; fixed image and self-check)
 
