@@ -1,6 +1,6 @@
 ---
 id: op-516
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ needs: op-533,op-534
 authority: kernel and mach.ko builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 5h
 issued-at: 2026-10-07T06:58Z
-updated: 2026-10-07T07:16Z
+updated: 2026-10-07T09:55Z
 ---
 # op-516 — Implementer: id-046 launchd's two task setters on a child task (op-435 § 4 item 6)
 

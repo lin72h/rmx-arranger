@@ -1,13 +1,13 @@
 ---
 id: op-540
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 3 boots max on copies of the op516 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
 issued-at: 2026-10-07T09:41Z
-updated: 2026-10-07T09:41Z
+updated: 2026-10-07T09:55Z
 ---
 # op-540 — Gatekeeper 1: proof of op-516 (launchd's child-task setters, ZFS pair)
 

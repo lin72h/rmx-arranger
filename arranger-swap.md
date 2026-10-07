@@ -3223,3 +3223,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-541 marked issued on "sent". op-539 reply recorded; review hash matches; `rmx-validator3@f8dcc76` local. CLOSE 9/10: no path where a call on another task changes the caller or a setter commits through an exited task or stale control port; routing, refusals, locking and right ownership checked; fixed 93/93 and base expectations confirmed from the serial records. Scope also includes the generated `sys/sys/mach/task_server.h` (needed; the brief's wording omitted it). Untested: forced exit/exec interleavings; pipe waits rely on the outer ATF bound. op-539 closed.
 - state delta: op-541 draft → issued; op-539 → closed.
 - next: op-540's reply; op-541's reply.
+
+### j-20261007-030 — op-540 accepted; mach-fixes-6@4de4d9ae pushed; op-516 closed; id-046 step 4 complete
+
+- time / kind: 2026-10-07 / REVIEW + ACTION (standing push yes)
+- outcome: Reply recorded as op-543u. Verified: `rmx-gatekeeper1@305d3859` on origin; both serial hashes match; `results.md` 93 cases, no mismatches; base 8/8 as expected, fixed 93/93, no id-061; 2/3 boots. With validator3's op-539 CLOSE 9/10, accepted. Pushed `mach-fixes-6` `ea254222..4de4d9ae` (fast-forward) and `mach-fixes-6-op516-base` (`9a46cdc2`); rmx-implementer `main` `348098d..b84192b`. Closed op-540, op-516. id-046 step 4 (op-435 § 4 items 1-6) is complete; now.md and the id-046 row updated. Untested: exception delivery (out of scope by decision), forced exit/exec interleavings.
+- state delta: op-540, op-516 → closed; op-543u recorded.
+- next: op-541 (id-061 reproduction) reply; then the payload-disk op (kernel-testing.md § 4.1) and the rest of the foundation round.
