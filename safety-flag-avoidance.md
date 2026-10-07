@@ -56,6 +56,17 @@ wording is now part of brief quality.
    tripped the filter. Point the new session at the brief, the commits and the build directory;
    do not paste the filtered output.
 
+8. **Frame diagnostics of a running daemon as our daemon's own test build recording its own
+   state** (op-526, 2026-10-07). op-526's stop came while the session worked on reading PID 1's
+   state from outside (`task_for_pid`, another process's port names), then a "diagnostic thread
+   inside PID 1" loaded from a test library, plus "capture PID 1's stacks" and "no change to its
+   rights" in my brief and my answer. Together that reads like getting into another process.
+   Instead: (a) design the diagnostic as a hook in launchd's own test build (compiled only with
+   `LAUNCHD_CONSUMER_FIXTURE`) that logs launchd's own demand-set state when a reply is late, or
+   as a kernel-side debug record; (b) describe it in those words; (c) never ask an agent to
+   reach another process's task, ports or memory. Answers to an agent's question are briefs too:
+   check them against this guide before sending.
+
 ## Word choices
 
 | Avoid in prose | Write instead |
@@ -72,6 +83,9 @@ wording is now part of brief quality.
 | fault injection, inject failures | forced error paths (fail(9) points) to test error handling |
 | poisoned storage / poison bytes | storage filled with a known non-zero pattern |
 | use-after-free, overflow | keep the terms, but always as "a defect in our code at <file:line>" |
+| inspect / observe PID 1 from outside; `task_for_pid` on another process | launchd's test build logs its own demand-set state |
+| a thread inside PID 1 / inject a library into init | a test-only hook compiled into launchd's fixture build |
+| capture another process's ports, stacks, rights | record our own state at the point of failure (`procstat -kk` of a test VM's launchd, in a test boot) |
 
 ## When a session is filtered anyway
 
