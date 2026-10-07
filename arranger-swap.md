@@ -3230,3 +3230,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-543u. Verified: `rmx-gatekeeper1@305d3859` on origin; both serial hashes match; `results.md` 93 cases, no mismatches; base 8/8 as expected, fixed 93/93, no id-061; 2/3 boots. With validator3's op-539 CLOSE 9/10, accepted. Pushed `mach-fixes-6` `ea254222..4de4d9ae` (fast-forward) and `mach-fixes-6-op516-base` (`9a46cdc2`); rmx-implementer `main` `348098d..b84192b`. Closed op-540, op-516. id-046 step 4 (op-435 § 4 items 1-6) is complete; now.md and the id-046 row updated. Untested: exception delivery (out of scope by decision), forced exit/exec interleavings.
 - state delta: op-540, op-516 → closed; op-543u recorded.
 - next: op-541 (id-061 reproduction) reply; then the payload-disk op (kernel-testing.md § 4.1) and the rest of the foundation round.
+
+### j-20261007-031 — op-541 returned (chain does not stall; shutdown hang without launchd tests); op-544 drafted (DDB dump at a stall)
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: Reply recorded as op-545u; both serial hashes match. The standalone chain test (`cb664232`, a test-only commit now on local `mach-fixes-6` after the pushed `4de4d9ae`) ran 2×10,000 iterations on `4de4d9ae` with no stall; boot 2 then did not power off although no launchd consumer test ran, so id-061's shutdown hang does not need those tests; the Implementer stopped under the unexplained-failure rule (correct). The older-kernel run was not needed (no stall). op-541 closed. op-544 drafted: diagnostic image = op541 image plus `/etc/ddb.conf` (`kdb.enter.panic` script: `ps`, `alltrace`, `show allchains`, sleep chains, locks) and `ddb_enable`; on a stall the runner sends the guest an NMI (`bhyvectl --inject-nmi`; unclaimed NMI panics into DDB per `nmi_call_kdb`, `panic_on_nmi` 0xff); no kernel, launchd or test change. Also the first concrete piece of id-053. Wording checked (rule 3 keeps the identifier).
+- state delta: op-541 issued → closed (op-545u); op-544 draft.
+- next: The Coordinator sends op-544.

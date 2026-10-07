@@ -1,13 +1,13 @@
 ---
 id: op-541
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 authority: test builds only (no kernel or launchd change); up to 2 ZFS images made from existing ones plus the new test; 5 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-07T09:53Z
-updated: 2026-10-07T09:53Z
+updated: 2026-10-07T10:34Z
 ---
 # op-541 — Implementer: id-061 reproduce launchd's request chain without launchd (bounded stress test)
 
