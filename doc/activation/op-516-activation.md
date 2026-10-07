@@ -77,10 +77,10 @@ Rules (confirm or correct each from the source):
 
 Tests first (`tests/sys/mach`, Zig, on the `mach_lifetime.zig` fork
 pattern):
-1. A parent sets each of the three special ports on a child through
-   the child's task port: the child sees them through its own getters
-   (or a fixture projection), and the parent's own ports are
-   unchanged.
+1. The child sends its own task port to the parent, as a launchd job
+   does at startup; the parent sets each of the three special ports on
+   it: the child sees them through its own getters (or a fixture
+   projection), and the parent's own ports are unchanged.
 2. The parent sets launchd's exact exception configuration on a child:
    accepted and stored on the child, the parent unchanged. Unknown
    mask bits or flavors are refused.
