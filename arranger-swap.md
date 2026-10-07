@@ -3110,3 +3110,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-526 sent. The Coordinator asked whether we are churning. Answer: the readiness step's rounds each found a real defect, but two (op-515 → op-518, op-524 → op-526) came from the Implementer's 2026-09-28 attempt rule overriding the 2026-10-03 self-check rule, and three costs were my brief mistakes (op-500 test 4's remote-death result, op-518's post-boot loading line, op-504's commit count) plus late `issued` marks. At the Coordinator's request the mistakes are recorded in LOCAL.md § Lessons for briefs as checks to run before writing a brief. Proposed (awaiting the Coordinator): attempt rule for evidence runs only; self-check boots fix test/setup mistakes in the op within its boot budget.
 - state delta: op-526 draft → issued.
 - next: op-526's reply; the Coordinator's answer on the attempt-rule change.
+
+### j-20261007-014 — Decision: Implementer attempt-stop rule covers evidence runs only (cast op-527u)
+
+- time / kind: 2026-10-07 / DECISION (Coordinator delegated: "your call")
+- outcome: implementer0's AGENTS.md § Attempt accounting changed (`rmx-implementer@081ac22`): the stop/no-rerun rule applies to evidence runs; self-check boots fix test, fixture, harness, setup or in-scope change defects in the op and boot again within the op's boot budget, every boot and correction recorded; stop only for missing authority or scope, an unknown cause, or an exhausted budget. Consistent with the Coordinator's 2026-10-03 self-check rule (OPS.md). The Implementer is working on op-526 in its repo, so cast op-527u goes first and the instance is rendered when the Coordinator confirms the relay.
+- state delta: op-527u draft.
+- next: The Coordinator relays op-527u; then `tools/roles render rmx-implementer` and commit by path.
