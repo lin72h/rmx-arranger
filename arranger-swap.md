@@ -3216,3 +3216,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Traced id-061's request path in source: the fixture's control socket is registered in launchd's main kqueue (`fixture.zig:376`); `kqueue_demand_loop` `select()`s on `mainkq` (`runtime.c:622-639`) and sends `handle_kqueue` to `launchd_internal_port`; the main thread receives it from its port set and calls `kevent` (`:662`), which runs `serve` (`fixture.zig:330`). op-541 drafted: a standalone two-thread stress test of the same chain (socket → kqueue → `select` → Mach request to a port-set member → receive on the set → `kevent` → reply), bounded, naming the stalled step; run on `4de4d9ae` and, if it stalls, on `2de5f1d4`. No launchd involvement, no fix (safety rule 8 satisfied by design). Can run alongside op-539 and op-540 (new image copies only).
 - state delta: op-541 draft.
 - next: The Coordinator sends op-541; op-539 and op-540 replies.
+
+### j-20261007-029 — op-541 sent; op-539 accepted (validator3 CLOSE 9/10 on op-516)
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: op-541 marked issued on "sent". op-539 reply recorded; review hash matches; `rmx-validator3@f8dcc76` local. CLOSE 9/10: no path where a call on another task changes the caller or a setter commits through an exited task or stale control port; routing, refusals, locking and right ownership checked; fixed 93/93 and base expectations confirmed from the serial records. Scope also includes the generated `sys/sys/mach/task_server.h` (needed; the brief's wording omitted it). Untested: forced exit/exec interleavings; pipe waits rely on the outer ATF bound. op-539 closed.
+- state delta: op-541 draft → issued; op-539 → closed.
+- next: op-540's reply; op-541's reply.
