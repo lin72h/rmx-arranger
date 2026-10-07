@@ -1,11 +1,12 @@
 ---
 id: op-527u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-000
-updated: 2026-10-07T02:41Z
+issued-at: 2026-10-07T02:42Z
+updated: 2026-10-07T02:42Z
 ---
 # op-527u — Implementer: AGENTS.md attempt accounting, self-check boots fix and rerun
 

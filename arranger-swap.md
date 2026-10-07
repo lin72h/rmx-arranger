@@ -3117,3 +3117,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: implementer0's AGENTS.md § Attempt accounting changed (`rmx-implementer@081ac22`): the stop/no-rerun rule applies to evidence runs; self-check boots fix test, fixture, harness, setup or in-scope change defects in the op and boot again within the op's boot budget, every boot and correction recorded; stop only for missing authority or scope, an unknown cause, or an exhausted budget. Consistent with the Coordinator's 2026-10-03 self-check rule (OPS.md). The Implementer is working on op-526 in its repo, so cast op-527u goes first and the instance is rendered when the Coordinator confirms the relay.
 - state delta: op-527u draft.
 - next: The Coordinator relays op-527u; then `tools/roles render rmx-implementer` and commit by path.
+
+### j-20261007-015 — op-527u relayed and rendered; op-526 diagnostic answered (observe-only fixture thread)
+
+- time / kind: 2026-10-07 / ACTION (Coordinator)
+- outcome: op-527u relayed; `rmx-implementer` rendered and committed by path (AGENTS.md, `.rendered.lock`; the Implementer's untracked op-526 files left alone). op-527u closed. The Implementer asked whether op-526 may extend the test-only `libop484_launchd.so` with a diagnostic thread inside PID 1 (no working `task_for_pid` or `mach_port_names` for an outside helper). Answered yes through the Coordinator, on conditions: observe only (no receive on launchd's ports, no membership or rights change), the same library in both images with launchd and kernels unchanged (shown in the METALOG/BOM diff), and the timing effect recorded (a clean run does not show the problem is gone).
+- state delta: op-527u → closed.
+- next: op-526's reply.
