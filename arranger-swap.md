@@ -3033,3 +3033,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-510 (validator3 re-review of op-507) and op-511 (gatekeeper1 proof of the op507 pair), running in parallel.
 - state delta: op-510, op-511 draft → issued.
 - next: Both replies; on CLOSE ≥8 and PASS, push `mach-fixes-5` at `2de5f1d4` plus the base branches and close op-500, op-502, op-507.
+
+### j-20261007-003 — op-510 accepted: validator3 CLOSE 9/10 on op-507
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: Reply recorded as op-512u. Verified: review hash matches; `rmx-validator3@d9c4e238` present locally (Validator repos have no origin by Coordinator decision; roles.md § Review and closure). Verdict CLOSE 9/10: F1 and F2 fixed at their causes; retired send and process callbacks rejected under `xc_remote_lock`; ownership kept until cancellation completes; the four regressions detect the base defects with bounded waits; no new finding. Credentials-only PID change source-reviewed. op-510 closed.
+- state delta: op-510 → closed; op-512u recorded.
+- next: op-511's reply; on PASS, push `mach-fixes-5` at `2de5f1d4` plus base branches, close op-500, op-502, op-507.
