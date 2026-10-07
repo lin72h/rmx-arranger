@@ -164,7 +164,7 @@ and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
 | Fixed and proven, batch 2 (`mach-fixes-2`, origin) | #2, S2, S3, S4 entry causes (4) |
 | Fixed and accepted, batch 3 (`mach-fixes-3` at `844112f4`, origin, 2026-10-03) | #4, #11, F1, F2, the N5 prerequisite; plus validator3's op-433 failed-creation unwind and parked-reply leak (5 + 2) |
 | Fixed and accepted, step 4 part 1 (`mach-fixes-4` at `0924690c`, origin, 2026-10-04) | #7, #15, pset S2 lifetime, F5, N2, N6, the LARGE/trailer boundary; plus validator3's op-458 F1 (admitted-entry revalidation) and F2 (kernel-reply audit identity) |
-| Planned, step 4 part 2 (advisor2 op-435 § 4 items 4-6) | consumer adaptation; #6/F4 and S1 (pure C1, public KNOTE); D2 subset (N5; S5's caller substitution for the two setters) |
+| Planned, step 4 part 2 (advisor2 op-435 § 4 items 4-6) | consumer adaptation; #6/F4 and S1 (readiness-only Mach kevents, public KNOTE); launchd's child-task setters (N5; S5's caller substitution for the two setters) |
 | Accepted limitation for 1.0 | N7 (dead-name notification dropped under memory pressure; mach-names-step5-deferred.md) |
 | **Not scheduled** | #8 (failed OOL copyout double free), N9 (MIG passes kernel pointers to user-pointer handlers), N10 (two trap return conventions), #14 (failed load leaves hooks; id-045), S6 (KBI field shifts), §3 VM wrappers (target map, `setmax`, errno, RLIMIT_VMEM/RACCT, malloc M_NOWAIT), §3 AUDIT_SYSCLOSE and debug sysctls, #1 (assertion only under INVARIANTS), A1 (uninitialized message bytes, KMSAN check) |
 | Retracted | §3 workqueue per-thread state (op-393) |

@@ -6,14 +6,14 @@ rationale (`02bc161`); the review findings in [id-046](idq/id-046-mach-kernel-de
 
 ## Decision
 
-rmxOS 1.0 revives NextBSD's design: a Mach port name **is** a file descriptor (op-394 option A1,
+rmxOS 1.0 revives NextBSD's design: a Mach port name **is** a file descriptor (op-394's first option,
 "corrected fd backend"). The rest of 1.0's Mach work follows op-394:
-- **B2:** one task or thread object per lifetime, with full teardown;
-- **C1:** kqueue only signals that a message is ready; receiving happens in `mach_msg`;
-- **D2:** cross-task MIG calls only where the target is held and checked.
+- **one object per lifetime:** one task or thread object per lifetime, with full teardown;
+- **readiness-only Mach kevents:** kqueue only signals that a message is ready; receiving happens in `mach_msg`;
+- **checked cross-task calls:** cross-task MIG calls only where the target is held and checked.
 
 Op-394's steps 2-4 are in 1.0. **Step 5** (switch to an XNU-style, Mach-owned name table, with
-fileports for files, and possibly direct receive through a kqueue callback, C3) is **deferred past
+fileports for files, and possibly direct receive through a kqueue callback) is **deferred past
 1.0**.
 
 Why: step 5 is a large change to kernel ownership and to the ABI, against 1.0's aim of reviving
@@ -33,14 +33,14 @@ These are the traps of "name = fd". Each rule says how 1.0 code avoids the trap.
 | 3 | A shared fd table (`rfork` without `RFFDG`/`RFCFDG`) shares Mach names between processes (op-389 #11). | One Mach space per fd table: processes that share a table share its space and names, and the space lives until the last process using the table exits. No per-task denial of names (decided 2026-10-02, op-426). Ordinary fork, vfork and posix_spawn copy the table, so Mach names stay non-inheritable there; exec unshares, giving a fresh space. In-place `rfork` (no `RFPROC`) replaces or copies the table without Mach names; Mach rebinds the task to a fresh space lazily at its next Mach operation, keeping task-level ports (no FreeBSD hook; decided 2026-10-03, op-430). |
 | 4 | Port names reuse fd numbers at once and carry no generation bits (`sys/sys/mach/port.h:219-230`), so a stale name can refer to a new port. macOS has generations. | Kernel objects hold references, not names (knotes pin the entry, step 2). Userland must not keep a name after deallocating it. Document this as a known difference from macOS; parity tests must not depend on generation bits. |
 | 5 | Mach names count against `RLIMIT_NOFILE` and `maxfilesperproc`. | Accept it. Size limits for launchd and other daemons that hold many ports; note in release notes. |
-| 6 | Cross-task operations need the other task's fd table. | D2 only: a call proceeds only when the target task and its table are held and checked (after step 3). Foreign name-space operations stay disabled in 1.0. |
+| 6 | Cross-task operations need the other task's fd table. | Checked cross-task calls only: a call proceeds only when the target task and its table are held and checked (after step 3). Foreign name-space operations stay disabled in 1.0. |
 | 7 | Mach names must not travel as ordinary fds. NextBSD made them non-passable (`f3af7791`). | Keep them non-passable over Unix sockets and not inherited by `fork`. Files cross Mach messages only through the file-transfer path, which preserves Capsicum rights (batch-1 fix 10). |
 | 8 | Exec keeps or drops fds by fd rules, not Mach rules. | Exec policy for special and bootstrap ports is defined in step 3; Mach entries are cleaned by Mach's exec hook, not by `close-on-exec`. |
-| 9 | Direct receive inside kqueue's readiness check loses messages (op-389 #6, op-392 F4). | C1: kqueue reports readiness only; receive happens in `mach_msg`. libdispatch uses its receive adapter. No direct-receive kevents in 1.0. |
+| 9 | Direct receive inside kqueue's readiness check loses messages (op-389 #6, op-392 F4). | Readiness-only Mach kevents: kqueue reports readiness only; receive happens in `mach_msg`. libdispatch uses its receive adapter. No direct-receive kevents in 1.0. |
 
 ## Receive model for 1.0 (Coordinator, 2026-10-02)
 
-The design for C1 on the fd backend is advisor2's op-421 note (`rmx-advisor2@5bfc3e1`), with one
+The design for readiness-only Mach kevents on the fd backend is advisor2's op-421 note (`rmx-advisor2@5bfc3e1`), with one
 change. Its "native EOF retirement helper" is **not** adopted for 1.0. That helper would change
 FreeBSD's `kern_event.c` and `kern_descrip.c` so that closing a Mach name delivers one EOF event per
 kqueue registration before the fd number is reused.
@@ -80,10 +80,10 @@ processes are unchanged. Any further change to FreeBSD's own code needs a Coordi
 
 Plan: advisor2's op-435 note (`rmx-advisor2@42dc8247`, `op-435-mach-step4-c1-d2-plan.md`). It
 supersedes op-421's EOF parts. Its six commits (pins, LARGE/trailer boundary, queued replies and
-waits, consumer adaptation, pure C1 with public KNOTE, D2) are the step-4 order. Decided under
+waits, consumer adaptation, readiness-only Mach kevents with public KNOTE, launchd's child-task setters) are the step-4 order. Decided under
 the Coordinator's rule (match macOS where it is cheap; keep 1.0 stable):
 
-1. **D2 for 1.0 is two setters only:** `task_set_special_port` (seatbelt, access and debug-control
+1. **Cross-task calls for 1.0 are two setters only:** `task_set_special_port` (seatbelt, access and debug-control
    selectors) and `task_set_exception_ports` on a foreign task, which is what launchd's child setup
    calls (`sbin/launchd/core.c:8610,8617`). Caller substitution (`ipc_tt.c:901-902`) is replaced by
    truthful typed conversion. Every other foreign task, space or VM call stays disabled, with the
@@ -100,7 +100,7 @@ the Coordinator's rule (match macOS where it is cheap; keep 1.0 stable):
    launchd's drain before set replacement, libxpc's cancellation count); watched names are
    released with `mach_port_deallocate`, never closed. A kqueue is used within one Mach space and
    rebuilt after table changes or exec; no FreeBSD guard for this.
-5. **N6** (concurrent first copyouts can split one send right into two names) is fixable on A1
+5. **N6** (concurrent first copyouts can split one send right into two names) is fixable on fd-backed names
    and is added to step 4 as its own test-first commit. **N7** (a dead-name notification dropped
    when allocation fails) stays a known limitation; with no EOF it is a quiet consumer's only miss,
    so it is tracked for after 1.0 or for an allocation-pressure test.
@@ -136,9 +136,9 @@ So that 1.0 code does not lock us into fds:
 ## When to revisit step 5
 
 Revisit after 1.0, or earlier if any of these happens:
-- a defect that A1 cannot fix without breaking NextBSD's fd semantics;
+- a defect that fd-backed names cannot fix without breaking NextBSD's fd semantics;
 - a macOS parity requirement that needs name generations, or names independent of fd limits;
-- libdispatch or libxpc parity that needs direct-receive kevents (C3), or an EOF event when a Mach
+- libdispatch or libxpc parity that needs direct-receive kevents, or an EOF event when a Mach
   name is revoked (op-421's native EOF retirement helper);
 - the regression tests and sanitizer runs (Instrumentation 1.0) are strong enough to carry the switch.
 

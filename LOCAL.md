@@ -249,6 +249,12 @@ older lessons.
 - **Replies are casts (Coordinator, 2026-10-04, meta-012).** A call's answer is a reply, a unicast
   cast headed `reply to op-NNN`. Record it with `tools/rob reply op-NNN <file>`: it takes the next
   free number (never the call's, "less confusion"). j-023 had misread this (j-025).
+- **Name work by li/id/op, never by design-option labels (Coordinator, 2026-10-07).** Do not use
+  labels from Advisor notes such as A1, B2, C1, C3, D2 in briefs, casts, replies to the Coordinator
+  or live pages. Name the work by its l1i level, IDQ entry and ops, plus a plain description (for
+  example "id-046: readiness-only Mach kevents (op-389 #6, op-392 F4)"). Quote an Advisor note's
+  label only inside a citation of that note. Contract clause numbers (op-318's C1-C7) are not
+  design labels.
 - **Generate ops without asking (Coordinator, 2026-10-04).** When the next step is an op, draft it and
   show it; do not ask whether to draft it.
 - **Carry review findings inline (2026-10-04, op-461).** A brief that points an agent at a review

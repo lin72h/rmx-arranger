@@ -43,7 +43,7 @@ remaining gaps named and bounded. We certify the surface we exercise.
 | Step 4 part 2a: libdispatch adaptation, libmach `mach_msg_destroy` fix | done (`mach-fixes-5@b2d5f5b7`) |
 | Step 4 part 2b: launchd adaptation (op-484, op-495) | done (`mach-fixes-5@0f1f76d5`) |
 | Step 4 part 2c: libxpc adaptation | next |
-| Pure C1 readiness with public KNOTE; D2 (two foreign-task setters for launchd) | after libxpc (op-435 § 4 items 5-6) |
+| id-046: readiness-only Mach kevents with public KNOTE; launchd's two task setters on a child task | after libxpc (op-435 § 4 items 5-6) |
 | Mach review round 2, two blind reviewers (id-051) | after the fixes |
 | Automated checking of every candidate (id-047 CI) | planned |
 | PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log-queue growth fixed and soaked (op-449, op-470); robustness follow-ups in id-060 |

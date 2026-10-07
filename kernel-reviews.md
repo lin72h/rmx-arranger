@@ -69,11 +69,11 @@ Round 2 starts when the code it reviews is the 1.0 design, built and tested:
    removal revoking the name (op-389 #2; op-392 S2, S3, S4).
 3. **Step 3:** one task and thread object per lifetime, with full teardown (op-389 #4; op-392 F1
    and F2; op-393 N5's prerequisite).
-4. **Step 4 plus C1 under A1:** queued MIG replies, safe wakeups, and receive in `mach_msg` with
+4. **Step 4 with readiness-only Mach kevents, on fd-backed names:** queued MIG replies, safe wakeups, and receive in `mach_msg` with
    kqueue signalling readiness only, plus the libdispatch adapter (op-392 F5; op-393 N2; op-389
    #6, #7, #15; op-392 F4). Design: advisor2's op-421 note (`5bfc3e1`), without its native EOF
    retirement helper (the Coordinator chose native close semantics, 2026-10-02).
-5. **D2 subset:** child-task setters after step 3; foreign name-space calls stay off.
+5. **launchd's child-task setters:** two setters on a child task after step 3; foreign name-space calls stay off.
 6. **Checking in place:** the Mach regression suite and a KASAN survey run on the fixed branch.
 7. **Leftovers decided:** the findings no batch covers (id-046 § Status by finding: #8, N9, N10,
    #14, S6, the §3 VM and audit items, #1, A1) are either fixed or recorded as known 1.0 gaps.
@@ -87,6 +87,6 @@ most of vm_map) have never been reviewed.
 
 The reviewers' brief states the decided design and links
 [mach-names-step5-deferred.md](mach-names-step5-deferred.md). Port names stay fds in 1.0. Reviewers
-check the code against that record's nine rules and do not re-propose the name table or C3.
+check the code against that record's nine rules and do not re-propose the name table or direct-receive kevents.
 A finding that only step 5 could fix is tagged "needs step 5" and filed under id-056, not as a
 1.0 defect. Round 2 also covers the areas no review has reached (id-052).

@@ -14,7 +14,7 @@ which matches macOS and removes the fd-related limitations. It is a large owners
 
 ## Decision
 
-1.0 keeps fd-backed names (A1) and does op-394's steps 2-4. Step 5 waits until after 1.0, unless a
+1.0 keeps fd-backed names and does op-394's steps 2-4. Step 5 waits until after 1.0, unless a
 trigger in the record fires earlier. The record lists the limitations accepted in 1.0 and the rules
 that keep step 5 possible.
 

@@ -1,11 +1,12 @@
 ---
 id: op-514u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-000
-updated: 2026-10-07T00:10Z
+issued-at: 2026-10-07T00:11Z
+updated: 2026-10-07T00:11Z
 ---
 # op-514u — Implementer: OPS.md self-check, pair identity from manifests
 
