@@ -1,12 +1,13 @@
 ---
 id: op-533
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 1h30m
-updated: 2026-10-07T05:10Z
+issued-at: 2026-10-07T05:13Z
+updated: 2026-10-07T05:13Z
 ---
 # op-533 — Validator 3: re-review of mach-fixes-6@ea254222 (op-520 finding fixed; readiness-only Mach kevents)
 

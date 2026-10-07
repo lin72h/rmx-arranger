@@ -3160,3 +3160,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-530 marked issued on "sent", reply recorded as op-531u. Verified: `diag-launchd-reply` = `92896f89`, `mach-fixes-6` = `ea254222` (7 commits on `2de5f1d4`, 14 files), `mach-fixes-6-op524-base` = `b6a0ec3f` unchanged; both worktrees clean; `rmx-implementer@bd701a27`. op-526's images carry the diagnostic fixture (`05dcce54`), which is no longer on the branch, so op-532 restages a clean pair (base `9478be33` on new `mach-fixes-6-op532-base`, fixed `ea254222`; kernels reused; tests byte-identical; id-061 failures recorded, not counted). op-533: validator3 re-review of the F1 fix and test, source-only, runs in parallel with op-532. op-534: gatekeeper1 proof of the op-532 pair, hold until op-532; id-061 handling defined (record, one spare fixed run, other mismatches count). Wording checked against the guide, including rule 8.
 - state delta: op-530 → returned (op-531u); op-532, op-533 draft; op-534 hold (needs op-532); op-516 hold (needs op-533, op-534).
 - next: The Coordinator sends op-532 and op-533.
+
+### j-20261007-021 — op-532 and op-533 sent
+
+- time / kind: 2026-10-07 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-532 (Implementer, clean pair) and op-533 (validator3 re-review); both marked issued at once.
+- state delta: op-532, op-533 draft → issued.
+- next: op-532's reply releases op-534 (gatekeeper1 proof); op-533's reply in parallel.
