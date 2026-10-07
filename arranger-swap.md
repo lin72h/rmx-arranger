@@ -3195,3 +3195,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-516 had been sent; marked issued on the reply's arrival (lesson j-013). Interim reply: fixed 93/93 PASS, base 5/5 new cases as expected, 4/4 boots; branches `mach-fixes-6` = `4de4d9ae`, `mach-fixes-6-op516-base` = `9a46cdc2`; images `op516-{base,fixed}-tests-r2.raw`. Three existing cases were corrected for the change (`kernel_reply_audit`: typed dispatch now blocks the fixture's synthetic routine; `revoked_set`: worker's temporary reference; `revoked_port`) and not yet run on base. Granted one more base boot for those three only, through the Coordinator, so gatekeeper1 gets recorded base expectations. Full review of the return waits for the final reply.
 - state delta: op-516 draft → issued (continues with one extra boot).
 - next: op-516's final reply; then validator3 review and gatekeeper1 proof.
+
+### j-20261007-026 — op-516 returned and verified; op-539 (validator3 review) and op-540 (gatekeeper1 proof) drafted
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: Reply recorded as op-538u. Verified: `mach-fixes-6@4de4d9ae` is 6 commits on `ea254222` (tests `d5154950`, `881d435c`, `931b7ec1`, `1f21eb8c`; changes `40e3f0d9`, `4de4d9ae`); base branch `mach-fixes-6-op516-base@9a46cdc2`; no test difference between base and fixed; no launchd or library change. Image hashes and boot-5 serial hash match; both ZFS; BOMs differ only in kernel and `mach.ko`. Self-check fixed 93/93, base 8/8 as expected (`special`, `exception`, `refused` FAIL; `stale_exit`, `stale_exec` and the three corrected cases PASS). Drafted op-539 (validator3 source review) and op-540 (gatekeeper1 proof, base expectations from the base's provenance per the LOCAL.md lesson, id-061 handling), parallel.
+- state delta: op-516 issued → returned (op-538u); op-539, op-540 draft.
+- next: The Coordinator sends op-539 and op-540; on CLOSE ≥8 and PASS, push `mach-fixes-6` at `4de4d9ae` and `mach-fixes-6-op516-base`, close op-516; id-046 step 4 complete.
