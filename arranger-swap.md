@@ -3082,3 +3082,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-518 is with the Implementer, who asked whether to keep mach.ko's lifecycle protections or enable post-boot loading. Verified: `mach_module.c:266-267` refuses loading when not `cold` and `MOD_UNLOAD` returns `EBUSY` (`:302-303`). My brief's "must also work when mach.ko is loaded after boot" and "module unload drains and frees the queue" were wrong. Answer relayed through the Coordinator: preserve the protections (boot-time only, unload `EBUSY`); make the `SI_SUB_TASKQ` start correct for a loader-preloaded module only. Post-boot loading is out of scope.
 - state delta: op-518 draft → issued.
 - next: op-518's reply.
+
+### j-20261007-010 — op-518 returned and verified; op-520 (validator3 review) and op-521 (gatekeeper1 proof) drafted
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: Reply recorded as op-519u. Verified: `mach-fixes-6@0facf74b` is 4 commits on `2de5f1d4` (tests `b77d97b5`, change `051c59a5`, test correction `af37956e`, worker start `0facf74b`); op-518's change is `ipc_pset.c` only: queue created in module init, thread started from `SYSINIT(SI_SUB_TASKQ, SI_ORDER_SECOND)`, `panic` if it cannot start; tests unchanged since the base branch `2a58d7af`. Hashes match (op518 fixed, op515 base, op518 serial); both ZFS from op417; BOMs (31,795 rows) differ only in `/boot/RMXOS-RELEASE/kernel` (rebuilt at the new commit; `sys/conf/files` has no `compat/mach`) and `mach.ko`. The serial log shows "Mach pset notification worker started" once. The Implementer used the manifest comparison, no per-file readback (op-514u). Self-check fixed 87/87, base 5 FAIL + 2 PASS. Drafted op-520 (validator3 source review of op-515 + op-518) and op-521 (gatekeeper1 proof, op515 base vs op518 fixed), parallel. op-516 hold now needs op-520 and op-521.
+- state delta: op-515, op-518 returned; op-519u recorded; op-520, op-521 draft.
+- next: The Coordinator sends op-520 and op-521; on CLOSE ≥8 and PASS, push `mach-fixes-6` at `0facf74b` plus `mach-fixes-6-op515-base`, close op-515 and op-518, release op-516.
