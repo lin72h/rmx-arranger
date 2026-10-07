@@ -38,3 +38,13 @@ Record state from launchd's own test build (logging in its receive loop under it
 `LAUNCHD_CONSUMER_TESTING` blocks) or from the kernel side; do not wrap or intercept launchd's calls
 from a preloaded library (safety-flag-avoidance.md rule 8; op-529's session was stopped while
 building that).
+
+## 2026-10-08 — cause found (op-544)
+
+A DDB dump at a missing reply (op-544; serial sha256 `f313740f…e4c4c5`) shows launchd's main thread
+and its kqueue helper both in `machrcv` on the same empty reply port (receiver name 19). Source:
+`lib/libmach/mach/mig_support.c:60` keeps one process-wide `mig_reply_port`, handed to every
+thread by `mig_get_reply_port` (`:79-84`); concurrent synchronous MIG calls from two threads share
+it, so a reply can be taken by the wrong thread and both wait forever; `mig_dealloc_reply_port`
+also destroys the shared port. Apple keeps one reply port per thread. Fix: op-547. The shutdown
+hang was not caught in a dump; a stuck main thread would explain it, to be checked after the fix.

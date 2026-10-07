@@ -1,12 +1,13 @@
 ---
 id: op-544
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 authority: image configuration only (ddb.conf, rc.conf) on copies of existing images; 5 self-check boots; doas bhyve, bhyvectl, vmm.ko; no push
 expected: 3h
-updated: 2026-10-07T10:33Z
+issued-at: 2026-10-07T11:23Z
+updated: 2026-10-07T11:23Z
 ---
 # op-544 — Implementer: id-061 kernel debugger dump of every thread when launchd stalls or shutdown hangs
 
