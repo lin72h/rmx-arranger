@@ -1,13 +1,13 @@
 ---
 id: op-516
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 needs: op-533,op-534
 authority: kernel and mach.ko builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 5h
-updated: 2026-10-07T05:11Z
+updated: 2026-10-07T05:40Z
 ---
 # op-516 — Implementer: id-046 launchd's two task setters on a child task (op-435 § 4 item 6)
 
@@ -33,7 +33,7 @@ child's. Plan: advisor2's
 `/Users/me/wip-mach/rmx-advisor2/op-435-mach-step4-c1-d2-plan.md`
 § 3 and § 4 item 6. Decided scope (Arranger, 2026-10-03): only these
 two setters work on another task; every other call on another task
-stays refused. Continue on `mach-fixes-6` from op-515's accepted tip.
+stays refused. Continue on `mach-fixes-6` (now `ea254222`, on origin).
 
 Rules (confirm or correct each from the source):
 1. **Typed routing.** At the MIG dispatch (`ipc/ipc_kobject.c:280-347`,
@@ -96,13 +96,15 @@ Keep batch 3's exec, bootstrap and shared-space cases unchanged.
 
 Then two ZFS images (from `op417-alpha2-zfs-gpt.raw`, reusing the
 existing world; rebuild only the kernel, `mach.ko` and the tests):
-base = op-515's tip + the tests (name its branch), fixed = the
+base = `ea254222` + the tests (name its branch), fixed = the
 changes + the same tests (test files identical). Show the pair
 differs only in the change from the METALOG/BOM diff (OPS.md
 § Self-check). Self-check: the new cases fail on base as expected
 (say which cannot be shown on base and why), all pass on fixed, and
 every earlier case passes on fixed, including the launchd consumer
-cases.
+cases. A `launchd control reply missing` in a launchd consumer case is
+the known id-061 problem: record it, do not count it against the
+pair.
 
 Evidence: the commits; your op record (`docs/op516-child-task-setters.md`)
 with each rule's change, test and base and fixed results; both image

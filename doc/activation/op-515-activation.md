@@ -1,13 +1,13 @@
 ---
 id: op-515
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: kernel and mach.ko builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 5h
 issued-at: 2026-10-07T00:16Z
-updated: 2026-10-07T00:52Z
+updated: 2026-10-07T05:40Z
 ---
 # op-515 — Implementer: id-046 readiness-only Mach kevents with public KNOTE (op-435 § 4 item 5)
 

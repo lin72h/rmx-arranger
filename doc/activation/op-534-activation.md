@@ -1,13 +1,14 @@
 ---
 id: op-534
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 needs: op-532
 authority: 3 boots max on copies of the op532 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
-updated: 2026-10-07T05:30Z
+issued-at: 2026-10-07T05:39Z
+updated: 2026-10-07T05:40Z
 ---
 # op-534 — Gatekeeper 1: proof of mach-fixes-6@ea254222 (readiness-only Mach kevents, clean ZFS pair)
 

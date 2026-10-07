@@ -195,6 +195,10 @@ Each of these cost a relay round or a Coordinator question. Run the check before
 - **Marking ops sent (op-520, op-521, op-524).** A reply arriving for a `draft` op means the
   Coordinator sent it: set it `issued` first (rob refuses the reply otherwise) and note it in the
   journal. When the Coordinator says "sent", set `issued` at once.
+- **Base expectations follow the base's provenance (op-534).** When a pair's base already
+  contains earlier fixes (a base built on an accepted tip), cases those fixes cover PASS on it.
+  Derive each base expectation from what the base kernel and libraries contain, not from an
+  earlier op's base table.
 - **Inherited rules that contradict newer ones.** Before briefing a self-check, check that the
   agent's AGENTS.md does not override the OPS.md rule the brief relies on (the Implementer's
   2026-09-28 "do not rerun without a new op" beat the 2026-10-03 self-check rule twice: op-515 →
