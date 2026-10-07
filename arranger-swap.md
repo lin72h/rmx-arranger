@@ -3054,3 +3054,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-514u relayed (closed). The Coordinator: never use the C1/D2 labels; stick to l1i, IDQ and rob terms. Recorded in LOCAL.md. Live pages rewritten to plain names with their id/op references: now.md, roadmap.md, id-000 (id-046 and id-056 rows), id-046 § plan table, id-056, kernel-reviews.md, mach-names-step5-deferred.md (A1 → fd-backed names; B2 → one object per lifetime; C1 → readiness-only Mach kevents; C3 → direct-receive kevents; D2 → checked cross-task calls / launchd's child-task setters). Finding IDs (op-389 #N, op-392 F/S, op-393 N, the Arranger's A1 finding in id-046) and op-318's contract clauses C1-C7 are unchanged. Journal history is not edited.
 - state delta: op-514u → closed.
 - next: Draft id-046's readiness-only Mach kevents op (op-435 § 4 item 5) for the Implementer.
+
+### j-20261007-006 — op-515 drafted: id-046 readiness-only Mach kevents (op-435 § 4 item 5)
+
+- time / kind: 2026-10-07 / ACTION
+- outcome: From advisor2's plan § 2 and § 4 item 5, checked against `mach-fixes-5@2de5f1d4`: `filt_machport` (`ipc_pset.c:627`) still runs `ipc_mqueue_pset_receive` inside the kevent callback and consumes into `ext[0]`/`ext[1]` when `filt_machport_direct_receive` (`:150`) holds; `ipc_pset_signal` (`:537`) uses the private `knote_enqueue` (id-045's LOCAL symbol); set destruction raises `EV_EOF` (`ipc_right.c:531`). The enqueue and set-move callers already signal after dropping Mach locks (`ipc_mqueue.c:436-443`, `ipc_pset.c:410-417`). op-515: readiness snapshot with a rotating member hint, public `KNOTE_UNLOCKED` (taskqueue only if a caller can hold Mach locks), `ENOTSUP` for buffered initial attach, readiness-only updates, no EOF on destruction; six tests first, direct-receive cases in `mach_short_kevent.zig` revised; new branch `mach-fixes-6` from `2de5f1d4`; two ZFS images, kernel and `mach.ko` only; pair identity from the METALOG/BOM diff. Nothing else in flight.
+- state delta: op-515 draft.
+- next: The Coordinator sends op-515. Then launchd's child-task setters (op-435 § 4 item 6).
