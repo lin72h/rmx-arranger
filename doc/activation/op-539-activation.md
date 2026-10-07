@@ -1,12 +1,13 @@
 ---
 id: op-539
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 2h30m
-updated: 2026-10-07T07:17Z
+issued-at: 2026-10-07T09:41Z
+updated: 2026-10-07T09:41Z
 ---
 # op-539 — Validator 3: review of op-516 (id-046 launchd's child-task setters)
 
