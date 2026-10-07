@@ -24,7 +24,8 @@ the Implementer. `mach-fixes-6` is now `ea254222`, from `2de5f1d4` (on
 origin): your reviewed commits `b77d97b5`, `051c59a5`, `af37956e`,
 `0facf74b`, then test `f031e457`, fix `ab26bbed`, test fix `ea254222`.
 Source: `/Users/me/wip-mach/rmx-implementer/build/op468/source`
-(check out `ea254222`). Record:
+(read-only; it is at `ea254222`; use `git show` or your own
+worktree, and do not change that checkout). Record:
 `/Users/me/wip-mach/rmx-implementer/docs/op524-recovered-readiness.md`.
 
 Check:
