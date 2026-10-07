@@ -177,6 +177,29 @@ older lessons.
   that passed.
   op-371 said "no runs", so gatekeeper2 correctly skipped the toolchain versions it was asked for.
 
+### My own brief mistakes (2026-10-05 to 2026-10-07): check before writing
+
+Each of these cost a relay round or a Coordinator question. Run the check before showing a brief.
+
+- **Platform semantics in an expected result (op-500 test 4 → op-502).** Before a test expects a
+  specific error or lifecycle result "as on macOS", confirm Apple's actual behaviour for that exact
+  case (here: a named-service client gets `XPC_ERROR_CONNECTION_INTERRUPTED` and stays usable;
+  only peers and anonymous connections become `INVALID`). If unsure, ask for "confirm or correct
+  from the source and Apple's documented behaviour" instead of fixing the outcome.
+- **Lifecycle claims about a component (op-518).** Before asking for "also works when loaded after
+  boot" or "unload drains", read the component's real load/unload rules (`mach_module.c:266-267`:
+  boot-time only; `MOD_UNLOAD` returns `EBUSY`). Never require a mode the code refuses.
+- **Counts and identities (op-504: "8 commits", there were 7).** Get every count and hash from a
+  command (`git rev-list --count A..B`, `git rev-parse`, `sha256sum`), never from memory or a
+  reply.
+- **Marking ops sent (op-520, op-521, op-524).** A reply arriving for a `draft` op means the
+  Coordinator sent it: set it `issued` first (rob refuses the reply otherwise) and note it in the
+  journal. When the Coordinator says "sent", set `issued` at once.
+- **Inherited rules that contradict newer ones.** Before briefing a self-check, check that the
+  agent's AGENTS.md does not override the OPS.md rule the brief relies on (the Implementer's
+  2026-09-28 "do not rerun without a new op" beat the 2026-10-03 self-check rule twice: op-515 →
+  op-518, op-524 → op-526).
+
 ## Commit attribution (Coordinator, 2026-10-01)
 
 - Company rule: no AI attribution in commit messages. No `Co-Authored-By: Claude …` line and no
