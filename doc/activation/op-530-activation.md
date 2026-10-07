@@ -1,12 +1,13 @@
 ---
 id: op-530
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 authority: no builds, no boots; git branch moves in build/op468/source; no push
 expected: 1h
-updated: 2026-10-07T05:06Z
+issued-at: 2026-10-07T05:10Z
+updated: 2026-10-07T05:11Z
 ---
 # op-530 — Implementer: op-529 wrap-up in a new session (record the older-kernel result; move diagnostic fixture commits off mach-fixes-6)
 

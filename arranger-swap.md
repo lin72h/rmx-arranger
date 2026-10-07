@@ -3153,3 +3153,10 @@ provenance, not current procedure. Never edit or append it.
 - state delta: op-529 issued → dropped; op-530 draft; id-061 raised; op-516 hold needs op-530.
 - next: The Coordinator starts a fresh Implementer session with op-530. Then validator3 re-review (op-524's fix) and gatekeeper1 proof of `mach-fixes-6@ea254222`, with id-061 recognised; id-061's own op later.
 - correction (same entry): op-529 was still `draft` in rob when dropped; I did not set it `issued` when the Coordinator said "sent" (the LOCAL.md lesson of j-013, missed again). Its state history is draft → dropped; it was in fact sent and worked on.
+
+### j-20261007-020 — op-530 accepted; op-532 (clean pair), op-533 (validator3 re-review) drafted; op-534 (gatekeeper1 proof) on hold
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: op-530 marked issued on "sent", reply recorded as op-531u. Verified: `diag-launchd-reply` = `92896f89`, `mach-fixes-6` = `ea254222` (7 commits on `2de5f1d4`, 14 files), `mach-fixes-6-op524-base` = `b6a0ec3f` unchanged; both worktrees clean; `rmx-implementer@bd701a27`. op-526's images carry the diagnostic fixture (`05dcce54`), which is no longer on the branch, so op-532 restages a clean pair (base `9478be33` on new `mach-fixes-6-op532-base`, fixed `ea254222`; kernels reused; tests byte-identical; id-061 failures recorded, not counted). op-533: validator3 re-review of the F1 fix and test, source-only, runs in parallel with op-532. op-534: gatekeeper1 proof of the op-532 pair, hold until op-532; id-061 handling defined (record, one spare fixed run, other mismatches count). Wording checked against the guide, including rule 8.
+- state delta: op-530 → returned (op-531u); op-532, op-533 draft; op-534 hold (needs op-532); op-516 hold (needs op-533, op-534).
+- next: The Coordinator sends op-532 and op-533.
