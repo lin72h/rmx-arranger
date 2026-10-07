@@ -1,13 +1,13 @@
 ---
 id: op-526
-state: issued
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: test and mach.ko/kernel builds as needed (no world); restage both ZFS images; 5 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-07T02:38Z
-updated: 2026-10-07T02:38Z
+updated: 2026-10-07T04:26Z
 ---
 # op-526 — Implementer: op-524 continuation (descriptor reservation by dup2; rerun the pair; catch op-521's missing launchd reply)
 
