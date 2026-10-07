@@ -1,13 +1,13 @@
 ---
 id: op-507
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: libxpc builds (no world); 2 ZFS images; 3 self-check boots; no push
 expected: 3h
 issued-at: 2026-10-06T05:40Z
-updated: 2026-10-06T23:56Z
+updated: 2026-10-07T00:09Z
 ---
 # op-507 — Implementer: op-504 remediation (libxpc reconnect without a receive-queue wait; process watcher follows the server)
 

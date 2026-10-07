@@ -1,6 +1,6 @@
 ---
 id: op-500
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ gate: self
 authority: libxpc builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 3h
 issued-at: 2026-10-05T04:52Z
-updated: 2026-10-05T04:52Z
+updated: 2026-10-07T00:09Z
 ---
 # op-500 — Implementer: step 4 part 2c, libxpc (op-435 § 4 item 4)
 
