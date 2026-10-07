@@ -1,12 +1,12 @@
 ---
 id: op-529
-state: draft
+state: dropped
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: test and fixture builds; kernel/mach.ko reused from existing builds (no new kernel source change); 1 new ZFS image; 4 self-check boots; no push
 expected: 3h
-updated: 2026-10-07T04:26Z
+updated: 2026-10-07T05:06Z
 ---
 # op-529 — Implementer: op-521 missing launchd reply, is it new in mach-fixes-6 (repeat on the 2de5f1d4 kernel) and where the request waits
 

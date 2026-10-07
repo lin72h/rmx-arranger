@@ -4,10 +4,10 @@ state: hold
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-needs: op-529
+needs: op-530
 authority: kernel and mach.ko builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 5h
-updated: 2026-10-07T04:27Z
+updated: 2026-10-07T05:06Z
 ---
 # op-516 — Implementer: id-046 launchd's two task setters on a child task (op-435 § 4 item 6)
 
