@@ -199,6 +199,11 @@ Each of these cost a relay round or a Coordinator question. Run the check before
   contains earlier fixes (a base built on an accepted tip), cases those fixes cover PASS on it.
   Derive each base expectation from what the base kernel and libraries contain, not from an
   earlier op's base table.
+- **For a hang, get the kernel-debugger dump first (id-061, 2026-10-08).** op-526, op-529 and op-541
+  tried reproducers and in-process recorders; op-544's NMI-into-DDB dump of every thread found the
+  cause in one op. When something stalls in a guest, the first diagnostic op sends the guest an
+  NMI at the stall (`bhyvectl --inject-nmi` on every vCPU) with a `/etc/ddb.conf` script
+  (`ps`, `alltrace`, `show allchains`, `show alllocks`); build reproducers only after the dump.
 - **Inherited rules that contradict newer ones.** Before briefing a self-check, check that the
   agent's AGENTS.md does not override the OPS.md rule the brief relies on (the Implementer's
   2026-09-28 "do not rerun without a new op" beat the 2026-10-03 self-check rule twice: op-515 →
