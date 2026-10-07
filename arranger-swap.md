@@ -3171,6 +3171,6 @@ provenance, not current procedure. Never edit or append it.
 ### j-20261007-022 — op-533 accepted: validator3 CLOSE 9/10 on mach-fixes-6@ea254222
 
 - time / kind: 2026-10-07 / REVIEW
-- outcome: Reply recorded as op-534u-numbered next free cast (see rob); review hash matches; `rmx-validator3@87eee3e` present locally (no origin by decision). CLOSE 9/10: F1 fixed at receive-owner publication under space and port locks, covering port-destroyed delivery and ordinary copyout; old-entry revocation and epoch checks intact; the corrected test detects F1 at `0facf74b` with bounded waits; op-520 checks 1-7 still hold. On id-061: no concrete new lost-reply path in `mach-fixes-6`; deferred notification and rotation change timing; relative frequency unknown. op-533 closed.
+- outcome: Reply recorded as op-535u; review hash matches; `rmx-validator3@87eee3e` present locally (no origin by decision). CLOSE 9/10: F1 fixed at receive-owner publication under space and port locks, covering port-destroyed delivery and ordinary copyout; old-entry revocation and epoch checks intact; the corrected test detects F1 at `0facf74b` with bounded waits; op-520 checks 1-7 still hold. On id-061: no concrete new lost-reply path in `mach-fixes-6`; deferred notification and rotation change timing; relative frequency unknown. op-533 closed.
 - state delta: op-533 → closed.
 - next: op-532's reply, then op-534.
