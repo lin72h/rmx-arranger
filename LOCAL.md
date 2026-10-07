@@ -199,6 +199,12 @@ Each of these cost a relay round or a Coordinator question. Run the check before
   contains earlier fixes (a base built on an accepted tip), cases those fixes cover PASS on it.
   Derive each base expectation from what the base kernel and libraries contain, not from an
   earlier op's base table.
+- **Diagnostic code never lands on a product branch (op-526/529 → op-530, op-532).** A brief that
+  allows diagnostic test code says where it goes: a `diag-<topic>` branch and diagnostic images,
+  never the branch to be pushed or its proof images. Otherwise it costs a cleanup op and a restage.
+- **Name every case the base must run (op-516's extra boot).** In a brief's self-check, list the new
+  cases and every existing case the op changes, with the base result expected for each; OPS.md
+  requires it, but the list in the brief is what gets planned.
 - **For a hang, get the kernel-debugger dump first (id-061, 2026-10-08).** op-526, op-529 and op-541
   tried reproducers and in-process recorders; op-544's NMI-into-DDB dump of every thread found the
   cause in one op. When something stalls in a guest, the first diagnostic op sends the guest an

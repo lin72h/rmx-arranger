@@ -3251,3 +3251,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-547 sent (marked issued at once). Churn check since j-20261007-013: step 4 finished and pushed (readiness kevents, child-task setters), and id-061 went from an unexplained intermittent failure to a source-level cause in op-526, op-529, op-541, op-544. Avoidable cost: op-529's filter stop (interposition design, invited by my word "hook") and the op-530/op-532 cleanup and restage it caused; op-534's base expectations (my error, settled as Arbiter without a rerun); op-516's extra base boot (Implementer's omission, one short round); op-541's negative reproducer (a DDB dump first would have found the cause sooner). Lesson added to LOCAL.md: for a hang, the first diagnostic op is an NMI-into-DDB dump of every thread.
 - state delta: op-547 draft → issued.
 - next: op-547's reply.
+
+### j-20261008-003 — Lessons folded into the standing files
+
+- time / kind: 2026-10-08 / ACTION (Coordinator: "fold into our related md file")
+- outcome: instrumentation-strategy.md § id-053: stalls get the same DDB dump via an NMI on every vCPU, first, before reproducers. safety-flag-avoidance.md: word row "hook" → debug logging in our own test build / kernel debugger dump. LOCAL.md § Lessons for briefs: diagnostic code never on a product branch (op-530/532 cost); name every case the base must run with its expected result (op-516's extra boot); the earlier dump-first lesson kept. implementer0 AGENTS.md (`rmx-implementer@b16c617`): diagnostic-only code goes on `diag-<topic>` branches and diagnostic images, never the product branch or proof images. Not rendered: the Implementer is on op-547; render with a cast after its reply.
+- state delta: none (ops).
+- next: op-547's reply; then render rmx-implementer and send the cast.

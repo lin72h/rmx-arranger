@@ -150,6 +150,10 @@ The same suites in every profile: the Mach ATF suite (op-395), the Mach and disp
 - **Panic capture in every test image:** a DDB panic script prints `bt`, `show alllocks`, `ps` and
   `alltrace` to the serial console, writes a dump, and stops without rebooting. FreeBSD's own
   mechanisms: `ddb_enable`, `/etc/ddb.conf`, `dumpdev`.
+- **Stalls too, not only panics (id-061, op-544):** when a guest hangs (a missing reply, a
+  shutdown that does not finish), send it an NMI on every vCPU (`bhyvectl --inject-nmi --cpu=N`;
+  the guest's NMIs are broadcast and DDB waits for every CPU) so the same DDB script dumps every
+  thread. This is the first diagnostic for any hang; reproducers come after the dump.
 - **Debug files with every image:** `kernel.debug` and `mach.ko.debug` are listed in its BOM.
 - **Triage on the host:** LLDB (ports llvm21, Python; or base LLDB, Lua) on the vmcore, and kgdb as
   FreeBSD developers' reference. First check: LLDB loads `mach.ko`'s symbols from a vmcore, which is
