@@ -3124,3 +3124,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-527u relayed; `rmx-implementer` rendered and committed by path (AGENTS.md, `.rendered.lock`; the Implementer's untracked op-526 files left alone). op-527u closed. The Implementer asked whether op-526 may extend the test-only `libop484_launchd.so` with a diagnostic thread inside PID 1 (no working `task_for_pid` or `mach_port_names` for an outside helper). Answered yes through the Coordinator, on conditions: observe only (no receive on launchd's ports, no membership or rights change), the same library in both images with launchd and kernels unchanged (shown in the METALOG/BOM diff), and the timing effect recorded (a clean run does not show the problem is gone).
 - state delta: op-527u → closed.
 - next: op-526's reply.
+
+### j-20261007-016 — op-526 session stopped by the provider filter; same-session follow-up drafted
+
+- time / kind: 2026-10-07 / ACTION
+- outcome: The Coordinator reports the Implementer's op-526 session was stopped by the filter. State from disk: commits `ea254222` (dup2), `05dcce54` (observe-only fixture thread) on `mach-fixes-6`, `9478be33`/`b6a0ec3f` on the base branch; op526 images staged; boot 1 base 1/1 as expected, boot 2 fixed 88/88, boot 3 fixed in op-521 order 88/88; boot 4 (fast repeat) ran and its host checker raised "repeat count/status/bound"; one boot left; uncommitted addendum in the op524 record. The addendum also records a pre-existing defect: `mach_port_gst_helper` (`ipc/mach_port.c:957-970`) does not advance its index, so a multi-member set reports one member. Per safety-flag-avoidance.md rule 7, a same-session follow-up was drafted (context sentence, every remaining part named, work done by commit and path, no mention of the stop) and checked against the guide.
+- state delta: none (op-526 stays issued).
+- next: The Coordinator sends the follow-up; if stopped again, a fresh session pointed at the brief, the commits and `build/op526/`.
