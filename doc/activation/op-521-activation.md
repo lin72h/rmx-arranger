@@ -1,12 +1,13 @@
 ---
 id: op-521
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 3 boots max on copies of the op515 base and op518 fixed ZFS images, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
-updated: 2026-10-07T01:25Z
+issued-at: 2026-10-07T01:43Z
+updated: 2026-10-07T01:44Z
 ---
 # op-521 — Gatekeeper 1: proof of op-515 + op-518 (readiness-only Mach kevents, ZFS pair)
 

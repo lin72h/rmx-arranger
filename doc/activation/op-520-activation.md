@@ -1,12 +1,13 @@
 ---
 id: op-520
-state: draft
+state: closed
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 2h30m
-updated: 2026-10-07T01:25Z
+issued-at: 2026-10-07T01:43Z
+updated: 2026-10-07T01:44Z
 ---
 # op-520 — Validator 3: review of op-515 + op-518 (id-046 readiness-only Mach kevents)
 
