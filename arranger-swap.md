@@ -3026,3 +3026,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-509u. Verified: `mach-fixes-5@2de5f1d4` is 2 commits on `8cc4b37a` (tests `004eb90b`, fix `2de5f1d4`, product change `lib/libxpc/xpc_connection.c` only); base branch `mach-fixes-5-op507-base` = `004eb90b`; test files identical between base and fixed. Source: `xpc_connection_reconnect` runs on the send queue under `xc_remote_lock` with no `dispatch_sync` (F1); the process watcher is retired on replacement and on a PID change, re-armed for the new PID, and identity-checked (F2); `xpc_connection_interrupt` held under the lock only queues work (`dispatch_async_f`), so no re-entry or inline client code. Image hashes match; both ZFS from op417; BOMs (31,794 rows each) differ only in the three libxpc rows. Self-check fixed 81/81, base 4/4 FAIL.
 - state delta: op-507 issued → returned (op-509u); op-510, op-511 draft.
 - next: The Coordinator sends op-510 and op-511 (parallel); on CLOSE ≥8 and PASS, push `mach-fixes-5` at `2de5f1d4` plus the op500/op502/op507 base branches, close op-500, op-502, op-507; then the Implementer OPS.md manifest rule (j-20261006-008) with a cast.
+
+### j-20261007-002 — op-510 and op-511 sent
+
+- time / kind: 2026-10-07 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-510 (validator3 re-review of op-507) and op-511 (gatekeeper1 proof of the op507 pair), running in parallel.
+- state delta: op-510, op-511 draft → issued.
+- next: Both replies; on CLOSE ≥8 and PASS, push `mach-fixes-5` at `2de5f1d4` plus the base branches and close op-500, op-502, op-507.

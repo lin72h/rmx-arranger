@@ -1,12 +1,13 @@
 ---
 id: op-510
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-046
 authority: none beyond the defaults: read-only; no guests
 expected: 1h30m
-updated: 2026-10-06T23:57Z
+issued-at: 2026-10-07T00:00Z
+updated: 2026-10-07T00:00Z
 ---
 # op-510 — Validator 3: re-review of op-507 (libxpc reconnect remediation)
 

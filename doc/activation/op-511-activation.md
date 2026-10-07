@@ -1,12 +1,13 @@
 ---
 id: op-511
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: 3 boots max on copies of the op507 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 45m
-updated: 2026-10-06T23:57Z
+issued-at: 2026-10-07T00:00Z
+updated: 2026-10-07T00:00Z
 ---
 # op-511 — Gatekeeper 1: proof of op-507 (libxpc reconnect, ZFS pair)
 
