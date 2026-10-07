@@ -1,12 +1,13 @@
 ---
 id: op-524
-state: draft
+state: returned
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: kernel and mach.ko builds (no world); 2 ZFS images; 4 self-check boots; no push
 expected: 4h
-updated: 2026-10-07T01:43Z
+issued-at: 2026-10-07T02:36Z
+updated: 2026-10-07T02:36Z
 ---
 # op-524 — Implementer: op-520 remediation (recovered receive right regains readiness) and op-521's launchd failures
 
