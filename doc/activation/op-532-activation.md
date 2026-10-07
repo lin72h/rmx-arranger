@@ -1,13 +1,13 @@
 ---
 id: op-532
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: test builds only, kernel/mach.ko reused; 2 ZFS images; 2 self-check boots; no push
 expected: 1h30m
 issued-at: 2026-10-07T05:12Z
-updated: 2026-10-07T05:12Z
+updated: 2026-10-07T05:30Z
 ---
 # op-532 — Implementer: clean image pair for mach-fixes-6@ea254222 (no diagnostic fixture)
 

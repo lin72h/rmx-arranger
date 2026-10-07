@@ -1,13 +1,13 @@
 ---
 id: op-534
-state: hold
+state: draft
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 needs: op-532
 authority: 3 boots max on copies of the op532 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
-updated: 2026-10-07T05:11Z
+updated: 2026-10-07T05:30Z
 ---
 # op-534 — Gatekeeper 1: proof of mach-fixes-6@ea254222 (readiness-only Mach kevents, clean ZFS pair)
 
@@ -28,11 +28,18 @@ three `launchd control reply missing` failures turned out to predate
 op-511 (`/Users/me/wip-mach/rmx-implementer/docs/op529-launchd-reply.md`).
 That problem is id-061.
 
-Images: the op-532 pair, base = `mach-fixes-6-op532-base`, fixed =
-`mach-fixes-6@ea254222`; paths, hashes and BOMs in
-`/Users/me/wip-mach/rmx-implementer/docs/op532-clean-pair.md` (ZFS,
-work on copies; test files identical, only the kernel and `mach.ko`
-differ; check from the BOMs).
+Images (ZFS, work on copies; test files identical, only
+`/boot/RMXOS-RELEASE/kernel` and `/boot/RMXOS-RELEASE/mach.ko` differ;
+check from the BOMs; record:
+`/Users/me/wip-mach/rmx-implementer/docs/op532-clean-pair.md`):
+- base = `mach-fixes-6-op532-base@9478be33`:
+  `/Users/me/wip-mach/stage/images/op532-base-tests-r1.raw`
+  sha256 `2d0bfb3d9e21a9cb804e09c9946d5b329a20cbd5ba1a85e49cb433d5aa1af5ee`
+  BOM `/Users/me/wip-mach/stage/artifacts/op532-base-tests-r1/bom.json`
+- fixed = `mach-fixes-6@ea254222`:
+  `/Users/me/wip-mach/stage/images/op532-fixed-tests-r1.raw`
+  sha256 `ca7a3035f9eead046f87e717e47c317bebd5ac1d7ec0158afe94c75da98f703a`
+  BOM `/Users/me/wip-mach/stage/artifacts/op532-fixed-tests-r1/bom.json`
 
 Use your op-521 harness, extended to the new case; check every command
 against the image first.

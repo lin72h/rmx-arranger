@@ -3174,3 +3174,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-535u; review hash matches; `rmx-validator3@87eee3e` present locally (no origin by decision). CLOSE 9/10: F1 fixed at receive-owner publication under space and port locks, covering port-destroyed delivery and ordinary copyout; old-entry revocation and epoch checks intact; the corrected test detects F1 at `0facf74b` with bounded waits; op-520 checks 1-7 still hold. On id-061: no concrete new lost-reply path in `mach-fixes-6`; deferred notification and rotation change timing; relative frequency unknown. op-533 closed.
 - state delta: op-533 → closed.
 - next: op-532's reply, then op-534.
+
+### j-20261007-023 — op-532 accepted (clean pair); op-534 released
+
+- time / kind: 2026-10-07 / REVIEW
+- outcome: Reply recorded as op-536u. Verified: `mach-fixes-6-op532-base` = `9478be33`, `mach-fixes-6` = `ea254222`; no test difference between them, the only source difference the 2-line `ipc_right.c` fix; both image hashes match the reply; both ZFS; BOMs differ only in `/boot/RMXOS-RELEASE/kernel` and `mach.ko`; against op-526's fixed image the only change is `/usr/lib/libop484_launchd.so` (diagnostic code removed). Self-check base 1/1 as expected, fixed 88/88, id-061 not seen. op-532 closed. op-534 released from hold with the image paths, hashes and BOMs written into it.
+- state delta: op-532 → closed; op-534 hold → draft.
+- next: The Coordinator sends op-534; on PASS (id-061 handled as briefed), push `mach-fixes-6` at `ea254222` and the base branches, close op-515, op-518, op-524, op-526, release op-516.
