@@ -3412,3 +3412,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Drafted the proof the op-565 reply asked for. Four runs on copies of `op552-overlay-base-r3`: base (op-562 overlays, `ff8a4d60`) RELEASE and KASAN up to `suspended_barrier`, expected to stop at `ipc_right.c:278`; fixed (op-565 overlays, `13628bbe`) RELEASE and KASAN: 93 cases, 5 MIG modes, the 400-case paced launchd repeat, normal power-off, and on KASAN no report from boot to power-off. Checked: the launchd repeat program is in the base image, and the candidate changes no library relative to the base-world source (`e2fa6df9` is `d8437d85`'s parent; only tests differ), so it is valid on these overlays. First gatekeeper1 run with kernel replacement through an overlay; the brief names the kernel line to check. 9 boots (8 + 1 spare). Safety guide checked. Runs alone (nothing else in flight). On acceptance `mach-fixes-6@13628bbe` is pushed (standing yes), and the fixed KASAN run counts toward li-1015's "clean KASAN suite run".
 - state delta: op-567 draft.
 - next: The Coordinator sends op-567.
+
+### j-20261008-026 — op-567 sent
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-567 (gatekeeper1 proof of op-565, RELEASE and KASAN); marked issued at once.
+- state delta: op-567 draft → issued.
+- next: op-567's reply; advisor2's id-052 review awaits the Coordinator's word.
