@@ -1,7 +1,8 @@
 # Safety-flag avoidance: keep engineering briefs from tripping safety filters
 
-Status: Arranger guide (living), 2026-10-01. Applies to every brief, cast and continuation
-message, for every seat: all of them run on frontier models with strict filters (§ Seats).
+Status: Arranger guide (living), 2026-10-01, revised 2026-10-08. Applies to every brief, cast,
+restart prompt and answer to an agent, for every seat: all of them run on frontier models with
+strict filters (§ Seats). `tools/brief-check` is its machine side (§ Where it is applied).
 It complements [op-brief-forms.md](op-brief-forms.md); advisor0's AGENTS.md § Framing is the
 Advisor-side version.
 
@@ -30,8 +31,11 @@ wording is now part of brief quality.
 
    > Context: ordinary debugging and testing of our own open-source OS (rmxOS: FreeBSD 15 with
    > Apple's open-source Mach, launchd and libdispatch). Everything runs on the host or in a
-   > disposable bhyve VM with no network. Nothing here is security testing or targets anyone
-   > else's system.
+   > disposable bhyve VM with no network.
+
+   (Until 2026-10-08 this ended "Nothing here is security testing or targets anyone else's
+   system." That sentence talks about security, which rule 6 rules out, and no brief or agent
+   instruction file ever carried it.)
 
 2. **Describe what our code does, in engineering words** (table below). Say what the test checks,
    not what an attacker could do.
@@ -67,6 +71,15 @@ wording is now part of brief quality.
    reach another process's task, ports or memory. Answers to an agent's question are briefs too:
    check them against this guide before sending.
 
+9. **A list of defects reads as corrections, not as failure mechanics** (op-569, 2026-10-08:
+   stopped twice). op-569's brief put four memory and lifetime defects in a row, each told as how
+   it fails: "frees the copy object twice", "hard to reach from user space, so give it a forced
+   error path", "handlers written for user pointers called with kernel pointers", "the module
+   text is freed while the handlers still point into it". No single word was wrong; the
+   accumulation was. State each one as what our code does at file:line and what the fix changes,
+   in ownership terms (the callee and the caller both release the copy; the handlers stay
+   registered after the module is unloaded), and read the whole brief once at the end.
+
 ## Word choices
 
 | Avoid in prose | Write instead |
@@ -94,11 +107,17 @@ wording is now part of brief quality.
 ## When a session is filtered anyway
 
 Check the agent's commits and work directory, reword the brief, and restart (Rule 7). Record the
-stop and the likely trigger in the journal, and add the phrasing to the table above.
+stop and the likely trigger in the journal, add the phrasing to the table above, and add a matching
+pattern to `tools/brief-check`.
 
-## Rollout
+## Where it is applied
 
-- New briefs: apply now.
-- Templates: after op-399 returns, so as not to re-render gatekeeper1's repo while its op is in
-  flight, add the context sentence and the rules above to the shared `rmx-role0` text that every
-  role inherits, and re-render.
+- **Every agent's instructions:** the shared project-context text in `rmx-role0`
+  (`partials/project-context.md`, rendered into every role's AGENTS.md) gives the positive half
+  only: what the project is, and "describe it in engineering terms". Done 2026-10-01.
+- **`tools/brief-check`** (Arranger-only): fails on a missing context sentence (rule 1), on rule-4
+  words, and on any path into the Arranger's repo; warns on the phrasings in the table and rule 9,
+  matched across line wraps. Keep its patterns in step with the table.
+- **The Arranger's own instructions:** AGENTS.md § Ops runs the check before any text for an
+  agent, and LOCAL.md § Before showing a brief holds the rest of the checklist, including the
+  whole-text read.
