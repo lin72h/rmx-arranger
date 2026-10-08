@@ -3377,3 +3377,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Drafted the next Implementer op while op-560 runs (LOCAL "keeping rounds few"). Facts checked: `testing-1` (`42d1fdbf` mach.ko built with the kernel; `7ccf16fa` RMXOS-KASAN/KMSAN/KCSAN/KUBSAN; on origin) is not in `mach-fixes-6`; standalone `mach.ko` has its INVARIANTS assertions compiled out (id-047). op-562: bring `testing-1` onto `mach-fixes-6`; one CI build command (commit + profile → kernel, kernel-built `mach.ko`, changed libraries, tests → overlay for `op552-overlay-base-r3`), including kernel replacement through the overlay (untested in op-552); self-check RELEASE and KASAN overlays once each — the first runs with `mach.ko`'s assertions; reports are findings, recorded, not fixed. Runs alongside op-560 (different agent; new overlays only). The KASAN run is a step toward li-1015's gate.
 - state delta: op-562 draft.
 - next: The Coordinator sends op-562; op-560's reply.
+
+### j-20261008-021 — op-562 sent
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-562 (CI build stage); marked issued at once. In flight: op-560 (gatekeeper1), op-562 (Implementer).
+- state delta: op-562 draft → issued.
+- next: op-560 and op-562 replies.
