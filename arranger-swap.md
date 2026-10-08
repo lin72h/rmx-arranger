@@ -3300,3 +3300,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-556u. Route § 4.1(b) built: verified ZFS base (`op552-overlay-base-r3.raw`), read-only UFS overlay as second virtio disk, early rc hook (`rmx_overlay`) checks every manifest hash, installs into the disposable root copy, reboots once; the next boot re-verifies; no `bhyveload -h`. Fixed install and reboot verified (serial hash in the reply). Overlay pair creation 247 ms vs op-547's 321 s composition. Two boots went to the Implementer's own scaffold faults (devfs absent at the hook; the device is `vtbd1`, not `vtblk1`, `virtio_blk.c:248,754`), one validator fault (required a literal "Rebooting..."); all corrected. Five MIG modes and the earlier suite not yet run on overlays. Rather than a separate continuation, op-555 now runs op-547's pair as the two overlays (install + test boot each), which both finishes op-552's checks and answers op-550's `peer_pending` question; 6 boots. op-552 closed; op-555 released.
 - state delta: op-552 issued → closed (op-556u); op-555 hold → draft.
 - next: The Coordinator sends op-555.
+
+### j-20261008-010 — op-555 sent
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-555 (op-547's pair as op-552 overlays; `peer_pending` fact 13); marked issued at once.
+- state delta: op-555 draft → issued.
+- next: op-555's reply; then a short gatekeeper1 re-proof of op-547 (with any op-555 fix), push `mach-fixes-6`, close op-547 and id-061.
