@@ -1,12 +1,13 @@
 ---
 id: op-569
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
-expected: 5h
 authority: sys/compat/mach fixes; tests in tests/sys/mach and tests/lib/libmach; kernel, mach.ko and test builds via tools/ci/build; overlays; 8 self-check boots; no push
-updated: 2026-10-08T08:03Z
+expected: 5h
+issued-at: 2026-10-08T08:23Z
+updated: 2026-10-08T08:23Z
 ---
 # op-569 — Implementer: id-046 leftover batch — OOL copyout double free (#8), MIG handlers given kernel pointers (N9), one trap return convention (N10), failed load leaves hooks (#14)
 
