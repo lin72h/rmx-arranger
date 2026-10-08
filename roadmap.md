@@ -44,7 +44,7 @@ remaining gaps named and bounded. We certify the surface we exercise.
 | Step 4: readiness-only Mach kevents; launchd's two task setters on a child task | done (`mach-fixes-6@4de4d9ae`; op-515…op-534, op-516) — **id-046 step 4 complete** |
 | id-061: launchd lost a request and could not shut down — libmach shared one MIG reply port per process | done (`mach-fixes-6@d8437d85`; op-547; proof op-560) |
 | Overlay disks for the test loop (kernel-testing.md § 4.1) | done; both runners use them (op-552, op-560) |
-| Automated checking of every candidate (id-047 CI) | in work (op-562: build stage, RELEASE and KASAN with kernel-built `mach.ko`) |
+| Automated checking of every candidate (id-047 CI) | in work (op-562: build stage; op-565: INVARIANTS assertion fix, RELEASE and KASAN 93/93 self-check; Gatekeeper proof next) |
 | Remaining id-046 items, Mach review remainder (id-052), review round 2 (id-051) | after CI |
 | PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log queue fixed (op-449, op-470); id-061 fixed pending proof; id-060 open |
 | Upper components: libnotify, launchd, libxpc deep reviews (op-384 to op-386) | held until the Mach round is done |

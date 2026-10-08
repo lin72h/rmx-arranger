@@ -1,12 +1,13 @@
 ---
 id: op-565
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-047
 authority: sys/compat/mach assertion fixes and tests; kernel, mach.ko and test builds via tools/ci/build; overlays; 6 self-check boots; no push
 expected: 4h
-updated: 2026-10-08T05:36Z
+issued-at: 2026-10-08T07:44Z
+updated: 2026-10-08T07:44Z
 ---
 # op-565 — Implementer: fix assertion-only defects found with mach.ko's INVARIANTS enabled (first: ipc_right.c:278), then RELEASE and KASAN full suites
 
