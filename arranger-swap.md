@@ -3328,3 +3328,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Measured sent → record commit: op-532 14 min, op-541 27 min, op-555 42 min, op-552 48 min, op-544 ~50 min, op-516 ~2.5 h, op-547 14.5 h (boot 4 at 10-08 01:08, boot 5 at 14:56: a 14-hour idle gap). Per-op work is fast; total time comes from idle gaps between rounds, the number of rounds (~20 Implementer ops in two days, many from early stops), and self-check ceremony: custom fact checkers, negative controls and provenance files for runs OPS.md calls not evidence (op-555: 45 such files; op-547: 27), whose own checkers caused several false BLOCKEDs (op-544, op-552, op-555). implementer0 OPS.md § Self-check (`rmx-implementer@` latest): keep self-checks light — ATF counts and serial path; tests assert their own facts; strict checking stays with the Gatekeeper. Rendered with the two j-012 rules and one cast after op-555.
 - state delta: none (ops).
 - next: op-555's final reply; render and cast; gatekeeper1 re-proof.
+
+### j-20261008-014 — Coordinator: idle gaps are expected; my part folded into LOCAL.md
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator: the 14-hour gap was a pause while sleeping, and token exhaustion causes the others; both fine. Asked me to improve my part and record it for fresh sessions. Added LOCAL.md § Lessons for briefs → "Keeping rounds few: my part": draft the next op when one is sent; merge work sharing images/boots into one op; budget boots with room (overlay install+test = 2); ask only for evidence that decides acceptance (no custom checkers in self-check briefs); write every proof expectation from provenance; run the pre-brief checks; DDB dump first for hangs; answer in-op boot/permission requests at once with a send-ready line. The Implementer's light self-check rule (j-013) stays.
+- state delta: none (ops).
+- next: op-555's final reply.

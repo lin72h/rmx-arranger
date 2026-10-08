@@ -215,6 +215,30 @@ Each of these cost a relay round or a Coordinator question. Run the check before
   2026-09-28 "do not rerun without a new op" beat the 2026-10-03 self-check rule twice: op-515 →
   op-518, op-524 → op-526).
 
+### Keeping rounds few: my part (2026-10-08)
+
+Per-op work is fast (15-60 min); total time is set by the number of rounds. Idle gaps while the
+Coordinator sleeps or a model's tokens run out are expected and not mine to fix (Coordinator,
+2026-10-08). What is mine:
+
+- **Draft the next op when one is sent**, so it can go the moment a reply is verified.
+- **Merge work that needs the same images or boots into one op** (op-552's unfinished checks rode
+  op-555's boots). Before drafting, ask: does an op in flight or just returned already produce
+  what this one needs?
+- **Budget boots with room.** Planned boots plus the Implementer's standing 2 for harness
+  failures (OPS.md); count install-and-test boots as two each on the overlay route.
+- **Ask only for evidence that decides acceptance.** A self-check brief asks for ATF counts and the
+  serial path; never ask the Implementer for custom checkers, negative controls or provenance
+  files (OPS.md "keep self-checks light"). Exact facts belong in the test's own assertions;
+  strict checking is the Gatekeeper's proof.
+- **Write every expectation the proof will check, from provenance:** each new and changed case,
+  with its base result derived from what the base contains (lessons above).
+- **Run the pre-brief checks above** (platform semantics, lifecycle rules, counts from commands,
+  base provenance, wording guide incl. rules 4 and 8) before showing any brief, cast or answer.
+- **For a hang, the first op is the DDB dump** (lesson above), not a reproducer.
+- **When an agent asks for one more boot or a small permission inside the op's purpose, answer at
+  once with a ready-to-send line**; do not turn it into a new op.
+
 ## Commit attribution (Coordinator, 2026-10-01)
 
 - Company rule: no AI attribution in commit messages. No `Co-Authored-By: Claude …` line and no
