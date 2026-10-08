@@ -3307,3 +3307,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-555 (op-547's pair as op-552 overlays; `peer_pending` fact 13); marked issued at once.
 - state delta: op-555 draft → issued.
 - next: op-555's reply; then a short gatekeeper1 re-proof of op-547 (with any op-555 fix), push `mach-fixes-6`, close op-547 and id-061.
+
+### j-20261008-011 — op-555 interim: peer_pending is a pre-existing test timing assumption; one extra boot granted
+
+- time / kind: 2026-10-08 / REVIEW + ACTION
+- outcome: Reply recorded as op-557u. op-547 is not the cause: `peer_pending` fact 13 read 2 in 1 of 50 repeats on both the base and the fixed overlay (unchanged test). The second reference is a real, transient dead-name notification uref added by the kernel (`ipc_right.c:479`, `:350`) and released by libdispatch's notification handling (`source.c:3071-3075`); the test's `report` (`xpc_receive.zig:248-262`) counted before that cleanup. Test fix `d8437d85` (identical `83a04d93` on `mach-fixes-6-op547-base`): when the count is exactly 2, wait up to 3000 ms for it to fall to 1. Corrected base 50/50. op-552's checks are complete (both overlays installed and verified; unchanged fixed 93/93 + 5/5). The corrected fixed run was cut off by the runner's prompt match (`console-overlay.expect:29`, prompt followed by asynchronous syslog); one extra boot granted through the Coordinator on the fixed checkpoint, after the collector fix passes host preflight.
+- state delta: op-555 returned → issued (continuation, one boot).
+- next: op-555's final reply; then gatekeeper1's re-proof of op-547 with the test fix (overlay route), push, close op-547 and id-061.
