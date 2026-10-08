@@ -4,7 +4,7 @@
   `id-NNN` in [idq/id-000.md](idq/id-000.md) → ops `op-NNN` via `tools/rob`;
   [terminology.md](terminology.md) §6). This page says what 1.0 means and the order we get there;
   [now.md](now.md) holds the critical path of the moment.
-- status: living, rewritten 2026-10-05 (the June–July text is in Git at `cc7efa3`). The
+- status: living, rewritten 2026-10-05, path updated 2026-10-08 (the June–July text is in Git at `cc7efa3`). The
   Coordinator owns the target; the Arranger keeps the page current.
 - discipline: **truly-green, not paper-green.** A milestone retires only on first-hand evidence that
   its criterion holds, never on an agent's report.
@@ -34,35 +34,35 @@ Decisions that shape the preview (Coordinator):
 Usable is a threshold, not a guarantee: no known blocking defect on the target use cases, with the
 remaining gaps named and bounded. We certify the surface we exercise.
 
-## Path to the preview (2026-10-05)
+## Path to the preview (2026-10-08)
 
 | Stage | Status |
 |---|---|
 | Mach foundation, fix batches 1-3 (id-046) | done (`mach-fixes-1` to `-3` on origin) |
 | Step 4 part 1: kernel reply and receive contract | done (`mach-fixes-4@0924690c`) |
-| Step 4 part 2a: libdispatch adaptation, libmach `mach_msg_destroy` fix | done (`mach-fixes-5@b2d5f5b7`) |
-| Step 4 part 2b: launchd adaptation (op-484, op-495) | done (`mach-fixes-5@0f1f76d5`) |
-| Step 4 part 2c: libxpc adaptation | next |
-| id-046: readiness-only Mach kevents with public KNOTE; launchd's two task setters on a child task | after libxpc (op-435 § 4 items 5-6) |
-| Mach review round 2, two blind reviewers (id-051) | after the fixes |
-| Automated checking of every candidate (id-047 CI) | planned |
-| PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log-queue growth fixed and soaked (op-449, op-470); robustness follow-ups in id-060 |
+| Step 4 part 2: libdispatch, launchd, libxpc adaptations | done (`mach-fixes-5@2de5f1d4`; libxpc op-500, op-502, op-507) |
+| Step 4: readiness-only Mach kevents; launchd's two task setters on a child task | done (`mach-fixes-6@4de4d9ae`; op-515…op-534, op-516) — **id-046 step 4 complete** |
+| id-061: launchd lost a request and could not shut down — libmach shared one MIG reply port per process | fixed, in proof (op-547; review op-549 CLOSE 9/10; proof op-550 running) |
+| Overlay disks for the test loop (kernel-testing.md § 4.1) | in work (op-552) |
+| Automated checking of every candidate (id-047 CI) | next after overlay disks |
+| Remaining id-046 items, Mach review remainder (id-052), review round 2 (id-051) | after CI |
+| PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log queue fixed (op-449, op-470); id-061 fixed pending proof; id-060 open |
 | Upper components: libnotify, launchd, libxpc deep reviews (op-384 to op-386) | held until the Mach round is done |
-| asl leg 4 (id-011); libxpc lifecycle (id-021) | open, after the Mach round |
+| asl leg 4 (id-011); libxpc lifecycle (id-021, incl. sync-reply waits on the event queue) | open, after the Mach round |
 | Final integration soak and ship stamp (id-042) | last |
 
 ## Milestone 1 constituents
 
 Full table and retirement rule: [l1i/li-1000.md](l1i/li-1000.md). In short:
 
-| id | milestone | state (2026-10-05) |
+| id | milestone | state (2026-10-08) |
 |---|---|---|
-| li-1001 | Mach IPC invariants hold under load | substrate proven; id-046 fixes in progress; final replay owed by id-042 |
+| li-1001 | Mach IPC invariants hold under load | id-046 step 4 complete (`mach-fixes-6`); review round 2 and final replay owed (id-051, id-042) |
 | li-1002 | libdispatch core and conformance | core green; adapted to the step 4 contract (op-468) |
 | li-1003 | libnotify/notifyd truly-green | retired (op-165) |
 | li-1004 | asl truly-green | legs 1-3 green, leg 4 open (id-011) |
-| li-1005 | libxpc as a core service | open, the long pole (id-021) |
-| li-1006 | launchd as PID-1 core service | PID 1 by default; adapted to the step 4 contract (op-484, op-495) |
+| li-1005 | libxpc as a core service | step 4 adaptation accepted (op-500/502/507); lifecycle open, the long pole (id-021) |
+| li-1006 | launchd as PID-1 core service | PID 1 by default; step 4 adapted; child-task setters fixed (op-516); id-061 fix in proof |
 | li-1007 | integration soak | not started |
 | li-1008 | known gaps cataloged | ongoing |
 
