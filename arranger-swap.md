@@ -3363,3 +3363,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-559 marked issued on the reply's arrival; reply recorded as op-561u. Verified: both overlay hashes and the base image hash match; the two `manifest.tsv` files differ in exactly three rows (libmach), same modes. op-559 closed. op-560 released with the base image and overlay paths and hashes written in. Note: the Implementer's `docs/overlay-disks.md` and `op559-overlays.md` use the word "payload" (9 and 2 times); left as is (records), watch for a gatekeeper1 filter stop.
 - state delta: op-559 → closed (op-561u); op-560 hold → draft.
 - next: The Coordinator sends op-560.
+
+### j-20261008-019 — op-560 sent
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-560 (gatekeeper1 overlay route + op-547 proof); marked issued at once.
+- state delta: op-560 draft → issued.
+- next: op-560's reply. Meanwhile draft the CI op (id-047, now.md step 2) for the idle Implementer.
