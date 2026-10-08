@@ -3454,3 +3454,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The follow-up was stopped too; the Coordinator restarts the Implementer in a new session (Rule 7). Checked on disk first: a fifth commit `9b958207` (timer-create trap keeps its name-returning convention); base branch `mach-fixes-6-op569-base@26b8c8ed` (tests and fail point on unchanged `13628bbe`); overlays for `26b8c8ed` and `9b958207`, RELEASE and KASAN; base RELEASE run, 2/8 boots (serial `8032796e…`): cases 0-3 fail as expected, case 4 stops the guest in `vm_map_copy_discard` from `ipc_kmsg_copyout_ool_descriptor`, i.e. #8 reproduced; fixed overlays not booted; runner changes uncommitted (`tools/ci/build.exs`, `tools/selfcheck/op569.exs`). Reworded op-569 in place (body only; original in git history at `af4ef7d`) as a continuation brief: work so far by commit and path, remaining parts named, 6 boots, defect wording reduced to what each correction changes. The new session will still read the Implementer's own commit messages; accepted.
 - state delta: none (op-569 stays issued).
 - next: op-569's reply in the new session; op-567's reply.
+
+### j-20261008-032 — op-569 restarted in a new Implementer session
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent the reworded op-569 (`4f23d56`) to a new Implementer session. In flight: op-567 (gatekeeper1), op-569 (Implementer).
+- state delta: none.
+- next: op-567 and op-569 replies.
