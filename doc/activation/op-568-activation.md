@@ -1,12 +1,12 @@
 ---
 id: op-568
-state: draft
+state: hold
 agent: advisor2
 repo: rmx-advisor2
 idq: id-052
-expected: 3h
 authority: none
-updated: 2026-10-08T07:58Z
+expected: 3h
+updated: 2026-10-08T07:59Z
 ---
 # op-568 — Advisor 2: finish the Mach review — host, task and VM server routines no review has read (id-052)
 

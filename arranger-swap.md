@@ -3426,3 +3426,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Drafted id-052's findings-only review for advisor2 (author of op-389), at the current head `mach-fixes-6@13628bbe`, not alpha2: 45 Mach commits since. Scope: the `host_priv`/`mach_host` bodies, `task_info`/`task_threads` and port-to-task conversions, the `vm_map`/`mach_vm` server routines; trace the known `convert_port_to_task_name` stub (`mach_convert.c:72-75`, returns NULL) to its callers. S1: the September logs are gone (paths were only in a session scratchpad; a host search for `ETAP_IPC_IS` found none). New evidence instead: both op-565 full suites ran with WITNESS on and `mach.ko` built with the kernel, with 0 lock-order reversals. The brief asks for a source conclusion at the head, including whether op-392's original pair can still occur after readiness-only kevents (`ea254222`). The brief reuses op-393's form, names the earlier reviews and the step-5 deferral so nothing is re-proposed; under 250 lines. Safety guide checked. Runs alongside op-567 (source-only, different agent).
 - state delta: op-568 draft.
 - next: The Coordinator sends op-568; op-567's reply.
+
+### j-20261008-028 — op-568 queued for later
+
+- time / kind: 2026-10-08 / DECISION (Coordinator)
+- outcome: The Coordinator queued op-568 (advisor2, id-052 review) for later; moved draft → hold. Brief kept as written, pinned at `13628bbe`; refresh the pin when released.
+- state delta: op-568 draft → hold.
+- next: op-567's reply; propose id-046's leftover batch (#8, N9, N10, #14) for the idle Implementer.
