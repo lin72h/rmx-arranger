@@ -26,8 +26,8 @@ or a test changes. Design: `/Users/me/wip-mach/rmx-arranger/kernel-testing.md`
 scheduled 2026-10-06, j-20261006-008). Build it:
 
 1. **Base image, made once.** From `op417-alpha2-zfs-gpt.raw` with the
-   world and libraries of `mach-fixes-6@e2fa6df9` (current accepted
-   overlay), plus whatever the overlay route below needs. Hash and BOM
+   world and libraries of `mach-fixes-6@e2fa6df9` (the current
+   accepted build), plus whatever the overlay route below needs. Hash and BOM
    as now.
 2. **Overlay disk.** A small image (`makefs`, seconds) holding only
    what an op changes (kernel, `mach.ko`, libraries, test binaries)
@@ -52,7 +52,7 @@ scheduled 2026-10-06, j-20261006-008). Build it:
 
 Evidence: commits; `docs/overlay-disks.md`; the base image hash and
 BOM; both overlays' hashes and manifests; the boots and their results;
-the time a overlay pair takes compared with op-547's image pair; the
+the time an overlay pair takes compared with op-547's image pair; the
 `selfcheck:` line.
 
 ## Limits
