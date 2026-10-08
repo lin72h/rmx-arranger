@@ -3265,3 +3265,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-548u. Verified: `mach-fixes-6@e2fa6df9` is 3 commits on `cb664232` (tests `b7707d87`, `e2fa6df9`; fix `c094d4ad`, `mig_support.c` only: pthread-key reply port, per-thread dealloc, destructor release, fork drops the slot); base `mach-fixes-6-op547-base@e29f8b15`; tests identical. Image hashes match (images under `rmx-implementer/build/op547/r2/images/`, not `stage/images`); both ZFS; BOMs differ only in `libmach.so.5`, `libmach.a` and its debug file. `/rescue/rescue` is not in the diff, though `rescue/rescue/Makefile` names libmach: op-549 item 6 asks whether it links libmach statically. Side finding in the record: `convert_port_to_task_name` is a stub returning NULL (`sys/compat/mach/mach_convert.c:72-75`), so `task_info` fails — belongs to id-052. Self-check: base 4 cases show the shared port (`concurrent` ends -301), `fork` works on base; fixed 5/5 + 93/93; 400/400 paced launchd cases, no missing reply; 2/2 shutdowns normal. Drafted op-549 (validator3 source review) and op-550 (gatekeeper1 proof incl. the paced repeat), parallel. Rendered rmx-implementer with the diagnostic-branch rule (`1c17661`); cast op-551u drafted.
 - state delta: op-547 issued → returned (op-548u); op-549, op-550, op-551u draft.
 - next: The Coordinator sends op-549, op-550 and relays op-551u; on CLOSE ≥8 and PASS, push `mach-fixes-6` at `e2fa6df9` (with `cb664232`) and the base branch, close op-547 and id-061 (shutdown hang: watch in later proofs).
+
+### j-20261008-005 — op-549, op-550 sent; op-551u relayed
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator sent op-549 (validator3) and op-550 (gatekeeper1) and relayed op-551u; marked at once.
+- state delta: op-549, op-550 draft → issued; op-551u → closed.
+- next: Both replies. Meanwhile the payload-disk op (kernel-testing.md § 4.1) can be drafted for the idle Implementer.

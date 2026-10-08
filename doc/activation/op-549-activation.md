@@ -1,12 +1,13 @@
 ---
 id: op-549
-state: draft
+state: issued
 agent: validator3
 repo: rmx-validator3
 idq: id-061
 authority: none beyond the defaults: read-only; no guests
 expected: 1h30m
-updated: 2026-10-08T02:06Z
+issued-at: 2026-10-08T02:10Z
+updated: 2026-10-08T02:10Z
 ---
 # op-549 — Validator 3: review of op-547 (id-061 per-thread MIG reply port in libmach)
 

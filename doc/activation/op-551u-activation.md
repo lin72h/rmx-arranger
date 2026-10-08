@@ -1,11 +1,12 @@
 ---
 id: op-551u
-state: draft
+state: closed
 cast: unicast
 agent: implementer
 repo: rmx-implementer
 idq: id-000
-updated: 2026-10-08T02:07Z
+issued-at: 2026-10-08T02:10Z
+updated: 2026-10-08T02:10Z
 ---
 # op-551u — Implementer: AGENTS.md, diagnostic code on diag-<topic> branches
 

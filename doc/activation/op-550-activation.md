@@ -1,12 +1,13 @@
 ---
 id: op-550
-state: draft
+state: issued
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-061
 authority: 4 boots max on copies of the op547 ZFS pair, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h30m
-updated: 2026-10-08T02:06Z
+issued-at: 2026-10-08T02:10Z
+updated: 2026-10-08T02:10Z
 ---
 # op-550 — Gatekeeper 1: proof of op-547 (per-thread MIG reply port, ZFS pair, launchd repeat)
 
