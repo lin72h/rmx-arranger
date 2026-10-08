@@ -1,7 +1,7 @@
 # id-061 — launchd intermittently does not answer a control request; shutdown then does not finish
 
 - priority: high (proposed; Coordinator sets) — PID-1 launchd is the preview path (id-016)
-- state: OPEN — reproduced; cause unknown
+- state: **CLOSED 2026-10-08** — fixed by op-547 (per-thread MIG reply port), proven by op-560
 - raised: 2026-10-07, from op-521, op-526, op-529
 
 ## What is wrong
@@ -48,3 +48,12 @@ thread by `mig_get_reply_port` (`:79-84`); concurrent synchronous MIG calls from
 it, so a reply can be taken by the wrong thread and both wait forever; `mig_dealloc_reply_port`
 also destroys the shared port. Apple keeps one reply port per thread. Fix: op-547. The shutdown
 hang was not caught in a dump; a stuck main thread would explain it, to be checked after the fix.
+
+## 2026-10-08 — closed
+
+op-547's per-thread MIG reply port (`c094d4ad`) with tests, and the `peer_pending` test timing fix
+(`d8437d85`), are on origin as `mach-fixes-6@d8437d85` (base `mach-fixes-6-op547-base@83a04d93`).
+Review op-549 CLOSE 9/10; proof op-560 accepted: 400/400 paced launchd cases with no missing reply,
+normal power-off, fixed 93/93 + 5/5 modes + `peer_pending` 20/20. The shutdown hang was never
+caught in a dump; no shutdown failure in op-547's, op-550's or op-560's runs. Reopen if a shutdown
+hang or a missing launchd reply recurs.

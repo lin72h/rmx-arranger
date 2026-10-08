@@ -3384,3 +3384,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-562 (CI build stage); marked issued at once. In flight: op-560 (gatekeeper1), op-562 (Implementer).
 - state delta: op-562 draft → issued.
 - next: op-560 and op-562 replies.
+
+### j-20261008-022 — op-560 accepted; mach-fixes-6@d8437d85 pushed; op-547 closed; id-061 closed
+
+- time / kind: 2026-10-08 / REVIEW + ACTION (standing push yes)
+- outcome: Reply recorded as op-563u. Verified: `rmx-gatekeeper1@95547543` on origin; the four boot serial hashes match; results 121 rows, no mismatches: base modes as expected, `peer_pending` 20/20 each overlay, fixed 93/93 + 5/5, 400/400 paced launchd cases, clean power-off; gatekeeper1's runner now handles overlays (runner note). With op-549 CLOSE 9/10, op-547 accepted. Pushed by hash `mach-fixes-6` `4de4d9ae..d8437d85` (fast-forward; the local branch has moved on in op-562) and `mach-fixes-6-op547-base` (`83a04d93`); rmx-implementer `main` pushed. Closed op-560, op-547; id-061 closed (reopen on any recurrence of a missing launchd reply or shutdown hang). now.md, roadmap, IDQ updated.
+- state delta: op-560, op-547 → closed; id-061 → CLOSED.
+- next: op-562's reply.

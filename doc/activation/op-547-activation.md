@@ -1,13 +1,13 @@
 ---
 id: op-547
-state: returned
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 authority: libmach build (and rescue if it links libmach statically), tests; no world; 2 ZFS images; 5 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-07T11:25Z
-updated: 2026-10-08T02:05Z
+updated: 2026-10-08T05:14Z
 ---
 # op-547 — Implementer: id-061 per-thread MIG reply port in libmach (mig_support.c), then launchd repeat and shutdown
 

@@ -1,6 +1,6 @@
 ---
 id: op-560
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-061
@@ -8,7 +8,7 @@ needs: op-559
 authority: 5 boots max on copies of op552-overlay-base-r3 with the op-559 overlays, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 2h
 issued-at: 2026-10-08T04:52Z
-updated: 2026-10-08T04:52Z
+updated: 2026-10-08T05:14Z
 ---
 # op-560 — Gatekeeper 1: adopt the overlay route and prove op-547 with the corrected peer_pending test
 
