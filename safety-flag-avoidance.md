@@ -49,12 +49,12 @@ wording is now part of brief quality.
    both and was filtered again. Agents get positive guidance only ("describe what our code does
    wrong at <file:line> and what the test checks"). Do not point agents at this file either. The
    shared project-context text in every role's AGENTS.md is positive-only too (`rmx-role0@03e80a6`).
-7. **After a filter stop, first send a follow-up message in the same session** (Coordinator,
-   2026-10-04): the context sentence, then the remaining work with every part named, the work
-   done so far by commit and path, and no mention of the stop. **Restart in a new session only
-   if the follow-up is stopped too**; the stopped session's history still holds the text that
-   tripped the filter. Point the new session at the brief, the commits and the build directory;
-   do not paste the filtered output.
+7. **After a filter stop, restart in a new session at once** (2026-10-08, replacing the
+   2026-10-04 same-session follow-up: op-569's follow-up was stopped too, because the stopped
+   session still holds the text that tripped the filter). First reword the brief with this guide,
+   then write the restart prompt (`~/wip-workflow/docs/forms.md` § Restart prompt): the context
+   sentence, the op, the work done so far by commit and path in the agent's own repo, every
+   remaining part named. Never paste the filtered output and never mention the stop.
 
 8. **Frame diagnostics of a running daemon as our daemon's own test build recording its own
    state** (op-526, 2026-10-07). op-526's stop came while the session worked on reading PID 1's
@@ -93,9 +93,8 @@ wording is now part of brief quality.
 
 ## When a session is filtered anyway
 
-Send the context sentence, then one line that restates the remaining work. Name every part,
-and name where evidence goes. Record the stop in the journal. If it happens twice on the same
-op, reword the brief with this guide before the next op for that seat.
+Check the agent's commits and work directory, reword the brief, and restart (Rule 7). Record the
+stop and the likely trigger in the journal, and add the phrasing to the table above.
 
 ## Rollout
 

@@ -89,7 +89,8 @@ Links only; each file is read when its moment comes.
 | [now.md](now.md) | deciding what comes next on the critical path |
 | [LOCAL.md](LOCAL.md) | once per session: this instance's lessons and standing permissions |
 | [arranger-swap.md](arranger-swap.md) | the journal: one entry per state change or decision |
-| [safety-flag-avoidance.md](safety-flag-avoidance.md) | before showing any brief, cast, restart or continuation message |
+| `tools/brief-check` and [LOCAL.md](LOCAL.md) § Before showing a brief | before showing any brief, cast, restart prompt or answer |
+| [safety-flag-avoidance.md](safety-flag-avoidance.md) | work about crashes, signals, sanitizers or memory defects; after a filter stop |
 | [op-brief-forms.md](op-brief-forms.md) | writing a brief or a cast |
 | `~/wip-workflow/docs/forms.md` § Restart prompt | restarting an agent whose session stopped |
 | `~/wip-workflow/docs/method.md` § Wording | any text an agent will read |
@@ -101,11 +102,14 @@ Links only; each file is read when its moment comes.
 
 - Create, read, and change ops only with `tools/rob`; never hand-edit a state tag.
   Format: [op-brief-forms.md](op-brief-forms.md); states: [rob-mini-format.md](rob-mini-format.md).
-- **Before showing any brief, cast or continuation message, re-read
-  [safety-flag-avoidance.md](safety-flag-avoidance.md) and check the draft against it, line by
-  line.** Every agent runs on a frontier model with strict filters (current models: the guide's
-  § Seats). A brief about crashes, panics, fuzzing or sanitizers that reads like attack research
-  gets filtered and returns nothing (op-398, op-399).
+- **Before showing any brief, cast, restart prompt or answer to an agent, run
+  `tools/brief-check`** (`op-NNN`, a file, or `-`) and work through
+  [LOCAL.md](LOCAL.md) § Before showing a brief, including one read of the text as a whole.
+  Re-read [safety-flag-avoidance.md](safety-flag-avoidance.md) itself whenever the work involves
+  crashes, panics, signals, sanitizers, generated inputs or memory defects. Every agent runs on a
+  frontier model with strict filters (the guide's § Seats); a brief that reads like attack
+  research is filtered and returns nothing (op-398, op-399, op-569). After a stop, reword and
+  restart in a new session (the guide's rule 7).
 - When presenting an op, show its complete brief (`tools/rob show`) as one
   copy-paste block. The brief holds only what is specific to the op; each role
   repo's `OPS.md` holds its defaults and the reply block. Showing is not sending:

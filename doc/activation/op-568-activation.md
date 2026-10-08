@@ -65,8 +65,16 @@ NextBSD's where they differ), the concrete incorrect behavior, your
 confidence, the smallest regression test or source trace that would
 confirm it, and the fix direction. Add a "checked and cleared" list
 and a list of what you did not reach. Do not re-propose items already
-in op-389, op-392 or op-393, or the name-table redesign deferred to
-step 5. Under about 250 lines, as a new document.
+in op-389, op-392 or op-393. Under about 250 lines, as a new document.
+
+Decided for 1.0, so judge the code against it rather than propose
+changing it: a Mach port name is a file descriptor (NextBSD's design);
+an XNU-style name table, fileports and receive inside a kqueue
+callback come after 1.0. Accepted 1.0 limits, not findings: names
+reuse fd numbers without generation bits; names count against
+`RLIMIT_NOFILE`; processes sharing one fd table share one Mach space;
+operations on another task's name space stay disabled; Mach names are
+not passed over Unix sockets or inherited by `fork`.
 
 ## Inputs
 
@@ -81,9 +89,7 @@ step 5. Under about 250 lines, as a new document.
 - Earlier reviews, to avoid repeats:
   `/Users/me/wip-mach/rmx-advisor2/op-389-mach-freebsd12-assumptions-alpha2.md`,
   `/Users/me/wip-mach/rmx-advisor1/op-392-mach-freebsd15-assumptions-findings.md`,
-  `/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md`;
-  the step-5 deferral:
-  `/Users/me/wip-mach/rmx-arranger/mach-names-step5-deferred.md`.
+  `/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md`.
 - S1 evidence: `/Users/me/wip-mach/rmx-implementer/build/op565/runs/rmx-selfcheck-op565-release-r1-1791444650/tests/serial.txt`
   and `.../rmx-selfcheck-op565-kasan-r1-1791444924/tests/serial.txt`.
 - XNU, read-only: `/Users/me/wip-mach/reference/xnu-xnu-12377.121.6/`

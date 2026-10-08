@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261008-2326 — Friction fixes done; waiting on op-567 and op-569
+
+- **Unfinished:** nothing in hand. Next: verify each reply first-hand when it arrives. op-567 (gatekeeper1 proof of `mach-fixes-6@13628bbe`): on a pass, push `13628bbe` by hash (standing yes) and close. op-569 (Implementer, new session): check the fixed RELEASE/KASAN runs of `9b958207` and `docs/op569-leftovers.md`, then size the review; draft the follow-up op without asking.
+- **Waiting on the Coordinator:** op-568 (advisor2, id-052) on hold by choice; at release, refresh its pin to the then-current head (its text is already clean).
+- **In flight:** op-567 gatekeeper1 (about 3 h); op-569 Implementer (restarted 2026-10-08).
+- **Read first:** [LOCAL.md](LOCAL.md) § Before showing a brief and § Verifying returns; run `tools/brief-check` before any text for an agent.
+- **Journal:** j-20261008-033 and j-20261008-034 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261008-2313 — Resume log in place; waiting on op-567 and op-569
 
 - **Unfinished:** nothing in hand. Next: verify each reply first-hand when it arrives. op-567 (gatekeeper1 proof of `mach-fixes-6@13628bbe`): on a pass, push `13628bbe` by hash (standing yes) and close. op-569 (Implementer, restarted in a new session): check the fixed RELEASE/KASAN runs of `9b958207`, `docs/op569-leftovers.md`, then size the review.
