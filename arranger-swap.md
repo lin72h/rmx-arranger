@@ -3496,3 +3496,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The four casts (op-572u to op-575u) dropped unsent. rmxOS uses meta-013/014 first; other projects are told after a trial, with any fixes found as a new meta change. now.md § Workflow says so.
 - state delta: op-572u to op-575u → dropped.
 - next: op-567 and op-569 replies; note any friction with tools/last or tools/brief-check for the trial.
+
+### j-20261008-038 — op-567 overdue check: work finished, reply pending relay
+
+- time / kind: 2026-10-08 / REVIEW (board marked op-567 overdue)
+- outcome: gatekeeper1 committed `rmx-gatekeeper1@6380913` (not yet on origin; reply not yet relayed). Its own record (`build/op567/findings.md`, not yet verified first-hand): base RELEASE and KASAN stop at the `ipc_right_dnrequest` assertion as expected; fixed KASAN complete and clean (93/93, 5/5 MIG, 400/400 repeat, power-off, no reports); fixed RELEASE HARNESS-FAIL from its own plan (cleanup calls and the repeat's working directory omitted; 68/93, repeat stopped), corrected and host-tested for KASAN; spare correctly not used; retry plan and retained installed pair need one test boot. A one-boot grant line was prepared for the Coordinator (brief-check clean).
+- state delta: none.
+- next: the reply; verify serials first-hand; send the grant; on full proof push `mach-fixes-6@13628bbe` and record the clean KASAN run for li-1015.

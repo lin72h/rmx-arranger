@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261008-2355 — op-567 done but partial; RELEASE retry needs one boot
+
+- **Unfinished:** op-567's reply (gatekeeper1 committed `6380913`; not relayed yet). On arrival: verify the base stops, the fixed KASAN serial (clean, 93/93, 400/400) and the RELEASE harness miss first-hand; record the reply; hand the Coordinator the one-boot grant (text in j-20261008-038's session; regenerate it if lost: fixed RELEASE only, `plans/fixed-release-retry.plan`, retained installed pair, brief's expectations). After the full proof: push `mach-fixes-6@13628bbe` by hash, close, and note the clean KASAN run for li-1015.
+- **Waiting on the Coordinator:** op-567's reply; op-568 on hold by choice.
+- **In flight:** op-567 gatekeeper1 (finished, reply pending); op-569 Implementer.
+- **Read first:** `/Users/me/wip-mach/rmx-gatekeeper1/build/op567/findings.md`; [LOCAL.md](LOCAL.md) § Verifying returns.
+- **Journal:** j-20261008-038 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261008-2354 — Trialling meta-013/014 in rmxOS; waiting on op-567 and op-569
 
 - **Unfinished:** nothing in hand. Next: verify op-567 (on a pass push `mach-fixes-6@13628bbe` by hash, close) and op-569 (fixed runs of `9b958207`, `docs/op569-leftovers.md`; draft the follow-up without asking). During the trial, journal any friction with `tools/last` or `tools/brief-check`; after a few days, propose announcing meta-013/014 to the other projects (casts were dropped unsent, j-20261008-037).
