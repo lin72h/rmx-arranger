@@ -1,15 +1,15 @@
 ---
 id: op-555
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 needs: op-552
-authority: libmach or test changes if the cause is there; existing op547 images and copies; 5 self-check boots; no push
+authority: libmach or test changes if the cause is there; op-552's overlay base and op-547 overlays (copies); 6 self-check boots; no push
 expected: 3h
-updated: 2026-10-08T02:41Z
+updated: 2026-10-08T03:15Z
 ---
-# op-555 — Implementer: op-550 mismatch, xpc_receive_test:peer_pending fact 13 (2 references instead of 1) on op-547's fixed image
+# op-555 — Implementer: op-550 mismatch (peer_pending fact 13) on op-547's pair, run as op-552 overlays (finishes op-552's checks)
 
 ## Outcome
 
@@ -33,12 +33,20 @@ in our kernel, and op-547 now creates and frees one reply-port name
 per thread, so name reuse timing changed; that is one possibility,
 not a finding.
 
-1. **Is it op-547?** The op-547 pair differs only in libmach
-   (`build/op547/r2/images/op547-{base,fixed}-tests-r2.raw`). On a copy
-   of each, run `xpc_receive_test:peer_pending` repeatedly (for
-   example 50 times per boot) and record every fact-13 value. If it
-   fails only on fixed, the change is involved; if on both, it is an
-   older intermittent problem.
+Use op-552's overlay route for all boots (`docs/overlay-disks.md`:
+base `build/op552/images/op552-overlay-base-r3.raw`, overlays
+`build/op552/overlays/op547-{base,fixed}/overlay.ufs`; install boot,
+then test boot). That also finishes op-552's unfinished checks.
+
+1. **Is it op-547?** The two overlays differ only in libmach. Base
+   overlay: install, then one test boot with the five
+   `mig_reply_ports_test` modes and `xpc_receive_test:peer_pending`
+   repeated (for example 50 times), recording every fact-13 value.
+   Fixed overlay: install, then one test boot with the five modes, all
+   93 earlier cases, and the same `peer_pending` repeat. Compare the
+   five modes with op-547's results. If fact 13 reads 2 only on fixed,
+   op-547 is involved; if on both, it is an older intermittent
+   problem.
 2. **Cause.** From the test (`tests/lib/libxpc/xpc_receive.zig`, the
    `peer_send_error` phase and its `report`), libxpc's send-error path
    and libmach, say what holds the second reference when fact 13 reads
@@ -46,14 +54,15 @@ not a finding.
    or a reference still in flight. Name it with file:line.
 3. **Fix within scope.** If the cause is in libmach (op-547's change)
    or is a test assumption about timing or names, fix it in this op
-   (test fixes on both branches, identical), rerun the repeat on both,
-   and run the full fixed suite once. If the cause is in libxpc, the
+   (test fixes on both branches, identical), rerun the repeat on both
+   with new overlays (two spare boots), and run the full fixed suite
+   once. If the cause is in libxpc, the
    kernel or launchd, stop and report it with file:line.
 
 Evidence: commits; your op record (`docs/op555-peer-pending.md`) with
-the repeat counts per image, the cause, the change if any, and the
-results; any new image hashes and BOMs (by path); the `selfcheck:`
-line.
+the repeat counts per overlay, the cause, the change if any, and the
+results; an addendum to `docs/overlay-disks.md` with the second-boot
+checks and test runs; overlay and base hashes; the `selfcheck:` line.
 
 ## Limits
 

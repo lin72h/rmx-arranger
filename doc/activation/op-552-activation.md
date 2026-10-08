@@ -1,13 +1,13 @@
 ---
 id: op-552
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-000
 authority: tool and image work; one new base image from op417; overlay images; 4 self-check boots; doas bhyve, vmm.ko; no push
 expected: 4h
 issued-at: 2026-10-08T02:24Z
-updated: 2026-10-08T02:24Z
+updated: 2026-10-08T03:15Z
 ---
 # op-552 — Implementer: overlay disks for the test loop (kernel-testing.md § 4.1): one verified base image plus a small changing disk
 
