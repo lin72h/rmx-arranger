@@ -3286,3 +3286,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-552 marked issued on "sent". op-549 reply recorded; review hash matches; `rmx-validator3@9c17fa4` local. CLOSE 9/10: reply-port creation and cleanup confined to the calling thread; the destructor uses a direct trap (`mach_misc.c:109-113`), so it cannot create a new port; fork clears the inherited slot before the child's MIG calls (libthr `thr_spec.c`); no static libmach consumer needs relinking (answers the `rescue` question); base reproduces shared names, wrong replies and missing exit cleanup. Untested: key/allocation exhaustion, arbitrary fork schedules. op-549 closed.
 - state delta: op-552 draft → issued; op-549 → closed.
 - next: op-550's reply; op-552's reply.
+
+### j-20261008-008 — op-550 FAILED on one earlier case (peer_pending fact 13); op-555 drafted, on hold behind op-552
+
+- time / kind: 2026-10-08 / REVIEW
+- outcome: Reply recorded as op-554u. Verified: `rmx-gatekeeper1@d37da446` on origin; all three serial hashes match. Base: five MIG expectations met. Fixed: five MIG modes PASS; 92/93 earlier, `xpc_receive_test:peer_pending` FAIL at `peer_send_error` fact 13 (remaining remote references 2, expected 1; serial line 5405). Repeat: 400/400 paced launchd cases, no missing reply, normal power-off (id-061's symptom gone). The case passed in op-505, op-511, op-534, op-540 and in the Implementer's op-547 run; per-thread reply ports change fd-name reuse timing, one possibility only. Not accepted; op-550 closed. op-555 drafted: repeat `peer_pending` on the op-547 base and fixed images (only libmach differs) to show whether op-547 is involved, find the second reference with file:line, fix in scope (libmach or test) or stop for libxpc/kernel. On hold `needs: op-552` (the Implementer is on op-552).
+- state delta: op-550 → closed (op-554u); op-555 hold.
+- next: op-552's reply releases op-555; or the Coordinator chooses to pause op-552 for op-555 (critical path).
