@@ -1,13 +1,13 @@
 ---
 id: op-560
-state: hold
+state: draft
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-061
 needs: op-559
 authority: 5 boots max on copies of op552-overlay-base-r3 with the op-559 overlays, 5 min each; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 2h
-updated: 2026-10-08T04:45Z
+updated: 2026-10-08T04:51Z
 ---
 # op-560 — Gatekeeper 1: adopt the overlay route and prove op-547 with the corrected peer_pending test
 
@@ -37,8 +37,16 @@ early in boot and reboots. Route and format:
 `/Users/me/wip-mach/rmx-implementer/docs/overlay-disks.md`. Add it to
 your maintained runner (two virtio disks: a copy of the base image and
 the overlay; no shares or network), checking the manifest hash printed
-on the serial log against the one you were given. Overlays, hashes
-and the exact boot route: `/Users/me/wip-mach/rmx-implementer/docs/op559-overlays.md`.
+on the serial log against the one you were given. Overlays and the
+exact boot route: `/Users/me/wip-mach/rmx-implementer/docs/op559-overlays.md`:
+- base image `/Users/me/wip-mach/rmx-implementer/build/op552/images/op552-overlay-base-r3.raw`
+  sha256 `6f3b6e54606cecfbe3572cf5e2dee156c42499d113909351b811c41abe974059`
+- base overlay `/Users/me/wip-mach/rmx-implementer/build/op559/overlays/op547-base/overlay.ufs`
+  sha256 `65163a61939c02ad7e049d5219f2818c5e6385210ce41c26c326894b0e96a285`
+- fixed overlay `/Users/me/wip-mach/rmx-implementer/build/op559/overlays/op547-fixed/overlay.ufs`
+  sha256 `cf48be91c8438f736ab6a1c69baf4418945bdd26380328760d1b2140e7f18a75`
+The two manifests (`manifest.tsv` beside each) differ only in libmach's
+three files.
 Each run is an install boot then a test boot.
 
 Proof:

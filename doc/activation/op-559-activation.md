@@ -1,12 +1,13 @@
 ---
 id: op-559
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
 authority: overlay builds only; no boots; no push
 expected: 45m
-updated: 2026-10-08T04:45Z
+issued-at: 2026-10-08T04:50Z
+updated: 2026-10-08T04:51Z
 ---
 # op-559 — Implementer: two overlays for op-547's corrected pair (no boots)
 

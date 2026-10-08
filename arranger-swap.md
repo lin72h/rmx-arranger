@@ -3356,3 +3356,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-558u; boot-7 serial hash matches. Fixed 93/93 + 5/5 + 50/50 `peer_pending`; corrected base 50/50; op-552's overlay checks complete. op-555 closed. The corrected test reached the fixed side as an update overlay on stopped checkpoints — fine for a self-check, too indirect for the proof — so op-559 (Implementer, no boots, ~45 min) builds two overlays straight from `83a04d93` and `d8437d85` for `op552-overlay-base-r3.raw`, and its brief announces the three new self-check rules (rendered: `rmx-implementer@426073d`; no separate cast). op-560 (gatekeeper1) adopts the overlay route in its runner and proves op-547 with the corrected test plus the 400-case launchd repeat; hold until op-559.
 - state delta: op-555 → closed (op-558u); op-559 draft; op-560 hold.
 - next: The Coordinator sends op-559.
+
+### j-20261008-018 — op-559 accepted; op-560 released
+
+- time / kind: 2026-10-08 / REVIEW
+- outcome: op-559 marked issued on the reply's arrival; reply recorded as op-561u. Verified: both overlay hashes and the base image hash match; the two `manifest.tsv` files differ in exactly three rows (libmach), same modes. op-559 closed. op-560 released with the base image and overlay paths and hashes written in. Note: the Implementer's `docs/overlay-disks.md` and `op559-overlays.md` use the word "payload" (9 and 2 times); left as is (records), watch for a gatekeeper1 filter stop.
+- state delta: op-559 → closed (op-561u); op-560 hold → draft.
+- next: The Coordinator sends op-560.
