@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261008-2358 — op-569 closed (setup timeout); op-577 ready to send
+
+- **Unfinished:** op-577 (Implementer: wider install window, fixed RELEASE and KASAN of `a35ce232`) is drafted and shown; set it issued when the Coordinator says sent. Then op-569's line is proven by gatekeeper1 (base `26b8c8ed` vs fixed `a35ce232`, both profiles) — draft that proof when op-577 is green. op-567: reply pending relay; grant one RELEASE retry boot (j-20261008-038).
+- **Waiting on the Coordinator:** sending op-577; relaying op-567's reply; op-568 on hold by choice.
+- **In flight:** op-567 gatekeeper1 (finished, reply pending).
+- **Read first:** `/Users/me/wip-mach/rmx-implementer/docs/op569-leftovers.md`; [LOCAL.md](LOCAL.md) § Verifying returns.
+- **Journal:** j-20261008-038 and j-20261008-039 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261008-2355 — op-567 done but partial; RELEASE retry needs one boot
 
 - **Unfinished:** op-567's reply (gatekeeper1 committed `6380913`; not relayed yet). On arrival: verify the base stops, the fixed KASAN serial (clean, 93/93, 400/400) and the RELEASE harness miss first-hand; record the reply; hand the Coordinator the one-boot grant (text in j-20261008-038's session; regenerate it if lost: fixed RELEASE only, `plans/fixed-release-retry.plan`, retained installed pair, brief's expectations). After the full proof: push `mach-fixes-6@13628bbe` by hash, close, and note the clean KASAN run for li-1015.

@@ -1,13 +1,13 @@
 ---
 id: op-569
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: sys/compat/mach fixes; tests in tests/sys/mach and tests/lib/libmach; kernel, mach.ko and test builds via tools/ci/build; overlays; 8 self-check boots; no push
 expected: 5h
 issued-at: 2026-10-08T08:23Z
-updated: 2026-10-08T08:23Z
+updated: 2026-10-08T10:57Z
 ---
 # op-569 — Implementer: finish the id-046 leftover batch (#8, N9, N10, #14): runs and record
 
