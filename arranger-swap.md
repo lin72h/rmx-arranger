@@ -3279,3 +3279,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Drafted op-552 for the idle Implementer: kernel-testing.md § 4.1 — one verified base image (op417 + `mach-fixes-6@e2fa6df9` world and libraries), a small overlay disk with an op's changed files and a hashed manifest as a second virtio disk, one guest route settled (loader reads kernel/modules from it, or a one-time rc install checked against the manifest then one reboot; no `bhyveload -h`), op-547's pair rebuilt as two overlays and compared, and a usage note for gatekeeper1 to adopt the same mechanism later (avoids two drifting loops). The wording check found "payload" (safety guide rule 4's never-use list) 14 times; renamed to "overlay" in the brief, kernel-testing.md and now.md, and added a word-table row.
 - state delta: op-552 draft.
 - next: The Coordinator sends op-552 (runs alongside op-549/550: new images only).
+
+### j-20261008-007 — op-552 sent; op-549 accepted (validator3 CLOSE 9/10 on op-547)
+
+- time / kind: 2026-10-08 / REVIEW
+- outcome: op-552 marked issued on "sent". op-549 reply recorded; review hash matches; `rmx-validator3@9c17fa4` local. CLOSE 9/10: reply-port creation and cleanup confined to the calling thread; the destructor uses a direct trap (`mach_misc.c:109-113`), so it cannot create a new port; fork clears the inherited slot before the child's MIG calls (libthr `thr_spec.c`); no static libmach consumer needs relinking (answers the `rescue` question); base reproduces shared names, wrong replies and missing exit cleanup. Untested: key/allocation exhaustion, arbitrary fork schedules. op-549 closed.
+- state delta: op-552 draft → issued; op-549 → closed.
+- next: op-550's reply; op-552's reply.
