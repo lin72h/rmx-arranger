@@ -3335,3 +3335,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator: the 14-hour gap was a pause while sleeping, and token exhaustion causes the others; both fine. Asked me to improve my part and record it for fresh sessions. Added LOCAL.md § Lessons for briefs → "Keeping rounds few: my part": draft the next op when one is sent; merge work sharing images/boots into one op; budget boots with room (overlay install+test = 2); ask only for evidence that decides acceptance (no custom checkers in self-check briefs); write every proof expectation from provenance; run the pre-brief checks; DDB dump first for hangs; answer in-op boot/permission requests at once with a send-ready line. The Implementer's light self-check rule (j-013) stays.
 - state delta: none (ops).
 - next: op-555's final reply.
+
+### j-20261008-015 — op-555 extra-boot grant relayed
+
+- time / kind: 2026-10-08 / ACTION (Coordinator)
+- outcome: The Coordinator relayed the boot-7 grant for op-555 (fixed checkpoint, after the collector fix's host preflight).
+- state delta: none (op-555 issued).
+- next: op-555's final reply.
