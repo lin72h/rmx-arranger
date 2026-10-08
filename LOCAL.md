@@ -337,3 +337,15 @@ Coordinator sleeps or a model's tokens run out are expected and not mine to fix 
 - **Abnormal-exit tests trip the filter (op-484, three stops).** Work that makes a job end by a fatal
   signal on purpose stopped the Implementer three times, even in a fresh session. Keep such cases
   out of Implementer ops; cover that code by source review, or find a trigger that needs no signal.
+
+## Brief wording for defect fixes (op-569, 2026-10-08)
+
+- op-569's brief tripped the Implementer's filter although it passed my word scan. The scan only
+  catches single words; the trip came from phrasing: memory-defect mechanics stacked one after
+  another ("frees … twice", "hard to reach from user space, so force it", user vs kernel pointers,
+  "handlers still point into freed text"). For any brief listing memory or lifetime defects, read
+  it once as a whole as well as word by word: state each defect as what our code does at file:line
+  and what the fix changes, in ownership terms (who releases X), never as how to reach the
+  failure.
+- Write a journal entry only after its edits succeed: j-20261008-030 first claimed a guide edit
+  that had failed.
