@@ -1,6 +1,6 @@
 ---
 id: op-555
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-061
@@ -8,7 +8,7 @@ needs: op-552
 authority: libmach or test changes if the cause is there; op-552's overlay base and op-547 overlays (copies); 6 self-check boots; no push
 expected: 3h
 issued-at: 2026-10-08T04:05Z
-updated: 2026-10-08T04:05Z
+updated: 2026-10-08T04:44Z
 ---
 # op-555 — Implementer: op-550 mismatch (peer_pending fact 13) on op-547's pair, run as op-552 overlays (finishes op-552's checks)
 

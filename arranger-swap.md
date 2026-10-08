@@ -3349,3 +3349,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator asked how close we are to an installer image on real x86 hardware, then made it a new milestone with high priority, not rushed: start only after the core kernel and core libraries are ready ("I don't want to deal with kernel panics on real hardware"). Opened `l1i/li-1015.md` (milestone-1 constituent): gate = Mach foundation round closed (id-046, id-061, id-052, id-051, CI id-047, clean KASAN suite run) and the core libraries' review-and-fix round closed with no open high-priority defect; state at opening (builds from source, GENERIC drivers, ZFS/launchd boot in bhyve, EFI loaders present; missing ESP/BIOS layout, `vt` console, network under launchd, x86-64-v3 CPU floor to verify, debug kernel options); plan (hardware image op → Coordinator's first boot as B0 → `bsdinstall` installer via id-012). Rows added to li-1000, roadmap.md, now.md.
 - state delta: li-1015 opened (gated).
 - next: op-555's final reply; the machine's details when the gate nears.
+
+### j-20261008-017 — op-555 accepted (boot 7 passed); op-559 (corrected overlays) drafted; op-560 (gatekeeper1 overlay route + proof) on hold
+
+- time / kind: 2026-10-08 / REVIEW
+- outcome: Reply recorded as op-558u; boot-7 serial hash matches. Fixed 93/93 + 5/5 + 50/50 `peer_pending`; corrected base 50/50; op-552's overlay checks complete. op-555 closed. The corrected test reached the fixed side as an update overlay on stopped checkpoints — fine for a self-check, too indirect for the proof — so op-559 (Implementer, no boots, ~45 min) builds two overlays straight from `83a04d93` and `d8437d85` for `op552-overlay-base-r3.raw`, and its brief announces the three new self-check rules (rendered: `rmx-implementer@426073d`; no separate cast). op-560 (gatekeeper1) adopts the overlay route in its runner and proves op-547 with the corrected test plus the 400-case launchd repeat; hold until op-559.
+- state delta: op-555 → closed (op-558u); op-559 draft; op-560 hold.
+- next: The Coordinator sends op-559.
