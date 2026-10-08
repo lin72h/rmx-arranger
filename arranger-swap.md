@@ -3391,3 +3391,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-563u. Verified: `rmx-gatekeeper1@95547543` on origin; the four boot serial hashes match; results 121 rows, no mismatches: base modes as expected, `peer_pending` 20/20 each overlay, fixed 93/93 + 5/5, 400/400 paced launchd cases, clean power-off; gatekeeper1's runner now handles overlays (runner note). With op-549 CLOSE 9/10, op-547 accepted. Pushed by hash `mach-fixes-6` `4de4d9ae..d8437d85` (fast-forward; the local branch has moved on in op-562) and `mach-fixes-6-op547-base` (`83a04d93`); rmx-implementer `main` pushed. Closed op-560, op-547; id-061 closed (reopen on any recurrence of a missing launchd reply or shutdown hang). now.md, roadmap, IDQ updated.
 - state delta: op-560, op-547 → closed; id-061 → CLOSED.
 - next: op-562's reply.
+
+### j-20261008-023 — op-562 returned: CI build stage works; first INVARIANTS finding (ipc_right.c:278); op-565 drafted
+
+- time / kind: 2026-10-08 / REVIEW
+- outcome: Reply recorded as op-564u. `testing-1` brought onto `mach-fixes-6` (`897a350e` mach.ko built with the kernel, `ff8a4d60` profile configs; local, not pushed); `tools/ci/build` builds a commit + profile into an overlay, including kernel replacement. Both RELEASE and KASAN (kernel-built `mach.ko`, assertions on) loaded the candidate kernel and stopped at case 7 (`xpc_receive_test:suspended_barrier`), 6/93 passed. Verified in source: `ipc_right_dnrequest` (`ipc_right.c:270-278`) initialises `port = NULL` and calls `ip_unlock_assert(port)` on the first loop pass, which expands to `io_unlock_assert(&(port)->ip_object)` (`ipc_port.h:287`): an assertion-only NULL read, compiled out before. op-562 closed. op-565 drafted: fix assertion-only defects one commit each (first `:278`), record real defects without fixing, rerun RELEASE and KASAN full suites after each fix; 6 boots.
+- state delta: op-562 → closed (op-564u); op-565 draft.
+- next: The Coordinator sends op-565.

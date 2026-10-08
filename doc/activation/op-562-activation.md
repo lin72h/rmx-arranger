@@ -1,13 +1,13 @@
 ---
 id: op-562
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-047
 authority: kernel, mach.ko and test builds (no world); overlays on op552-overlay-base-r3; 4 self-check boots; no push
 expected: 4h
 issued-at: 2026-10-08T04:55Z
-updated: 2026-10-08T04:55Z
+updated: 2026-10-08T05:36Z
 ---
 # op-562 — Implementer: CI build stage (id-047): candidate commit to RMXOS-RELEASE and KASAN overlays, mach.ko built with its kernel
 
