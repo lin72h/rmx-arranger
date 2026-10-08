@@ -3461,3 +3461,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent the reworded op-569 (`4f23d56`) to a new Implementer session. In flight: op-567 (gatekeeper1), op-569 (Implementer).
 - state delta: none.
 - next: op-567 and op-569 replies.
+
+### j-20261008-033 — Resume log: LAST.md and tools/last; AGENTS.md start-of-session rewritten
+
+- time / kind: 2026-10-08 / ACTION (Coordinator's design)
+- outcome: The Coordinator asked for a way to pick up after a context reset without relying on memory: links (not content) in AGENTS.md, and a newest-first LAST.md read with "continue", rotated at about 1 MB, linked to the journal; no global config. Done in this repo only: `LAST.md` (fixed header, entries `## L-<YYYYMMDD-HHMM> — title` with Unfinished / Waiting on the Coordinator / In flight / Read first / Journal); `tools/last` (Elixir, like the other tools: print newest, `add`, `list`; past 1 MiB keeps the newest 512 KiB and moves the rest to `doc/archive/LAST-<oldest>-to-<newest>.md`; tested in the scratchpad incl. rotation and a malformed entry). `arranger0/files/AGENTS.md`: "Start of a session, or 'continue'" (tools/last → check board, git status and newer journal entries → carry on) plus "Keep LAST.md current" and a Key files link table; rendered (`tools/roles check`: 0 need attention). `handoff.md` (stale, 2026-10-04) moved to `doc/archive/handoff-20261004.md`; now.md's banner points to `tools/last`. Not done (not decided): a SessionStart hook (the Coordinator ruled out config changes), the `rob show` brief check, Rule 7, LOCAL.md trim, a meta-NNN proposal.
+- state delta: none.
+- next: op-567 and op-569 replies; op-568 needs its path into this repo removed before release.

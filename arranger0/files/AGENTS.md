@@ -53,18 +53,49 @@ Preserve unrelated dirt, historical evidence, and explicit attempt/resource limi
 No implied permission for guest execution, host privilege/configuration, or
 publication; push any repo only when the Coordinator asks.
 
-## Start of a session
+## Start of a session, or "continue"
 
-- Read [now.md](now.md) (the critical path) and [LOCAL.md](LOCAL.md), then the journal
-  tail in [arranger-swap.md](arranger-swap.md), and check them against
-  `tools/rob board`, `tools/roles check`, the IDQ index, and `git status`.
-- Compare `workflow.lock` with `git -C ~/wip-workflow tag`: a `meta-NNN` newer than the pin is a
-  workflow change for rmxOS to take or delay (now.md § Workflow).
-- `tools/rob board` marks an issued op `(overdue ...)` once it runs past its `expected:` time: look
-  at that agent's commits and work directory first, and restart it if it has stopped (Rule 20).
-- For dispatch or review, read the applicable rulebook sections. For a narrow edit or
-  status question, inspect only relevant files; do not reload the whole governance
-  stack or audit the repo by default. `doc/archive/` is history, not guidance.
+A session can begin with no memory of the last one (a cleared or compacted context). When it
+does, or when the Coordinator writes only "continue":
+
+1. **Resume point.** Run `tools/last`: it prints the newest entry of [LAST.md](LAST.md), which
+   says what was unfinished, its next step, what waits on the Coordinator, and which files to
+   read first. Open those files.
+2. **Check nothing moved.** `tools/rob board` and `git status`, plus any journal entries in
+   [arranger-swap.md](arranger-swap.md) newer than the ones the entry names. An issued op marked
+   `(overdue ...)` comes first: look at that agent's commits and work directory, and restart it
+   if it has stopped (Rule 20).
+3. **Carry on** with the entry's next step, or with what the Coordinator asked instead.
+
+Once per session, before any dispatch or review: [now.md](now.md), [LOCAL.md](LOCAL.md),
+`tools/roles check`, and `workflow.lock` against `git -C ~/wip-workflow tag` (a newer `meta-NNN`
+is a workflow change to take or delay; now.md § Workflow). For a narrow edit or status question,
+inspect only the relevant files. `doc/archive/` is history, not guidance.
+
+**Keep LAST.md current.** Before ending any turn that leaves work unfinished, a question open
+or an op in flight, add an entry with `tools/last add` (only after the edits it describes have
+succeeded). Form: a heading `## L-<YYYYMMDD-HHMM> — <title>`, then five short lines:
+**Unfinished** (the task and its exact next step, or "none"), **Waiting on the Coordinator**,
+**In flight**, **Read first** (links to what the next step needs), **Journal** (the entries
+covered). Link out; do not copy content in.
+
+## Key files
+
+Links only; each file is read when its moment comes.
+
+| File | Read when |
+|---|---|
+| [LAST.md](LAST.md) | first in every session, through `tools/last` |
+| [now.md](now.md) | deciding what comes next on the critical path |
+| [LOCAL.md](LOCAL.md) | once per session: this instance's lessons and standing permissions |
+| [arranger-swap.md](arranger-swap.md) | the journal: one entry per state change or decision |
+| [safety-flag-avoidance.md](safety-flag-avoidance.md) | before showing any brief, cast, restart or continuation message |
+| [op-brief-forms.md](op-brief-forms.md) | writing a brief or a cast |
+| `~/wip-workflow/docs/forms.md` § Restart prompt | restarting an agent whose session stopped |
+| `~/wip-workflow/docs/method.md` § Wording | any text an agent will read |
+| [arranger-rulebook.md](arranger-rulebook.md) | dispatch and review |
+| [roles.md](roles.md) | review sizing, closure, templates and instances |
+| [kernel-reviews.md](kernel-reviews.md) | Mach review rounds and their findings |
 
 ## Ops
 

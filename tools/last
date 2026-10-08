@@ -1,0 +1,96 @@
+#!/usr/bin/env elixir
+# last — the Arranger's resume log, LAST.md: newest entry first, for picking up after a context reset.
+#
+#   tools/last             print the newest entry (what to resume)
+#   tools/last add [FILE]  put a new entry on top (from FILE or stdin; it starts with "## L-")
+#   tools/last list [N]    the newest N entry headings (default 10)
+#
+# LAST.md is a fixed header, then entries, each starting with "## L-<YYYYMMDD-HHMM> — <title>".
+# When the file passes 1 MiB, the older entries beyond the newest 512 KiB move to
+# doc/archive/LAST-<oldest>-to-<newest>.md, so `head` stays fast and the history stays on disk.
+
+defmodule Last do
+  @limit 1_048_576
+  @keep 524_288
+
+  def main(argv) do
+    root = Path.expand("..", __DIR__)
+    file = Path.join(root, "LAST.md")
+
+    case argv do
+      [] -> file |> entries() |> List.first() |> show()
+      ["add"] -> add(root, file, IO.read(:stdio, :eof))
+      ["add", src] -> add(root, file, File.read!(src))
+      ["list"] -> list(file, 10)
+      ["list", n] -> list(file, String.to_integer(n))
+      _ -> IO.puts(:stderr, "usage: tools/last [add [FILE] | list [N]]") && System.halt(2)
+    end
+  end
+
+  defp show(nil), do: IO.puts("LAST.md has no entries.")
+  defp show(entry), do: IO.write(entry)
+
+  defp list(file, n) do
+    file |> entries() |> Enum.take(n) |> Enum.each(&IO.puts(first_line(&1)))
+  end
+
+  defp add(root, file, text) do
+    text = String.trim(text) <> "\n\n"
+
+    unless String.starts_with?(text, "## L-") do
+      IO.puts(:stderr, "an entry starts with \"## L-<YYYYMMDD-HHMM> — <title>\"")
+      System.halt(1)
+    end
+
+    {head, old} = split(File.read!(file))
+    all = [text | old]
+    {kept, moved} = rotate(all)
+    File.write!(file, head <> Enum.join(kept))
+    if moved != [], do: archive(root, moved)
+    IO.puts("LAST.md: " <> first_line(text))
+  end
+
+  # Keep the newest entries up to @keep bytes once the whole log passes @limit.
+  defp rotate(all) do
+    if all |> Enum.map(&byte_size/1) |> Enum.sum() <= @limit do
+      {all, []}
+    else
+      {kept, _} =
+        Enum.reduce_while(all, {[], 0}, fn e, {acc, size} ->
+          if size + byte_size(e) > @keep and acc != [],
+            do: {:halt, {acc, size}},
+            else: {:cont, {[e | acc], size + byte_size(e)}}
+        end)
+
+      kept = Enum.reverse(kept)
+      {kept, Enum.drop(all, length(kept))}
+    end
+  end
+
+  defp archive(root, moved) do
+    ids = Enum.map(moved, &entry_id/1)
+    name = "LAST-#{List.last(ids)}-to-#{List.first(ids)}.md" |> String.replace("L-", "")
+    path = Path.join([root, "doc", "archive", name])
+    File.write!(path, "# LAST.md archive (newest first)\n\n" <> Enum.join(moved))
+    IO.puts("archived #{length(moved)} entries to doc/archive/#{name}")
+  end
+
+  defp entries(file), do: file |> File.read!() |> split() |> elem(1)
+
+  # The header is everything before the first entry heading; only "## L-" lines start entries.
+  defp split(content) do
+    [head | rest] = String.split(content, ~r/^(?=## L-)/m)
+    {head, rest}
+  end
+
+  defp first_line(entry), do: entry |> String.split("\n", parts: 2) |> hd()
+
+  defp entry_id(entry) do
+    case Regex.run(~r/^## (L-\d{8}-\d{4})/, entry) do
+      [_, id] -> id
+      _ -> "undated"
+    end
+  end
+end
+
+Last.main(System.argv())
