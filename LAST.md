@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261008-2349 — Workflow meta-013/014 done; four casts to relay
+
+- **Unfinished:** the four casts (op-572u to op-575u) await the Coordinator's relay; when told they were sent, retire each (`tools/rob set op-NNNu closed`). Then: verify op-567 (on a pass push `mach-fixes-6@13628bbe` by hash, close) and op-569 (fixed runs of `9b958207`, `docs/op569-leftovers.md`).
+- **Waiting on the Coordinator:** relay of op-572u to op-575u; op-568 on hold by choice (refresh its pin at release).
+- **In flight:** op-567 gatekeeper1; op-569 Implementer (restarted 2026-10-08).
+- **Read first:** `~/wip-workflow/CHANGELOG.md` meta-013 and meta-014; [LOCAL.md](LOCAL.md) § Verifying returns.
+- **Journal:** j-20261008-036 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261008-2328 — Safety guide aligned; waiting on op-567 and op-569
 
 - **Unfinished:** nothing in hand. Next: verify op-567 (on a pass push `mach-fixes-6@13628bbe` by hash, close) and op-569 (fixed RELEASE/KASAN runs of `9b958207`, `docs/op569-leftovers.md`; then draft the follow-up without asking).

@@ -108,16 +108,17 @@ wording is now part of brief quality.
 
 Check the agent's commits and work directory, reword the brief, and restart (Rule 7). Record the
 stop and the likely trigger in the journal, add the phrasing to the table above, and add a matching
-pattern to `tools/brief-check`.
+pattern to `brief-check.conf`.
 
 ## Where it is applied
 
 - **Every agent's instructions:** the shared project-context text in `rmx-role0`
   (`partials/project-context.md`, rendered into every role's AGENTS.md) gives the positive half
   only: what the project is, and "describe it in engineering terms". Done 2026-10-01.
-- **`tools/brief-check`** (Arranger-only): fails on a missing context sentence (rule 1), on rule-4
+- **`tools/brief-check`** (the workflow's shared tool, meta-014; rmxOS's patterns in
+  `brief-check.conf`, Arranger-only): fails on a missing context sentence (rule 1), on rule-4
   words, and on any path into the Arranger's repo; warns on the phrasings in the table and rule 9,
-  matched across line wraps. Keep its patterns in step with the table.
+  matched across line wraps. Keep `brief-check.conf` in step with the table.
 - **The Arranger's own instructions:** AGENTS.md § Ops runs the check before any text for an
   agent, and LOCAL.md § Before showing a brief holds the rest of the checklist, including the
   whole-text read.

@@ -89,7 +89,7 @@ Links only; each file is read when its moment comes.
 | [now.md](now.md) | deciding what comes next on the critical path |
 | [LOCAL.md](LOCAL.md) | once per session: this instance's lessons and standing permissions |
 | [arranger-swap.md](arranger-swap.md) | the journal: one entry per state change or decision |
-| `tools/brief-check` and [LOCAL.md](LOCAL.md) § Before showing a brief | before showing any brief, cast, restart prompt or answer |
+| `tools/brief-check` ([brief-check.conf](brief-check.conf)) and [LOCAL.md](LOCAL.md) § Before showing a brief | before showing any brief, cast, restart prompt or answer |
 | [safety-flag-avoidance.md](safety-flag-avoidance.md) | work about crashes, signals, sanitizers or memory defects; after a filter stop |
 | [op-brief-forms.md](op-brief-forms.md) | writing a brief or a cast |
 | `~/wip-workflow/docs/forms.md` § Restart prompt | restarting an agent whose session stopped |
