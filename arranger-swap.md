@@ -3433,3 +3433,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator queued op-568 (advisor2, id-052 review) for later; moved draft → hold. Brief kept as written, pinned at `13628bbe`; refresh the pin when released.
 - state delta: op-568 draft → hold.
 - next: op-567's reply; propose id-046's leftover batch (#8, N9, N10, #14) for the idle Implementer.
+
+### j-20261008-029 — op-569 drafted: id-046 leftover batch (#8, N9, N10, #14)
+
+- time / kind: 2026-10-08 / ACTION (Coordinator: "do it")
+- outcome: Drafted the leftover batch proposed on 2026-10-03 for the idle Implementer. Rechecked each finding at `13628bbe`: #8 `mach_vm.c:654` frees `copy` on failure and `ipc_kmsg.c:2512` discards it again (plus the allocation at `:612` is not released); N9 `clock_get_time` copyout into MIG's kernel reply field (`mach_clock.c:111-118`, `clock_server.c:336`) and `mach_vm_machine_attribute` through `&In0P->value`; N10 allocate/destroy/`mach_vm_*` traps return through the error path, libmach passes it through (`mach_misc.c:78`), so callers see -1; #14 SYSINIT-registered task/thread event handlers survive the `!cold` refusal in `mach_mod_init`. One commit and failing-first test each; #8 uses a fail(9) point. Base = op-565's overlays; fixed RELEASE and KASAN full suites; 8 boots. Kernel and tests only; callers relying on -1 listed, not changed. Excluded on purpose: §3 VM items (wait for op-568), S6 (propose: known 1.0 gap), #1/A1 (sanitizer runs). Runs alongside op-567 (new commits on top of `13628bbe`, new overlays). Safety guide checked.
+- state delta: op-569 draft.
+- next: The Coordinator sends op-569; op-567's reply.
