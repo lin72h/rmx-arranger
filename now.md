@@ -102,7 +102,7 @@ Swift on rmxOS's real libdispatch, one copy per process: [swift-real-libdispatch
 
 ## In parallel
 
-Kernel testing speed: proposal in [kernel-testing.md](kernel-testing.md) (payload disks, an Implementer
+Kernel testing speed: proposal in [kernel-testing.md](kernel-testing.md) (overlay disks, an Implementer
 inner loop, no world builds for kernel batches). It awaits the Coordinator.
 
 

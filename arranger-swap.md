@@ -3272,3 +3272,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-549 (validator3) and op-550 (gatekeeper1) and relayed op-551u; marked at once.
 - state delta: op-549, op-550 draft → issued; op-551u → closed.
 - next: Both replies. Meanwhile the payload-disk op (kernel-testing.md § 4.1) can be drafted for the idle Implementer.
+
+### j-20261008-006 — op-552 drafted (overlay disks); "payload" renamed "overlay"
+
+- time / kind: 2026-10-08 / ACTION
+- outcome: Drafted op-552 for the idle Implementer: kernel-testing.md § 4.1 — one verified base image (op417 + `mach-fixes-6@e2fa6df9` world and libraries), a small overlay disk with an op's changed files and a hashed manifest as a second virtio disk, one guest route settled (loader reads kernel/modules from it, or a one-time rc install checked against the manifest then one reboot; no `bhyveload -h`), op-547's pair rebuilt as two overlays and compared, and a usage note for gatekeeper1 to adopt the same mechanism later (avoids two drifting loops). The wording check found "payload" (safety guide rule 4's never-use list) 14 times; renamed to "overlay" in the brief, kernel-testing.md and now.md, and added a word-table row.
+- state delta: op-552 draft.
+- next: The Coordinator sends op-552 (runs alongside op-549/550: new images only).

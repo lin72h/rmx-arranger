@@ -84,6 +84,7 @@ wording is now part of brief quality.
 | poisoned storage / poison bytes | storage filled with a known non-zero pattern |
 | use-after-free, overflow | keep the terms, but always as "a defect in our code at <file:line>" |
 | inspect / observe PID 1 from outside; `task_for_pid` on another process | launchd's test build logs its own demand-set state |
+| payload disk (kernel-testing.md's term until 2026-10-08) | overlay disk: the small disk with an op's changed files |
 | "hook" for a diagnostic (invites wrapping or intercepting calls) | debug logging in our own test build; a kernel debugger dump |
 | a thread inside PID 1 / inject a library into init | a test-only hook compiled into launchd's fixture build |
 | capture another process's ports, stacks, rights | record our own state at the point of failure (`procstat -kk` of a test VM's launchd, in a test boot) |
