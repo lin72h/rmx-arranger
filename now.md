@@ -95,6 +95,12 @@ the rx-x64z seat). Image staging uses the ZFS dataset `zroot/wip-mach-stage` at
 `/Users/me/wip-mach/stage` (64 GB quota, owned by `me`), a device distinct from `/` as the PID-1
 contract requires (j-20260928-035).
 
+## Real hardware (li-1015, high; Coordinator 2026-10-08)
+
+Bootable disk image, then a `bsdinstall` installer. **Gated:** starts only after the core kernel
+(Mach foundation round, CI, KASAN) and the core libraries (review-and-fix round) are ready — no
+kernel panics on real hardware. Plan and missing pieces in [l1i/li-1015.md](l1i/li-1015.md).
+
 ## Swift integration (restarted 2026-10-02)
 
 Swift on rmxOS's real libdispatch, one copy per process: [swift-real-libdispatch.md](swift-real-libdispatch.md)

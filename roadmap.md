@@ -49,6 +49,7 @@ remaining gaps named and bounded. We certify the surface we exercise.
 | PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log queue fixed (op-449, op-470); id-061 fixed pending proof; id-060 open |
 | Upper components: libnotify, launchd, libxpc deep reviews (op-384 to op-386) | held until the Mach round is done |
 | asl leg 4 (id-011); libxpc lifecycle (id-021, incl. sync-reply waits on the event queue) | open, after the Mach round |
+| **Real x86 hardware: bootable disk image, then installer (li-1015, high)** | gated: after the core kernel and core libraries are ready |
 | Final integration soak and ship stamp (id-042) | last |
 
 ## Milestone 1 constituents
@@ -65,6 +66,7 @@ Full table and retirement rule: [l1i/li-1000.md](l1i/li-1000.md). In short:
 | li-1006 | launchd as PID-1 core service | PID 1 by default; step 4 adapted; child-task setters fixed (op-516); id-061 fix in proof |
 | li-1007 | integration soak | not started |
 | li-1008 | known gaps cataloged | ongoing |
+| li-1015 | rmxOS on real x86 hardware | gated on core kernel + core libraries (2026-10-08, high) |
 
 ## After the preview
 

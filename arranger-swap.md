@@ -3342,3 +3342,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator relayed the boot-7 grant for op-555 (fixed checkpoint, after the collector fix's host preflight).
 - state delta: none (op-555 issued).
 - next: op-555's final reply.
+
+### j-20261008-016 — li-1015 opened: rmxOS on real x86 hardware (high, gated)
+
+- time / kind: 2026-10-08 / DECISION (Coordinator)
+- outcome: The Coordinator asked how close we are to an installer image on real x86 hardware, then made it a new milestone with high priority, not rushed: start only after the core kernel and core libraries are ready ("I don't want to deal with kernel panics on real hardware"). Opened `l1i/li-1015.md` (milestone-1 constituent): gate = Mach foundation round closed (id-046, id-061, id-052, id-051, CI id-047, clean KASAN suite run) and the core libraries' review-and-fix round closed with no open high-priority defect; state at opening (builds from source, GENERIC drivers, ZFS/launchd boot in bhyve, EFI loaders present; missing ESP/BIOS layout, `vt` console, network under launchd, x86-64-v3 CPU floor to verify, debug kernel options); plan (hardware image op → Coordinator's first boot as B0 → `bsdinstall` installer via id-012). Rows added to li-1000, roadmap.md, now.md.
+- state delta: li-1015 opened (gated).
+- next: op-555's final reply; the machine's details when the gate nears.
