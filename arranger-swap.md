@@ -3321,3 +3321,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator asked again whether we are churning. Product work is not (id-061 cause found and fixed in one op, CLOSE 9/10; `peer_pending` pre-existing and fixed in one op). Process churn: boot budgets too tight for harness failures (extra-boot grants in op-516 and op-555); two separate fragile harnesses (Implementer and gatekeeper1); flaky tests found only in proofs. implementer0 OPS.md § Self-check (`rmx-implementer@` next commit): up to 2 boots beyond budget for boots that fail by the Implementer's own harness/setup before any test result, each recorded; every new or changed case runs 10 times on fixed. To render with a cast after op-555's extra boot. One shared runner to be folded into the gatekeeper1 overlay adoption op after op-547's re-proof.
 - state delta: none (ops).
 - next: op-555's final reply; render rmx-implementer and cast; gatekeeper1 re-proof plus overlay/runner adoption.
+
+### j-20261008-013 — Why the Implementer looks slow: measured; light self-check rule queued
+
+- time / kind: 2026-10-08 / DECISION (within delegated test-loop authority)
+- outcome: Measured sent → record commit: op-532 14 min, op-541 27 min, op-555 42 min, op-552 48 min, op-544 ~50 min, op-516 ~2.5 h, op-547 14.5 h (boot 4 at 10-08 01:08, boot 5 at 14:56: a 14-hour idle gap). Per-op work is fast; total time comes from idle gaps between rounds, the number of rounds (~20 Implementer ops in two days, many from early stops), and self-check ceremony: custom fact checkers, negative controls and provenance files for runs OPS.md calls not evidence (op-555: 45 such files; op-547: 27), whose own checkers caused several false BLOCKEDs (op-544, op-552, op-555). implementer0 OPS.md § Self-check (`rmx-implementer@` latest): keep self-checks light — ATF counts and serial path; tests assert their own facts; strict checking stays with the Gatekeeper. Rendered with the two j-012 rules and one cast after op-555.
+- state delta: none (ops).
+- next: op-555's final reply; render and cast; gatekeeper1 re-proof.
