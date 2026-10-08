@@ -1,12 +1,12 @@
 ---
 id: op-574u
-state: draft
+state: dropped
 cast: unicast
 agent: swift-sdk-arranger
 repo: /Users/me/wip-swift-sdk/agent-arranger
 idq: meta-014
 expected: 10m
-updated: 2026-10-08T10:48Z
+updated: 2026-10-08T10:54Z
 ---
 # op-574u — To the swift-sdk Arranger: reread CHANGELOG meta-013 and meta-014
 

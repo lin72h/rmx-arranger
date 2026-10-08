@@ -1,12 +1,12 @@
 ---
 id: op-573u
-state: draft
+state: dropped
 cast: unicast
 agent: depthai-arranger
 repo: /Users/me/wip-depthai/agent-arranger
 idq: meta-014
 expected: 10m
-updated: 2026-10-08T10:48Z
+updated: 2026-10-08T10:54Z
 ---
 # op-573u — To the depthai Arranger: reread CHANGELOG meta-013 and meta-014
 

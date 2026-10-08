@@ -3489,3 +3489,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: `~/wip-workflow` per docs/improving.md. **meta-013** (`8bd143f`, tag): shared `tools/last` (ROB_ROOT like rob; creates LAST.md with its header; tests last 6/6), base Arranger AGENTS.md § Start of a session, or "continue" / § Keep LAST.md current / § Key files (block `session_extra` kept, new `key_files_extra`; no project overrides either), method § supervision, scaffold `LAST.md` and wrapper, onboarding and README. **meta-014** (`1b4a22b`, tag): shared `tools/brief-check` (always fails paths into the Arranger repo; project checks in an Arranger-only `brief-check.conf`: context/needs-context, fail, warn across line wraps, pointer; tests 6/6), base Ops rule and Key files row, method § Wording, scaffold wrapper and a comments-only conf. Checks: rob 27/27, roles 20/20 (run for each change), the scaffold renders with no unresolved markers. rmxOS took both: `workflow.lock` → meta-014 (`roles check`: 0 need attention; rmxOS's templates do not derive from the base, so no re-render), `tools/last` and `tools/brief-check` now wrappers with outputs compared identical (LAST newest and list; brief-check on op-569's original, op-567, op-568, op-569), rmxOS patterns moved to `brief-check.conf`; safety guide and AGENTS key files point to it; projects.md row updated. Casts op-572u (zenoh-swift), op-573u (depthai), op-574u (swift-sdk), op-575u (fstack) drafted. op-570, op-571 closed.
 - state delta: op-570, op-571 → closed; op-572u to op-575u draft.
 - next: The Coordinator relays the four casts; op-567 and op-569 replies.
+
+### j-20261008-037 — meta-013/014 announcements held: test in rmxOS first
+
+- time / kind: 2026-10-08 / DECISION (Coordinator: "don't need let them know, we test first")
+- outcome: The four casts (op-572u to op-575u) dropped unsent. rmxOS uses meta-013/014 first; other projects are told after a trial, with any fixes found as a new meta change. now.md § Workflow says so.
+- state delta: op-572u to op-575u → dropped.
+- next: op-567 and op-569 replies; note any friction with tools/last or tools/brief-check for the trial.
