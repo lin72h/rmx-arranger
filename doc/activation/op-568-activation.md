@@ -92,6 +92,12 @@ not passed over Unix sockets or inherited by `fork`.
   `/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md`.
 - S1 evidence: `/Users/me/wip-mach/rmx-implementer/build/op565/runs/rmx-selfcheck-op565-release-r1-1791444650/tests/serial.txt`
   and `.../rmx-selfcheck-op565-kasan-r1-1791444924/tests/serial.txt`.
+- Already known, do not report again: `mach_vm_protect` takes FreeBSD's
+  one-byte `vm_prot_t`, so unsupported high protection bits are dropped
+  before any check (fix in progress); the VM wrappers ignore their
+  target task, drop `set_maximum`, return errno through the MIG route
+  and skip `RLIMIT_VMEM` and RACCT (fixes planned). Look for what else
+  is wrong in these routines.
 - XNU, read-only: `/Users/me/wip-mach/reference/xnu-xnu-12377.121.6/`
   (`osfmk/kern`, `osfmk/vm`); NextBSD, read-only:
   `/Users/me/wip-mach/nx/NextBSD-NextBSD-CURRENT/`.

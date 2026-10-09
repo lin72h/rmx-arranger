@@ -169,7 +169,13 @@ and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
 | **Not scheduled** | #8 (failed OOL copyout double free), N9 (MIG passes kernel pointers to user-pointer handlers), N10 (two trap return conventions), #14 (failed load leaves hooks; id-045), S6 (KBI field shifts), §3 VM wrappers (target map, `setmax`, errno, RLIMIT_VMEM/RACCT, malloc M_NOWAIT), §3 AUDIT_SYSCLOSE and debug sysctls, #1 (assertion only under INVARIANTS), A1 (uninitialized message bytes, KMSAN check) |
 | Retracted | §3 workqueue per-thread state (op-393) |
 
-Proposed for the leftovers (awaiting the Coordinator): a small batch after step 4 for #8, N9, N10
+Decided 2026-10-09 (the Coordinator left it to the Arranger, j-20261009-009): #8, N9, N10, #14 are
+op-569 (with the `vm_protect` protection-bit fix, op-579); S6, the § 3 VM wrappers, the debug
+sysctls and `twq_proc_exec` placement are **fixed** in op-583; known 1.0 gaps: cross-task VM
+operations (refused) and OOL allocation failure under memory pressure; AUDIT_SYSCLOSE is checked
+against the kernel build; #1 and A1 stay with the KASAN/KMSAN runs.
+
+Earlier proposal: a small batch after step 4 for #8, N9, N10
 and #14; S6 and the §3 VM and audit items either fixed or recorded as known 1.0 gaps; #1 and A1
 covered by the KASAN/KMSAN runs (instrumentation 1.0).
 
