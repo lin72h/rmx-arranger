@@ -3643,3 +3643,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Before announcing, fixed the two defects the rmxOS trial found, one meta change each: meta-015 `tools/last` prints usage for `-h`, `--help`, `help`, `add --help` (it read `--help` as a file; test added, last 7/7); meta-016 each meta change sets the scaffold's pin to its own tag (docs/improving.md step 3 and § Tested; scaffold now at meta-016; the scaffold renders at meta-016, 1 instance, 0 need attention, no unresolved markers). All tool tests pass: rob 27/27, roles 20/20, last 7/7, brief-check 6/6. Tagged, pushed with tags. rmxOS took both (`workflow.lock` meta-016; `tools/roles check` 10 instances, 0 need attention; no re-render needed). projects.md updated (and zenoh-swift's row corrected: its lock pins meta-012). Casts drafted, one per other project Arranger (method: only Arrangers hear of workflow changes): op-591u zenoh-swift (also: pass changes on to its child wip-network, already at meta-014), op-592u depthai, op-593u swift-sdk, op-594u fstack; all brief-check clean. The held op-573u to op-575u (dropped 2026-10-08) are superseded. rmxOS's own agents need no cast: their instructions did not change.
 - state delta: op-591u to op-594u draft.
 - next: the Coordinator relays the four casts; close each when sent.
+
+### j-20261010-005 — Casts sent; op-590 sent; wip-network recorded as a grandchild
+
+- time / kind: 2026-10-10 / DISPATCH
+- outcome: The Coordinator sent op-591u to op-594u and op-590. The Implementer is already at work (`build/op590/`; test-only commits `df3e8809`, `b61f0f91` on `mach-fixes-6`). wip-network is live under zenoh-swift: its parent rewrote the onboarding op (parent-log p-20261010-003: alternative transports for Swift Zenoh, kernel SCTP first) and lists it in its children table; its repo is at `6bb5e31` with op-004 issued. roles.md § Arranger tree now names it as a grandchild (zenoh-swift's direct child, not this Arranger's).
+- state delta: op-591u to op-594u → closed; op-590 draft → issued.
+- next: op-590's reply.

@@ -67,6 +67,10 @@ project's Arranger, its front panel.
 |---|---|---|
 | zenoh-swift | `/Users/me/wip-rbzq/agent-arranger` | 2026-10-04 |
 
+Further down, not direct children (each Arranger deals only with its own): wip-network
+(`/Users/me/wip-network/agent-arranger`), zenoh-swift's child since 2026-10-10, set up from the
+scaffold by this Arranger at the Coordinator's request (op-588u).
+
 The workflow itself, which every project in the tree shares (the method, base templates, tools and
 onboarding kit), lives in `~/wip-workflow`, maintained by this Arranger as the tree's root
 (Coordinator, 2026-10-04). Its `projects.md` mirrors this table.

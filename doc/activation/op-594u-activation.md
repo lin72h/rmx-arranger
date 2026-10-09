@@ -1,12 +1,13 @@
 ---
 id: op-594u
-state: draft
+state: closed
 cast: unicast
 agent: fstack-arranger
 repo: /Users/me/wip-fstack/agent-arranger
 idq: meta-016
 expected: 30m
-updated: 2026-10-09T21:28Z
+issued-at: 2026-10-09T21:46Z
+updated: 2026-10-09T21:46Z
 ---
 # op-594u — To the fstack Arranger: workflow meta-013 to meta-016 are ready to take
 

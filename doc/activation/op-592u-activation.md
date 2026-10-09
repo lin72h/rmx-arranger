@@ -1,12 +1,13 @@
 ---
 id: op-592u
-state: draft
+state: closed
 cast: unicast
 agent: depthai-arranger
 repo: /Users/me/wip-depthai/agent-arranger
 idq: meta-016
 expected: 30m
-updated: 2026-10-09T21:28Z
+issued-at: 2026-10-09T21:45Z
+updated: 2026-10-09T21:45Z
 ---
 # op-592u — To the depthai Arranger: workflow meta-013 to meta-016 are ready to take
 

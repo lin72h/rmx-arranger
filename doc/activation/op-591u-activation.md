@@ -1,12 +1,13 @@
 ---
 id: op-591u
-state: draft
+state: closed
 cast: unicast
 agent: zenoh-swift-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
 idq: meta-016
 expected: 30m
-updated: 2026-10-09T21:28Z
+issued-at: 2026-10-09T21:45Z
+updated: 2026-10-09T21:45Z
 ---
 # op-591u — To the zenoh-swift Arranger: workflow meta-013 to meta-016 are ready to take
 

@@ -1,12 +1,13 @@
 ---
 id: op-593u
-state: draft
+state: closed
 cast: unicast
 agent: swift-sdk-arranger
 repo: /Users/me/wip-swift-sdk/agent-arranger
 idq: meta-016
 expected: 30m
-updated: 2026-10-09T21:28Z
+issued-at: 2026-10-09T21:45Z
+updated: 2026-10-09T21:45Z
 ---
 # op-593u — To the swift-sdk Arranger: workflow meta-013 to meta-016 are ready to take
 
