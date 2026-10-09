@@ -1,12 +1,13 @@
 ---
 id: op-588u
-state: draft
+state: closed
 cast: unicast
 agent: zenoh-swift-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
 idq: meta-000
 expected: 10m
-updated: 2026-10-09T20:45Z
+issued-at: 2026-10-09T21:07Z
+updated: 2026-10-09T21:07Z
 ---
 # op-588u — To the zenoh-swift Arranger: you are the parent of a new project, wip-network
 

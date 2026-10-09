@@ -1,6 +1,6 @@
 ---
 id: op-586
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ needs: op-583
 authority: product commits on mach-fixes-6 in wip-rmxos (item 0 and one per finding group); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-583 runner; no push
 expected: 7h
 issued-at: 2026-10-09T20:44Z
-updated: 2026-10-09T20:44Z
+updated: 2026-10-09T21:08Z
 ---
 # op-586 — Implementer: op-568's host, task and VM findings — three panic paths, VM copy and map semantics, truthful task routines
 

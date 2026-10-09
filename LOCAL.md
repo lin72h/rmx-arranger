@@ -68,6 +68,10 @@ op-365/366/367 calibration and older notes are in
   one op. When an agent asks for one more boot or a small permission inside the op's purpose,
   answer at once with a ready-to-send op (a call through `tools/rob new`, `needs:` the original; op-581).
 
+- A self-check brief lets the Implementer fix a wrong *new* test (input, setup or expected value
+  against the briefed behaviour) and rerun within its boots; it stops only on a product failure or
+  an earlier accepted test failing. Three rounds were lost without this (op-577, op-583, op-586).
+
 ## Verifying returns
 
 - Resolve every commit in a reply with `git rev-parse` before citing or pushing it.
