@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1800 — meta-017/018 taken; four casts and the op-598 restart to relay
+
+- **Unfinished:** relay op-599u to op-602u (close when sent) and restart gatekeeper1 with [doc/restarts/op-598-r1.txt](doc/restarts/op-598-r1.txt). On op-598's acceptance: push `mach-fixes-6@b61f0f916417`, close id-046's batch, update now.md and roadmap; then id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek), with meta-018's base-evidence rule.
+- **Waiting on the Coordinator:** the casts; the gatekeeper1 restart; which other seats run GLM or DeepSeek.
+- **In flight:** op-598 gatekeeper1 (restarting).
+- **Read first:** [doc/restarts/op-598-r1.txt](doc/restarts/op-598-r1.txt); `~/wip-workflow/CHANGELOG.md` § meta-017, meta-018.
+- **Journal:** j-20261010-010 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1700 — op-598: gatekeeper1 stopped after its boots; restart prompt ready
 
 - **Unfinished:** the Coordinator restarts gatekeeper1 in a new session with [doc/restarts/op-598-r1.txt](doc/restarts/op-598-r1.txt) (record-only; all eight boots done). On op-598's acceptance: push `mach-fixes-6@b61f0f916417`, close id-046's batch, update now.md and roadmap; then draft id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek).

@@ -113,6 +113,12 @@ pattern to `brief-check.conf`.
 
 ## Where it is applied
 
+- **Shared with every project (meta-017, meta-018):** the generic patterns now live in
+  `~/wip-workflow/tools/brief-check.base.conf`, with a warning when three or more failure-term
+  families appear in one text; rmxOS's `brief-check.conf` keeps only its own lines. Proof ops for
+  memory-safety fixes show the base by the test's failure line or a sanitizer report plus a source
+  trace, not by a deliberate crash (method § Wording).
+
 - **Every agent's instructions:** the shared project-context text in `rmx-role0`
   (`partials/project-context.md`, rendered into every role's AGENTS.md) gives the positive half
   only: what the project is, and "describe it in engineering terms". Done 2026-10-01.
