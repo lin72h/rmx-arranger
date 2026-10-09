@@ -1,12 +1,13 @@
 ---
 id: op-579
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: one product commit on mach-fixes-6 in wip-rmxos; rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-577 runner; no push
 expected: 3h
-updated: 2026-10-09T00:16Z
+issued-at: 2026-10-09T00:18Z
+updated: 2026-10-09T00:18Z
 ---
 # op-579 — Implementer: reject unsupported protection bits in mach_vm_protect before narrowing; rebuild and self-check both profiles
 

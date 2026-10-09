@@ -3531,3 +3531,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-578u. Verified first-hand: `2ed10e7`, `c728342` resolve (rmx-implementer, pushed now); both serial sha256 match; test serial shows ten `trap=vm_protect number=614 expected=4 observed=0` from line 4211, no panic or fatal trap, `Uptime: 2m46s`. The source trace holds at `a35ce232`: `mach_traps.c:518` passes an `int` `new_protection` to `mach_vm_protect(..., vm_prot_t prot)` (`mach_vm.c:246`), and `vm.h:70` makes `vm_prot_t` a `u_char`, so `0x40000000` reaches `sys_mprotect` as 0 and the trap reports success. Judgement differs from the reply: the test input is right (XNU rejects unknown bits with `KERN_INVALID_ARGUMENT`); our shim drops them and sets PROT_NONE, so the fix goes in the product and the existing failing case is its regression test. The MIG request field is also `vm_prot_t` (`mach_vm_server.c:142`); its kernel/userland width is unchecked, so op-579 asks for a layout comparison first. Size M. op-579 drafted (Implementer, 6 boots); brief-check clean.
 - state delta: op-577 → closed (op-578u); op-579 draft.
 - next: the Coordinator sends op-579 and the op-567 grant; then gatekeeper1's proof of op-569's line against op-579's commit.
+
+### j-20261009-004 — op-579 sent
+
+- time / kind: 2026-10-09 / DISPATCH
+- outcome: The Coordinator sent op-579 to the Implementer.
+- state delta: op-579 draft → issued.
+- next: op-579's reply; the op-567 grant if not yet sent.
