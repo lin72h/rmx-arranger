@@ -1,13 +1,13 @@
 ---
 id: op-567
-state: issued
+state: returned
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-047
 authority: 9 boots max (8 + 1 spare) on copies of op552-overlay-base-r3 with the four overlays below; install boots 5 min, test boots 10 min; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 3h
 issued-at: 2026-10-08T07:50Z
-updated: 2026-10-08T07:50Z
+updated: 2026-10-09T00:23Z
 ---
 # op-567 — Gatekeeper 1: prove op-565's INVARIANTS assertion fix on RELEASE and KASAN against op-562's overlays
 

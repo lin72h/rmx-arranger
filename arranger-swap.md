@@ -3538,3 +3538,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-579 to the Implementer.
 - state delta: op-579 draft → issued.
 - next: op-579's reply; the op-567 grant if not yet sent.
+
+### j-20261009-005 — op-567 reply relayed
+
+- time / kind: 2026-10-09 / REVIEW
+- outcome: Reply recorded (rob reply). Its eight serial hashes and `6380913` on origin match what j-20261009-001 verified first-hand; nothing new to check. Stays open for the RELEASE retry grant (`doc/grants/op-567-retry.txt`), not yet sent.
+- state delta: op-567 issued → returned.
+- next: the Coordinator sends the grant; set op-567 issued again then.
