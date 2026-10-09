@@ -1,13 +1,13 @@
 ---
 id: op-583
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 needs: op-579
 authority: product commits on mach-fixes-6 in wip-rmxos (one per item); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-577 runner; no push
 expected: 6h
-updated: 2026-10-09T00:50Z
+updated: 2026-10-09T00:52Z
 ---
 # op-583 — Implementer: id-046 last batch — stock-module struct layout, VM wrapper contract, debug sysctls, workqueue exec timing
 
@@ -23,7 +23,7 @@ with no network.
 These are the last unscheduled id-046 findings (Advisor 1's op-392 S6
 and § 3). The Arranger decided to fix them for 1.0 rather than list
 them as gaps, except where item 2 says otherwise. Start from op-579's
-commit on `mach-fixes-6`. One commit per item, each with a test that
+commit `8ed4d57bf316a43aee57dbdcc72c00ae78a6df40` on `mach-fixes-6`. One commit per item, each with a test that
 fails before it where the item has observable behaviour.
 
 1. **Stock-module struct layout.** `td_machdata` and `td_twq` sit
@@ -55,6 +55,16 @@ fails before it where the item has observable behaviour.
      (`mach_vm_server.c:850` stores `mach_vm_protect`'s errno in
      `RetCode`), the same mapping op-569 gave the traps. Check every
      VM server routine in that file the same way.
+   - The MIG `mach_vm_protect` server rejects a protection byte with
+     bits outside `VM_PROT_ALL` with `KERN_INVALID_ARGUMENT`, as your
+     op-579 trap check does. The request layouts do agree: the 8-byte
+     offset difference you measured is the header, which
+     `ipc_kmsg_copyin` widens from the user's 24 bytes to the kernel's
+     32 and adds to the size (`ipc/ipc_kmsg.c:807-829`,
+     `LEGACY_HEADER_SIZE_DELTA` at `:331`). Correct that section of
+     `docs/op569-leftovers.md`. Our userland `vm_prot_t` is one byte
+     where macOS's is an `int`, so the user stub narrows before
+     sending; record that as a known 1.0 gap, no change.
    - `mach_vm_allocate` (`vm_map_insert` at `mach_vm.c:215`) observes
      `RLIMIT_VMEM` and RACCT, like `mmap` of anonymous memory.
    - Out-of-line data is still copied with one `malloc(M_NOWAIT)`

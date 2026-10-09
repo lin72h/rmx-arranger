@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261009-1440 — op-579 closed; op-583 ready to send
+
+- **Unfinished:** op-583 shown; set issued when sent. On op-583 green: one gatekeeper1 proof of op-569 + op-579 + op-583 (base `26b8c8ed` vs op-583's head, both profiles), then push `mach-fixes-6`.
+- **Waiting on the Coordinator:** sending op-583; releasing op-568 (advisor2, id-052).
+- **In flight:** none.
+- **Read first:** `tools/rob show op-583`; `/Users/me/wip-mach/rmx-implementer/docs/op569-leftovers.md`.
+- **Journal:** j-20261009-010 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261009-1410 — op-579 in flight; op-583 held behind it; op-568 ready when released
 
 - **Unfinished:** on op-579 green: release op-583 (Implementer, id-046 last batch); then gatekeeper1's proof of op-569 + op-579 + op-583 together (base `26b8c8ed`, both profiles) — one proof instead of two.
