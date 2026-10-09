@@ -1,6 +1,6 @@
 ---
 id: op-590
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ needs: op-586
 authority: test-only commits on mach-fixes-6 in wip-rmxos (tests added by op-569, op-583 or op-586); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-583 runner; no push
 expected: 3h
 issued-at: 2026-10-09T21:46Z
-updated: 2026-10-09T21:46Z
+updated: 2026-10-09T21:51Z
 ---
 # op-590 — Implementer: finish the op-583/op-586 self-check — correct the foreign-target fixture, rerun both profiles
 

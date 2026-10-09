@@ -3650,3 +3650,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-591u to op-594u and op-590. The Implementer is already at work (`build/op590/`; test-only commits `df3e8809`, `b61f0f91` on `mach-fixes-6`). wip-network is live under zenoh-swift: its parent rewrote the onboarding op (parent-log p-20261010-003: alternative transports for Swift Zenoh, kernel SCTP first) and lists it in its children table; its repo is at `6bb5e31` with op-004 issued. roles.md § Arranger tree now names it as a grandchild (zenoh-swift's direct child, not this Arranger's).
 - state delta: op-591u to op-594u → closed; op-590 draft → issued.
 - next: op-590's reply.
+
+### j-20261010-006 — op-590: RELEASE 723/723 verified; KASAN self-check is op-596
+
+- time / kind: 2026-10-10 / REVIEW
+- outcome: Reply recorded as op-595u. Verified: three commits `521da1c2`, `df3e8809`, `b61f0f91` change only `tests/sys/mach/` (`mach_vm_contract.zig`, `mach_host_vm.zig`, `mach_exec_workqueue.zig`); four rmx-implementer commits resolve (pushed now); both overlay and the r3 serial sha256 match; r3 serial: 723 result blocks, 723 `passed` (case 15 has an interleaved log line before its `passed`), 723 `wait_status=0`, `SC_STATUS_2` to `_6` 0, `SC_COMPLETE_7`, `Uptime: 1m21s`, no panic, assertion, fatal trap or KASAN line. The test-fix allowance worked: two further wrong new tests were fixed within the boots. Size M. op-596 drafted: KASAN install + test on the retained overlay `9d865e0f…`, 2 spares, same test-fix rule; brief-check clean.
+- state delta: op-590 → closed (op-595u); op-596 draft.
+- next: the Coordinator sends op-596; meanwhile draft gatekeeper1's combined proof (base `26b8c8ed` vs `b61f0f91`), held until op-596 is green.
