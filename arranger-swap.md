@@ -3517,3 +3517,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Session resumed after a context clear. op-577: the Implementer's codex session (cwd `rmx-implementer`, started about 00:00Z) has untracked `tools/selfcheck/op577.exs` and `console-op577.expect`, so the brief was sent; set issued. op-567: gatekeeper1 pushed `6380913` itself (origin/main = HEAD); reply still not relayed. Verified first-hand: all eight sha256 in `serial-hashes-r2.txt` match their serials; both base test serials panic (`page fault`) with `ipc_right_dnrequest` frames; fixed KASAN serial has `op526_repeat iterations=100 cases=400 failed=0` at line 13140 and no panic or KASAN report; fixed RELEASE serial has no panic; retained pair present, overlay.ufs hash equals the brief's fixed RELEASE overlay. Grant for one test boot of the retained pair with `plans/fixed-release-retry.plan`, load < 40 gate (op-577 may be booting), written to `doc/grants/op-567-retry.txt` (brief-check clean after adding the context sentence). Workflow note for the meta-013/014 trial: `tools/last add --help` crashes (File.read! on "--help") instead of printing usage.
 - state delta: op-577 draft → issued.
 - next: the Coordinator sends the grant; op-567's reply then closes on a full RELEASE run; op-577's reply.
+
+### j-20261009-002 — the shared workflow repo gets a remote
+
+- time / kind: 2026-10-09 / MAINTENANCE
+- outcome: Coordinator asked to push `~/wip-workflow`; it had no remote. Created private `github.com/lin72h/wip-workflow` (Coordinator's choice), pushed `main@519e50b` (40 commits) and tags meta-001 to meta-014; `main` tracks `origin/main`.
+- state delta: none.
+- next: push the workflow after each meta change.
