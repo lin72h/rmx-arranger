@@ -3615,3 +3615,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-587u. Verified: the four `wip-rmxos` commits resolve (`49c5880f`, `f99515c2`, `7b6f7471`, `7e47847d`), rmx-implementer `d61f051`, `0c6373a` (pushed now); serial sha256 `5bbbdd8c…` matches; RELEASE boots, 90 passed, one failure; the only mismatching fact in `mach_child_setters_test` is `mach516 case=refused fact=14 expected=46 observed=4` (serial line 2008), `mach_vm_allocate` on a child task; no panic, assertion or fatal trap; normal power-off. Cause: my op-583 brief mandated `KERN_INVALID_ARGUMENT` for foreign-task VM calls, against op-516's accepted contract (`KERN_NOT_SUPPORTED` for every operation on another task, `mach_child_setters.zig:239-248`). The test is right. Rather than a separate follow-up and another build-and-boot round, op-586 gets item 0 (foreign target → `KERN_NOT_SUPPORTED`; non-task port stays `KERN_INVALID_ARGUMENT`; fix op-583's new tests to match), F1 and `task_info` wording aligned, re-pinned at `7e47847d`, and its self-check covers op-583's unrun cases and KASAN. LOCAL.md rule 5 gains: grep existing tests before setting a return code. op-583's code commits stay; its proof moves to op-586's run.
 - state delta: op-583 → closed (op-587u); op-586 hold → draft.
 - next: the Coordinator sends op-586.
+
+### j-20261010-001 — op-586 sent
+
+- time / kind: 2026-10-10 / DISPATCH
+- outcome: The Coordinator sent op-586 to the Implementer.
+- state delta: op-586 draft → issued.
+- next: op-586's reply.

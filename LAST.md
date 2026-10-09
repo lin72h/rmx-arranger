@@ -9,8 +9,8 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ## L-20261009-1630 — op-583 closed (blocked by my brief); op-586 ready to send
 
 - **Unfinished:** op-586 shown (item 0 corrects op-583's foreign-task VM code; six groups from op-568; one self-check of both profiles covering op-583 too); set issued when sent. On op-586 green: gatekeeper1 proof of op-569 + op-579 + op-583 + op-586 (base `26b8c8ed`, both profiles), installed-image reuse as its step 1 (kernel-testing.md § 4.1), then push `mach-fixes-6`. Then id-051 round 2.
-- **Waiting on the Coordinator:** sending op-586.
-- **In flight:** none.
+- **Waiting on the Coordinator:** nothing (op-586 sent, j-20261010-001).
+- **In flight:** op-586 Implementer.
 - **Read first:** `tools/rob show op-586`; `/Users/me/wip-mach/rmx-implementer/docs/op583-last-batch.md`.
 - **Journal:** j-20261009-015 in [arranger-swap.md](arranger-swap.md).
 
@@ -34,7 +34,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** op-583 shown; set issued when sent. On op-583 green: one gatekeeper1 proof of op-569 + op-579 + op-583 (base `26b8c8ed` vs op-583's head, both profiles), then push `mach-fixes-6`.
 - **Waiting on the Coordinator:** sending op-583 and op-568 (both shown, j-20261009-011).
-- **In flight:** none.
+- **In flight:** op-586 Implementer.
 - **Read first:** `tools/rob show op-583`; `/Users/me/wip-mach/rmx-implementer/docs/op569-leftovers.md`.
 - **Journal:** j-20261009-010 in [arranger-swap.md](arranger-swap.md).
 
