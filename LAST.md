@@ -9,8 +9,8 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ## L-20261009-1325 — op-581 ready (op-567's retry); op-579 in flight
 
 - **Unfinished:** op-581 drafted and shown; set issued when sent. On op-581 green: push `mach-fixes-6@13628bbe`, close op-567 and op-581. After op-579 is green, draft gatekeeper1's proof of op-569's line (base `26b8c8ed` vs op-579's commit, both profiles).
-- **Waiting on the Coordinator:** sending op-581; op-568 on hold by choice.
-- **In flight:** op-579 Implementer (issued).
+- **Waiting on the Coordinator:** nothing to send (op-581 sent, j-20261009-007); op-568 on hold by choice.
+- **In flight:** op-579 Implementer; op-581 gatekeeper1.
 - **Read first:** `tools/rob show op-581`; `/Users/me/wip-mach/rmx-gatekeeper1/build/op567/findings.md`.
 - **Journal:** j-20261009-004 to j-20261009-006 in [arranger-swap.md](arranger-swap.md).
 

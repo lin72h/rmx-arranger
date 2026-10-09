@@ -3552,3 +3552,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator asked why the grant was not in op form. A grant that expects a reply is a call, not a cast, so it is op-581 (gatekeeper1, `needs: op-567`, 1 boot + 1 pre-command spare, expected 1h); brief-check clean. The loose grant file is removed. Lesson for LOCAL.md: a one-boot extension is an op too, never loose text.
 - state delta: op-581 draft. op-567 stays returned; it closes with op-581.
 - next: the Coordinator sends op-581.
+
+### j-20261009-007 — op-581 sent
+
+- time / kind: 2026-10-09 / DISPATCH
+- outcome: The Coordinator sent op-581 to gatekeeper1.
+- state delta: op-581 draft → issued.
+- next: replies to op-579 and op-581.
