@@ -3587,3 +3587,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Recommended sending now: read-only, safe alongside op-583, advisor2 idle (no process, clean repo). Inputs checked on disk. Re-pinned from `13628bbe` to `8ed4d57b`, since op-569's batch (N9, N10) and op-579 changed the VM and clock server routines under review; the change count, recomputed with `git diff --shortstat 2884304b 8ed4d57b -- sys/compat/mach sys/sys/mach`, is 37 files, +2,120/−1,343 (the old "21 files, about 1,900 lines" was wrong even at `13628bbe`: 33 files). Added an "already fixed at this commit" line. brief-check clean after rewording one WARN.
 - state delta: op-568 hold → draft.
 - next: the Coordinator sends op-568 and op-583.
+
+### j-20261009-012 — op-583 and op-568 sent
+
+- time / kind: 2026-10-09 / DISPATCH
+- outcome: The Coordinator sent both. Seen: the Implementer has committed `49c5880f` (op-583 item 1) on `mach-fixes-6`; advisor2 has a live session in `rmx-advisor2`.
+- state delta: op-583 draft → issued; op-568 draft → issued.
+- next: their replies; on op-583 green, one gatekeeper1 proof of op-569 + op-579 + op-583.
