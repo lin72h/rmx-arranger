@@ -8,7 +8,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 ## L-20261010-1530 — op-596 closed; op-598 (gatekeeper1 combined proof) ready to send
 
-- **Unfinished:** op-598 shown; set issued when sent. On its acceptance: push `mach-fixes-6@b61f0f916417` (proven product branch), close id-046's batch, update now.md and roadmap; then draft id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek), blind (cost rule, j-20261010-008).
+- **Unfinished:** op-598 issued. On its acceptance: push `mach-fixes-6@b61f0f916417` (proven product branch), close id-046's batch, update now.md and roadmap; then draft id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek), blind (cost rule, j-20261010-008).
 - **Waiting on the Coordinator:** nothing (op-598 sent).
 - **In flight:** op-598 gatekeeper1.
 - **Read first:** `tools/rob show op-598`; `/Users/me/wip-mach/rmx-implementer/docs/op586-host-task-vm.md`.
