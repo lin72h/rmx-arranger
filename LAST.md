@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261009-1530 — op-568 closed, id-052 closed; op-586 held behind op-583
+
+- **Unfinished:** on op-583 green: release op-586 (re-pin to op-583's final commit). On op-586 green: one gatekeeper1 proof of op-569 + op-579 + op-583 + op-586 (base `26b8c8ed`, both profiles), then push `mach-fixes-6`. Then id-051 round 2.
+- **Waiting on the Coordinator:** nothing to send.
+- **In flight:** op-583 Implementer.
+- **Read first:** `tools/rob show op-586`; `/Users/me/wip-mach/rmx-advisor2/op-568-mach-host-task-vm-findings.md`.
+- **Journal:** j-20261009-013 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261009-1500 — op-583 and op-568 in flight
 
 - **Unfinished:** on op-583 green: draft one gatekeeper1 proof of op-569 + op-579 + op-583 (base `26b8c8ed` vs op-583's head, both profiles), then push `mach-fixes-6`. On op-568's return: bind its findings to id-046/id-052 and draft the fix batch.

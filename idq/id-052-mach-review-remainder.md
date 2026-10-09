@@ -1,7 +1,7 @@
 # id-052 — Mach review remainder: the routines no review has reached, and S1's open check
 
 - id: **id-052**
-- state: **WAITING — priority high (Coordinator, 2026-09-29); not scheduled**
+- state: **CLOSED 2026-10-09 — op-568 returned (advisor2, `rmx-advisor2@1213f1ae`, `op-568-mach-host-task-vm-findings.md`); S1 cleared from source at `8ed4d57b`; findings F1-F10 and U1 bound to id-046, fixed by op-586 (j-20261009-013)**
 - raised: **2026-09-29 by the Coordinator, after op-393**
 - parent: id-046; related: id-051 (review rounds), [kernel-reviews.md](../kernel-reviews.md)
 

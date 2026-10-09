@@ -175,6 +175,15 @@ sysctls and `twq_proc_exec` placement are **fixed** in op-583; known 1.0 gaps: c
 operations (refused) and OOL allocation failure under memory pressure; AUDIT_SYSCLOSE is checked
 against the kernel build; #1 and A1 stay with the KASAN/KMSAN runs.
 
+op-568 (advisor2, id-052, 2026-10-09, at `8ed4d57b`) added F1-F10 and U1: panics on self MIG
+`vm_allocate` (NULL map), `TASK_NAME_PORT` (no `itk_nself`) and `processor_set_default`
+(uninitialized pset mutex); `mach_vm_copy` size 0 and overlap; libmach `mach_vm_map` size/mask
+order; `mach_vm_map` fixed placement, inheritance, mask and protection; `mach_vm_read`,
+`task_threads`, `task_info` report success without the work; inheritance narrowed before
+validation; `realhost.lock` uninitialized. All to op-586 (held behind op-583). Known 1.0 gaps from
+it: `TASK_NAME_PORT`, `mach_vm_read`, `task_threads` and `task_info` flavors other than
+`TASK_BASIC_INFO` return not-supported.
+
 Earlier proposal: a small batch after step 4 for #8, N9, N10
 and #14; S6 and the §3 VM and audit items either fixed or recorded as known 1.0 gaps; #1 and A1
 covered by the KASAN/KMSAN runs (instrumentation 1.0).

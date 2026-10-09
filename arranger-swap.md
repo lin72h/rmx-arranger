@@ -3594,3 +3594,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent both. Seen: the Implementer has committed `49c5880f` (op-583 item 1) on `mach-fixes-6`; advisor2 has a live session in `rmx-advisor2`.
 - state delta: op-583 draft → issued; op-568 draft → issued.
 - next: their replies; on op-583 green, one gatekeeper1 proof of op-569 + op-579 + op-583.
+
+### j-20261009-013 — op-568 DONE: ten findings, S1 cleared; id-052 closed; op-586 drafted and held
+
+- time / kind: 2026-10-09 / REVIEW
+- outcome: Reply recorded as op-585u. Verified: `rmx-advisor2@1213f1ae` (local only; Advisor instances have no remote), consult 250 lines, both op-565 serial sha256 match. Traced first-hand at `8ed4d57b`: F1 (`convert_port_entry_to_map` returns NULL, `mach_vm_allocate` locks it at `mach_vm.c:200`), F2 (no assignment of `itk_nself`; `ipc_tt.c:652`), F3 (`ipc_pset_init` only allocates ports; `convert_pset_name_to_port` locks and reads `active`), F4 (do-while copy with unsigned size), F5 (libmach mask before size), F6 (searching find_space for fixed requests; NONE/SHARE fall to default), F10 (map trap passes full `cur_protection`). F7-F9 and U1 line citations checked; accepted on the consult's trace. S1 cleared from source with an independent second trace; corroborated by the op-565 serials. Size L read-only review, verified first-hand on its key claims; no Validator needed for a findings document that only feeds fixes, which are themselves self-checked and proven. id-052 closed. op-586 drafted (Implementer, `needs: op-583`, six groups, 6 boots), held until op-583 returns; brief-check clean; every cited line checked.
+- state delta: op-568 → closed (op-585u); op-586 hold; id-052 closed.
+- next: op-583's reply; then release op-586; then one gatekeeper1 proof of op-569 + op-579 + op-583 + op-586.
