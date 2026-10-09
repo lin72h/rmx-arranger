@@ -29,6 +29,8 @@ op-365/366/367 calibration and older notes are in
   name the base image in every brief that stages one.
 - **Reviews.** Advisor briefs lead with the architecture question; defects are its evidence.
   Sanitizers and fuzzers find bugs; they do not decide design.
+- **Cost (2026-10-10).** Codex seats are cheap but not free: for review and consults use validator1
+  (GLM) and validator2 (DeepSeek) first; validator3 or an Advisor only when they cannot answer.
 - **Idle gaps** (the Coordinator asleep, a model out of tokens) are expected, not mine to fix.
 
 ## Before showing a brief, cast, restart prompt or answer

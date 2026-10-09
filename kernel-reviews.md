@@ -41,7 +41,8 @@ and the other vm_map server routines. Tracked, with S1's open check, as id-052 (
    bound to reusable proc and thread slots) may change how entries and tasks live. Decide them
    through an Advisor design consult and the Coordinator before point fixes land in those areas.
 2. **Validators review each fix** as a diff. That is a different job from exploratory review.
-3. **Round 2 after the fixes:** a blind round with two reviewers on different models, covering the
+3. **Round 2 after the fixes:** a blind round with two reviewers on different models (planned 2026-10-10:
+   validator1 on GLM and validator2 on DeepSeek, by the cost rule in roles.md), covering the
    new design and the unreached areas. Each reviewer also returns a "checked and cleared" list.
 4. **Stop signal:** when most findings come from both reviewers, reading has reached diminishing
    returns.
