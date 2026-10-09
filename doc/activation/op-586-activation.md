@@ -119,8 +119,9 @@ you run one).
    `mach_vm.c:263-271`): the value is narrowed to FreeBSD's one-byte
    `vm_inherit_t` before any check, and FreeBSD's 3 means zero-fill,
    not Mach's 3. Validate the Mach value, then translate it (SHARE,
-   COPY, NONE; reject the rest). As in op-579, compare the kernel and
-   user request layouts first and record the result.
+   COPY, NONE; reject the rest). Compare the kernel and user request
+   layouts first, allowing for the 8-byte header widening on copyin
+   (op-583 item 2), and record the result.
 
 Then rebuild the RELEASE and KASAN overlays on the same base image
 `op552-overlay-base-r3.raw` (sha256
