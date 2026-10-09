@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1530 — op-596 closed; op-598 (gatekeeper1 combined proof) ready to send
+
+- **Unfinished:** op-598 shown; set issued when sent. On its acceptance: push `mach-fixes-6@b61f0f916417` (proven product branch), close id-046's batch, update now.md and roadmap; then draft id-051 round 2 (two blind reviewers on different models).
+- **Waiting on the Coordinator:** sending op-598.
+- **In flight:** none.
+- **Read first:** `tools/rob show op-598`; `/Users/me/wip-mach/rmx-implementer/docs/op586-host-task-vm.md`.
+- **Journal:** j-20261010-007 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1500 — op-590 closed (RELEASE 723/723); op-596 KASAN ready to send
 
 - **Unfinished:** op-596 shown; set issued when sent. Next: draft gatekeeper1's combined proof of op-569 + op-579 + op-583 + op-586 + op-590 (base `26b8c8ed` vs `b61f0f91`, both profiles), installed-image reuse as step 1 (kernel-testing.md § 4.1); hold it until op-596 is green. Then push `mach-fixes-6`; then id-051 round 2.

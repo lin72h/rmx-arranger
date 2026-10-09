@@ -1,13 +1,14 @@
 ---
 id: op-596
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 needs: op-590
 authority: 4 self-check boots (install + test, + 2 spare) on op-590's KASAN overlay with the op-590 runner; test-only fixes under op-590's rule; no push
 expected: 1h
-updated: 2026-10-09T21:51Z
+issued-at: 2026-10-09T22:02Z
+updated: 2026-10-09T22:02Z
 ---
 # op-596 — Implementer: KASAN self-check of b61f0f91, the last profile of op-590
 
