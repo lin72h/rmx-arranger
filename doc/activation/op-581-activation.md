@@ -1,6 +1,6 @@
 ---
 id: op-581
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-047
@@ -8,7 +8,7 @@ needs: op-567
 authority: 1 test boot (+1 spare only for a boot that stops before its commands run) of op-567's retained fixed RELEASE pair; 10-minute cap; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 1h
 issued-at: 2026-10-09T00:39Z
-updated: 2026-10-09T00:39Z
+updated: 2026-10-09T00:44Z
 ---
 # op-581 — Gatekeeper 1: finish op-567 — one RELEASE test boot of the retained fixed pair with the corrected plan
 

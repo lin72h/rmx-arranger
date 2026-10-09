@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261009-1350 — op-567 closed, `mach-fixes-6@13628bbe` on origin; op-579 in flight
+
+- **Unfinished:** after op-579 is green, draft gatekeeper1's proof of op-569's batch (#8, N9, N10, #14) plus op-579's fix: base `26b8c8ed` vs op-579's commit, both profiles.
+- **Waiting on the Coordinator:** decisions asked 2026-10-09: id-046 leftovers (S6, §3 VM and audit) fix or known gap; an Advisor seat for id-052 now. op-568 on hold by choice.
+- **In flight:** op-579 Implementer.
+- **Read first:** `tools/rob show op-579`; `/Users/me/wip-mach/rmx-implementer/docs/op569-leftovers.md`.
+- **Journal:** j-20261009-008 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261009-1325 — op-581 ready (op-567's retry); op-579 in flight
 
 - **Unfinished:** op-581 drafted and shown; set issued when sent. On op-581 green: push `mach-fixes-6@13628bbe`, close op-567 and op-581. After op-579 is green, draft gatekeeper1's proof of op-569's line (base `26b8c8ed` vs op-579's commit, both profiles).

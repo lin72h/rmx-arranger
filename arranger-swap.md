@@ -3559,3 +3559,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-581 to gatekeeper1.
 - state delta: op-581 draft → issued.
 - next: replies to op-579 and op-581.
+
+### j-20261009-008 — op-581 DONE; op-567 closed; `mach-fixes-6@13628bbe` pushed
+
+- time / kind: 2026-10-09 / REVIEW and CLOSE
+- outcome: Reply recorded as op-582u. Verified first-hand: `cc897cf` is origin/main of rmx-gatekeeper1; the test serial's sha256 is `3b38f819…`; banner `n284044-ff8a4d604e50 RMXOS-RELEASE`; installed manifest `1bd4d0ba…` (op-567's fixed RELEASE overlay); 93 ATF result reads all `passed`; all 647 plan command statuses 0; `op526_repeat iterations=100 cases=400 failed=0`; no panic, assertion, fatal trap or lock-order line (the 27 "failed" words are case names and expected diagnostics); load 31.38 at launch; the retained disks are gone, logs kept. Size M. op-567 complete: base stops on both profiles, fixed RELEASE and KASAN clean. Pushed `mach-fixes-6` to `13628bbe` on origin (fast-forward from `d8437d85`, including op-562's `897a350e` and `ff8a4d60`, which the proven images were built from) and to backup. now.md, roadmap.md and li-1015 (first clean KASAN run) updated.
+- state delta: op-581 → closed (op-582u); op-567 → closed.
+- next: op-579's reply; then gatekeeper1's proof of op-569's batch plus op-579.
