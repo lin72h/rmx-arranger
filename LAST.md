@@ -9,7 +9,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ## L-20261009-1440 — op-579 closed; op-583 ready to send
 
 - **Unfinished:** op-583 shown; set issued when sent. On op-583 green: one gatekeeper1 proof of op-569 + op-579 + op-583 (base `26b8c8ed` vs op-583's head, both profiles), then push `mach-fixes-6`.
-- **Waiting on the Coordinator:** sending op-583; releasing op-568 (advisor2, id-052).
+- **Waiting on the Coordinator:** sending op-583 and op-568 (both shown, j-20261009-011).
 - **In flight:** none.
 - **Read first:** `tools/rob show op-583`; `/Users/me/wip-mach/rmx-implementer/docs/op569-leftovers.md`.
 - **Journal:** j-20261009-010 in [arranger-swap.md](arranger-swap.md).

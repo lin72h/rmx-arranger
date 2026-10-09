@@ -3580,3 +3580,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded as op-584u. Verified first-hand: `8ed4d57b` (parent `a35ce232`) adds only the full-width `VM_PROT_ALL` check before narrowing (`mach_traps.c:518`) and the test comment; overlay and serial sha256 match; both serials boot `n284044-ff8a4d604e50` with the right profile, 143 ATF result reads all `passed`, `trap=vm_protect … expected=4 observed=4` ten times and no `observed=0`, `SC_COMPLETE_1010`, no panic, assertion, fatal trap or KASAN line. rmx-implementer pushed. The reply's layout claim (kernel/user request 68/60, protection at 64/56) is not a defect: every offset differs by the header delta, which `ipc_kmsg_copyin` adds when it widens the 24-byte user header to the 32-byte kernel header (`ipc_kmsg.c:807-829`, `LEGACY_HEADER_SIZE_DELTA` `:331`). The real MIG-route gaps: one-byte `vm_prot_t` in the user stub (known 1.0 gap, no change) and no bit check or errno mapping in the server (added to op-583 item 2, with a request to correct the record). Size M. op-583 brief now pins `8ed4d57b`; hold → draft; brief-check clean.
 - state delta: op-579 → closed (op-584u); op-583 hold → draft.
 - next: the Coordinator sends op-583; then one gatekeeper1 proof of op-569, op-579 and op-583 (base `26b8c8ed`).
+
+### j-20261009-011 — op-568 released to draft, re-pinned at `8ed4d57b`
+
+- time / kind: 2026-10-09 / DISPATCH (Coordinator asked whether to send advisor2's queued op)
+- outcome: Recommended sending now: read-only, safe alongside op-583, advisor2 idle (no process, clean repo). Inputs checked on disk. Re-pinned from `13628bbe` to `8ed4d57b`, since op-569's batch (N9, N10) and op-579 changed the VM and clock server routines under review; the change count, recomputed with `git diff --shortstat 2884304b 8ed4d57b -- sys/compat/mach sys/sys/mach`, is 37 files, +2,120/−1,343 (the old "21 files, about 1,900 lines" was wrong even at `13628bbe`: 33 files). Added an "already fixed at this commit" line. brief-check clean after rewording one WARN.
+- state delta: op-568 hold → draft.
+- next: the Coordinator sends op-568 and op-583.

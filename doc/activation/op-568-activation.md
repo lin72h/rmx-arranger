@@ -1,12 +1,12 @@
 ---
 id: op-568
-state: hold
+state: draft
 agent: advisor2
 repo: rmx-advisor2
 idq: id-052
 authority: none
 expected: 3h
-updated: 2026-10-08T07:59Z
+updated: 2026-10-09T00:56Z
 ---
 # op-568 — Advisor 2: finish the Mach review — host, task and VM server routines no review has read (id-052)
 
@@ -33,7 +33,8 @@ and op-393) read everything except these routines:
 These are reached by launchd and libxpc on the PID-1 path, and op-393
 N5 showed the task-level routines were never really exercised (every
 `task_*` call acted on the caller). Since then the code has changed a
-lot (steps 1-4 of the fix plan: 21 files, about 1,900 lines), so read
+lot (since alpha2: 37 files, about 2,100 lines added and 1,300
+removed in these directories), so read
 the current head, not alpha2. One known item to confirm and trace:
 `convert_port_to_task_name` returns `NULL` unconditionally
 (`sys/compat/mach/mach_convert.c:72-75`), so `task_info` on a task
@@ -79,11 +80,11 @@ not passed over Unix sockets or inherited by `fork`.
 ## Inputs
 
 - rmxOS: `/Users/me/wip-mach/rmx-implementer/wip-rmxos` at
-  `13628bbe681acb64308b5f8a7d584b86704d9914` (branch `mach-fixes-6`;
+  `8ed4d57bf316a43aee57dbdcc72c00ae78a6df40` (branch `mach-fixes-6`;
   read with `git show`, `git diff`, `git log` only). Areas above, plus
   `sys/compat/mach/defs/{host_priv,mach_host,task,vm_map,mach_vm}.defs`
   and `sys/sys/mach/`. Changes since your op-389 baseline:
-  `git log 2884304b..13628bbe -- sys/compat/mach sys/sys/mach`.
+  `git log 2884304b..8ed4d57b -- sys/compat/mach sys/sys/mach`.
 - Callers in our userland, same tree: `lib/libmach`, `lib/libxpc`,
   `sbin/launchd`.
 - Earlier reviews, to avoid repeats:
@@ -92,9 +93,13 @@ not passed over Unix sockets or inherited by `fork`.
   `/Users/me/wip-mach/rmx-advisor1/op-393-mach-remaining-areas-findings.md`.
 - S1 evidence: `/Users/me/wip-mach/rmx-implementer/build/op565/runs/rmx-selfcheck-op565-release-r1-1791444650/tests/serial.txt`
   and `.../rmx-selfcheck-op565-kasan-r1-1791444924/tests/serial.txt`.
-- Already known, do not report again: `mach_vm_protect` takes FreeBSD's
-  one-byte `vm_prot_t`, so unsupported high protection bits are dropped
-  before any check (fix in progress); the VM wrappers ignore their
+- Already fixed at this commit (`13628bbe..8ed4d57b`): clock and VM
+  handlers that expected a user address now read their MIG message
+  fields directly (op-393 N9),
+  the two trap return conventions (N10), and the trap route's
+  protection-bit check.
+- Already known, do not report again: the MIG route still takes a
+  one-byte `vm_prot_t` (fix planned); the VM wrappers ignore their
   target task, drop `set_maximum`, return errno through the MIG route
   and skip `RLIMIT_VMEM` and RACCT (fixes planned). Look for what else
   is wrong in these routines.
