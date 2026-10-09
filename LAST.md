@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1700 — op-598: gatekeeper1 stopped after its boots; restart prompt ready
+
+- **Unfinished:** the Coordinator restarts gatekeeper1 in a new session with [doc/restarts/op-598-r1.txt](doc/restarts/op-598-r1.txt) (record-only; all eight boots done). On op-598's acceptance: push `mach-fixes-6@b61f0f916417`, close id-046's batch, update now.md and roadmap; then draft id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek).
+- **Waiting on the Coordinator:** the gatekeeper1 restart; which other seats run GLM or DeepSeek (asked 2026-10-10).
+- **In flight:** op-598 gatekeeper1 (restarting).
+- **Read first:** [doc/restarts/op-598-r1.txt](doc/restarts/op-598-r1.txt); `/Users/me/wip-mach/rmx-gatekeeper1/build/op598/`.
+- **Journal:** j-20261010-009 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1530 — op-596 closed; op-598 (gatekeeper1 combined proof) ready to send
 
 - **Unfinished:** op-598 issued. On its acceptance: push `mach-fixes-6@b61f0f916417` (proven product branch), close id-046's batch, update now.md and roadmap; then draft id-051 round 2 for validator1 (GLM) and validator2 (DeepSeek), blind (cost rule, j-20261010-008).

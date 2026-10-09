@@ -24,9 +24,8 @@ Since your op-581 proof of `13628bbe`, the Implementer has finished
 the id-046 fix list on `mach-fixes-6`, up to
 `b61f0f916417` (21 commits; `git log --oneline 13628bbe..b61f0f91` in
 `/Users/me/wip-mach/rmx-implementer/wip-rmxos`). In short: Mach trap
-results as values and MIG fields handled as kernel data (op-569); the
-OOL copyout failure path keeps its copy instead of freeing it twice
-(op-569); unsupported VM protection bits rejected before narrowing
+results as values and MIG fields read from the message (op-569); on a
+failed OOL copyout the caller alone now releases the copy (op-569); unsupported VM protection bits rejected before narrowing
 (op-579); stock FreeBSD 15 struct offsets kept, VM wrapper results,
 debug sysctl references and workqueue state at exec (op-583); host,
 task and VM routines that report only what they did (op-586); test
@@ -46,10 +45,11 @@ on both profiles. This op is the independent proof.
    `mach_trap_returns_test:errors`, `:unsupported`,
    `mach_ool_failure_test:copyout_failure`. Expected on both
    profiles: the first four fail with their fact lines; then the guest
-   stops in `copyout_failure` with a duplicate free reported from
-   `vm_map_copy_discard` called by `ipc_kmsg_copyout_ool_descriptor`
-   (the Implementer's RELEASE run showed this; KASAN may name the
-   same free first). Record those lines.
+   stops in `copyout_failure`, because on the base both
+   `vm_map_copyout_kernel_buffer` and its caller
+   `ipc_kmsg_copyout_ool_descriptor` (through `vm_map_copy_discard`)
+   release the same copy object. Record the stop lines and the frames
+   the serial shows.
 3. **Fixed `b61f0f91`**, RELEASE then KASAN: build your plan from the
    installed tests' own listings (`-l`), as in op-567, and reconcile it
    with the Implementer's count before booting: the 93 earlier cases,

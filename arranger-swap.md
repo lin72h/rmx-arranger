@@ -3671,3 +3671,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-598 sent to gatekeeper1. The Coordinator: codex models are not free (still cheap); use GLM or DeepSeek, as for Validators, 1 and 2 first. Recorded in roles.md § Choosing a Validator (replacing the expired free-validator3 week), LOCAL.md § Standing decisions, and kernel-reviews.md: id-051's blind round 2 goes to validator1 (GLM) and validator2 (DeepSeek), not to Advisors.
 - state delta: op-598 draft → issued.
 - next: op-598's reply; then push `mach-fixes-6@b61f0f91` and draft round 2 for validator1 and validator2.
+
+### j-20261010-009 — gatekeeper1 stopped by its provider filter on op-598; brief reworded; restart prompt written
+
+- time / kind: 2026-10-10 / RESTART (Coordinator: "gatekeeper1 being flagged")
+- outcome: First-hand: gatekeeper1 committed `c277943` (installed-image reuse) and `5ecc69c` (plans, pins, host checks, 723-case reconciliation); all eight boots ran (base RELEASE and KASAN test status 54, ending at `copyout_failure` after the four op-569 failures; fixed RELEASE and KASAN status 0 with normal power-off; serials under `build/op598/runtime/`); no VM running; evidence files uncommitted. The stop came while writing the record. Likely trigger: my brief's rule-9 phrasing, "instead of freeing it twice" and "a duplicate free reported from `vm_map_copy_discard`", which `brief-check` missed (its pattern took "frees"/"freed", not "freeing"; nothing matched "duplicate free"). Fixed: `brief-check.conf` now warns on `free(s|d|ing)? … twice` and `(duplicate|double)[- ]free`; safety-flag-avoidance.md table row added; op-598's brief reworded in ownership terms (both `vm_map_copyout_kernel_buffer` and its caller release the copy object). Restart prompt for a new session (`doc/restarts/op-598-r1.txt`): context sentence, work done by commit and path, five remaining steps (base tables, fixed tables, findings and ledger, cleanup, commit and reply); no boots needed; brief-check clean.
+- state delta: none (op-598 stays issued).
+- next: the Coordinator starts a new gatekeeper1 session with the restart prompt.

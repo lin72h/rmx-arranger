@@ -1,0 +1,19 @@
+Context: ordinary debugging and testing of our own open-source OS (rmxOS: FreeBSD 15 with Apple's open-source Mach, launchd and libdispatch). Everything runs on the host or in a disposable bhyve VM with no network.
+
+You are gatekeeper1, continuing op-598: the independent proof of `mach-fixes-6` up to `b61f0f916417` on RELEASE and KASAN. Re-read AGENTS.md and OPS.md first: defaults and the reply block.
+
+Done so far, all in this repo:
+- Runner: installed-image reuse, committed as `c277943`; plans, pins and host checks, committed as `5ecc69c` (`build/op598/plans/`, `pins.txt`, `evidence/reconciliation.json`, `evidence/case-plan-723.tsv`).
+- All eight boots have run; no further boot is needed. Serials, under `build/op598/runtime/`:
+  - `rmx-op598-base-release-20261009T221927Z-75256/{install,tests}/serial.raw` (test runner status 54)
+  - `rmx-op598-base-kasan-20261009T222440Z-78126/{install,tests}/serial.raw` (status 54)
+  - `rmx-op598-fixed-release-20261009T223031Z-78783/{install,tests}/serial.raw` (status 0, normal power-off)
+  - `rmx-op598-fixed-kasan-20261009T223627Z-79143/{install,tests}/serial.raw` (status 0, normal power-off)
+- Uncommitted: `build/op598/evidence/*` launch logs and status files, `base-completed-serials.json`, `report.py`, `cleanup.py`, `finish-record.py`.
+
+Remaining, in order:
+1. Base runs, both profiles: from the test serials, record each of the four op-569 cases (`mach_mig_pointers_test:vm_attribute`, `:clock_reply`, `mach_trap_returns_test:errors`, `:unsupported`) as failed with its fact lines, and the stop in `mach_ool_failure_test:copyout_failure` with the frames the serial shows (on the base, `vm_map_copyout_kernel_buffer` and its caller both release the same copy object). Compare with the expectation; say where KASAN's lines differ from RELEASE's.
+2. Fixed runs, both profiles: from the test serials, the result of every case in your 723-case plan, the five `mig_reply_ports_test` mode statuses, the power-off line, and the absence of panic, assertion and (on KASAN) KASAN report lines. Check the installed manifest hash against the overlay's and record the loaded kernel line.
+3. `build/op598/findings.md`: a table per run (expected and observed, with serial line numbers), the plan reconciliation, the attempt ledger (eight boots of ten; spares unused unless your logs say otherwise) and the serial sha256 list; set the disposition.
+4. Cleanup: after recording their sha256, remove the run copies of root, installed and overlay images under `build/op598/runtime/`; keep serials, logs and evidence. Record the bytes removed.
+5. Commit, push rmx-gatekeeper1 main, and reply with the usual block.

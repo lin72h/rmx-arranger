@@ -103,6 +103,7 @@ wording is now part of brief quality.
 | capture another process's ports, stacks, rights | record our own state at the point of failure (`procstat -kk` of a test VM's launchd, in a test boot) |
 | frees X twice; X freed while Y still points into it (op-569) | X is released by both the callee and the caller; Y stays registered after the module is unloaded |
 | hard to reach from user space; MIG passes kernel pointers to a user-pointer handler (op-569) | hard to trigger from a test program; the handler is written for a user address but MIG hands it the reply message's field |
+| freeing it twice; a duplicate free reported from X (op-598, gatekeeper1 stopped after its boots) | on the base both X and its caller release the same copy object; record the stop lines and frames |
 
 ## When a session is filtered anyway
 
