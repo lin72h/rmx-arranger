@@ -43,7 +43,8 @@ op-365/366/367 calibration and older notes are in
    `sha256sum`), never from memory or a reply.
 5. Expectations: check the platform's real behaviour for the exact case; read the component's
    load and lifecycle rules before asking for a mode (`mach_module.c`: boot-time load only);
-   derive each base result from what the base contains; list every case the base runs. Check
+   derive each base result from what the base contains; list every case the base runs.
+   Before setting a return code in a brief, grep the existing tests for that call (op-583). Check
    that every hook point a design names exists in FreeBSD (op-426).
 6. Self-checks stay light: ATF counts and serial paths, no custom checkers or controls. A
    classifier is frozen with its controls passing before a cell boots. Diagnostic code goes on a

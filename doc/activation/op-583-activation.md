@@ -1,6 +1,6 @@
 ---
 id: op-583
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-046
@@ -8,7 +8,7 @@ needs: op-579
 authority: product commits on mach-fixes-6 in wip-rmxos (one per item); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-577 runner; no push
 expected: 6h
 issued-at: 2026-10-09T00:57Z
-updated: 2026-10-09T00:57Z
+updated: 2026-10-09T01:44Z
 ---
 # op-583 — Implementer: id-046 last batch — stock-module struct layout, VM wrapper contract, debug sysctls, workqueue exec timing
 

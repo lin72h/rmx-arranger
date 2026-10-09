@@ -1,13 +1,13 @@
 ---
 id: op-586
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 needs: op-583
-authority: product commits on mach-fixes-6 in wip-rmxos (one per finding group); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-577 runner; no push
+authority: product commits on mach-fixes-6 in wip-rmxos (item 0 and one per finding group); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-583 runner; no push
 expected: 7h
-updated: 2026-10-09T01:23Z
+updated: 2026-10-09T01:45Z
 ---
 # op-586 — Implementer: op-568's host, task and VM findings — three panic paths, VM copy and map semantics, truthful task routines
 
@@ -29,18 +29,33 @@ with every output left empty and every input right released; never a
 success it did not earn. Each "not supported" below is a known 1.0 gap
 to record.
 
-Start from op-583's final commit on `mach-fixes-6`. One commit per
-group, each with a Zig test that fails before it (a guest-only
+Start from op-583's final commit
+`7e47847d63fcb6076050dae3ea8bd4b24966c706` on `mach-fixes-6` (line
+numbers below are at `8ed4d57b`; op-583 moved some). One
+commit per group, each with a Zig test that fails before it (a guest-only
 failure counts: say so, and show it in the self-check's base column if
 you run one).
 
+0. **Correct op-583's foreign-task VM result.** Your op-583 RELEASE
+   run stopped at `mach516 case=refused fact=14 expected=46
+   observed=4`: `mach_vm_allocate` on a child task. The test is right
+   and the op-583 brief was wrong. op-516's accepted contract returns
+   `KERN_NOT_SUPPORTED` (46) for every operation on another task
+   (`tests/sys/mach/mach_child_setters.zig:239-248`), so the VM
+   wrappers must too. Change `7e47847d`'s foreign-target result from
+   `KERN_INVALID_ARGUMENT` to `KERN_NOT_SUPPORTED`, and change any new
+   op-583 test that expects 4 for another task. Keep
+   `KERN_INVALID_ARGUMENT` for a port that is not a task at all.
+   Before choosing any other return code in this op, search the
+   existing tests for the same call.
 1. **Three panics on ordinary self calls.**
    - `vm_allocate` through MIG on the caller's own task: the server
      gets its map from `convert_port_entry_to_map`, which always
      returns `NULL` (`sys/compat/mach/mach_convert.c:51-55`), and
      `mach_vm_allocate` locks that map (`mach_vm.c:200`). Convert the
      caller's own task port to its map, holding a reference the
-     server's `vm_map_deallocate` releases; any other port returns
+     server's `vm_map_deallocate` releases; another task's port
+     returns `KERN_NOT_SUPPORTED`, a port that is not a task
      `KERN_INVALID_ARGUMENT`.
    - `task_get_special_port(TASK_NAME_PORT)` passes `itk_nself`, which
      nothing creates, to `ipc_port_make_send`
@@ -99,7 +114,7 @@ you run one).
      process's vmspace and rusage (today all its assignments are
      under `notyet`, `kern/task.c:737-769`); every other flavor
      returns `KERN_INVALID_ARGUMENT` or `KERN_NOT_SUPPORTED`.
-     Another task's port stays refused.
+     Another task's port returns `KERN_NOT_SUPPORTED`.
 6. **Inheritance values** (`mach_vm_inherit`, both MIG routes,
    `mach_vm.c:263-271`): the value is narrowed to FreeBSD's one-byte
    `vm_inherit_t` before any check, and FreeBSD's 3 means zero-fill,
@@ -111,20 +126,21 @@ Then rebuild the RELEASE and KASAN overlays on the same base image
 `op552-overlay-base-r3.raw` (sha256
 `6f3b6e54606cecfbe3572cf5e2dee156c42499d113909351b811c41abe974059`),
 recording each overlay's and manifest's sha256, and self-check both
-profiles with the op-577 runner. Expected on both: all earlier and new
-cases pass, the five MIG modes exit 0, the 400-case repeat passes,
+profiles with your op-583 runner. This run also covers what op-583
+left unrun (its new cases, the repeat, KASAN). Expected on both: all
+earlier and new cases pass, op-583's and this op's, the five MIG modes exit 0, the 400-case repeat passes,
 normal power-off, no assertion or fatal trap; on KASAN, no KASAN
 report. Two spare boots, only for a boot that stops before its
 commands run.
 
-Evidence: a new record `docs/op586-host-task-vm.md` (each group:
+Evidence: a new record `docs/op586-host-task-vm.md` (item 0 and each group:
 commit, test, before and after; the known gaps; overlay hashes; both
 runs with load, ATF counts, MIG modes, power-off line, serial paths),
 commit, and a `selfcheck:` line.
 
 ## Limits
 
-- Product commits on `mach-fixes-6` in `wip-rmxos`, only for these
-  six groups. No push.
+- Product commits on `mach-fixes-6` in `wip-rmxos`, only for item 0
+  and the six groups. No push.
 
 Re-read AGENTS.md and OPS.md first: defaults and the reply block.
