@@ -8,7 +8,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 ## L-20261009-1530 — op-568 closed, id-052 closed; op-586 held behind op-583
 
-- **Unfinished:** on op-583 green: release op-586 (re-pin to op-583's final commit). On op-586 green: one gatekeeper1 proof of op-569 + op-579 + op-583 + op-586 (base `26b8c8ed`, both profiles), then push `mach-fixes-6`. Then id-051 round 2.
+- **Unfinished:** on op-583 green: release op-586 (re-pin to op-583's final commit). On op-586 green: one gatekeeper1 proof of op-569 + op-579 + op-583 + op-586 (base `26b8c8ed`, both profiles), with installed-image reuse in its runner as step 1 (kernel-testing.md § 4.1, j-20261009-014), then push `mach-fixes-6`. Then id-051 round 2.
 - **Waiting on the Coordinator:** nothing to send.
 - **In flight:** op-583 Implementer.
 - **Read first:** `tools/rob show op-586`; `/Users/me/wip-mach/rmx-advisor2/op-568-mach-host-task-vm-findings.md`.

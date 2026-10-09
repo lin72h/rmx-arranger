@@ -57,6 +57,13 @@ finding.
   boot time, so it needs a containment review first. Do not adopt it by default.
 - The serial log records the overlay manifest's hash, so each run is tied to exactly what it ran.
 
+**Installed-image reuse (decided 2026-10-09, Coordinator; j-20261009-014).** After an install
+boot, the runner keeps the installed root image read-only with its sha256, and each test boot of
+that overlay starts from a fresh `cp` of it. On `zroot` (block cloning active) the copy costs no
+time or space, so retries and repeat runs skip the install boot (op-581 did this by hand). No ZFS
+snapshot privilege is needed. The host never imports a guest pool: the overlay stays the only
+host-to-guest path. First adopted in gatekeeper1's runner, in the proof op after op-586.
+
 Effect: a new kernel iteration costs a kernel build (minutes, incremental) plus a overlay (seconds),
 not a world build and an 8 GB image.
 
