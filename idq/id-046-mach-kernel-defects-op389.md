@@ -1,7 +1,7 @@
 # id-046 — Mach kernel defects inherited from the NextBSD port (op-389, op-392, op-393)
 
 - id: **id-046**
-- state: **IN WORK — batches 1-3 and step 4 part 1 accepted and on origin (`mach-fixes-4@0924690c`, 2026-10-04); step 4 part 2 next; leftovers listed below**
+- state: **FIX LIST DONE 2026-10-10 — every finding fixed or recorded as a known 1.0 gap; `mach-fixes-6@b61f0f91` proven on RELEASE and KASAN by op-598 (gatekeeper1) and on origin; round 2 review (id-051) next**
 - raised: **2026-09-28 by the Arranger, from advisor2 op-389 (rmx-advisor2 2f6c337)**
 - parent: id-042 (1.0-preview), beside id-045
 
@@ -155,6 +155,16 @@ bounded clock tests). The branch is on the public rmxOS origin (pushed with the 
 op-420 (op-394 step 2, `mach-fixes-2` at `ee883a74`): validator2 CLOSE 9/10 (op-423); op-424 4/4
 before and after, plus all 27 batch-1 cases on the fixed image. Retires op-389 #2 and op-392 S2, S3
 and S4's entry causes. The branch is on origin. Batch 3 (step 3) is op-427.
+
+## Fix list done (2026-10-10)
+
+`mach-fixes-6@b61f0f916417` on origin: op-565 (assertion), op-569 (#8, N9, N10, #14), op-579
+(protect bits), op-583 (S6, § 3 VM contract, debug sysctls, workqueue at exec), op-586 (op-568's
+F1-F10, U1), op-590 (test fixes). Proof op-598: base `26b8c8ed` stops as expected on both profiles;
+fixed RELEASE and KASAN pass 723/723 plus five MIG modes, KASAN clean. Known 1.0 gaps: N7, cross-task
+VM operations, one-byte userland `vm_prot_t`, OOL allocation failure under memory pressure,
+`TASK_NAME_PORT`, `mach_vm_read`, `task_threads`, `task_info` flavors other than basic. #1 and A1
+stay with the sanitizer runs (KMSAN for A1).
 
 ## Status by finding (2026-10-03)
 
