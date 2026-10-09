@@ -1,12 +1,13 @@
 ---
 id: op-577
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-046
 authority: self-check runner changes in rmx-implementer; 5 self-check boots (4 + 1 spare) on op-569's a35ce232 overlays; no source change; no push
 expected: 2h
-updated: 2026-10-08T10:58Z
+issued-at: 2026-10-09T00:00Z
+updated: 2026-10-09T00:00Z
 ---
 # op-577 — Implementer: finish op-569's self-check — wider install window, both fixed profiles of a35ce232
 
