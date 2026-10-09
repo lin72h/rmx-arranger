@@ -3622,3 +3622,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent op-586 to the Implementer.
 - state delta: op-586 draft → issued.
 - next: op-586's reply.
+
+### j-20261010-002 — New project wip-network set up, a child of zenoh-swift
+
+- time / kind: 2026-10-10 / SETUP (Coordinator: initialise `~/wip-network` with the workflow; the zenoh-swift Arranger writes its first op)
+- outcome: `~/wip-network/agent-arranger` created from `~/wip-workflow/scaffold/arranger` per docs/onboarding.md: `project` var `wip-network`, `workflow.lock` at meta-014 (the scaffold still pins meta-012; onboarding says pin the latest), roles.md names the parent, `parent-log.md` created (p-20261010-001), journal j-20261010-001; `tools/roles render agent-arranger` clean, `roles check` 1 instance 0 need attention, no unresolved `{{ }}` in rendered files; `git init`, commit `270a722` (no remote). Placement: zenoh-swift's own rule makes it the parent of any project it starts. `~/wip-workflow/projects.md` updated and pushed. Cast op-588u drafted for the zenoh-swift Arranger (add the child, write its onboarding op); brief-check clean after removing three bare file names. Not touched: the zenoh-swift repo (its Arranger adds the child itself). Workflow follow-up: the scaffold's `workflow.lock` should track the latest tag (candidate meta-015).
+- state delta: op-588u draft.
+- next: the Coordinator relays op-588u, then the zenoh-swift Arranger's onboarding op.

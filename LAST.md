@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1300 — wip-network set up; op-588u to relay; op-586 in flight
+
+- **Unfinished:** op-588u (cast to the zenoh-swift Arranger about its new child wip-network) shown; close it when sent. Candidate meta-015: the scaffold's `workflow.lock` pins meta-012, should track the latest tag. Mach line unchanged: on op-586 green, gatekeeper1's combined proof with installed-image reuse as step 1.
+- **Waiting on the Coordinator:** relaying op-588u.
+- **In flight:** op-586 Implementer.
+- **Read first:** `tools/rob show op-588u`; `/Users/me/wip-network/agent-arranger/parent-log.md`.
+- **Journal:** j-20261010-001, j-20261010-002 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261009-1630 — op-583 closed (blocked by my brief); op-586 ready to send
 
 - **Unfinished:** op-586 shown (item 0 corrects op-583's foreign-task VM code; six groups from op-568; one self-check of both profiles covering op-583 too); set issued when sent. On op-586 green: gatekeeper1 proof of op-569 + op-579 + op-583 + op-586 (base `26b8c8ed`, both profiles), installed-image reuse as its step 1 (kernel-testing.md § 4.1), then push `mach-fixes-6`. Then id-051 round 2.
