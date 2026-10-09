@@ -65,7 +65,7 @@ op-365/366/367 calibration and older notes are in
   proof brief follows only once that is green.
 - Draft the next op as soon as one is sent. Merge work that needs the same images or boots into
   one op. When an agent asks for one more boot or a small permission inside the op's purpose,
-  answer at once with a ready-to-send line.
+  answer at once with a ready-to-send op (a call through `tools/rob new`, `needs:` the original; op-581).
 
 ## Verifying returns
 

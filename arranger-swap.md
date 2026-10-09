@@ -3545,3 +3545,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded (rob reply). Its eight serial hashes and `6380913` on origin match what j-20261009-001 verified first-hand; nothing new to check. Stays open for the RELEASE retry grant (`doc/grants/op-567-retry.txt`), not yet sent.
 - state delta: op-567 issued → returned.
 - next: the Coordinator sends the grant; set op-567 issued again then.
+
+### j-20261009-006 — op-567's retry becomes op-581
+
+- time / kind: 2026-10-09 / DISPATCH
+- outcome: The Coordinator asked why the grant was not in op form. A grant that expects a reply is a call, not a cast, so it is op-581 (gatekeeper1, `needs: op-567`, 1 boot + 1 pre-command spare, expected 1h); brief-check clean. The loose grant file is removed. Lesson for LOCAL.md: a one-boot extension is an op too, never loose text.
+- state delta: op-581 draft. op-567 stays returned; it closes with op-581.
+- next: the Coordinator sends op-581.
