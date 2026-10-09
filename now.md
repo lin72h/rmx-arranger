@@ -63,7 +63,7 @@ The pre-fix baseline of launchd's reaper (read its results with N1 in mind) cont
 
 ## Workflow
 
-Taken: meta-014 (`workflow.lock`; the shared tools since meta-001; `tools/last` and `tools/brief-check` are wrappers since meta-013/014). meta-013/014 are being tested in rmxOS before other projects hear of them (Coordinator, 2026-10-08): announce after a few days of use, with any fixes as a new meta change. rmxOS's templates do not derive from the
+Taken: meta-016 (`workflow.lock`; the shared tools since meta-001; `tools/last` and `tools/brief-check` are wrappers since meta-013/014). The rmxOS trial of meta-013/014 found one defect, fixed in meta-015; meta-016 makes the scaffold pin the newest change. Announced to the other four Arrangers on 2026-10-10 (op-591u to op-594u). rmxOS's templates do not derive from the
 base templates yet: moving them is a separate, planned step (agents in flight). Delayed: none.
 
 ## Critical path

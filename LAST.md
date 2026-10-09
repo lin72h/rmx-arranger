@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1400 — meta-015/016 tagged; four workflow casts to relay; op-590 waiting to be sent
+
+- **Unfinished:** op-591u to op-594u shown (workflow meta-013 to meta-016 to the zenoh-swift, depthai, swift-sdk, fstack Arrangers); close each when sent. op-590 (Implementer) shown earlier; set issued when sent. On op-590 green: gatekeeper1's combined proof with installed-image reuse as step 1, then push `mach-fixes-6`.
+- **Waiting on the Coordinator:** relaying op-591u to op-594u; sending op-590.
+- **In flight:** none.
+- **Read first:** `tools/rob show op-591u`; `~/wip-workflow/CHANGELOG.md` § meta-015, meta-016.
+- **Journal:** j-20261010-004 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1330 — op-586 closed (test fixture); op-590 ready to send
 
 - **Unfinished:** op-590 shown; set issued when sent. On op-590 green: gatekeeper1's combined proof of op-569 + op-579 + op-583 + op-586 + op-590 (base `26b8c8ed` vs op-590's head, both profiles), installed-image reuse as step 1 (kernel-testing.md § 4.1), then push `mach-fixes-6`. Then id-051 round 2. Candidate meta-015: scaffold `workflow.lock` should track the latest tag.
