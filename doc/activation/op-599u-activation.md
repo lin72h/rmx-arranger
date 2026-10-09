@@ -1,12 +1,12 @@
 ---
 id: op-599u
-state: draft
+state: hold
 cast: unicast
 agent: zenoh-swift-arranger
 repo: /Users/me/wip-rbzq/agent-arranger
 idq: meta-018
 expected: 15m
-updated: 2026-10-09T22:56Z
+updated: 2026-10-09T22:59Z
 ---
 # op-599u — To the zenoh-swift Arranger: workflow meta-017 and meta-018, from an rmxOS lesson
 

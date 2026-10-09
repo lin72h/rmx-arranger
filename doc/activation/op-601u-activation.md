@@ -1,12 +1,12 @@
 ---
 id: op-601u
-state: draft
+state: hold
 cast: unicast
 agent: swift-sdk-arranger
 repo: /Users/me/wip-swift-sdk/agent-arranger
 idq: meta-018
 expected: 15m
-updated: 2026-10-09T22:56Z
+updated: 2026-10-09T22:59Z
 ---
 # op-601u — To the swift-sdk Arranger: workflow meta-017 and meta-018, from an rmxOS lesson
 

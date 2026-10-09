@@ -1,12 +1,12 @@
 ---
 id: op-602u
-state: draft
+state: hold
 cast: unicast
 agent: fstack-arranger
 repo: /Users/me/wip-fstack/agent-arranger
 idq: meta-018
 expected: 15m
-updated: 2026-10-09T22:56Z
+updated: 2026-10-09T22:59Z
 ---
 # op-602u — To the fstack Arranger: workflow meta-017 and meta-018, from an rmxOS lesson
 

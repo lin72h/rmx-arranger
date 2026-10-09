@@ -1,13 +1,13 @@
 ---
 id: op-598
-state: issued
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-046
 authority: runner change in rmx-gatekeeper1 (host-tested first); 10 boots max (8 + 2 spare) on copies of op552-overlay-base-r3 with the four overlays below; install boots 5 min, test boots 10 min; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 4h
 issued-at: 2026-10-09T22:09Z
-updated: 2026-10-09T22:09Z
+updated: 2026-10-09T23:00Z
 ---
 # op-598 — Gatekeeper 1: prove mach-fixes-6 to b61f0f91 (op-569, op-579, op-583, op-586, op-590) on RELEASE and KASAN; reuse installed images
 
