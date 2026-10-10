@@ -1,12 +1,13 @@
 ---
 id: op-613
-state: draft
+state: closed
 agent: volta-arranger
 repo: /Users/me/wip-volta/volta-arranger
 idq: meta-000
 authority: edit volta-arranger as the setup needs; create role repos when the owner approves the seats; host-only checks; no product code; no push
 expected: 3h
-updated: 2026-10-10T02:51Z
+issued-at: 2026-10-10T03:05Z
+updated: 2026-10-10T03:06Z
 ---
 # op-613 — Volta Arranger: adopt the shared workflow (independent root): tools, records, templates, and seats for H2 and H3
 
