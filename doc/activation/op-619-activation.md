@@ -62,7 +62,7 @@ its final commit.
    the fix comes in a later op. Stop early after three distinct
    reports.
 
-Evidence: a new record `docs/op618-generated-input.md` (kernel profile
+Evidence: a new record `docs/op619-generated-input.md` (kernel profile
 and overlay hashes, the tester's commit and host test, each boot's
 load, duration, coverage at the end and outcome, each distinct report
 with its reduced test and `file:line` reading, the corpus size and

@@ -3782,3 +3782,9 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-617 sent (issued). Decision: after op-617, machine checking instead of a fourth reading round, because rounds 2 and 3 (11 and 8 defects) had no finding in common. Of id-048's three options the self-contained in-guest tester keeps today's containment (no network; corpus on the guest disk; serial on the host), so it is within the delegation; syzkaller needs a guest network and stays the Coordinator's. op-618 drafted and held (`needs: op-617`): `RMXOS-KASAN-KCOV` profile (`COVERAGE`, `KCOV` exist in `sys/conf/options`; `kern_kcov.c`), a Zig in-guest tester driving Mach call sequences with kcov feedback, forked children, corpus on disk, 12 boots of at most 30 minutes; each stop reduced to a failing Zig test under `tests/sys/mach/` plus a `file:line` reading, fixes in a later op. Wording per meta-017/018 (no crash analysis framed as such; reduced regression tests); brief-check clean.
 - state delta: op-617 draft → issued; op-618 hold.
 - next: op-617's reply; then a gatekeeper1 proof of op-617 and release of op-618.
+
+### j-20261010-025 — Correction to j-20261010-024
+
+- time / kind: 2026-10-10 / CORRECTION
+- outcome: The held generated-input op is **op-619** (op-618u is an earlier reply record); j-20261010-024 called it op-618. Its record path, id-048's state and LAST.md are corrected.
+- state delta: none.

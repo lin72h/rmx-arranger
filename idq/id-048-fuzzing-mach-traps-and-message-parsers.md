@@ -1,7 +1,7 @@
 # id-048 — No fuzzing of the Mach trap surface or the userland message parsers
 
 - id: **id-048**
-- state: **IN WORK — step 1 is op-618 (held behind op-617): the self-contained in-guest option, chosen by the Arranger on the Coordinator's delegation (2026-10-10); containment unchanged, no network. syzkaller stays a Coordinator decision (it needs a guest network).**
+- state: **IN WORK — step 1 is op-619 (held behind op-617): the self-contained in-guest option, chosen by the Arranger on the Coordinator's delegation (2026-10-10); containment unchanged, no network. syzkaller stays a Coordinator decision (it needs a guest network).**
 - raised: **2026-09-28 by the Coordinator, from the Arranger's workflow review**
 - parent: id-042 (1.0-preview); related: id-047, id-046, id-013
 - strategy: [instrumentation-strategy.md](../instrumentation-strategy.md), Instrumentation 1.0 (fuzzing)
