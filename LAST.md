@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-1900 — Round 2 briefs op-604 and op-605 ready to send
+
+- **Unfinished:** op-604 (validator1) and op-605 (validator2) shown; set issued when sent. On return: verify first-hand, measure overlap (stop signal), bind findings to an IDQ entry, draft the fix batch; meta-018 rule for any proof. Casts op-599u to op-602u held until meta-017/018 prove themselves here.
+- **Waiting on the Coordinator:** sending op-604 and op-605; which other seats run GLM or DeepSeek.
+- **In flight:** none.
+- **Read first:** `tools/rob show op-604`; [kernel-reviews.md](kernel-reviews.md) § Decision.
+- **Journal:** j-20261010-012 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1830 — id-046 fix list done, `mach-fixes-6@b61f0f91` on origin; round 2 next
 
 - **Unfinished:** draft id-051 round 2: two blind reviews of the Mach integration at `b61f0f91`, validator1 (GLM, completeness) and validator2 (DeepSeek, falsification), wording per meta-017/018. Casts op-599u to op-602u held until meta-017/018 have proved themselves in rmxOS (Coordinator, 2026-10-10).
