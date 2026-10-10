@@ -1,7 +1,7 @@
 # id-063 — Mach review round 3: findings at `mach-fixes-6@b127415a`
 
 - priority: high (Mach foundation round)
-- state: **OPEN — fix batch op-617 drafted 2026-10-10**
+- state: **IN WORK — op-617 fixed T1-T3, T5, T6 (`mach-fixes-6@1cad29b5`, 833/833 both profiles; proof op-621); T4 send-possible is op-622**
 - raised: 2026-10-10, from op-611 (validator1, falsification) and op-612 (validator2, completeness), blind
 - parent: id-051; related: id-062 (round 2)
 

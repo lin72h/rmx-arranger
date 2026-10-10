@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-2330 — op-617 accepted; op-621 (proof) and op-622 (send-possible) ready; op-619 behind op-622
+
+- **Unfinished:** op-621 and op-622 shown; set issued when sent. On op-621 accepted: push `mach-fixes-6@1cad29b5`. On op-622: verify, proof, then release op-619 pinned to op-622's final commit. Casts op-599u to op-602u held.
+- **Waiting on the Coordinator:** sending op-621 and op-622; which other seats run GLM or DeepSeek.
+- **In flight:** none.
+- **Read first:** `tools/rob show op-621`; `tools/rob show op-622`; `/Users/me/wip-mach/rmx-implementer/docs/op617-round3.md` § Item 4.
+- **Journal:** j-20261010-026 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-2300 — op-617 in flight; op-619 (generated-input testing) held behind it
 
 - **Unfinished:** on op-617's return: verify, gatekeeper1 proof (fixed only, meta-018), push `mach-fixes-6`; then release op-619 (pin it to op-617's final commit). Casts op-599u to op-602u held until meta-017/018 prove themselves.

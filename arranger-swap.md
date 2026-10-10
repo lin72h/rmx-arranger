@@ -3788,3 +3788,10 @@ provenance, not current procedure. Never edit or append it.
 - time / kind: 2026-10-10 / CORRECTION
 - outcome: The held generated-input op is **op-619** (op-618u is an earlier reply record); j-20261010-024 called it op-618. Its record path, id-048's state and LAST.md are corrected.
 - state delta: none.
+
+### j-20261010-026 — op-617 accepted (items 1-3, 5); op-621 proof and op-622 send-possible drafted; op-619 now follows op-622
+
+- time / kind: 2026-10-10 / REVIEW
+- outcome: Reply recorded with rob. Verified: five `wip-rmxos` commits `5d7bf8c5` (header placed at `kmsg + ikm_size - mtsize`, leaving the descriptor-expansion space below it, as XNU), `f2b0073f`, `0ed190bd`, `d119ab2f`, `1cad29b5` (5 = `git rev-list --count b127415a..1cad29b5`); three rmx-implementer commits (pushed now); overlay and serial sha256 match; both r2 serials 833 result blocks all `passed`, all `wait_status=0`, `SC_STATUS_2` to `_6` 0, one normal power-off, no panic, assertion, fatal trap or KASAN line. Kernel banners still `b127415a`/`de013f38`: all five changed files are `mach.ko` sources (`sys/compat/mach/ipc/*`, `sys/sys/mach/ipc/ipc_kmsg.h`, which no native kernel source includes), so the kernel binary is unchanged. Item 4 deferred by the brief's stop rule with a design and a 4-5 h estimate (checked: XNU `MACH_NOTIFY_SEND_POSSIBLE` = `MACH_NOTIFY_FIRST + 002` = 66; our headers lack it; libdispatch `internal.h:570-573` falls back to `MACH_NOTIFY_DEAD_NAME`). Drafted: op-621 gatekeeper1 proof of `1cad29b5` (fixed only, 833 + MIG); op-622 Implementer send-possible notifications from the op-617 design. op-619 (generated-input testing) now `needs: op-622`. All brief-check clean.
+- state delta: op-617 → closed; op-621, op-622 draft; op-619 hold (needs op-622).
+- next: the Coordinator sends op-621 and op-622 (parallel-safe: different agents, gatekeeper1 only boots its own copies); on op-621 accepted push `mach-fixes-6@1cad29b5`.

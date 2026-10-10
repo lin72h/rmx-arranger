@@ -4,7 +4,7 @@ state: hold
 agent: implementer
 repo: rmx-implementer
 idq: id-048
-needs: op-617
+needs: op-622
 authority: a new RMXOS-KASAN-KCOV kernel config and tools in rmx-implementer; test-only commits on mach-fixes-6 for reduced regression cases; 12 boots (each a disposable copy, at most 30 min of guest time each); no push
 expected: 6h
 updated: 2026-10-10T06:44Z
@@ -25,8 +25,8 @@ in common between the reviewers, so reading alone is not converging.
 This op adds coverage-guided generated-input testing of the Mach
 system calls, run inside a disposable guest with the same containment
 as every other run: no network, the corpus on the guest disk, the
-serial log on the host. Start once op-617 is on `mach-fixes-6`, from
-its final commit.
+serial log on the host. Start once op-622 (send-possible notifications)
+is on `mach-fixes-6`, from its final commit.
 
 1. **Kernel:** a profile `RMXOS-KASAN-KCOV` (`include RMXOS-KASAN`,
    plus `options COVERAGE` and `options KCOV`; both are in
