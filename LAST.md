@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-2300 — op-617 in flight; op-618 (generated-input testing) held behind it
+
+- **Unfinished:** on op-617's return: verify, gatekeeper1 proof (fixed only, meta-018), push `mach-fixes-6`; then release op-618 (pin it to op-617's final commit). Casts op-599u to op-602u held until meta-017/018 prove themselves.
+- **Waiting on the Coordinator:** which other seats run GLM or DeepSeek (open since 2026-10-10).
+- **In flight:** op-617 Implementer.
+- **Read first:** `tools/rob show op-618`; [idq/id-063-mach-round3-findings.md](idq/id-063-mach-round3-findings.md); [idq/id-048-fuzzing-mach-traps-and-message-parsers.md](idq/id-048-fuzzing-mach-traps-and-message-parsers.md).
+- **Journal:** j-20261010-024 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-2230 — Round 3 done (no overlap); id-063; op-617 ready; op-610 in flight
 
 - **Unfinished:** op-617 (round-3 fixes) shown; set issued when sent. op-610 (gatekeeper1 proof of `b127415a`): on acceptance push `mach-fixes-6@b127415a`. Next check: proposed to the Coordinator, machine checking (generated-input testing under KASAN, id-048) instead of reading round 4, since rounds 2 and 3 had no overlap. Casts op-599u to op-602u held.

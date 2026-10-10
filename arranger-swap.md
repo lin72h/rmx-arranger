@@ -3775,3 +3775,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Reply recorded with rob. Verified: `rmx-gatekeeper1@5d8330b9` is origin/main, with `3a2efdcc` and `64d7e6ec` on it; four serial sha256 match `serial-hashes.txt`; kernels `n284071-b127415a` (KASAN) and `-de013f38` (RELEASE, the module-only amended predecessor seen in op-607); both test serials: 374 result reads all `passed`, all 212 command statuses 0, `op583_batch expected_cases=373 observed_cases=373 failed=0`, `op526_repeat … cases=400 failed=0` (773), normal power-off, no panic, assertion, fatal trap or KASAN line. Accepted. Pushed `mach-fixes-6` `b61f0f91..b127415a` (fast-forward) to origin and backup. id-062 closed. op-617 (round-3 fixes) starts from this commit, still unsent.
 - state delta: op-610 → closed; id-062 CLOSED.
 - next: the Coordinator sends op-617; the next-check choice (machine checking, id-048).
+
+### j-20261010-024 — op-617 sent; next Mach check is generated-input testing (op-618, held)
+
+- time / kind: 2026-10-10 / DECISION (Coordinator: "your call")
+- outcome: op-617 sent (issued). Decision: after op-617, machine checking instead of a fourth reading round, because rounds 2 and 3 (11 and 8 defects) had no finding in common. Of id-048's three options the self-contained in-guest tester keeps today's containment (no network; corpus on the guest disk; serial on the host), so it is within the delegation; syzkaller needs a guest network and stays the Coordinator's. op-618 drafted and held (`needs: op-617`): `RMXOS-KASAN-KCOV` profile (`COVERAGE`, `KCOV` exist in `sys/conf/options`; `kern_kcov.c`), a Zig in-guest tester driving Mach call sequences with kcov feedback, forked children, corpus on disk, 12 boots of at most 30 minutes; each stop reduced to a failing Zig test under `tests/sys/mach/` plus a `file:line` reading, fixes in a later op. Wording per meta-017/018 (no crash analysis framed as such; reduced regression tests); brief-check clean.
+- state delta: op-617 draft → issued; op-618 hold.
+- next: op-617's reply; then a gatekeeper1 proof of op-617 and release of op-618.

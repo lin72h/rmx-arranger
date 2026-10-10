@@ -1,12 +1,13 @@
 ---
 id: op-617
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-063
 authority: product and test commits on mach-fixes-6 in wip-rmxos (one per item); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-607 runner; test-only fixes under op-590's rule; no push
 expected: 7h
-updated: 2026-10-10T03:12Z
+issued-at: 2026-10-10T06:43Z
+updated: 2026-10-10T06:43Z
 ---
 # op-617 — Implementer: Mach round-3 fixes (id-063) on mach-fixes-6 — message header headroom, reply references, send-possible notifications, small items
 
