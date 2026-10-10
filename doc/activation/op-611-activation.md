@@ -1,13 +1,13 @@
 ---
 id: op-611
-state: issued
+state: closed
 agent: validator1
 repo: rmx-validator1
 idq: id-051
 authority: none beyond the defaults: read-only; no guests
 expected: 4h
 issued-at: 2026-10-10T02:42Z
-updated: 2026-10-10T02:42Z
+updated: 2026-10-10T03:08Z
 ---
 # op-611 — Validator 1: Mach review round 3 (blind) of mach-fixes-6@b127415a — what breaks
 
