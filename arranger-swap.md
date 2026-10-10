@@ -3699,3 +3699,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Two blind source reviews of `mach-fixes-6@b61f0f91`, same scope and design rules, different lenses: op-604 validator1 (GLM) completeness, op-605 validator2 (DeepSeek) falsification (cost rule, j-20261010-008). Scope from commands: `sys/compat/mach` 42 files, 52,384 lines with generated MIG; `ipc/` 17 files, 16,994; `kern/` 4, 3,609; `sys/sys/mach` 120, 35,136; `lib/libmach` 13, 2,300; FreeBSD hooks in seven native files (`kern_descrip.c`, `kern_exec.c`, `kern_thread.c`, `kern_thr.c`, `kern_kthread.c`, `file.h`, `proc.h`). Priority order given: IPC core, fd-name hooks, task/thread lifetime, kevents/traps/MIG dispatch, libmach; generated stubs only where needed. The 1.0 design and its accepted gaps carried inline (mach-names-step5-deferred.md rules, step-4 decisions, id-046's known gaps); "needs the name table" tag for step-5-only findings. Blind: no other Validator's repo, no earlier review documents. Findings document under `reviews/op-NNN/`, verdict CLOSE (nothing 1.0 must fix) or REMEDIATE. Both brief-check clean (density included); both Validators idle. Stop signal per kernel-reviews.md: high overlap between the two.
 - state delta: op-604, op-605 draft.
 - next: the Coordinator sends both; on return, compare overlap, bind findings to a new IDQ entry, draft the fix batch.
+
+### j-20261010-013 — op-604 and op-605 sent
+
+- time / kind: 2026-10-10 / DISPATCH
+- outcome: The Coordinator sent both round-2 briefs (validator1, validator2).
+- state delta: op-604, op-605 draft → issued.
+- next: both replies; then overlap, IDQ binding and the fix batch.

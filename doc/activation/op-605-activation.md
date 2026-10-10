@@ -1,12 +1,13 @@
 ---
 id: op-605
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-051
 authority: none beyond the defaults: read-only; no guests
 expected: 4h
-updated: 2026-10-10T00:21Z
+issued-at: 2026-10-10T00:52Z
+updated: 2026-10-10T00:52Z
 ---
 # op-605 — Validator 2: Mach review round 2 (blind) of mach-fixes-6@b61f0f91 — what breaks
 

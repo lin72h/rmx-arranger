@@ -8,9 +8,9 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 ## L-20261010-1900 — Round 2 briefs op-604 and op-605 ready to send
 
-- **Unfinished:** op-604 (validator1) and op-605 (validator2) shown; set issued when sent. On return: verify first-hand, measure overlap (stop signal), bind findings to an IDQ entry, draft the fix batch; meta-018 rule for any proof. Casts op-599u to op-602u held until meta-017/018 prove themselves here.
-- **Waiting on the Coordinator:** sending op-604 and op-605; which other seats run GLM or DeepSeek.
-- **In flight:** none.
+- **Unfinished:** op-604 (validator1) and op-605 (validator2) issued. On return: verify first-hand, measure overlap (stop signal), bind findings to an IDQ entry, draft the fix batch; meta-018 rule for any proof. Casts op-599u to op-602u held until meta-017/018 prove themselves here.
+- **Waiting on the Coordinator:** which other seats run GLM or DeepSeek.
+- **In flight:** op-604 validator1; op-605 validator2.
 - **Read first:** `tools/rob show op-604`; [kernel-reviews.md](kernel-reviews.md) § Decision.
 - **Journal:** j-20261010-012 in [arranger-swap.md](arranger-swap.md).
 
@@ -18,7 +18,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** draft id-051 round 2: two blind reviews of the Mach integration at `b61f0f91`, validator1 (GLM, completeness) and validator2 (DeepSeek, falsification), wording per meta-017/018. Casts op-599u to op-602u held until meta-017/018 have proved themselves in rmxOS (Coordinator, 2026-10-10).
 - **Waiting on the Coordinator:** which other seats run GLM or DeepSeek (asked 2026-10-10).
-- **In flight:** none.
+- **In flight:** op-604 validator1; op-605 validator2.
 - **Read first:** [kernel-reviews.md](kernel-reviews.md) § Road to round 2; [idq/id-051-kernel-review-rounds.md](idq/id-051-kernel-review-rounds.md).
 - **Journal:** j-20261010-011 in [arranger-swap.md](arranger-swap.md).
 
@@ -50,7 +50,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** op-596 shown; set issued when sent. Next: draft gatekeeper1's combined proof of op-569 + op-579 + op-583 + op-586 + op-590 (base `26b8c8ed` vs `b61f0f91`, both profiles), installed-image reuse as step 1 (kernel-testing.md § 4.1); hold it until op-596 is green. Then push `mach-fixes-6`; then id-051 round 2.
 - **Waiting on the Coordinator:** sending op-596.
-- **In flight:** none.
+- **In flight:** op-604 validator1; op-605 validator2.
 - **Read first:** `tools/rob show op-596`; `/Users/me/wip-mach/rmx-implementer/docs/op586-host-task-vm.md`.
 - **Journal:** j-20261010-006 in [arranger-swap.md](arranger-swap.md).
 
@@ -66,7 +66,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** op-591u to op-594u shown (workflow meta-013 to meta-016 to the zenoh-swift, depthai, swift-sdk, fstack Arrangers); close each when sent. op-590 (Implementer) shown earlier; set issued when sent. On op-590 green: gatekeeper1's combined proof with installed-image reuse as step 1, then push `mach-fixes-6`.
 - **Waiting on the Coordinator:** relaying op-591u to op-594u; sending op-590.
-- **In flight:** none.
+- **In flight:** op-604 validator1; op-605 validator2.
 - **Read first:** `tools/rob show op-591u`; `~/wip-workflow/CHANGELOG.md` § meta-015, meta-016.
 - **Journal:** j-20261010-004 in [arranger-swap.md](arranger-swap.md).
 
@@ -74,7 +74,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** op-590 shown; set issued when sent. On op-590 green: gatekeeper1's combined proof of op-569 + op-579 + op-583 + op-586 + op-590 (base `26b8c8ed` vs op-590's head, both profiles), installed-image reuse as step 1 (kernel-testing.md § 4.1), then push `mach-fixes-6`. Then id-051 round 2. Candidate meta-015: scaffold `workflow.lock` should track the latest tag.
 - **Waiting on the Coordinator:** sending op-590.
-- **In flight:** none.
+- **In flight:** op-604 validator1; op-605 validator2.
 - **Read first:** `tools/rob show op-590`; `/Users/me/wip-mach/rmx-implementer/docs/op586-host-task-vm.md`.
 - **Journal:** j-20261010-003 in [arranger-swap.md](arranger-swap.md).
 
