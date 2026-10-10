@@ -1,7 +1,7 @@
 # id-062 — Mach review round 2: findings at `mach-fixes-6@b61f0f91`
 
 - priority: high (Mach foundation round; gates li-1015 and the upper components)
-- state: **OPEN — fix batch op-607 drafted 2026-10-10**
+- state: **FIXED 2026-10-10 — op-607 (`mach-fixes-6@b127415a`, 773/773 on RELEASE and KASAN, Implementer); independent proof op-610 next**
 - raised: 2026-10-10, from op-604 (validator1, GLM, completeness) and op-605 (validator2,
   DeepSeek, falsification), blind
 - parent: id-051 (review rounds); related: id-046 (fix list done), id-056 (name table, deferred)
@@ -28,3 +28,7 @@ None: the two reviews share no finding. Reading has not reached diminishing retu
 op-607, on the areas both "not reached" lists name (`ipc_kmsg.c` descriptor translation,
 `ipc_port.c` internals, generated MIG servers, `lib/libmach`, `mach_vm.c`, `thread_pool.c`,
 `proc_info.c`, `mach_debug.c`, `mach_processor.c`), lenses swapped.
+
+## Fixed (2026-10-10)
+
+op-607: R1 `84ad8508`, R2 `7e92e217`, R3 `0a7cc43e` (named insertion of a file-context port refused), R4 `cdeafe30`, R5-R11 `b127415a`. R5 resolved: both `fo_fdpostclose` call sites run without the descriptor table lock (`closefp_impl` after `XUNLOCK`; `fdescfree_fds`'s loop unlocked beside `closef`), so the hook may block like `fo_close`; the brief's "never sleeps" premise and op-604's "under `FILEDESC_XLOCK`" were both wrong. New known 1.0 gaps: `task_terminate`, named file-port insertion.

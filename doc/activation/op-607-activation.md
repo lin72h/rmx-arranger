@@ -1,12 +1,13 @@
 ---
 id: op-607
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-062
 authority: product and test commits on mach-fixes-6 in wip-rmxos (one per item); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-590 runner; test-only fixes under op-590's rule; no push
 expected: 6h
-updated: 2026-10-10T01:45Z
+issued-at: 2026-10-10T02:35Z
+updated: 2026-10-10T02:36Z
 ---
 # op-607 — Implementer: Mach round-2 fixes (id-062) on mach-fixes-6 — reply-right check, task_terminate, file ports, small items
 
