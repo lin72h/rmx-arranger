@@ -3706,3 +3706,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent both round-2 briefs (validator1, validator2).
 - state delta: op-604, op-605 draft → issued.
 - next: both replies; then overlap, IDQ binding and the fix batch.
+
+### j-20261010-014 — op-605 (validator2, round 2) DONE: REMEDIATE, three findings traced; waiting for op-604
+
+- time / kind: 2026-10-10 / REVIEW
+- outcome: Reply recorded as op-606u. Verified: `rmx-validator2@f90b5a1` (review, 201 lines) and `fe9aa89` (its LOCAL lesson). Traced first-hand at `b61f0f91`: F1 `task_terminate` on the caller's own task runs `ipc_task_terminate`, which sets `itk_self`, `itk_sself`, `itk_resume` to `IP_NULL` (`kern/ipc_tt.c:300`) while the task keeps running; `task_self_trap`'s no-interposing path then compares two NULLs and locks the port (`:494-497`). F2 `IP_CONTEXT_FILE` is handled in `ipc_object_copyout` (`ipc/ipc_object.c:605`, `:658`) but not in `ipc_object_copyout_name` (`:735`), the `mach_port_insert_right` path. F3 a file-context port with a receive disposition reaches `ipc_port_check_circularity` (`ipc/ipc_kmsg.c:1534-1538`), which asserts a port in limbo (`ipc/ipc_port.c:1041-1043`); reachability to be confirmed by the fix's test. F4 (kqueue test errno expectation) and F5 (`mach_port_allocate_name` consistency) accepted on the review's text. Score 9; source traces, not guest observations (no authority). Fix batch waits for op-604 so both reviews feed one batch and the overlap can be measured.
+- state delta: op-605 → closed (op-606u).
+- next: op-604's reply; then overlap, a new IDQ entry for round-2 findings, one fix batch (proof per meta-018: base shown by test failure lines and source traces, no deliberate base crash).
