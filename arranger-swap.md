@@ -3733,3 +3733,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-607 sent and returned (set issued first; reply op-609u). Verified: five `wip-rmxos` commits `84ad8508`, `7e92e217`, `0a7cc43e`, `cdeafe30`, `b127415a` (5 = `git rev-list --count b61f0f91..b127415a`); rmx-implementer `f9debf2`, `df42e88` (pushed now); overlay and serial sha256 match; both serials 773 result blocks all `passed`, all `wait_status=0`, `SC_STATUS_2` to `_6` 0, normal power-off, no panic, assertion, fatal trap or KASAN line. KASAN kernel `n284071-b127415a`; RELEASE `-de013f38`, an amended predecessor differing only in `sys/compat/mach/mach_traps.c` (module code). The PARTIAL was my brief's premise: `mach_port_fdpostclose` can block (receive-port destruction drains messages to a final `vn_close`), but both call sites are unlocked (`kern_descrip.c:1421-1423` after `FILEDESC_XUNLOCK`; `fdescfree_fds` takes and drops `FILEDESC_XLOCK` only to serialize, and its loop calls the hook beside native `closef`), which the Implementer's `sys/file.h` comment already states; no change needed. Accepted. id-062 FIXED. Drafted in parallel: op-610 gatekeeper1 proof of `b127415a` (fixed only, both profiles, 6 boots; earlier behaviour by source trace per meta-018); op-611 validator1 round 3 falsification, op-612 validator2 round 3 completeness (lenses swapped; scope = message-body descriptors, port internals, VM routines, the round-2 diff, libmach and the smaller files both round-2 reviewers did not reach). All three brief-check clean; all hashes from commands.
 - state delta: op-607 → closed (op-609u); op-610, op-611, op-612 draft.
 - next: the Coordinator sends all three (safe together: the Validators only read source).
+
+### j-20261010-018 — op-610, op-611, op-612 sent
+
+- time / kind: 2026-10-10 / DISPATCH
+- outcome: The Coordinator sent the gatekeeper1 proof (op-610) and both round-3 reviews (op-611 validator1, op-612 validator2).
+- state delta: op-610, op-611, op-612 draft → issued.
+- next: the three replies.

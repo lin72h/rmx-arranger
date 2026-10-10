@@ -1,12 +1,13 @@
 ---
 id: op-612
-state: draft
+state: issued
 agent: validator2
 repo: rmx-validator2
 idq: id-051
 authority: none beyond the defaults: read-only; no guests
 expected: 4h
-updated: 2026-10-10T02:37Z
+issued-at: 2026-10-10T02:42Z
+updated: 2026-10-10T02:42Z
 ---
 # op-612 — Validator 2: Mach review round 3 (blind) of mach-fixes-6@b127415a — what is missing
 
