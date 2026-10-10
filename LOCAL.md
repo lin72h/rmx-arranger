@@ -112,6 +112,11 @@ op-365/366/367 calibration and older notes are in
 
 ## Pending template changes (next render round, when no instance has an op in flight)
 
+- Candidate workflow fix (brief-check): the pointer check fails on a bare file name that also
+  exists in this repo (`LAST.md`, `now.md`, `roles.md`, `idq/`) even when the text means another
+  repo's copy (op-588u, op-591u to op-594u, op-613). Reworded each time; a fix would skip a name
+  preceded by another repo's path.
+
 - Every role's OPS.md opening: replace "the Arranger sends a NOTICE when OPS.md changes" with
   "each brief asks for a re-read" (implementer0 already does).
 - validator0: add the falsification pattern "a self-confirming gate cannot see a wrong path:

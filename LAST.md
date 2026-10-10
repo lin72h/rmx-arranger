@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-2130 — op-613 (Volta adoption) ready; Mach proof and round 3 in flight
+
+- **Unfinished:** op-613 for the Volta Arranger shown; set issued when sent; on its reply, list Volta in `~/wip-workflow/projects.md` (independent root). Mach line unchanged: op-610 accepted → push `mach-fixes-6@b127415a`; round 3 (op-611, op-612) → overlap, close or fix. Casts op-599u to op-602u held.
+- **Waiting on the Coordinator:** sending op-613; the seat choice for Volta's H2/H3 agents (via the Volta Arranger); which other seats run GLM or DeepSeek.
+- **In flight:** op-610 gatekeeper1; op-611 validator1; op-612 validator2.
+- **Read first:** `tools/rob show op-613`; `~/wip-volta/volta-arranger/onboarding.md` § Round 7.
+- **Journal:** j-20261010-019 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-2100 — op-607 accepted; op-610 (proof) and op-611/612 (round 3) ready to send
 
 - **Unfinished:** op-610 (gatekeeper1), op-611 (validator1), op-612 (validator2) issued. On op-610 accepted: push `mach-fixes-6@b127415a`. On round 3's return: verify, measure overlap with each other and with round 2, decide whether the Mach round closes. Casts op-599u to op-602u held.

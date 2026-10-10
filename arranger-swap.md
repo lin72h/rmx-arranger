@@ -3740,3 +3740,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The Coordinator sent the gatekeeper1 proof (op-610) and both round-3 reviews (op-611 validator1, op-612 validator2).
 - state delta: op-610, op-611, op-612 draft → issued.
 - next: the three replies.
+
+### j-20261010-019 — Volta adopts the workflow: op-613 drafted for the Volta Arranger
+
+- time / kind: 2026-10-10 / SETUP (Coordinator: help the existing Volta Arranger adopt the workflow; independent root; full adoption now)
+- outcome: Read-only look at `~/wip-volta/volta-arranger` (`lin72h/volta-arranger`, 117 commits; a Claude session live in it, last commit minutes before): one agent per host, all called arranger (H1 FreeBSD here, arranger2 on mm4 for H2, arranger3 on rkl for H3), state in `README.md` (157 KB: status, decision register, changelog), `onboarding.md` (70 KB: owner's directives, handoff), per-host handoffs and host facts; product forks `volta`, `volta-aro`, `volta-ispc`, `volta-zig`. Not in the Arranger tree, so not edited: op-613 is a brief for its Arranger to do the adoption itself (scaffold into the existing repo keeping history, pins as role0 vars, AGENTS.md content moved into blocks before rendering, records kept and new ones added, ops and brief-check from now on). Correction to my offer: H2's and H3's agents also own development work (onboarding.md § Round 7) and commit to the Arranger repo, so "Gatekeeper instances" is not obviously right; op-613 asks the Volta Arranger to put Implementer vs Gatekeeper instances to the owner with a recommendation, and states the one-way access change. Cross-host instance rendering carried inline (rmxOS's procedure). brief-check clean after rewording four bare file names; candidate pointer-check fix noted in LOCAL.md.
+- state delta: op-613 draft.
+- next: the Coordinator relays op-613 to the Volta Arranger; on its reply, add Volta to `~/wip-workflow/projects.md` as an independent root.
