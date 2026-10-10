@@ -1,7 +1,7 @@
 # id-062 — Mach review round 2: findings at `mach-fixes-6@b61f0f91`
 
 - priority: high (Mach foundation round; gates li-1015 and the upper components)
-- state: **FIXED 2026-10-10 — op-607 (`mach-fixes-6@b127415a`, 773/773 on RELEASE and KASAN, Implementer); independent proof op-610 next**
+- state: **CLOSED 2026-10-10 — op-607, proven by op-610 (gatekeeper1: RELEASE and KASAN 773/773 plus five MIG modes, KASAN clean); `mach-fixes-6@b127415a` on origin**
 - raised: 2026-10-10, from op-604 (validator1, GLM, completeness) and op-605 (validator2,
   DeepSeek, falsification), blind
 - parent: id-051 (review rounds); related: id-046 (fix list done), id-056 (name table, deferred)

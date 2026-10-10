@@ -10,7 +10,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 - **Unfinished:** op-617 (round-3 fixes) shown; set issued when sent. op-610 (gatekeeper1 proof of `b127415a`): on acceptance push `mach-fixes-6@b127415a`. Next check: proposed to the Coordinator, machine checking (generated-input testing under KASAN, id-048) instead of reading round 4, since rounds 2 and 3 had no overlap. Casts op-599u to op-602u held.
 - **Waiting on the Coordinator:** sending op-617; the next-check choice; which other seats run GLM or DeepSeek.
-- **In flight:** op-610 gatekeeper1.
+- **In flight:** none (op-610 accepted, `b127415a` on origin, j-20261010-023).
 - **Read first:** `tools/rob show op-617`; [idq/id-063-mach-round3-findings.md](idq/id-063-mach-round3-findings.md); [kernel-reviews.md](kernel-reviews.md) § Decision.
 - **Journal:** j-20261010-021, j-20261010-022 in [arranger-swap.md](arranger-swap.md).
 
