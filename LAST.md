@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261010-2000 — Round 2 done (no overlap); id-062; op-607 ready to send
+
+- **Unfinished:** op-607 (Implementer, round-2 fixes) shown; set issued when sent. Then a gatekeeper1 proof of op-607 (meta-018: no deliberate base crash for items 2-4), push `mach-fixes-6`, then round 3 on both "not reached" lists with lenses swapped (validator1 falsification, validator2 completeness). Casts op-599u to op-602u held.
+- **Waiting on the Coordinator:** sending op-607; which other seats run GLM or DeepSeek.
+- **In flight:** none.
+- **Read first:** `tools/rob show op-607`; [idq/id-062-mach-round2-findings.md](idq/id-062-mach-round2-findings.md).
+- **Journal:** j-20261010-014, j-20261010-015 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-1900 — Round 2 briefs op-604 and op-605 ready to send
 
 - **Unfinished:** op-604 (validator1) and op-605 (validator2) issued. On return: verify first-hand, measure overlap (stop signal), bind findings to an IDQ entry, draft the fix batch; meta-018 rule for any proof. Casts op-599u to op-602u held until meta-017/018 prove themselves here.

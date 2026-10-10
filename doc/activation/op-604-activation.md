@@ -1,13 +1,13 @@
 ---
 id: op-604
-state: issued
+state: closed
 agent: validator1
 repo: rmx-validator1
 idq: id-051
 authority: none beyond the defaults: read-only; no guests
 expected: 4h
 issued-at: 2026-10-10T00:52Z
-updated: 2026-10-10T00:52Z
+updated: 2026-10-10T01:46Z
 ---
 # op-604 — Validator 1: Mach review round 2 (blind) of mach-fixes-6@b61f0f91 — what is missing
 
