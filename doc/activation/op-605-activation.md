@@ -19,8 +19,8 @@ we author and ship, so that the Implementer can fix it.
 
 **Expected time: about 4 hours.**
 
-The Mach integration has been through three reviews and nine fix
-batches since alpha2 `2884304b`. Its fix list is done and proven on
+The Mach integration has been through three reviews and six fix
+branches (`mach-fixes-1` to `-6`) since alpha2 `2884304b`. Its fix list is done and proven on
 RELEASE and KASAN kernels at `mach-fixes-6@b61f0f916417`. This is the
 second independent round: you and one other Validator, on a different
 model, review the same code without seeing each other's work. Do not
