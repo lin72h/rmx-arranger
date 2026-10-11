@@ -4024,3 +4024,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-646 issued (Implementer, about 2 h, 6 boots). No activity on disk yet at send time.
 - state delta: op-646 → issued.
 - next: op-646's reply; the Coordinator's answer on the two parallel ops.
+
+### j-20261012-003 — op-646 DONE: port model passes on RELEASE and KASAN; op-648 drafted (descriptors)
+
+- time / kind: 2026-10-11T12:50Z / REVIEW
+- outcome: op-646 reply recorded (op-647u). Verified: `tests-op644` at `62a4a578` (one test-only commit, `mach_port_model.zig` 13+/22-); rmx-implementer `73d010d` (pushed now); all three serial sha256 and three overlays match. RELEASE: `op583_batch expected_cases=1072 observed_cases=1072 failed=0`, ten `port_model summary seeds=2000 ... mismatches=0 cleanup_failures=0`, MIG 0, power-off. KASAN r1: first 30 results (the new cases) passed and ten 0-mismatch summaries, 249 results passed before the 300 s cap (no batch line, no power-off; 32220 `ipc_right.c:1408` log lines slow the console); KASAN prior r2: `1042 ... failed=0`, MIG 0, power-off. No panic, assertion, fatal trap, KASAN report or lock-order line in any serial. Accepted; size S. The test stays on `tests-op644`, to merge into `mach-fixes-6` with the next product change and be proven with it (one proof instead of two). op-646 closed. Drafted op-648: the model extended to port, port-array and out-of-line descriptors within one task, KASAN planned as two test boots, 8 boots; brief-check clean.
+- state delta: op-646 → closed; op-647u recorded; op-648 draft.
+- next: the Coordinator sends op-648; then id-065.
