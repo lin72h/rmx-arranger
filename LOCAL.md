@@ -109,6 +109,11 @@ op-365/366/367 calibration and older notes are in
 - Child projects: work only through their Arranger repo (`git -C <child-arranger>`,
   `tools/roles render <child>-arranger`; never `roles check` or `list` there). Their decisions
   are theirs; messages go through the Coordinator; `parent-log.md` records only my changes.
+- wip-sff (child on mbp, `ssh mbp`; scripts as `ssh mbp 'zsh -l -s' < file`, since Elixir is only
+  on the login PATH): its Arranger repo is `~/Local/wip-sff/role-arranger`, the existing agent's
+  repo beside the NotesLab source. `~/Local/role-arranger` is only a temporary staging copy
+  (Coordinator, 2026-10-11): the existing agent copies it in through op-001, then I check the copy
+  against it and remove it. Never treat the staging repo as the child's repo.
 
 ## Pending template changes (next render round, when no instance has an op in flight)
 

@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1600 — wip-sff op-001 rewritten: the existing agent copies the staging repo into its own
+
+- **Unfinished:** op-621 and op-622 shown, not yet sent (see L-20261010-2330). wip-sff: after the op-001 reply, verify `mbp:~/Local/wip-sff/role-arranger` against the staging copy, then remove `mbp:~/Local/role-arranger` and log it in parent-log. meta-019 proposed, not started.
+- **Waiting on the Coordinator:** sending op-621, op-622 and wip-sff op-001; meta-019 and pushing `~/wip-workflow`.
+- **In flight:** none.
+- **Read first:** [LOCAL.md](LOCAL.md) § Hosts (wip-sff); `ssh mbp cat ~/Local/role-arranger/doc/activation/op-001-activation.md`.
+- **Journal:** j-20261011-001, j-20261011-002 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1530 — wip-sff on mbp set up as a child; its onboarding op-001 drafted
 
 - **Unfinished:** op-621 and op-622 shown, not yet sent (see L-20261010-2330). wip-sff: the Coordinator relays op-001; meta-019 (workflow_home var, brief-check empty input, own-repo pointers) proposed, not started.
