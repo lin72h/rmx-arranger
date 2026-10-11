@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1800 — op-621 closed and pushed; op-622 in flight
+
+- **Unfinished:** op-622 (Implementer, send-possible notifications). On its reply: verify, draft gatekeeper1 proof, then release op-619 pinned to op-622's final commit.
+- **Waiting on the Coordinator:** op-622's reply; releasing held meta casts op-599u to op-602u (add meta-019/020 first; Volta needs its own).
+- **In flight:** op-622 (implementer, issued 2026-10-11, about 5 h).
+- **Read first:** `tools/rob show op-622`; `/Users/me/wip-mach/rmx-implementer/docs/op617-round3.md` § Item 4.
+- **Journal:** j-20261011-007 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1830 — wip-sff onboarding done; back to rmxOS: op-621 and op-622
 
 - **Unfinished:** op-621 and op-622 shown, not yet sent. On op-621 accepted: push `mach-fixes-6@1cad29b5`. On op-622: verify, proof, then release op-619 pinned to op-622's final commit. Held meta casts op-599u to op-602u get meta-019/020 added when released; Volta needs its own then.

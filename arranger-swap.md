@@ -3838,3 +3838,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-623u reached the wip-sff Arranger. Verified on mbp: `74447fb` drops the `~/wip-workflow` note from its LOCAL.md (no `wip-workflow` line left) and records the check in its journal; newest parent-log entry p-20261011-005. Its "rui base stage 1 waits on your go" is for the Coordinator, not the parent.
 - state delta: op-623u draft → closed.
 - next: none for wip-sff from the parent.
+
+### j-20261011-007 — op-621 and op-622 sent; op-621 accepted; `mach-fixes-6@1cad29b5` pushed
+
+- time / kind: 2026-10-11 / REVIEW and CLOSE
+- outcome: op-621 and op-622 sent (issued). op-621 reply recorded (op-624u). Verified: `rmx-gatekeeper1@f75a76a5` is origin/main, with `943c71c4` and `aadc1074`; four serial sha256 match `serial-hashes.txt` and the reply; both test serials 833 `passed` result lines, none failed, broken or skipped; MIG validation 5/5 cases and `op526_repeat` `cases=400` `missing_reply=false` on both; normal power-off; no panic, assertion, fatal trap or KASAN line in any of the four serials. Overlay and manifest sha256 match the brief; the guest's own `sha256 -q` of `mach.ko` equals the manifest row on both profiles (RELEASE `788664cc`, KASAN `be6507c6`); `kern.racct.enable` 1 on both. Kernels `b127415a` (KASAN) / `de013f38` (RELEASE), as in op-610 (module-only change). 4/6 boots. Size M, verified first-hand; accepted. Pushed `mach-fixes-6` `b127415a..1cad29b5` (fast-forward) to origin and backup.
+- state delta: op-621 → closed; op-622 issued.
+- next: op-622 returns; verify, proof, then release op-619 pinned to op-622's final commit.

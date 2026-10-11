@@ -1,12 +1,13 @@
 ---
 id: op-621
-state: draft
+state: closed
 agent: gatekeeper1
 repo: rmx-gatekeeper1
 idq: id-063
 authority: 6 boots max (4 + 2 spare) on copies of op552-overlay-base-r3 with the two overlays below; install boots 5 min, test boots 10 min; doas vmm.ko, bhyve; push rmx-gatekeeper1 main
 expected: 2h
-updated: 2026-10-10T07:30Z
+issued-at: 2026-10-11T04:53Z
+updated: 2026-10-11T04:55Z
 ---
 # op-621 — Gatekeeper 1: prove mach-fixes-6@1cad29b5 (op-617, round-3 fixes) on RELEASE and KASAN
 
