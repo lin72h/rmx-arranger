@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2300 — real-machine goal proposed; op-635, op-637, op-639 in flight
+
+**Unfinished:** on the Coordinator's yes and machine details, draft the Explorer bare-metal inventory op, then the USB image op. Push `mach-fixes-6@93b3735d` after op-635 accepted and op-639 CLOSE at ≥8 (op-637 non-blocking if agreed).
+**Waiting on the Coordinator:** target machine; agreement to the narrowed gate and op-619 later (j-20261011-018); replies; held meta casts op-599u to op-602u.
+**In flight:** op-635 (gatekeeper1), op-637 (implementer), op-639 (validator1).
+**Read first:** [arranger-swap.md](arranger-swap.md) j-20261011-018, [idq/id-015](idq/id-015-developer-preview-image-staging-model.md), [idq/id-012](idq/id-012-release-distribution-image.md).
+**Journal:** j-20261011-017, j-20261011-018.
+
 ## L-20261011-2250 — op-635, op-637, op-639 in flight; XNU-reference question open
 
 **Unfinished:** push `mach-fixes-6@93b3735d` only after op-635 is accepted, op-639 is CLOSE at ≥8 and op-637 has answered; a fix from op-637 needs a new proof. Then op-619 pinned to the pushed head.
