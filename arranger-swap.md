@@ -3957,3 +3957,9 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-635 reply recorded (op-643u). Verified: `rmx-gatekeeper1@8215f1fd`, `@27f73bf2` on origin; all four serial sha256 match; both test serials `op583_batch expected_cases=1042 observed_cases=1042 failed=0`; MIG return codes all 0 (`a_rc`, `b_rc` 4 each, `kernel_rc` 1, as op-633); no lock-order reversal, panic, assertion, fatal trap or KASAN line; no PID-1 signal lines (printing off); uptime lines present; disposition accepted. op-635 closed. Push gate met (op-635 accepted, op-639 CLOSE 8, op-637 non-blocking): pushed `mach-fixes-6` `1cad29b5..93b3735d` (10 commits; op-635's brief said six, a miscount that does not change the proof of the head) by hash to origin and backup; `ls-remote` shows `93b3735d` on both. id-063 → DONE; now.md updated. op-619 stays held until a real-machine boot (j-20261011-020).
 - state delta: op-635 → closed; op-643u recorded; id-063 done; `mach-fixes-6@93b3735d` on origin.
 - next: the Coordinator chooses the next step: id-064 (real machine, op-641 held), id-065 (launchd shutdown faults), op-619.
+
+### j-20261011-024 — Real machine deferred until properly ready; op-619 back on the path
+
+- time / kind: 2026-10-11T11:05Z / DECISION (Coordinator: "I don't think we are ready for real machine ... be aware of my need, but should do it after we done job properly and really ready")
+- outcome: id-064 deferred, op-641 stays held. op-619 (generated-input testing) is no longer gated on a real-machine boot (reverses that part of j-20261011-020). Standing: the Coordinator's goal is a real-machine image; plan toward it, finish each step properly first. now.md updated.
+- next: Coordinator picks op-619 (re-pinned to `93b3735d`) or id-065 first.

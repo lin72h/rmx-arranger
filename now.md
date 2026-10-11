@@ -57,7 +57,7 @@ wait until the Mach foundation is fixed and re-reviewed. In order:
    Design (2026-10-02): keep fd-backed port names for 1.0 and do op-394 steps 2-4; step 5 (XNU
    name table) is deferred, see [mach-names-step5-deferred.md](mach-names-step5-deferred.md).
 3. Round 2 of the Mach review (id-051; id-052 closed by op-568): two blind reviewers on different models, validator1 (GLM) and validator2 (DeepSeek).
-   **Round 3 done (2026-10-11):** id-063's fixes, send-possible notifications and the MIG generator fixes, `mach-fixes-6@93b3735d` on origin (proof op-635, review op-636/op-639). Next (Coordinator, 2026-10-11): a real-machine image (id-064, op-641 held); op-619 after it; id-065 launchd shutdown faults open.
+   **Round 3 done (2026-10-11):** id-063's fixes, send-possible notifications and the MIG generator fixes, `mach-fixes-6@93b3735d` on origin (proof op-635, review op-636/op-639). Next: machine checking (op-619, id-048) and id-065 (launchd shutdown faults). A real-machine image (id-064) is the Coordinator's goal, deferred until the system is properly ready (2026-10-11).
 The pre-fix baseline of launchd's reaper (read its results with N1 in mind) continues as op-398. op-391 stopped before staging because its own classifier did not compile (dropped 2026-10-01).
 4. Then the upper components. op-387 (libdispatch) was dropped because its pin will be stale; it
    will be re-drafted against the fixed candidate. op-384, op-385 and op-386 are on hold.
