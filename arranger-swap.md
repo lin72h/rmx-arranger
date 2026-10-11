@@ -3880,3 +3880,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-633 issued. Since op-621: op-622, op-626, op-628, op-631 each returned short; 10 boots in about 3 h. Product defects found: send-possible on a dead name, MIG counted-array alignment, MIG simple/complex classification and its RetCode consequence (the last two generator-wide and older than op-622); no fix reverted, no failure repeated. op-631 was the first full run: 1012/1033, all failures test-side. Scope grew from one feature to the MIG generator without an explicit scope decision. Rule set: if op-633 shows a new product defect, the fix loop stops and the next op is an audit of our migcom against Apple's, not another fix.
 - state delta: op-633 issued.
 - next: op-633's reply.
+
+### j-20261011-013 — Lessons from op-622 to op-633 made standing; op-629b dropped
+
+- time / kind: 2026-10-11 / DECISION (Coordinator: "just try to avoid these friction in the future")
+- outcome: LOCAL.md § Keeping rounds few gains five rules: whole-plan test runs reporting every failure; scope a follow-up to the defect's class; check a brief's "stays as it is" premise against the code; expected results name observable values, not exit status; put scope growth to the Coordinator, and audit after two consecutive short returns on one item. Pending template change: the whole-plan run rule in implementer0 OPS.md § Self-check, rendered after op-633 returns (the Implementer has it in flight; its brief already carries the rule). op-629b dropped (superseded by the template change). Gatekeeper template already has the rule (`rmx-gatekeeper0/files/OPS.md:47-49`).
+- state delta: op-629b → dropped.
+- next: op-633's reply; then the implementer0 render.

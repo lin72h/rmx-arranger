@@ -8,7 +8,7 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 
 ## L-20261011-2000 — op-633 in flight
 
-- **Unfinished:** op-633 (implementer). On return: verify. If it passes, add the run-every-case rule to `implementer0/files/OPS.md`, then gatekeeper1 proof and an L review of `1cad29b5..head` (focus: migcom simple-request path), push, release op-619. If it shows a new product defect, stop the fix loop and propose a migcom audit against Apple's (j-20261011-012).
+- **Unfinished:** op-633 (implementer). On return: verify. If it passes, add the run-every-case rule to `implementer0/files/OPS.md`, then gatekeeper1 proof and an L review of `1cad29b5..head` (focus: migcom simple-request path), push, release op-619. If it shows a new product defect, stop the fix loop and propose a migcom audit against Apple's (j-20261011-012); then the implementer0 OPS.md run rule (j-20261011-013).
 - **Waiting on the Coordinator:** op-633's reply; op-629b (empty draft); held meta casts op-599u to op-602u.
 - **In flight:** op-633 (implementer, about 2 h).
 - **Read first:** `tools/rob show op-633`; `/Users/me/wip-mach/rmx-implementer/docs/op617-round3.md` § op-631.

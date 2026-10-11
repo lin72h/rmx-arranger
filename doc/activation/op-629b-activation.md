@@ -1,11 +1,11 @@
 ---
 id: op-629b
-state: draft
+state: dropped
 cast: broadcast
 agent: all
 repo: all
 idq: id-000
-updated: 2026-10-11T05:44Z
+updated: 2026-10-11T06:54Z
 ---
 # op-629b — Test runs go through the whole plan and report every failure
 

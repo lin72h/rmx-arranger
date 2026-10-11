@@ -75,6 +75,20 @@ op-365/366/367 calibration and older notes are in
   against the briefed behaviour) and rerun within its boots; it stops only on a product failure or
   an earlier accepted test failing. Three rounds were lost without this (op-577, op-583, op-586).
 
+- Every test run goes through the whole plan: the op's new cases first, every case even after a
+  failure, all failures reported together; a failure still stops product changes and the KASAN
+  boot. Stop-at-first-failure cost four rounds of one defect each (op-622 to op-628); op-631's
+  full run returned every remaining failure at once.
+- When a stop exposes a defect, scope the next op to the defect's class (an inventory of every
+  place it can occur), not the one instance seen (op-628 to op-631: alignment, then simple/complex).
+- A brief's premise that existing behaviour "stays as it is" is checked against the code first:
+  op-622 assumed combined dead-name behaviour that never existed for selector 66.
+- Expected results name observable values, not only exit status: the MIG modes "exited 0" with
+  kernel calls returning -304 (op-631).
+- When a fix outgrows the op's problem (one feature becoming a generator-wide ABI change), stop and
+  put the scope to the Coordinator before drafting it (op-631). After two consecutive short
+  returns on one item, the next op is an audit of the area, not another fix.
+
 ## Verifying returns
 
 - Resolve every commit in a reply with `git rev-parse` before citing or pushing it.
@@ -120,6 +134,9 @@ op-365/366/367 calibration and older notes are in
   carried two status lines and the removal ran anyway; recovered by stripping them).
 
 ## Pending template changes (next render round, when no instance has an op in flight)
+
+- implementer0 OPS.md § Self-check: the whole-plan run rule (Keeping rounds few, j-20261011-013);
+  render after op-633 returns.
 
 - Candidate workflow fix (brief-check): the pointer check fails on a bare file name that also
   exists in this repo (`LAST.md`, `now.md`, `roles.md`, `idq/`) even when the text means another
