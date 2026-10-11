@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261012-0205 — op-648 in flight (last test-only round)
+
+**Unfinished:** verify op-648's reply first-hand. Then draft the id-065 op (launchd shutdown faults), folding in quieting the `ipc_right.c:1408` ELOG and merging `tests-op644` into `mach-fixes-6`, proven together. Parallel lanes wait for the Coordinator.
+**Waiting on the Coordinator:** op-648's reply; parallel lanes; held meta casts op-599u to op-602u.
+**In flight:** op-648 (implementer).
+**Read first:** [op-648](doc/activation/op-648-activation.md), [idq/id-065](idq/id-065-launchd-shutdown-faults.md).
+**Journal:** j-20261012-003, j-20261012-004.
+
 ## L-20261012-0150 — op-646 done; op-648 drafted
 
 **Unfinished:** op-648 shown, not yet sent. `tests-op644` (`62a4a578`) merges into `mach-fixes-6` with the next product change and is proven with it. After op-648: id-065 (launchd shutdown faults), then the core-library reviews; parallel lanes (Gatekeeper op-305, libdispatch review) wait for the Coordinator.

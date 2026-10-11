@@ -1,12 +1,13 @@
 ---
 id: op-648
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-048
 authority: test-only commits on tests-op644 in wip-rmxos; rebuild the RELEASE and KASAN overlays; 8 self-check boots (6 + 2 spare) with your op-646 runner; no push
 expected: 4h
-updated: 2026-10-11T12:38Z
+issued-at: 2026-10-11T12:42Z
+updated: 2026-10-11T12:42Z
 ---
 # op-648 — Implementer: extend the port-model test to messages that carry port, port-array and out-of-line descriptors
 
