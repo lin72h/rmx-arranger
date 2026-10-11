@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2455 — op-619 held after two filter stops; op-644 drafted
+
+**Unfinished:** op-644 shown, not yet sent (fresh Implementer session). If it runs, extend in ordinary steps (descriptor messages, then a kcov coverage report of the suite); then id-065, then the core-library reviews.
+**Waiting on the Coordinator:** sending op-644; held meta casts op-599u to op-602u.
+**In flight:** none.
+**Read first:** [op-644](doc/activation/op-644-activation.md), [safety-flag-avoidance.md](safety-flag-avoidance.md), arranger-swap.md j-20261011-028 and -029.
+**Journal:** j-20261011-028, j-20261011-029.
+
 ## L-20261011-2440 — op-619 reworded after a filter stop
 
 **Unfinished:** new op-619 shown, not yet sent; it goes to a fresh Implementer session (not the stopped one). Then id-065, then the core-library reviews (roadmap.md § Path).

@@ -1,6 +1,6 @@
 ---
 id: op-619
-state: draft
+state: hold
 agent: implementer
 repo: rmx-implementer
 idq: id-048
@@ -8,7 +8,7 @@ needs: none
 authority: a new RMXOS-KASAN-KCOV kernel config and tools in rmx-implementer; new regression tests as test-only commits on a new branch gen-op619 from mach-fixes-6@93b3735d (never on mach-fixes-6); 12 boots (each a disposable copy, at most 30 min of guest time each); no push
 expected: 6h
 issued-at: 2026-10-11T09:57Z
-updated: 2026-10-11T09:58Z
+updated: 2026-10-11T10:00Z
 ---
 # op-619 — Implementer: randomized state-machine tests of our Mach port and message API, with coverage measurement, on the KASAN kernel (id-048, step 1)
 
