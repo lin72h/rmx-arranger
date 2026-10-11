@@ -1,12 +1,13 @@
 ---
 id: op-628
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-063
 authority: product and test commits on mach-fixes-6 in wip-rmxos for this item, including MIG generator or regenerated server sources; rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-626 runner; test-only fixes under op-590's rule; no push
 expected: 3h
-updated: 2026-10-11T05:24Z
+issued-at: 2026-10-11T05:25Z
+updated: 2026-10-11T06:18Z
 ---
 # op-628 — Implementer: MIG request size for counted inline arrays agrees between user clients and kernel servers, then the op-626 self-check
 
