@@ -4017,3 +4017,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-644 reply recorded (op-645u). Verified: rmx-implementer `ef096f4`, `b6a55e9` (pushed now); `tests-op644` at `f45bb3b1`, 12 test-only commits after `93b3735d` (`mach_port_model.zig`, `op644_extract.defs`); RELEASE test serial `c22b85c2` and both overlays match; `op583_batch expected_cases=1072 observed_cases=1072 failed=20`; all 1042 existing and 10 `extract_make_send` pass; every parsed mismatch is `call=names field=names_rc` at step 30 (the final inventory) or the `names_inventory` case; MIG modes 0; normal power-off; KASAN built, not booted (whole-plan rule). `mach_port.c:233` returns `KERN_NOT_SUPPORTED` (body under `#ifdef notyet`); no userland caller in the tree. Decision (roadmap: catalog a divergence rather than widen scope): known 1.0 gap with the name table, recorded in id-056; not implemented now. The kernel ELOG at `ipc_right.c:1408` prints once per refused MAKE_SEND (13077 lines in r9): noise, not a defect. op-644 closed PARTIAL, test accepted. Drafted op-646: `names_inventory` asserts the current result, `sequences` drops only the inventory step, whole plan on RELEASE and KASAN, 1072 cases expected. brief-check clean.
 - state delta: op-644 → closed; op-645u recorded; op-646 draft.
 - next: the Coordinator sends op-646; the Coordinator's answer on the parallel lanes (Gatekeeper op-305, libdispatch review).
+
+### j-20261012-002 — op-646 sent
+
+- time / kind: 2026-10-11T11:57Z / DISPATCH
+- outcome: op-646 issued (Implementer, about 2 h, 6 boots). No activity on disk yet at send time.
+- state delta: op-646 → issued.
+- next: op-646's reply; the Coordinator's answer on the two parallel ops.

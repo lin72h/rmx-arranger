@@ -1,12 +1,13 @@
 ---
 id: op-646
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-048
 authority: test-only commits on tests-op644 in wip-rmxos; rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with your op-644 runner; no push
 expected: 2h
-updated: 2026-10-11T11:55Z
+issued-at: 2026-10-11T11:57Z
+updated: 2026-10-11T11:57Z
 ---
 # op-646 — Implementer: record mach_port_names as a known 1.0 gap in the port-model test, then its RELEASE and KASAN self-check
 
