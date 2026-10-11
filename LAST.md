@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1800 — workflow pushed; wip-sff at meta-020; op-623u ready
+
+- **Unfinished:** none for wip-sff beyond relaying op-623u. op-621/op-622 not confirmed sent. Held meta casts op-599u to op-602u get meta-019/020 added when released; Volta needs its own then.
+- **Waiting on the Coordinator:** relay op-623u; whether op-621 and op-622 went out.
+- **In flight:** none here.
+- **Read first:** `tools/rob show op-623u`.
+- **Journal:** j-20261011-001 to j-20261011-005 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1730 — wip-sff onboarded; staging removed; op-623u ready
 
 - **Unfinished:** wip-sff meta-019/020: after the push, `git -C ~/Local/wip-workflow pull` on mbp, set `workflow_home` and the lock to meta-020 in the child, re-render, parent-log, cast. op-621/op-622 not confirmed sent.
