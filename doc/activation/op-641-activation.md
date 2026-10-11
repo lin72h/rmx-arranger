@@ -4,7 +4,7 @@ state: draft
 agent: explorer1
 repo: rmx-explorer1
 idq: id-064
-authority: read-only source and image inspection; doas mdconfig -o readonly and mount -o ro of the two images below, detached afterwards; no guests; push rmx-explorer1 main
+authority: read-only source and image inspection; doas mdconfig -o readonly and mount -o ro of the two images below, detached afterwards; no guests; no push
 expected: 2h
 updated: 2026-10-11T09:43Z
 ---
@@ -56,7 +56,7 @@ Find, with file and line or image path for each item:
 Write `findings/op-641-real-machine.md`: a table per area (item, what
 the VM image has, what a real UEFI machine needs, the exact change,
 confidence), then a short ordered list of changes for the build op,
-and what you could not determine without the hardware. Commit and push.
+and what you could not determine without the hardware. Commit; no push.
 
 ## Inputs
 
