@@ -1,12 +1,13 @@
 ---
 id: op-626
-state: draft
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-063
 authority: product and test commits on mach-fixes-6 in wip-rmxos for this item; rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-622 runner; test-only fixes under op-590's rule; no push
 expected: 2h
-updated: 2026-10-11T05:07Z
+issued-at: 2026-10-11T05:22Z
+updated: 2026-10-11T05:24Z
 ---
 # op-626 — Implementer: send-possible on an already-dead name gives an immediate dead-name notification, then the op-622 self-check
 
