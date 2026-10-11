@@ -3915,3 +3915,9 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-639 issued. Coordinator: "why you starting bring xnu to the agent's work I thought we are focus on NextBSD's fork for this iteration". Answered: the code changed is NextBSD's fork, and the 2026-10-02 decision keeps its fd-backed design; XNU has been the behaviour reference in review scope since round 1 (kernel-reviews.md) and in op-416, op-579, op-612, op-617, op-622, op-626. Send-possible has no NextBSD behaviour (selector 66 was refused), and its consumers (libdispatch, libnotify) are Apple code expecting XNU's contract; migcom's reference is Apple's upstream because the NextBSD copy carried the disabled simple-request path. Asked whether the Coordinator wants a different rule.
 - state delta: op-639 issued.
 - next: the Coordinator's answer; replies to op-635, op-637, op-639.
+
+### j-20261011-018 — Coordinator: careful is fine, but wants a version that runs on a real machine
+
+- time / kind: 2026-10-11T10:00Z / DECISION (pending)
+- outcome: Coordinator: "it's okay to be more careful, but time is ticking, I do want a version that I can run on real machine". XNU stays the behaviour reference where NextBSD has none. Proposed: push gate narrowed to op-635 and op-639 (op-637's shutdown-only KASAN warning stops blocking the push and runs on); op-619 generated-input testing moves after the first real-machine boot; next op an Explorer inventory of what the proven image lacks for bare metal, then one Implementer op building a USB-bootable RELEASE image. Asked for the target machine and agreement.
+- next: the Coordinator's answer.
