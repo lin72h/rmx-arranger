@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2310 — op-639 CLOSE 8; push waits on op-635 (and op-637 unless made non-blocking)
+
+**Unfinished:** push `mach-fixes-6@93b3735d` once op-635 is accepted (and op-637 answered, unless the Coordinator agrees to make it non-blocking). On the Coordinator's yes and machine details, draft the Explorer bare-metal inventory op, then the USB image op.
+**Waiting on the Coordinator:** target machine and agreement to j-20261011-018; replies to op-635 and op-637; held meta casts op-599u to op-602u.
+**In flight:** op-635 (gatekeeper1), op-637 (implementer).
+**Read first:** [arranger-swap.md](arranger-swap.md) j-20261011-018 and -019, [op-635](doc/activation/op-635-activation.md), [op-637](doc/activation/op-637-activation.md).
+**Journal:** j-20261011-018, j-20261011-019.
+
 ## L-20261011-2300 — real-machine goal proposed; op-635, op-637, op-639 in flight
 
 **Unfinished:** on the Coordinator's yes and machine details, draft the Explorer bare-metal inventory op, then the USB image op. Push `mach-fixes-6@93b3735d` after op-635 accepted and op-639 CLOSE at ≥8 (op-637 non-blocking if agreed).

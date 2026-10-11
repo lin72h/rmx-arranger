@@ -3921,3 +3921,10 @@ provenance, not current procedure. Never edit or append it.
 - time / kind: 2026-10-11T10:00Z / DECISION (pending)
 - outcome: Coordinator: "it's okay to be more careful, but time is ticking, I do want a version that I can run on real machine". XNU stays the behaviour reference where NextBSD has none. Proposed: push gate narrowed to op-635 and op-639 (op-637's shutdown-only KASAN warning stops blocking the push and runs on); op-619 generated-input testing moves after the first real-machine boot; next op an Explorer inventory of what the proven image lacks for bare metal, then one Implementer op building a USB-bootable RELEASE image. Asked for the target machine and agreement.
 - next: the Coordinator's answer.
+
+### j-20261011-019 — op-639 CLOSE 8/10: review condition of the push gate met
+
+- time / kind: 2026-10-11T10:10Z / REVIEW
+- outcome: op-639 reply recorded (op-640u). Verified `rmx-validator1@d7c4129` (review section at `reviews/op-636/review.md:106`, plus its own LOCAL.md lesson: read an on-disk comparison tree before asserting its behaviour). Findings 1 and 2 withdrawn with the cited XNU lines; the three generator changes that alter emitted code (`rtCheckSimple` for requests, `InArgMsgField` keyed on `rtSimpleRequest`, four-byte `itWordAlign`) match bootstrap_cmds-138. Not reached: the counted-array server spot-check and the send-possible test coverage; counted arrays are exercised by `mig_arrays` in op-633's 1042/1042 runs. CLOSE 8 meets the ≥8 bar. op-639 closed.
+- state delta: op-639 → closed; op-640u recorded.
+- next: op-635's proof; push gate otherwise met except op-637, which the Coordinator may make non-blocking (j-20261011-018).
