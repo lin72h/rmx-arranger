@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2223 — op-635, op-636, op-637 in flight
+
+**Unfinished:** wait for the three replies and verify each first-hand. Push `mach-fixes-6@93b3735d` (origin and backup) only after op-635 is accepted, op-636 is CLOSE at ≥8 and op-637 has answered; a fix from op-637 moves the head and needs a new proof. Then release op-619 pinned to the pushed head.
+**Waiting on the Coordinator:** the three replies; releasing held meta casts op-599u to op-602u (add meta-019 and meta-020 first; Volta needs its own cast); open question whether the generator-wide MIG change may land on `mach-fixes-6` before op-619.
+**In flight:** op-635 (gatekeeper1), op-636 (validator1), op-637 (implementer).
+**Read first:** [doc/activation/op-635-activation.md](doc/activation/op-635-activation.md), [op-636](doc/activation/op-636-activation.md), [op-637](doc/activation/op-637-activation.md), [LOCAL.md § Keeping rounds few](LOCAL.md).
+**Journal:** j-20261011-014, j-20261011-015.
+
 ## L-20261011-2045 — op-633 done; proof, review, WITNESS diagnosis drafted
 
 - **Unfinished:** op-635, op-636, op-637 shown, not yet sent. Push `mach-fixes-6@93b3735d` only after op-635 accepted, op-636 CLOSE at ≥8 and op-637 answered (a fix from op-637 would move the head: re-proof). Then release op-619 pinned to the pushed head.
