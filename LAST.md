@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1810 — op-622 stopped on a brief gap; op-626 drafted
+
+- **Unfinished:** op-626 shown, not yet sent. On its return: verify, draft gatekeeper1 proof of the op-626 head, size the op-622+op-626 kernel diff for review (likely L), then release op-619 pinned to the proven head.
+- **Waiting on the Coordinator:** sending op-626; releasing held meta casts op-599u to op-602u (add meta-019/020 first; Volta needs its own).
+- **In flight:** none.
+- **Read first:** `tools/rob show op-626`; `/Users/me/wip-mach/rmx-implementer/docs/op617-round3.md` § op-622 RELEASE stop.
+- **Journal:** j-20261011-007, j-20261011-008 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1800 — op-621 closed and pushed; op-622 in flight
 
 - **Unfinished:** op-622 (Implementer, send-possible notifications). On its reply: verify, draft gatekeeper1 proof, then release op-619 pinned to op-622's final commit.
