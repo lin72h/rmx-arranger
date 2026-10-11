@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2000 — op-633 in flight
+
+- **Unfinished:** op-633 (implementer). On return: verify. If it passes, add the run-every-case rule to `implementer0/files/OPS.md`, then gatekeeper1 proof and an L review of `1cad29b5..head` (focus: migcom simple-request path), push, release op-619. If it shows a new product defect, stop the fix loop and propose a migcom audit against Apple's (j-20261011-012).
+- **Waiting on the Coordinator:** op-633's reply; op-629b (empty draft); held meta casts op-599u to op-602u.
+- **In flight:** op-633 (implementer, about 2 h).
+- **Read first:** `tools/rob show op-633`; `/Users/me/wip-mach/rmx-implementer/docs/op617-round3.md` § op-631.
+- **Journal:** j-20261011-011, j-20261011-012 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1950 — op-631 partial (test side only); op-633 drafted
 
 - **Unfinished:** op-633 shown, not yet sent. op-629b is an empty draft (drop, or fill and send, per the Coordinator). After op-633: verify; add the run-every-case rule to `implementer0/files/OPS.md` § Self-check and re-render; gatekeeper1 proof and an L review of `1cad29b5..head` (focus: the re-enabled simple-request path in migcom); push; release op-619.

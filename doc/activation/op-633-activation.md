@@ -1,12 +1,13 @@
 ---
 id: op-633
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-063
 authority: test and fixture commits on mach-fixes-6 in wip-rmxos and runner changes in rmx-implementer for this item (product source only if step 2 finds a stale client in the image); rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with the op-631 runner; no push
 expected: 2h
-updated: 2026-10-11T06:49Z
+issued-at: 2026-10-11T06:51Z
+updated: 2026-10-11T06:51Z
 ---
 # op-633 — Implementer: tests and fixtures move to the regenerated MIG encoding; no stale generated clients left; full run on both profiles
 
