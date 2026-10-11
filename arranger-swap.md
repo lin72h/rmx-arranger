@@ -4004,3 +4004,9 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-644 issued. safety-flag-avoidance.md: rule 10 (when the work's shape trips the filter, stop rewording after the second stop and split into ordinary steps, plainest first: a test added to the existing suite with its checker written in; add capability back one plain step at a time) and § Seats → GPT-Sol-6.1 (stops at session start with nothing left; a stopped session stays stopped; judges the task's shape; wording accepted so far). Candidate for the shared workflow (`~/wip-workflow` method § Wording) on the Coordinator's word.
 - state delta: op-644 issued.
 - next: op-644's reply.
+
+### j-20261011-031 — Process kept as it is until 1.0-preview
+
+- time / kind: 2026-10-11T11:00Z / DECISION (Coordinator: "we have no choice but stick to this process at least to our 1.0-preview")
+- outcome: Asked whether long sessions are necessary; answered with the split (boots about 10–15 min per op, builds minutes, the rest the agent's own iteration and evidence). Proposed trimming the Implementer template; the Coordinator keeps the process unchanged until 1.0-preview. Recorded in LOCAL.md § Standing decisions.
+- next: op-644's reply.

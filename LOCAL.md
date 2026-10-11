@@ -32,6 +32,9 @@ op-365/366/367 calibration and older notes are in
 - **Cost (2026-10-10).** Codex seats are cheap but not free: for review and consults use validator1
   (GLM) and validator2 (DeepSeek) first; validator3 or an Advisor only when they cannot answer.
   Each numbered seat is tied to its model, so choosing the seat chooses the model.
+- **Process stays as it is until 1.0-preview (2026-10-11).** Long Implementer sessions and the
+  current evidence load are accepted; do not trim the templates or propose process changes for
+  speed before then. Small ops and the lessons in § Keeping rounds few still apply.
 - **Idle gaps** (the Coordinator asleep, a model out of tokens) are expected, not mine to fix.
 
 ## Before showing a brief, cast, restart prompt or answer
