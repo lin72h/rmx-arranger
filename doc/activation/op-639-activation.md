@@ -1,12 +1,13 @@
 ---
 id: op-639
-state: draft
+state: issued
 agent: validator1
 repo: rmx-validator1
 idq: id-063
 authority: none beyond the defaults: read-only; no guests
 expected: 2h
-updated: 2026-10-11T09:33Z
+issued-at: 2026-10-11T09:37Z
+updated: 2026-10-11T09:37Z
 ---
 # op-639 — Validator 1: finish the op-636 review — our migcom against Apple's bootstrap_cmds, and a rescore after two findings were refuted
 
