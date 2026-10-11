@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1730 — wip-sff onboarded; staging removed; op-623u ready
+
+- **Unfinished:** wip-sff meta-019/020: after the push, `git -C ~/Local/wip-workflow pull` on mbp, set `workflow_home` and the lock to meta-020 in the child, re-render, parent-log, cast. op-621/op-622 not confirmed sent.
+- **Waiting on the Coordinator:** relay op-623u; push `~/wip-workflow` (main, meta-019, meta-020); whether op-621 and op-622 went out.
+- **In flight:** none here.
+- **Read first:** `tools/rob show op-623u`; [LOCAL.md](LOCAL.md) § Hosts (wip-sff).
+- **Journal:** j-20261011-001 to j-20261011-004 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261011-1700 — meta-019/020 made and taken; wip-sff op-001 sent
 
 - **Unfinished:** after wip-sff's op-001 reply: verify its copy against staging, then take meta-020 in the child (pull on mbp, `workflow_home`, lock, render, parent-log, cast) and remove `mbp:~/Local/role-arranger`. op-621/op-622 not confirmed sent.

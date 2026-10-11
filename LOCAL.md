@@ -114,6 +114,10 @@ op-365/366/367 calibration and older notes are in
   repo beside the NotesLab source. `~/Local/role-arranger` is only a temporary staging copy
   (Coordinator, 2026-10-11): the existing agent copies it in through op-001, then I check the copy
   against it and remove it. Never treat the staging repo as the child's repo.
+- Before removing anything, take the backup in its own command and check it in another
+  (`tar tzf` on the file); never chain the removal after a pipeline, whose status is its last
+  command's, and never let other output share the archive's stdout (2026-10-11: the staging backup
+  carried two status lines and the removal ran anyway; recovered by stripping them).
 
 ## Pending template changes (next render round, when no instance has an op in flight)
 
