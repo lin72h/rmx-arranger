@@ -21,3 +21,11 @@ that keep step 5 possible.
 ## Done when
 
 Step 5 is either adopted after 1.0, with the record's requirements met, or explicitly declined.
+
+## Known 1.0 gap: `mach_port_names` (2026-10-11, op-644)
+
+`sys/compat/mach/ipc/mach_port.c:233` returns `KERN_NOT_SUPPORTED`; the XNU-derived body is under
+`#ifdef notyet` and walks a name table rmxOS does not have. No userland program in the tree calls
+it (`git grep -w mach_port_names` at `93b3735d`, outside generated MIG code). Recorded as a known
+gap with the name table (step 5); the op-644 test case `names_inventory` asserts the current
+result so it changes when enumeration is implemented (op-646).

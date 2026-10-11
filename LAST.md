@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261012-0130 — op-644 closed; op-646 drafted; parallel lanes proposed
+
+**Unfinished:** op-646 shown, not yet sent. After it: the next plain step of op-619's work, then id-065. Parallel lanes proposed (Gatekeeper op-305 re-pin; validator1 and validator2 libdispatch review), awaiting the Coordinator.
+**Waiting on the Coordinator:** sending op-646; yes or no on the two parallel ops; held meta casts op-599u to op-602u.
+**In flight:** none.
+**Read first:** [op-646](doc/activation/op-646-activation.md), [op-645u](doc/activation/op-645u-activation.md), [idq/id-056](idq/id-056-xnu-name-table-step5-deferred.md).
+**Journal:** j-20261011-031, j-20261012-001.
+
 ## L-20261011-2505 — op-644 in flight; filter lesson recorded
 
 **Unfinished:** wait for op-644's reply and verify it first-hand (record, both serial hashes, the new case's 2000-seed summary, any named mismatch cases on `tests-op644`). Then the next plain step of op-619's work, then id-065, then the core-library reviews.
