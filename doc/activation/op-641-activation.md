@@ -1,12 +1,12 @@
 ---
 id: op-641
-state: draft
+state: hold
 agent: explorer1
 repo: rmx-explorer1
 idq: id-064
 authority: read-only source and image inspection; doas mdconfig -o readonly and mount -o ro of the two images below, detached afterwards; no guests; no push
 expected: 2h
-updated: 2026-10-11T09:43Z
+updated: 2026-10-11T09:46Z
 ---
 # op-641 — Explorer 1: what the proven rmxOS VM image lacks to boot on a real UEFI machine (x86-64 Rocket Lake)
 

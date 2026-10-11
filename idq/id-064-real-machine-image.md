@@ -1,7 +1,7 @@
 # id-064 — first rmxOS image that boots on a real machine (x86-64 Rocket Lake, UEFI)
 
 - priority: high (Coordinator, 2026-10-11: "I do want a version that I can run on real machine")
-- state: **OPEN — op-641 inventory**
+- state: **WAITING — op-641 on hold (Coordinator 2026-10-11: "too fast, don't need explorer for now")**
 - raised: 2026-10-11 (j-20261011-018, j-20261011-020)
 - related: id-015 (staging-model image, proven in VMs), id-012 (installer route, deferred)
 

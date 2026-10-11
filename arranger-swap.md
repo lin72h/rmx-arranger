@@ -3936,3 +3936,10 @@ provenance, not current procedure. Never edit or append it.
 - state delta: id-064 opened; op-641 draft.
 - next: the Coordinator sends op-641; push on op-635's acceptance; then the Implementer's USB image op from op-641's list.
 - correction (10:25Z): op-641 authority changed to "no push": rmx-explorer1's only remote is named `gatekeeper` and points at `lin72h/rmx-gatekeeper.git`; a push there would write another repo. Remote to be sorted separately.
+
+### j-20261011-021 — op-641 held: "that's too fast, don't need explorer for now"
+
+- time / kind: 2026-10-11T10:30Z / DECISION (Coordinator)
+- outcome: op-641 → hold, not sent; id-064 waiting. Decisions of j-20261011-020 otherwise stand (push on op-635's acceptance; op-637 non-blocking; op-619 after a real-machine boot). No real-machine op until the Coordinator says.
+- state delta: op-641 → hold.
+- next: replies to op-635 and op-637.

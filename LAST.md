@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2330 — op-641 held; push waits on op-635
+
+**Unfinished:** push `mach-fixes-6@93b3735d` (origin and backup) once op-635 is accepted; op-637 non-blocking. Real-machine image (id-064) waits for the Coordinator; op-641 on hold.
+**Waiting on the Coordinator:** replies to op-635 and op-637; when to resume id-064; held meta casts op-599u to op-602u.
+**In flight:** op-635 (gatekeeper1), op-637 (implementer).
+**Read first:** [op-635](doc/activation/op-635-activation.md), [op-637](doc/activation/op-637-activation.md), [idq/id-064](idq/id-064-real-machine-image.md).
+**Journal:** j-20261011-020, j-20261011-021.
+
 ## L-20261011-2320 — real-machine image (id-064): op-641 drafted; push waits on op-635 only
 
 **Unfinished:** op-641 shown, not yet sent. Push `mach-fixes-6@93b3735d` (origin and backup) once op-635 is accepted; op-637 no longer blocks. After op-641 returns, draft the Implementer's USB image op from its list (from the pushed head, one UEFI bhyve boot, then hand to the Coordinator).
