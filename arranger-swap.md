@@ -3976,3 +3976,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: The roadmap order is standing: op-619 (generated-input testing), id-065 (launchd shutdown faults), core-library reviews (op-384 to op-386 and libdispatch), asl leg 4 and libxpc lifecycle, then li-1015 (real hardware), then soak and ship. op-619 hold → draft: pinned to `mach-fixes-6@93b3735d`, runner op-633's, reduced failing tests on a new branch `gen-op619` so `mach-fixes-6` stays green, op-637's shutdown launchd signal lines named as known and not counted. brief-check clean.
 - state delta: op-619 → draft.
 - next: the Coordinator sends op-619; id-065's op drafted after op-619 returns (both need the Implementer).
+
+### j-20261011-027 — op-619 sent
+
+- time / kind: 2026-10-11T11:30Z / DISPATCH
+- outcome: op-619 issued (Implementer, generated-input testing, up to 12 boots, about 6 h).
+- state delta: op-619 → issued.
+- next: op-619's reply; then the id-065 op.

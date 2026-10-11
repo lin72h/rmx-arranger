@@ -1,12 +1,13 @@
 ---
 id: op-619
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-048
 needs: none
 authority: a new RMXOS-KASAN-KCOV kernel config and tools in rmx-implementer; reduced regression cases as test-only commits on a new branch gen-op619 from mach-fixes-6@93b3735d (never on mach-fixes-6); 12 boots (each a disposable copy, at most 30 min of guest time each); no push
 expected: 6h
+issued-at: 2026-10-11T09:57Z
 updated: 2026-10-11T09:57Z
 ---
 # op-619 — Implementer: generated-input testing of the Mach traps inside a KASAN guest (id-048, step 1): kcov kernel, in-guest tester, first campaign
