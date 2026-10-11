@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-1530 — wip-sff on mbp set up as a child; its onboarding op-001 drafted
+
+- **Unfinished:** op-621 and op-622 shown, not yet sent (see L-20261010-2330). wip-sff: the Coordinator relays op-001; meta-019 (workflow_home var, brief-check empty input, own-repo pointers) proposed, not started.
+- **Waiting on the Coordinator:** sending op-621, op-622 and wip-sff op-001; whether to do meta-019 and push `~/wip-workflow` (projects.md `c0b1d81` unpushed).
+- **In flight:** none.
+- **Read first:** `ssh mbp cat ~/Local/role-arranger/doc/activation/op-001-activation.md`; `ssh mbp cat ~/Local/role-arranger/parent-log.md`.
+- **Journal:** j-20261011-001 in [arranger-swap.md](arranger-swap.md).
+
 ## L-20261010-2330 — op-617 accepted; op-621 (proof) and op-622 (send-possible) ready; op-619 behind op-622
 
 - **Unfinished:** op-621 and op-622 shown; set issued when sent. On op-621 accepted: push `mach-fixes-6@1cad29b5`. On op-622: verify, proof, then release op-619 pinned to op-622's final commit. Casts op-599u to op-602u held.

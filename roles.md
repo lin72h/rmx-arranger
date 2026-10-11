@@ -66,6 +66,7 @@ project's Arranger, its front panel.
 | Child project | Child Arranger | Since |
 |---|---|---|
 | zenoh-swift | `/Users/me/wip-rbzq/agent-arranger` | 2026-10-04 |
+| wip-sff | `mbp:~/Local/role-arranger` (macOS 27; workflow at `~/Local/wip-workflow`; reached over `ssh mbp`) | 2026-10-11 |
 
 Further down, not direct children (each Arranger deals only with its own): wip-network
 (`/Users/me/wip-network/agent-arranger`), zenoh-swift's child since 2026-10-10, set up from the
