@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2345 — op-637 closed (id-065); push waits on op-635 only
+
+**Unfinished:** push `mach-fixes-6@93b3735d` (origin and backup) once op-635 is accepted; then op-619 stays held until a real-machine boot (j-20261011-020).
+**Waiting on the Coordinator:** op-635's reply; when to start id-065 (launchd shutdown faults) and id-064 (real machine, op-641 held); held meta casts op-599u to op-602u.
+**In flight:** op-635 (gatekeeper1).
+**Read first:** [op-635](doc/activation/op-635-activation.md), [idq/id-065](idq/id-065-launchd-shutdown-faults.md).
+**Journal:** j-20261011-021, j-20261011-022.
+
 ## L-20261011-2330 — op-641 held; push waits on op-635
 
 **Unfinished:** push `mach-fixes-6@93b3735d` (origin and backup) once op-635 is accepted; op-637 non-blocking. Real-machine image (id-064) waits for the Coordinator; op-641 on hold.

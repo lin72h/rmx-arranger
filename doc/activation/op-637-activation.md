@@ -1,13 +1,13 @@
 ---
 id: op-637
-state: issued
+state: closed
 agent: implementer
 repo: rmx-implementer
 idq: id-063
 authority: read-only source trace; up to 2 diagnostic KASAN boots on copies of op-633's overlay with diagnostic settings only; commits on a diag-witness-op633 branch and in rmx-implementer; no commits to mach-fixes-6; no push
 expected: 2h
 issued-at: 2026-10-11T09:23Z
-updated: 2026-10-11T09:23Z
+updated: 2026-10-11T09:48Z
 ---
 # op-637 — Implementer: find the source of the shutdown WITNESS warning (process lock, then btag lock) on op-633's KASAN run
 

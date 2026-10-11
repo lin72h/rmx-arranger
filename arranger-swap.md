@@ -3943,3 +3943,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-641 → hold, not sent; id-064 waiting. Decisions of j-20261011-020 otherwise stand (push on op-635's acceptance; op-637 non-blocking; op-619 after a real-machine boot). No real-machine op until the Coordinator says.
 - state delta: op-641 → hold.
 - next: replies to op-635 and op-637.
+
+### j-20261011-022 — op-637 PARTIAL: PID-1 launchd faults at shutdown (id-065); WITNESS pair unconfirmed
+
+- time / kind: 2026-10-11T10:45Z / REVIEW
+- outcome: op-637 reply recorded (op-642u). Verified: `rmx-implementer@f2616f2` (record `docs/op637-witness.md`, runner, console script; pushed now); both serial sha256 match (`61bbd645` install, `570dc0ef` KASAN); `op583_batch expected_cases=1042 observed_cases=1042 failed=0` (28669); 850 and 3374 `pid 1 comm launchd: signal 11` lines, first after `All buffers synced.` (install 110-111, KASAN 29375-29376); no lock-order reversal, panic or KASAN line in either; no product change. The faults also occur on the installation boot, running the base image's launchd, and the launchd helper and reboot code is unchanged over the range: pre-existing, not from round 3. Earlier runs did not print user signal faults (`machdep.uprintf_signal` was off). The source trace makes them a plausible source of op-633's warning (queued signal allocation under the process lock; KASAN's boundary-tag UMA path), unconfirmed. Opened id-065 (medium; no op yet, the Coordinator slowed new work). op-637 closed PARTIAL; it no longer blocks the push (j-20261011-020).
+- state delta: op-637 → closed; op-642u recorded; id-065 opened.
+- next: op-635's reply, then the push of `mach-fixes-6@93b3735d`.
