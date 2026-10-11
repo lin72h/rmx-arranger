@@ -3928,3 +3928,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: op-639 reply recorded (op-640u). Verified `rmx-validator1@d7c4129` (review section at `reviews/op-636/review.md:106`, plus its own LOCAL.md lesson: read an on-disk comparison tree before asserting its behaviour). Findings 1 and 2 withdrawn with the cited XNU lines; the three generator changes that alter emitted code (`rtCheckSimple` for requests, `InArgMsgField` keyed on `rtSimpleRequest`, four-byte `itWordAlign`) match bootstrap_cmds-138. Not reached: the counted-array server spot-check and the send-possible test coverage; counted arrays are exercised by `mig_arrays` in op-633's 1042/1042 runs. CLOSE 8 meets the ≥8 bar. op-639 closed.
 - state delta: op-639 → closed; op-640u recorded.
 - next: op-635's proof; push gate otherwise met except op-637, which the Coordinator may make non-blocking (j-20261011-018).
+
+### j-20261011-020 — Real-machine goal accepted; push gate narrowed; op-641 drafted
+
+- time / kind: 2026-10-11T10:20Z / DECISION (Coordinator: "target machine is x86 rocketlake UEFI and yes to your plan")
+- outcome: Decisions: op-637 no longer blocks the `mach-fixes-6@93b3735d` push (it runs on; a fix, if ours, comes in a later op); op-619 moves after the first real-machine boot; the image route (base image plus overlay, applied once on the host, one USB image) rather than the installer route (id-012). id-064 opened and indexed. Drafted op-641: explorer1 inventory of what the proven VM image lacks for a UEFI boot on Rocket Lake (EFI partition, overlay applied on the host, console, drivers, VM-only start-up, outside boot settings), read-only image attach granted. Base image and overlay sha256 recomputed. brief-check clean.
+- state delta: id-064 opened; op-641 draft.
+- next: the Coordinator sends op-641; push on op-635's acceptance; then the Implementer's USB image op from op-641's list.
