@@ -3963,3 +3963,9 @@ provenance, not current procedure. Never edit or append it.
 - time / kind: 2026-10-11T11:05Z / DECISION (Coordinator: "I don't think we are ready for real machine ... be aware of my need, but should do it after we done job properly and really ready")
 - outcome: id-064 deferred, op-641 stays held. op-619 (generated-input testing) is no longer gated on a real-machine boot (reverses that part of j-20261011-020). Standing: the Coordinator's goal is a real-machine image; plan toward it, finish each step properly first. now.md updated.
 - next: Coordinator picks op-619 (re-pinned to `93b3735d`) or id-065 first.
+
+### j-20261011-025 — Roadmap shown; id-064 folded back into li-1015
+
+- time / kind: 2026-10-11T11:15Z / CORRECTION
+- outcome: Coordinator: "show me the roadmap". Reading roadmap.md found li-1015 (real x86 hardware, high, gated by the Coordinator on 2026-10-08: core kernel and core libraries ready first). I had opened id-064 and drafted op-641 without reading it: a duplicate, and against a standing gate. id-064 retired as a duplicate; li-1015 records the machine (Rocket Lake, UEFI) and the reaffirmed gate; op-641 stays held under it. roadmap.md path table brought to 2026-10-11 (rounds 2 and 3 done; op-619 next; id-065). Lesson: before opening an IDQ entry or drafting toward a goal, grep `l1i/` and roadmap.md for it.
+- next: the Coordinator's choice of op-619 or id-065 first.

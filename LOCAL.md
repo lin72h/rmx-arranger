@@ -89,6 +89,9 @@ op-365/366/367 calibration and older notes are in
   put the scope to the Coordinator before drafting it (op-631). After two consecutive short
   returns on one item, the next op is an audit of the area, not another fix.
 
+- Before opening an IDQ entry or drafting toward a new goal, grep `l1i/` and roadmap.md for it:
+  id-064 duplicated li-1015 and its op ran against the Coordinator's standing gate (2026-10-11).
+
 ## Verifying returns
 
 - Resolve every commit in a reply with `git rev-parse` before citing or pushing it.

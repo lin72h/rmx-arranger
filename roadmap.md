@@ -4,7 +4,7 @@
   `id-NNN` in [idq/id-000.md](idq/id-000.md) → ops `op-NNN` via `tools/rob`;
   [terminology.md](terminology.md) §6). This page says what 1.0 means and the order we get there;
   [now.md](now.md) holds the critical path of the moment.
-- status: living, rewritten 2026-10-05, path updated 2026-10-09 (the June–July text is in Git at `cc7efa3`). The
+- status: living, rewritten 2026-10-05, path updated 2026-10-11 (the June–July text is in Git at `cc7efa3`). The
   Coordinator owns the target; the Arranger keeps the page current.
 - discipline: **truly-green, not paper-green.** A milestone retires only on first-hand evidence that
   its criterion holds, never on an agent's report.
@@ -34,7 +34,7 @@ Decisions that shape the preview (Coordinator):
 Usable is a threshold, not a guarantee: no known blocking defect on the target use cases, with the
 remaining gaps named and bounded. We certify the surface we exercise.
 
-## Path to the preview (2026-10-09)
+## Path to the preview (2026-10-11)
 
 | Stage | Status |
 |---|---|
@@ -46,7 +46,9 @@ remaining gaps named and bounded. We certify the surface we exercise.
 | Overlay disks for the test loop (kernel-testing.md § 4.1) | done; both runners use them (op-552, op-560) |
 | Automated checking of every candidate (id-047 CI) | in work: build stage (op-562); INVARIANTS assertion fix `13628bbe` proven on RELEASE and KASAN and on origin (op-567, op-581); id-046's last fixes and op-568's findings proven by op-598, `mach-fixes-6@b61f0f91` on origin (2026-10-10) |
 | Remaining id-046 items; Mach review remainder (id-052) | done (op-568; op-569 to op-598) |
-| Review round 2 (id-051): validator1 (GLM) and validator2 (DeepSeek), blind | next |
+| Review rounds 2 and 3 (id-051): validator1 (GLM) and validator2 (DeepSeek), blind | done: round 2 fixed (id-062, `mach-fixes-6@b127415a`); round 3 fixed with send-possible notifications and the MIG generator fixes (id-063, `mach-fixes-6@93b3735d`, 2026-10-11) |
+| Machine checking of the Mach traps: generated inputs under KASAN (id-048, op-619) | next: reading no longer converges (no overlap between reviewers in rounds 2 and 3) |
+| launchd PID 1 faults at shutdown after the forced unmount (id-065) | open, from op-637; before the hardware image |
 | PID-1 launchd (id-016) | PID 1 by default on ZFS (op-436); log queue fixed (op-449, op-470); id-061 fixed and proven (op-560); id-060 open |
 | Upper components: libnotify, launchd, libxpc deep reviews (op-384 to op-386) | held until the Mach round is done |
 | asl leg 4 (id-011); libxpc lifecycle (id-021, incl. sync-reply waits on the event queue) | open, after the Mach round |
