@@ -1,12 +1,13 @@
 ---
 id: op-644
-state: draft
+state: issued
 agent: implementer
 repo: rmx-implementer
 idq: id-048
 authority: test-only commits on a new branch tests-op644 from mach-fixes-6@93b3735d in wip-rmxos; rebuild the RELEASE and KASAN overlays; 6 self-check boots (4 + 2 spare) with your op-633 runner; no push
 expected: 4h
-updated: 2026-10-11T10:00Z
+issued-at: 2026-10-11T10:03Z
+updated: 2026-10-11T10:03Z
 ---
 # op-644 — Implementer: a model-based test of Mach port rights and reference counts, added to the Mach suite
 

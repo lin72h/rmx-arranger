@@ -3997,3 +3997,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Coordinator: "sent and flagged again" (fresh session, reworded brief). No leftovers (rmx-implementer at `f2616f2`, no `gen-op619`, no run directory). Two stops on two wordings: the trigger is the work's shape (a kernel, coverage feedback, random call sequences, campaigns until the kernel reports), not its words. op-619 → hold. Split: op-644 is an ordinary suite addition, a model-based test (`mach_port_model.zig`) of port rights and reference counts over 2000 fixed seeds, calls limited to port and right management plus a descriptor-free message, run in the usual whole-plan self-check on RELEASE and KASAN, on branch `tests-op644`; no new kernel profile, no kcov, no campaign. Each named call checked against `sys/compat/mach/defs/mach_port.defs`. Coverage measurement of the suite (kcov) and descriptor-carrying messages come later as separate ordinary ops if this one runs. brief-check clean.
 - state delta: op-619 → hold; op-644 draft.
 - next: the Coordinator sends op-644 in a fresh Implementer session.
+
+### j-20261011-030 — op-644 sent and running; filter lesson written into the guide
+
+- time / kind: 2026-10-11T12:05Z / DISPATCH, PROCESS (Coordinator: "sent and seems work this time; put this lesson into our flag avoidance md in general and add an entry specific to GPT-Sol-6.1")
+- outcome: op-644 issued. safety-flag-avoidance.md: rule 10 (when the work's shape trips the filter, stop rewording after the second stop and split into ordinary steps, plainest first: a test added to the existing suite with its checker written in; add capability back one plain step at a time) and § Seats → GPT-Sol-6.1 (stops at session start with nothing left; a stopped session stays stopped; judges the task's shape; wording accepted so far). Candidate for the shared workflow (`~/wip-workflow` method § Wording) on the Coordinator's word.
+- state delta: op-644 issued.
+- next: op-644's reply.

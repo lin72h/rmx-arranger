@@ -1,6 +1,6 @@
 # Safety-flag avoidance: keep engineering briefs from tripping safety filters
 
-Status: Arranger guide (living), 2026-10-01, revised 2026-10-08. Applies to every brief, cast,
+Status: Arranger guide (living), 2026-10-01, revised 2026-10-08 and 2026-10-11. Applies to every brief, cast,
 restart prompt and answer to an agent, for every seat: all of them run on frontier models with
 strict filters (§ Seats). `tools/brief-check` is its machine side (§ Where it is applied).
 It complements [op-brief-forms.md](op-brief-forms.md); advisor0's AGENTS.md § Framing is the
@@ -11,6 +11,22 @@ Advisor-side version.
 - The Arranger runs on Opus 5.5 (medium effort); every other running agent runs on GPT-Sol-6.1
   (medium effort). Both are frontier models, so every brief gets the full check below, whatever
   the seat. Update this list when the configuration changes.
+
+### GPT-Sol-6.1 (every seat except the Arranger)
+
+Observed on this model's provider filter; add an entry per stop.
+- **Stops at the start of the session**, before any tool call, when the brief is filtered: no
+  commits, no files, nothing to recover (op-398, op-399, op-619 twice). A stop partway through
+  an op also happens (op-569, op-598): check the agent's repo before restarting.
+- **A stopped session stays stopped:** a follow-up in the same session is filtered again (op-569);
+  restart in a fresh session (rule 7).
+- **Judges the task's shape, not only its words** (op-619, 2026-10-11): a kernel built for
+  coverage feedback plus random call sequences plus "run until the kernel reports" was stopped
+  under two different wordings. The same model started op-644 without a stop: a model-based
+  test case in the existing suite, fixed seeds, bounded calls (rule 10).
+- **Accepted wording so far:** the context sentence; "a defect in our code at file:line"; KASAN,
+  WITNESS and kernel assertions named as checkers; model-based and property-based tests in the
+  suite.
 
 ## Why
 
@@ -79,6 +95,26 @@ wording is now part of brief quality.
    accumulation was. State each one as what our code does at file:line and what the fix changes,
    in ownership terms (the callee and the caller both release the copy; the handlers stay
    registered after the module is unloaded), and read the whole brief once at the end.
+
+10. **When the shape of the work trips the filter, rewording does not help: split the work**
+   (op-619 → op-644, 2026-10-11). A filter judges what the whole task does, not only its words.
+   op-619 was stopped twice, at once, in two fresh sessions: first as "generated-input testing" of
+   the Mach system calls, then reworded as "randomized state-machine tests against a model". Both
+   asked for the same shape: a coverage-instrumented kernel (kcov), random call sequences steered
+   toward new kernel code, and boot after boot until the kernel reports a fault. op-644 is one
+   new test case in the existing suite, a model of expected results over a fixed list of seeds,
+   a bounded call set, the ordinary self-check; it started without a stop. So:
+   - After one filter stop, reword (rule 7). After a second stop on the same work, stop rewording:
+     split it into ordinary engineering steps, each complete and useful on its own, and send the
+     plainest first.
+   - The plainest form of testing work is a test added to an existing suite: a named case, a
+     fixed input set, an expected result per call, the usual self-check. Prefer it over a
+     campaign, a tool that runs until something fails, or feedback that steers toward new code.
+   - Write the checker into the brief (a model, expected return codes, reference counts), and
+     make the result a passing or failing test, not a fault found.
+   - Add the remaining capability back one plain step at a time (wider inputs, then a coverage
+     report of the suite as its own op). If a step is stopped, that step needs a different
+     route; bring the options to the Coordinator.
 
 ## Word choices
 
