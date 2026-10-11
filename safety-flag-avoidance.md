@@ -91,6 +91,8 @@ wording is now part of brief quality.
 | hazard (a)/(b)/(c) | failure mode (a)/(b)/(c) |
 | mutation controls | altered test records (negative controls) that the classifier must reject |
 | fuzz, fuzzer, fuzzing campaign | generated-input testing (coverage-guided); test harness for generated inputs |
+| generated-input testing of the system calls; a corpus; generated headers and descriptors; a kernel stop; reduce the last input (op-619, 2026-10-11: stopped at once, though the brief used this table's own term) | a randomized state-machine test of our API against a model (property-based testing); seeds kept when kcov shows new lines; a model mismatch, KASAN report or assertion; shrink the failing sequence into a regression test |
+| each sequence in a forked child so the parent survives a child that is stopped (op-619) | each sequence runs in its own child process, so the run carries on after a failing sequence |
 | bypass the sender/audit checks | a test-only build switch that skips sender checks so generated messages reach the parser |
 | attack surface | the interfaces that take input from other processes |
 | fault injection, inject failures | forced error paths (fail(9) points) to test error handling |
@@ -104,6 +106,10 @@ wording is now part of brief quality.
 | frees X twice; X freed while Y still points into it (op-569) | X is released by both the callee and the caller; Y stays registered after the module is unloaded |
 | hard to reach from user space; MIG passes kernel pointers to a user-pointer handler (op-569) | hard to trigger from a test program; the handler is written for a user address but MIG hands it the reply message's field |
 | freeing it twice; a duplicate free reported from X (op-598, gatekeeper1 stopped after its boots) | on the base both X and its caller release the same copy object; record the stop lines and frames |
+
+Kernel work needs the strongest framing (op-619): name the checker (a model of expected results,
+KASAN, assertions) and the regression test it produces, so the work reads as a test suite; avoid
+framing it as a search for inputs that stop the kernel.
 
 ## When a session is filtered anyway
 
