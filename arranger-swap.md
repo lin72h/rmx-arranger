@@ -3969,3 +3969,10 @@ provenance, not current procedure. Never edit or append it.
 - time / kind: 2026-10-11T11:15Z / CORRECTION
 - outcome: Coordinator: "show me the roadmap". Reading roadmap.md found li-1015 (real x86 hardware, high, gated by the Coordinator on 2026-10-08: core kernel and core libraries ready first). I had opened id-064 and drafted op-641 without reading it: a duplicate, and against a standing gate. id-064 retired as a duplicate; li-1015 records the machine (Rocket Lake, UEFI) and the reaffirmed gate; op-641 stays held under it. roadmap.md path table brought to 2026-10-11 (rounds 2 and 3 done; op-619 next; id-065). Lesson: before opening an IDQ entry or drafting toward a goal, grep `l1i/` and roadmap.md for it.
 - next: the Coordinator's choice of op-619 or id-065 first.
+
+### j-20261011-026 — Plan confirmed; op-619 re-pinned to `93b3735d` and drafted
+
+- time / kind: 2026-10-11T11:25Z / DECISION (Coordinator: "good stick to this plan")
+- outcome: The roadmap order is standing: op-619 (generated-input testing), id-065 (launchd shutdown faults), core-library reviews (op-384 to op-386 and libdispatch), asl leg 4 and libxpc lifecycle, then li-1015 (real hardware), then soak and ship. op-619 hold → draft: pinned to `mach-fixes-6@93b3735d`, runner op-633's, reduced failing tests on a new branch `gen-op619` so `mach-fixes-6` stays green, op-637's shutdown launchd signal lines named as known and not counted. brief-check clean.
+- state delta: op-619 → draft.
+- next: the Coordinator sends op-619; id-065's op drafted after op-619 returns (both need the Implementer).

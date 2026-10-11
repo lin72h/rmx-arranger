@@ -6,6 +6,14 @@ open, or an op in flight. Each entry is short and links out; the evidence lives 
 ([arranger-swap.md](arranger-swap.md)) and the op records (`tools/rob`). Older entries rotate to
 `doc/archive/LAST-*.md` past 1 MiB.
 
+## L-20261011-2425 — plan confirmed; op-619 drafted
+
+**Unfinished:** op-619 shown, not yet sent. After it returns: id-065 op (launchd shutdown faults), then the core-library reviews (roadmap.md § Path).
+**Waiting on the Coordinator:** sending op-619; held meta casts op-599u to op-602u.
+**In flight:** none.
+**Read first:** [op-619](doc/activation/op-619-activation.md), [roadmap.md](roadmap.md), [idq/id-065](idq/id-065-launchd-shutdown-faults.md).
+**Journal:** j-20261011-025, j-20261011-026.
+
 ## L-20261011-2405 — real machine deferred; next op-619 or id-065
 
 **Unfinished:** on the Coordinator's choice, re-pin op-619 to `mach-fixes-6@93b3735d` (its `needs: op-622` is met) and show it, or draft an id-065 op (launchd shutdown faults).

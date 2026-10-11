@@ -1,13 +1,13 @@
 ---
 id: op-619
-state: hold
+state: draft
 agent: implementer
 repo: rmx-implementer
 idq: id-048
-needs: op-622
-authority: a new RMXOS-KASAN-KCOV kernel config and tools in rmx-implementer; test-only commits on mach-fixes-6 for reduced regression cases; 12 boots (each a disposable copy, at most 30 min of guest time each); no push
+needs: none
+authority: a new RMXOS-KASAN-KCOV kernel config and tools in rmx-implementer; reduced regression cases as test-only commits on a new branch gen-op619 from mach-fixes-6@93b3735d (never on mach-fixes-6); 12 boots (each a disposable copy, at most 30 min of guest time each); no push
 expected: 6h
-updated: 2026-10-10T06:44Z
+updated: 2026-10-11T09:57Z
 ---
 # op-619 — Implementer: generated-input testing of the Mach traps inside a KASAN guest (id-048, step 1): kcov kernel, in-guest tester, first campaign
 
@@ -20,13 +20,16 @@ with no network.
 
 **Expected time: about 6 hours.**
 
-Two review rounds of the Mach code found 19 defects with no finding
-in common between the reviewers, so reading alone is not converging.
+Review rounds 2 and 3 of the Mach code found 19 defects with no
+finding in common between the reviewers, so reading alone is not
+converging.
 This op adds coverage-guided generated-input testing of the Mach
 system calls, run inside a disposable guest with the same containment
 as every other run: no network, the corpus on the guest disk, the
-serial log on the host. Start once op-622 (send-possible notifications)
-is on `mach-fixes-6`, from its final commit.
+serial log on the host. Start from `mach-fixes-6` at
+`93b3735d1d8bef1f15e013599d0a56bab3968b61` (on origin; proven
+1042/1042 on RELEASE and KASAN, including send-possible
+notifications and the MIG generator fixes).
 
 1. **Kernel:** a profile `RMXOS-KASAN-KCOV` (`include RMXOS-KASAN`,
    plus `options COVERAGE` and `options KCOV`; both are in
@@ -48,7 +51,7 @@ is on `mach-fixes-6`, from its final commit.
    in a forked child, so the parent survives a child that is stopped.
    Host-test its generation and corpus code first (the trap calls
    need the guest).
-3. **Runner:** reuse the op-607 runner. A campaign boot runs the
+3. **Runner:** reuse your op-633 runner. A campaign boot runs the
    tester for up to 30 minutes of guest time. If the guest stops, the
    runner keeps its serial log and the corpus disk, and the next boot
    starts from the saved corpus on a fresh copy of the installed
@@ -57,10 +60,12 @@ is on `mach-fixes-6`, from its final commit.
    kernel stop or a KASAN report, take the last input from the serial
    log, reduce it to the smallest sequence that still shows the same
    report, and write it as a Zig test under `tests/sys/mach/` in a
-   test-only commit, failing on the current code. Record what our
-   code does at which `file:line`, from the report and the source;
-   the fix comes in a later op. Stop early after three distinct
-   reports.
+   test-only commit on `gen-op619`, failing on the current code.
+   Record what our code does at which `file:line`, from the report
+   and the source; the fix comes in a later op. Stop early after
+   three distinct reports. Known and not counted as a report:
+   `pid 1 comm launchd: signal 11` lines after `All buffers synced.`
+   at shutdown (op-637, tracked separately).
 
 Evidence: a new record `docs/op619-generated-input.md` (kernel profile
 and overlay hashes, the tester's commit and host test, each boot's
@@ -70,7 +75,8 @@ path), commit.
 
 ## Limits
 
-- No product source change; reduced tests only, as test-only commits.
+- No product source change; reduced tests only, as test-only commits
+  on `gen-op619`; `mach-fixes-6` stays at `93b3735d`.
 - No network in any guest. No push.
 
 Re-read AGENTS.md and OPS.md first: defaults and the reply block.
