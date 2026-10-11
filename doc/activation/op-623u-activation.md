@@ -1,12 +1,13 @@
 ---
 id: op-623u
-state: draft
+state: closed
 cast: unicast
 agent: wip-sff-arranger
 repo: mbp:~/Local/wip-sff/role-arranger
 idq: meta-000
 expected: 5m
-updated: 2026-10-11T01:53Z
+issued-at: 2026-10-11T02:14Z
+updated: 2026-10-11T02:14Z
 ---
 # op-623u — To the wip-sff Arranger: copy checked, staging repo removed, workflow meta-020 taken
 

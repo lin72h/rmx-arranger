@@ -3831,3 +3831,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: `~/wip-workflow` pushed: main `1481137`, tags meta-019 `f2ac2e8`, meta-020 `5e3e2cd` (checked with `git ls-remote`); then `38b70ba` (projects.md: wip-sff onboarded, at meta-020), pushed. On mbp: `~/Local/wip-workflow` pulled to `1481137`; the child had no live op and no workflow files dirty; as parent set `workflow_home` = `~/Local/wip-workflow`, lock meta-020, now.md `Taken:`, re-rendered: `roles check` 1 instance 0 need attention, rendered files name `~/Local/wip-workflow` 9 times and `~/wip-workflow` 0; brief-check passes on one line and on empty input. Child commit `fab3aa9` (explicit paths; product dirt untouched), parent-log p-20261011-005. op-623u (still a draft) widened to cover this; brief-check clean after naming the child's files through the parent-log entry.
 - state delta: op-623u draft.
 - next: the Coordinator relays op-623u.
+
+### j-20261011-006 — op-623u sent; wip-sff acted on it
+
+- time / kind: 2026-10-11 / RELAY (the child's note, relayed)
+- outcome: op-623u reached the wip-sff Arranger. Verified on mbp: `74447fb` drops the `~/wip-workflow` note from its LOCAL.md (no `wip-workflow` line left) and records the check in its journal; newest parent-log entry p-20261011-005. Its "rui base stage 1 waits on your go" is for the Coordinator, not the parent.
+- state delta: op-623u draft → closed.
+- next: none for wip-sff from the parent.
