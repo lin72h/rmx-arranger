@@ -1,13 +1,13 @@
 ---
 id: op-636
-state: issued
+state: closed
 agent: validator1
 repo: rmx-validator1
 idq: id-063
 authority: none beyond the defaults: read-only; no guests
 expected: 3h
 issued-at: 2026-10-11T09:23Z
-updated: 2026-10-11T09:23Z
+updated: 2026-10-11T09:34Z
 ---
 # op-636 — Validator 1: review of mach-fixes-6 1cad29b5..93b3735d (send-possible notifications and the MIG generator changes)
 

@@ -3901,3 +3901,10 @@ provenance, not current procedure. Never edit or append it.
 - outcome: Coordinator: "all sent". op-635 (gatekeeper1 proof of `93b3735d`), op-636 (validator1 review of `1cad29b5..93b3735d`) and op-637 (Implementer WITNESS diagnosis) issued, running in parallel. LOCAL.md: the implementer0 run-rule item removed from Pending template changes (rendered in j-20261011-014).
 - state delta: op-635, op-636, op-637 → issued.
 - next: their replies; push `mach-fixes-6@93b3735d` once op-635 is accepted, op-636 is CLOSE at ≥8 and op-637 has answered (a fix from op-637 moves the head and needs its own proof); then op-619 pinned to the pushed head.
+
+### j-20261011-016 — op-636 returned REMEDIATE; both must-fix findings refuted against XNU; op-639 drafted
+
+- time / kind: 2026-10-11T09:40Z / REVIEW (Arbiter)
+- outcome: op-636 reply recorded (op-638u); review `rmx-validator1@f07769b` (no remote). Finding 1 (non-sync send-possible never fires): refuted, XNU arms at registration only with sync (`mach_port.c:1615-1620`, `ipc_port.c:334-337`); non-sync is armed by a later `MACH_SEND_NOTIFY` send; our `ipr_sparm = immediate` (`ipc_right.c:350`) matches. Finding 2 (no self-arm, no WILL_NOTIFY): refuted, XNU arms only an existing request (`ipc_kmsg.c:2117-2128`, `ipc_port_request_sparm` `ipc_port.c:523-545`); `MACH_SEND_WILL_NOTIFY` is in neither reference tree; our libdispatch registers first (`source.c:3489`) and expects `MACH_SEND_TIMED_OUT` (`:3531`). Finding 3 low (deferred, not lost). The review did not compare migcom with Apple's (tree not on disk: my brief gave a URL, against LOCAL rule 11). Cloned `reference/bootstrap_cmds` (bootstrap_cmds-138, `c71d2d7`); spot-check: Apple enables `rtCheckSimple` for requests (`routine.c:1791`) and `itWordAlign` is `sizeof(natural_t)`. op-636 closed (REMEDIATE not accepted; review incomplete). Drafted op-639: validator1 confirms or contests the refutations, compares migcom with Apple file by file, rescoring the range. brief-check clean.
+- state delta: op-636 → closed; op-638u recorded; op-639 draft.
+- next: the Coordinator sends op-639; the push gate's review condition moves from op-636 to op-639.
